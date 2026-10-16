@@ -97,7 +97,7 @@ S1 所有32组CI为负；顺序单合约约0.32–0.60ms，接近 step-16 的量
 
 生成成本是 prepareStaticMemory 全部构造时间，包含解码、模板、范围构造和 noData Wasm；不包含 artifact 读入/反序列化/首次实例验证。每合约4个正式进程样本，样本少，保留范围而不伪造高精度CI。摊销列仅用生成时间/本合约两批S1配对Median节省计算；不是完整节点调用的摊销结论。exchange 若首次连同 identity/erc721 全冷，应叠加三份准备成本；不存在有证据支持的统一RPC摊销次数。
 
-8份 Image共24.688MiB，range元素payload共6.114MiB，合计**30.802MiB**。这不含slice多余容量、对象头、原始Wasm、native Module/Store和WASI。cache_scale.csv记录0、1、…、8份常驻规模；exchange首先触发子合约identity，因此加载数量跳增。没有跨进程/跨版本共享、没有LRU或容量预算，常驻增长与模块/版本数关联。
+8份 Image共24.688MiB，range元素payload共6.114MiB，合计**30.802MiB**。这不含slice多余容量、对象头、原始Wasm、native Module/Store和WASI。cache_scale.csv记录0、1、2、3、4、6、7、8份常驻规模；exchange首先触发子合约identity，因此跳过5份观测点。没有跨进程/跨版本共享、没有LRU或容量预算，常驻增长与模块/版本数关联。
 
 池缓存命中率约99.46–99.54%，含真实子调用和重调度；不是模板生成零成本的证明。每进程8次建池未发现错误artifact匹配。冷请求全过程见 cold_cache.csv；不把63个混合合约冷样本汇成可推广阈值。
 
