@@ -386,6 +386,8 @@ func (s *WaciInstance) CallContract() int32 {
 	return s.callContractCore(false)
 }
 
+var step16CrossDiagnostic func(bool, []byte, error)
+
 func (s *WaciInstance) callContractCore(isLen bool) int32 {
 	gasRemaining, err := getGasByExport(s.Sc.Instance)
 	if err != nil {
@@ -395,6 +397,9 @@ func (s *WaciInstance) callContractCore(isLen bool) int32 {
 	gasUsed := runtimeGasLimit - gasRemaining
 	result, gas, specialTxType, err := wacsi.CallContract(s.Sc.Contract, s.RequestBody, s.Sc.TxSimContext, s.Memory,
 		s.Sc.GetStateCache, gasUsed, isLen)
+	if step16CrossDiagnostic != nil {
+		step16CrossDiagnostic(isLen, s.RequestBody, err)
+	}
 	if result == nil {
 		s.Sc.GetStateCache = nil // reset data
 		//s.Sc.ContractEvent = nil

@@ -11,6 +11,7 @@ import (
 	//"chainmaker.org/chainmaker/protocol/v2"
 	"errors"
 	"fmt"
+	"os"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -569,6 +570,13 @@ const (
 // vmPool, each contract has a vm pool providing multiple vm instances to call
 // vm pool can grow and shrink on demand
 type vmPool struct {
+	staticPlan      *staticMemoryPlan
+	staticConfig    string
+	staticFallback  string
+	freshOnDemand   bool
+	profileObserver func(string, *wasmergo.Instance)
+	lastCreated     *wrappedInstance
+
 	// the corresponding contract info
 	contractId    *commonPb.Contract
 	byteCode      []byte
@@ -608,6 +616,8 @@ type vmPool struct {
 
 // wrappedInstance wraps instance with id and other info
 type wrappedInstance struct {
+	initProfile creationProfile
+
 	// id
 	id string
 	// wasmergo instance provided by wasmer
@@ -626,6 +636,14 @@ type wrappedInstance struct {
 // GetInstance get a vm instance to run contract
 // should be followed by defer resetInstance
 func (p *vmPool) GetInstance() *wrappedInstance {
+	if p.freshOnDemand {
+		instance, err := p.NewInstance()
+		if err != nil {
+			panic(err)
+		}
+		p.lastCreated = instance
+		return instance
+	}
 
 	var instance *wrappedInstance
 	// get instance from vm pool
@@ -665,6 +683,11 @@ func (p *vmPool) GetInstance() *wrappedInstance {
 
 // RevertInstance revert instance to pool
 func (p *vmPool) RevertInstance(instance *wrappedInstance) {
+	if p.freshOnDemand {
+		p.CloseInstance(instance)
+		return
+	}
+
 	if true || p.shouldDiscard(instance) {
 		p.traceLifecycle("T8", instance.id, instance.wasmInstance, "drop", "")
 		p.log.Debugf("instance not reused, instance id: %s, errCount: %d", instance.id, instance.errCount)
@@ -1031,8 +1054,24 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 		return nil, fmt.Errorf("[%s_%s], byte code validation failed, err = %v", contractId.Name, contractId.Version, err)
 	}
 
+	configID := staticCopyConfigID(opmap, fnmap)
+	originalCode := append([]byte(nil), byteCode...)
+	compileCode := originalCode
+	var plan *staticMemoryPlan
+	var err error
+	fallback := "disabled"
+	if os.Getenv("CM_STATIC_MEMORY_COPY") == "1" {
+		plan, err = prepareStaticMemory(originalCode, contractId, configID)
+		if err != nil {
+			fallback = err.Error()
+			plan = nil
+		} else {
+			compileCode = plan.NoData
+			fallback = ""
+		}
+	}
 	startTime := time.Now().UnixNano()
-	module, err := wasmergo.NewModule(store, byteCode, log)
+	module, err := loadStaticModule(store, compileCode, configID, log)
 	endTime := time.Now().UnixNano()
 	compileTime = float64(endTime-startTime) / 1e9
 	if err != nil {
@@ -1040,9 +1079,15 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 	}
 	log.Debugf("[%s_%s], new module success", contractId.Name, contractId.Version)
 
+	if plan != nil {
+		plan.Module = module
+		plan.NoData = nil
+	}
 	vmPool := &vmPool{
+		staticPlan: plan, staticConfig: configID, staticFallback: fallback,
+		freshOnDemand:   os.Getenv("CM_FRESH_INVOKE") == "1",
 		contractId:      contractId,
-		byteCode:        byteCode,
+		byteCode:        originalCode,
 		store:           store,
 		module:          module,
 		instances:       make(chan *wrappedInstance, defaultMaxSize),
@@ -1059,6 +1104,11 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 	}
 
 	instance, err := vmPool.newInstanceFromModule()
+	if err != nil {
+		module.Close()
+		store.Close()
+		return nil, err
+	}
 	vmPool.initialMemory, err = instance.wasmInstance.Exports.GetMemory("memory")
 	if err != nil {
 		return nil, fmt.Errorf("[%s_%s], byte code compile failed, %s", contractId.Name, contractId.Version, err.Error())
@@ -1067,7 +1117,9 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 	vmPool.CloseInstance(instance)
 	log.Infof("vm pool verify byteCode finish.")
 
-	go vmPool.startRefreshingLoop()
+	if !vmPool.freshOnDemand {
+		go vmPool.startRefreshingLoop()
+	}
 	log.Infof("vm pool startRefreshingLoop...")
 	return vmPool, nil
 }
@@ -1236,6 +1288,8 @@ func (p *vmPool) NewInstanceFromByteCode() (*wrappedInstance, error) {
 }
 
 func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
+	profile := creationProfile{Begin: time.Now()}
+
 	instanceID := uuid.GetUUID()
 	p.traceLifecycle("T0", instanceID, nil, "create_begin", "")
 	startTime := time.Now().UnixNano()
@@ -1269,6 +1323,19 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 		p.log.Errorf("newInstanceFromModule fail: %s", err.Error())
 		return nil, err
 	}
+	if p.staticPlan != nil {
+		beginCopy := time.Now()
+		if e := p.staticPlan.restore(p.module, wasmInstance, p.byteCode, p.contractId, p.staticConfig); e != nil {
+			wasmInstance.Close()
+			p.releaseWasiEnv(wasiEnv)
+			return nil, e
+		}
+		profile.CopyNS = time.Since(beginCopy).Nanoseconds()
+	}
+	profile.S1NS = time.Since(profile.Begin).Nanoseconds()
+	if p.profileObserver != nil {
+		p.profileObserver("S1", wasmInstance)
+	}
 	p.traceLifecycle("T1", instanceID, wasmInstance, "instantiate_done", "")
 	p.log.Debugf("newInstanceFromModule success")
 
@@ -1288,6 +1355,18 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 		p.traceLifecycle("T3", instanceID, wasmInstance, "start_absent", lifecycleError(startErr))
 	}
 
+	profile.S2NS = time.Since(profile.Begin).Nanoseconds()
+	if p.profileObserver != nil {
+		p.profileObserver("S2", wasmInstance)
+	}
+	if start != nil {
+		start.Close()
+	}
+	if startErr != nil && startErr.Error() != "WASI exited with code: ExitCode::0" && start != nil {
+		wasmInstance.Close()
+		p.releaseWasiEnv(wasiEnv)
+		return nil, startErr
+	}
 	env.instance = wasmInstance
 	env.memory, _ = wasmInstance.Exports.GetMemory("memory")
 
@@ -1295,6 +1374,7 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 	//fmt.Printf("env.memory.limit %+v\n", limitsAgain)
 	//fmt.Printf("env.memory dataSize %d字节 %d页\n", env.memory.DataSize(), env.memory.Size())
 	instance := &wrappedInstance{
+		initProfile:  profile,
 		id:           instanceID,
 		wasmInstance: wasmInstance,
 		wasiEnv:      wasiEnv,

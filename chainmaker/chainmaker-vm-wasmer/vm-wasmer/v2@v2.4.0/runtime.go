@@ -108,6 +108,11 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 		panic(setGasErr)
 	}
 
+	instanceInfo.initProfile.S3NS = time.Since(instanceInfo.initProfile.Begin).Nanoseconds()
+	if r.pool.profileObserver != nil {
+		r.pool.profileObserver("S3", instance)
+	}
+	instanceInfo.initProfile.NativeBeforeBusiness = instance.GetGasRemaining()
 	var sc = NewSimContext(method, r.log, r.chainId)
 	defer sc.removeCtxPointer()
 	sc.Contract = contract
@@ -122,6 +127,7 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 	//运行中如果死循环或者gas超值，它会自动中止，返回unreachable的err
 	r.pool.traceLifecycle("T6", instanceInfo.id, instance, "call_before", "")
 	err := sc.CallMethod(instance)
+	instanceInfo.initProfile.NativeAfterBusiness = instance.GetGasRemaining()
 	r.pool.traceLifecycle("T7", instanceInfo.id, instance, "call_return", lifecycleError(err))
 	//r.log.Infof("contract invoke finished, tx:%s, call method err is %s",
 	//	txContext.GetTx().Payload.TxId, err)
