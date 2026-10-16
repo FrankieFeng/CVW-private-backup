@@ -115,10 +115,14 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 	sc.ContractResult = contractResult
 	sc.parameters = parameters
 	sc.Instance = instance
+	sc.lifecyclePool = r.pool
+	sc.lifecycleID = instanceInfo.id
 	sc.SpecialTxType = protocol.ExecOrderTxTypeNormal
 
 	//运行中如果死循环或者gas超值，它会自动中止，返回unreachable的err
+	r.pool.traceLifecycle("T6", instanceInfo.id, instance, "call_before", "")
 	err := sc.CallMethod(instance)
+	r.pool.traceLifecycle("T7", instanceInfo.id, instance, "call_return", lifecycleError(err))
 	//r.log.Infof("contract invoke finished, tx:%s, call method err is %s",
 	//	txContext.GetTx().Payload.TxId, err)
 	if err != nil {
@@ -293,14 +297,24 @@ func (r *RuntimeInstance) InvokeTime(contract *commonPb.Contract, method string,
 	sc.ContractResult = contractResult
 	sc.parameters = parameters
 	sc.Instance = instance
+	sc.lifecyclePool = r.pool
+	sc.lifecycleID = instanceInfo.id
 	sc.SpecialTxType = protocol.ExecOrderTxTypeNormal
 
 	var err error
 	func() {
 		t0 := time.Now()
 		defer func() { callMethodTime = time.Since(t0).Seconds() }()
+		r.pool.traceLifecycle("T6", instanceInfo.id, instance, "call_before", "")
 		err = sc.CallMethod(instance)
+		r.pool.traceLifecycle("T7", instanceInfo.id, instance, "call_return", lifecycleError(err))
 	}()
+	r.log.Debugf("b5_profile sample_id=%s instance_mode=unknown instance_id=%s tx_id=%s contract=%s method=%s total_ns=%d internal_total_ns=%d runtime_ns=%d prepare_ns=%d dispatch_pre_ns=%d allocate_ns=%d copy_lookup_ns=%d export_call_ns=%d dispatch_post_ns=%d syscall_ns=%d syscall_count=%d syscall_method=%s parameter_bytes=%d",
+		txId, instanceInfo.id, txId, contractName, method,
+		int64(callMethodTime*1e9), sc.B5Profile.TotalNs, sc.B5Profile.RuntimeNs, sc.B5Profile.PrepareNs,
+		sc.B5Profile.DispatchPreNs, sc.B5Profile.AllocateNs, sc.B5Profile.CopyLookupNs,
+		sc.B5Profile.ExportCallNs, sc.B5Profile.DispatchPostNs, sc.B5Profile.SyscallNs, sc.B5Profile.SyscallCount,
+		sc.B5Profile.SyscallMethod, sc.B5Profile.ParameterSize)
 
 	//r.log.Infof("contract invoke finished, tx:%s, call method err is %s",
 	//	txContext.GetTx().Payload.TxId, err)
