@@ -1,0 +1,56 @@
+=== RUN   TestStep16SafetyAndTableSynthetic
+Total function bodies: 4
+Total function bodies: 4
+    step16_safety_test.go:112: PASS: synthetic complete element values and table mutation isolation; memory/template isolation; module/config/version key guards
+--- PASS: TestStep16SafetyAndTableSynthetic (0.00s)
+=== RUN   TestStep16UnsupportedAndFallback
+=== RUN   TestStep16UnsupportedAndFallback/auto-start
+=== RUN   TestStep16UnsupportedAndFallback/passive
+=== RUN   TestStep16UnsupportedAndFallback/import-memory
+=== RUN   TestStep16UnsupportedAndFallback/global-offset
+=== RUN   TestStep16UnsupportedAndFallback/data-count
+opmap length 216 
+2026-10-16 15:42:24.838	[INFO]	step16_safety	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-16 15:42:24.839	[INFO]	step16_safety	wasmer-go/module.go:103	wasmBytesPtr => 0xc0001f6480 
+2026-10-16 15:42:24.839	[INFO]	step16_safety	wasmer-go/module.go:104	wasmBytesLength => 133 
+Total function bodies: 1
+2026-10-16 15:42:24.840	[DEBUG]	step16_safety	v2@v2.4.0/vm_pool.go:1081	[fallback_1], new module success
+startNew:1792136544840848158
+2026-10-16 15:42:24.840	[DEBUG]	[Vm]	v2@v2.4.0/vm_bridge.go:536	init vmBridgeManager
+2026-10-16 15:42:24.841	[INFO]	step16_safety	v2@v2.4.0/vm_pool.go:758	[fallback_1] wasiEnv acquire finalize_new freelist_len=0 total_from_freelist=0 total_finalize_new=1
+2026-10-16 15:42:24.842	[DEBUG]	step16_safety	v2@v2.4.0/vm_pool.go:1343	newInstanceFromModule success
+2026-10-16 15:42:24.842	[INFO]	step16_safety	v2@v2.4.0/vm_pool.go:1388	new instance id: 1231f07c9fa842e58cdf2d6f4ba255a9
+endNew:1792136544842202736
+2026-10-16 15:42:24.842	[DEBUG]	step16_safety	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=1231f07c9fa842e58cdf2d6f4ba255a9
+2026-10-16 15:42:24.842	[ERROR]	step16_safety	v2@v2.4.0/vm_pool.go:724	CallDeallocate(...) error: Export `deallocate` does not exist
+chainmaker.org/chainmaker/vm-wasmer/v2.(*vmPool).CloseInstance
+	/home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go:724
+chainmaker.org/chainmaker/vm-wasmer/v2.newVmPool
+	/home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go:1119
+chainmaker.org/chainmaker/vm-wasmer/v2.TestStep16UnsupportedAndFallback
+	/home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/step16_safety_test.go:135
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1934
+2026-10-16 15:42:24.842	[DEBUG]	step16_safety	v2@v2.4.0/vm_pool.go:782	[fallback_1] wasiEnv release freelist_len=1
+2026-10-16 15:42:24.842	[DEBUG]	step16_safety	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-16 15:42:24.842	[INFO]	step16_safety	v2@v2.4.0/vm_pool.go:1121	vm pool verify byteCode finish.
+2026-10-16 15:42:24.842	[INFO]	step16_safety	v2@v2.4.0/vm_pool.go:1126	vm pool startRefreshingLoop...
+startNew:1792136544842422762
+2026-10-16 15:42:24.842	[INFO]	step16_safety	v2@v2.4.0/vm_pool.go:747	[fallback_1] wasiEnv acquire from_freelist freelist_len=0 total_from_freelist=1 total_finalize_new=1
+2026-10-16 15:42:24.842	[DEBUG]	step16_safety	v2@v2.4.0/vm_pool.go:1343	newInstanceFromModule success
+2026-10-16 15:42:24.842	[INFO]	step16_safety	v2@v2.4.0/vm_pool.go:1388	new instance id: 72073753f065486086c1fcb0f4a23a7b
+endNew:1792136544842676613
+--- PASS: TestStep16UnsupportedAndFallback (0.08s)
+    --- PASS: TestStep16UnsupportedAndFallback/auto-start (0.00s)
+    --- PASS: TestStep16UnsupportedAndFallback/passive (0.00s)
+    --- PASS: TestStep16UnsupportedAndFallback/import-memory (0.00s)
+    --- PASS: TestStep16UnsupportedAndFallback/global-offset (0.00s)
+    --- PASS: TestStep16UnsupportedAndFallback/data-count (0.00s)
+=== RUN   TestStep17SharedTemplateConcurrent
+Total function bodies: 0
+Total function bodies: 0
+Total function bodies: 0
+Total function bodies: 0
+--- PASS: TestStep17SharedTemplateConcurrent (0.01s)
+PASS
+ok  	chainmaker.org/chainmaker/vm-wasmer/v2	1.126s

@@ -1,0 +1,40 @@
+{
+  "warm_samples": 5248,
+  "matched_warm_pairs": 2624,
+  "cold_requests": 64,
+  "cold_transport_failures": 1,
+  "raw_write_equal": 48,
+  "ledger_pairs": 64,
+  "normalized_write_status": {
+    "pass": 58,
+    "not_comparable_transaction_order": 6
+  },
+  "s1_all_contracts_hash_equal": true,
+  "real_table_dynamic_identity": "not_tested",
+  "native_shared_store_parallelism": "not_tested; root VM calls serialized",
+  "diagnostic_status": {
+    "pass": 38,
+    "transport_failure": 1,
+    "known_baseline_defect": 8
+  },
+  "original_tracked_workspaces_unchanged": true,
+  "production_nodes_modified": false,
+  "experiment_nodes_stopped": true,
+  "full_node_race": "not_passed_storage_startup_races_prevent_business_coverage",
+  "full_node_race_details": [
+    "store/bloom ReadFrom checkptr",
+    "RollingWindowCacher.ResetRWCache recovery race",
+    "RollingWindowCacher.ResetRWCache InitGenesis fresh-ledger race"
+  ],
+  "cache_reset": "confirmed_blocking_defect",
+  "cache_eviction": "not_tested; fresh close lacks cleanup",
+  "shared_template_go_race_test": "pass_separate_stores",
+  "selected_application_errors": "pass",
+  "missing_method_reporting": "known_baseline_defect",
+  "dynamic_table_reference_identity": "not_tested",
+  "concurrent_per_transaction_order_equivalence": "not_comparable_for_6_sampled_pairs",
+  "all_warm_expected_business_outputs": true,
+  "fresh_instance_ids_unique": 12992,
+  "no_race_free_node_claim": true,
+  "one_switch_copy_off_smoke": "pass_both_nodes_standard_path"
+}

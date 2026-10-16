@@ -1,0 +1,626 @@
+==================
+WARNING: DATA RACE
+Write at 0x00c0002898d8 by main goroutine:
+  chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).ResetRWCache()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/rolling_window_cache/rolling_window_cache_impl.go:263 +0xb91
+  chainmaker.org/chainmaker/store/v2.(*BlockStoreImpl).recoverRollingWindowCache()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go:2005 +0x19b
+  chainmaker.org/chainmaker/store/v2.(*BlockStoreImpl).recoverRollingWindowCache()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go:1999 +0x144
+  chainmaker.org/chainmaker/store/v2.(*BlockStoreImpl).recoverAllDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go:1737 +0x5e4
+  chainmaker.org/chainmaker/store/v2.(*BlockStoreImpl).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go:1696 +0x604
+  github.com/syndtr/goleveldb/leveldb.(*tOps).find()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/table.go:378 +0xa4
+  github.com/syndtr/goleveldb/leveldb.(*version).get.func1()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/version.go:176 +0x325
+  github.com/syndtr/goleveldb/leveldb.(*version).walkOverlapping()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/version.go:116 +0x543
+  github.com/syndtr/goleveldb/leveldb.(*version).get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/version.go:160 +0x455
+  github.com/syndtr/goleveldb/leveldb.(*DB).get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:779 +0x8f9
+  github.com/syndtr/goleveldb/leveldb.(*DB).Get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:845 +0x1c4
+  chainmaker.org/chainmaker/store-leveldb/v2.(*LevelDBHandle).Get()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store-leveldb/v2@v2.4.0/leveldb_handle.go:230 +0x84
+  chainmaker.org/chainmaker/store/v2/resultdb/resultfiledb.(*ResultFileDB).get()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/resultdb/resultfiledb/resultfiledb.go:355 +0xd1
+  chainmaker.org/chainmaker/store/v2/resultdb/resultfiledb.(*ResultFileDB).GetLastSavepoint()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/resultdb/resultfiledb/resultfiledb.go:274 +0x95
+  chainmaker.org/chainmaker/store/v2.(*BlockStoreImpl).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go:1671 +0x1e1
+  github.com/syndtr/goleveldb/leveldb.(*tOps).find()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/table.go:378 +0xa4
+  github.com/syndtr/goleveldb/leveldb.(*version).get.func1()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/version.go:176 +0x325
+  github.com/syndtr/goleveldb/leveldb.(*version).walkOverlapping()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/version.go:116 +0x543
+  github.com/syndtr/goleveldb/leveldb.(*version).get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/version.go:160 +0x455
+  github.com/syndtr/goleveldb/leveldb.(*DB).get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:779 +0x8f9
+  github.com/syndtr/goleveldb/leveldb.(*DB).Get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:845 +0x1c4
+  chainmaker.org/chainmaker/store-leveldb/v2.(*LevelDBHandle).Get()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store-leveldb/v2@v2.4.0/leveldb_handle.go:230 +0x84
+  chainmaker.org/chainmaker/store/v2/historydb/historykvdb.(*HistoryKvDB).get()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/historydb/historykvdb/historykvdb.go:239 +0xd1
+  chainmaker.org/chainmaker/store/v2/historydb/historykvdb.(*HistoryKvDB).GetLastSavepoint()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/historydb/historykvdb/historykvdb.go:164 +0x95
+  chainmaker.org/chainmaker/store/v2.(*BlockStoreImpl).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go:1666 +0x165
+  github.com/syndtr/goleveldb/leveldb.(*version).walkOverlapping()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/version.go:116 +0x543
+  github.com/syndtr/goleveldb/leveldb.(*version).get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/version.go:160 +0x455
+  github.com/syndtr/goleveldb/leveldb.(*DB).get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:779 +0x8f9
+  github.com/syndtr/goleveldb/leveldb.(*DB).Get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:845 +0x1c4
+  chainmaker.org/chainmaker/store-leveldb/v2.(*LevelDBHandle).Get()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store-leveldb/v2@v2.4.0/leveldb_handle.go:230 +0x84
+  chainmaker.org/chainmaker/store/v2/cache.(*CacheWrapToDBHandle).Get()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/cache/cache_wrap.go:84 +0xea
+  chainmaker.org/chainmaker/store/v2/statedb/statekvdb.(*StateKvDB).get()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/statedb/statekvdb/statekvdb.go:438 +0xd1
+  chainmaker.org/chainmaker/store/v2/statedb/statekvdb.(*StateKvDB).GetLastSavepoint()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/statedb/statekvdb/statekvdb.go:345 +0x95
+  chainmaker.org/chainmaker/store/v2/statedb/bloom.(*BloomStateDb).GetLastSavepoint()
+      <autogenerated>:1 +0x43
+  chainmaker.org/chainmaker/store/v2.(*BlockStoreImpl).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go:1659 +0xac
+  github.com/syndtr/goleveldb/leveldb.(*tOps).find()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/table.go:378 +0xa4
+  github.com/syndtr/goleveldb/leveldb.(*version).get.func1()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/version.go:176 +0x325
+  github.com/syndtr/goleveldb/leveldb.(*version).walkOverlapping()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/version.go:116 +0x543
+  github.com/syndtr/goleveldb/leveldb.(*version).get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/version.go:160 +0x455
+  github.com/syndtr/goleveldb/leveldb.(*DB).get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:779 +0x8f9
+  github.com/syndtr/goleveldb/leveldb.(*DB).Get()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:845 +0x1c4
+  chainmaker.org/chainmaker/store-leveldb/v2.(*LevelDBHandle).Get()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store-leveldb/v2@v2.4.0/leveldb_handle.go:230 +0x84
+  chainmaker.org/chainmaker/store/v2/blockdb/blockhelper.GetFromCacheFirst()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockdb/blockhelper/kvdbhelper.go:501 +0x30b
+  chainmaker.org/chainmaker/store/v2/blockdb/blockfiledb.(*BlockFileDB).GetLastSavepoint()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockdb/blockfiledb/blockfiledb.go:636 +0x11e
+  chainmaker.org/chainmaker/store/v2.(*BlockStoreImpl).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go:1656 +0x74
+  chainmaker.org/chainmaker/store/v2.NewBlockStoreImpl()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go:201 +0x15ef
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).Build()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:278 +0xf9b
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  github.com/syndtr/goleveldb/leveldb.(*DB).checkAndCleanFiles()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_util.go:52 +0x2a8
+  github.com/syndtr/goleveldb/leveldb.openDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:130 +0x835
+  github.com/syndtr/goleveldb/leveldb.(*DB).recoverJournal()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:554 +0x13af
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x264
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:657 +0x18e
+  fmt.(*ss).doScanf()
+      /usr/local/go/src/fmt/scan.go:1230 +0x408
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  github.com/syndtr/goleveldb/leveldb.(*DB).recoverJournal()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:476 +0xa1
+  github.com/syndtr/goleveldb/leveldb.openDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:125 +0x81b
+  github.com/syndtr/goleveldb/leveldb.Open()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:197 +0x35c
+  github.com/syndtr/goleveldb/leveldb.(*session).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/session.go:140 +0x85d
+  fmt.(*ss).doScanf()
+      /usr/local/go/src/fmt/scan.go:1230 +0x408
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseNamePtr()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:666 +0x189
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta.func1()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:332 +0x121
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta.func2()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:356 +0xd7e
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:407 +0xc6e
+  github.com/syndtr/goleveldb/leveldb.(*session).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/session.go:119 +0x119
+  github.com/syndtr/goleveldb/leveldb.Open()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:183 +0x113
+  github.com/syndtr/goleveldb/leveldb.OpenFile()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:219 +0x7d
+  chainmaker.org/chainmaker/store-leveldb/v2.NewLevelDBHandle()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store-leveldb/v2@v2.4.0/leveldb_handle.go:102 +0x1ea
+  chainmaker.org/chainmaker/store/v2/dbprovider.(*DBFactory).NewKvDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/dbprovider/factory.go:61 +0x76b
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).newKVDBHandler()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:578 +0x48e
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).newLocalDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:495 +0xada
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).registerAllKnownCreators.func7()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:123 +0x2e
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).registerAllKnownCreators.(*storeBuilder).toCreator.func18()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:175 +0x4e
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).create()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:200 +0x12a
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).Build()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:263 +0x874
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  github.com/syndtr/goleveldb/leveldb.(*DB).checkAndCleanFiles()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_util.go:52 +0x2a8
+  github.com/syndtr/goleveldb/leveldb.openDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:130 +0x835
+  github.com/syndtr/goleveldb/leveldb.(*DB).recoverJournal()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:554 +0x13af
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x264
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:657 +0x18e
+  fmt.(*ss).doScanf()
+      /usr/local/go/src/fmt/scan.go:1230 +0x408
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  github.com/syndtr/goleveldb/leveldb.(*DB).recoverJournal()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:476 +0xa1
+  github.com/syndtr/goleveldb/leveldb.openDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:125 +0x81b
+  github.com/syndtr/goleveldb/leveldb.Open()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:197 +0x35c
+  github.com/syndtr/goleveldb/leveldb.(*session).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/session.go:140 +0x85d
+  fmt.(*ss).doScanf()
+      /usr/local/go/src/fmt/scan.go:1230 +0x408
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseNamePtr()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:666 +0x189
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta.func1()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:332 +0x121
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta.func2()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:356 +0xd7e
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:407 +0xc6e
+  github.com/syndtr/goleveldb/leveldb.(*session).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/session.go:119 +0x119
+  github.com/syndtr/goleveldb/leveldb.Open()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:183 +0x113
+  github.com/syndtr/goleveldb/leveldb.OpenFile()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:219 +0x7d
+  chainmaker.org/chainmaker/store-leveldb/v2.NewLevelDBHandle()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store-leveldb/v2@v2.4.0/leveldb_handle.go:102 +0x1ea
+  chainmaker.org/chainmaker/store/v2/dbprovider.(*DBFactory).NewKvDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/dbprovider/factory.go:61 +0x76b
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).newKVDBHandler()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:578 +0x48e
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).newResultDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:431 +0x7d5
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).registerAllKnownCreators.func3()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:105 +0x64
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).registerAllKnownCreators.(*storeBuilder).toCreator.func14()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:175 +0x4e
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).create()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:200 +0x12a
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).Build()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:263 +0x874
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  github.com/syndtr/goleveldb/leveldb.(*DB).checkAndCleanFiles()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_util.go:52 +0x2a8
+  github.com/syndtr/goleveldb/leveldb.openDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:130 +0x835
+  github.com/syndtr/goleveldb/leveldb.(*DB).recoverJournal()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:554 +0x13af
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x264
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:657 +0x18e
+  fmt.(*ss).doScanf()
+      /usr/local/go/src/fmt/scan.go:1230 +0x408
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  github.com/syndtr/goleveldb/leveldb.(*DB).recoverJournal()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:476 +0xa1
+  github.com/syndtr/goleveldb/leveldb.openDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:125 +0x81b
+  github.com/syndtr/goleveldb/leveldb.Open()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:197 +0x35c
+  github.com/syndtr/goleveldb/leveldb.(*session).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/session.go:140 +0x85d
+  fmt.(*ss).doScanf()
+      /usr/local/go/src/fmt/scan.go:1230 +0x408
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseNamePtr()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:666 +0x189
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta.func1()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:332 +0x121
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta.func2()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:356 +0xd7e
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:407 +0xc6e
+  github.com/syndtr/goleveldb/leveldb.(*session).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/session.go:119 +0x119
+  github.com/syndtr/goleveldb/leveldb.Open()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:183 +0x113
+  github.com/syndtr/goleveldb/leveldb.OpenFile()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:219 +0x7d
+  chainmaker.org/chainmaker/store-leveldb/v2.NewLevelDBHandle()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store-leveldb/v2@v2.4.0/leveldb_handle.go:102 +0x1ea
+  chainmaker.org/chainmaker/store/v2/dbprovider.(*DBFactory).NewKvDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/dbprovider/factory.go:61 +0x76b
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).newKVDBHandler()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:578 +0x48e
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).newHistoryDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:404 +0x765
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).registerAllKnownCreators.func5()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:114 +0x64
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).registerAllKnownCreators.(*storeBuilder).toCreator.func16()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:175 +0x4e
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).create()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:200 +0x12a
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).Build()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:263 +0x874
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  github.com/syndtr/goleveldb/leveldb.(*DB).checkAndCleanFiles()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_util.go:52 +0x2a8
+  github.com/syndtr/goleveldb/leveldb.openDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:130 +0x835
+  github.com/syndtr/goleveldb/leveldb.(*DB).recoverJournal()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:554 +0x13af
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x264
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:657 +0x18e
+  fmt.(*ss).doScanf()
+      /usr/local/go/src/fmt/scan.go:1230 +0x408
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  github.com/syndtr/goleveldb/leveldb.(*DB).recoverJournal()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:476 +0xa1
+  github.com/syndtr/goleveldb/leveldb.openDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:125 +0x81b
+  github.com/syndtr/goleveldb/leveldb.Open()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:197 +0x35c
+  github.com/syndtr/goleveldb/leveldb.(*session).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/session.go:140 +0x85d
+  fmt.(*ss).doScanf()
+      /usr/local/go/src/fmt/scan.go:1230 +0x408
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseNamePtr()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:666 +0x189
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta.func1()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:332 +0x121
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta.func2()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:356 +0xd7e
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).GetMeta()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:407 +0xc6e
+  github.com/syndtr/goleveldb/leveldb.(*session).recover()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/session.go:119 +0x119
+  github.com/syndtr/goleveldb/leveldb.Open()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:183 +0x113
+  github.com/syndtr/goleveldb/leveldb.OpenFile()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:219 +0x7d
+  chainmaker.org/chainmaker/store-leveldb/v2.NewLevelDBHandle()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store-leveldb/v2@v2.4.0/leveldb_handle.go:102 +0x1ea
+  chainmaker.org/chainmaker/store/v2/dbprovider.(*DBFactory).NewKvDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/dbprovider/factory.go:61 +0x76b
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).newKVDBHandler()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:578 +0x48e
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).newStateDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:363 +0x773
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).registerAllKnownCreators.func2()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:99 +0x2e
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).registerAllKnownCreators.(*storeBuilder).toCreator.func13()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:175 +0x4e
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).create()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:200 +0x12a
+  chainmaker.org/chainmaker/store/v2.(*storeBuilder).Build()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/store_builder.go:263 +0x874
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  github.com/syndtr/goleveldb/leveldb.(*DB).checkAndCleanFiles()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_util.go:52 +0x2a8
+  github.com/syndtr/goleveldb/leveldb.openDB()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:130 +0x835
+  github.com/syndtr/goleveldb/leveldb.(*DB).recoverJournal()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:554 +0x13af
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x264
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:657 +0x18e
+  fmt.(*ss).doScanf()
+      /usr/local/go/src/fmt/scan.go:1230 +0x408
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+  fmt.Fscanf()
+      /usr/local/go/src/fmt/scan.go:143 +0xdc
+  fmt.Sscanf()
+      /usr/local/go/src/fmt/scan.go:114 +0x184
+  github.com/syndtr/goleveldb/leveldb/storage.fsParseName()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:643 +0x91
+  github.com/syndtr/goleveldb/leveldb/storage.(*fileStorage).List()
+      /home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/storage/file_storage.go:458 +0x4ea
+
+Previous read at 0x00c0002898d8 by goroutine 92:
+  chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).narrowRWC()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/rolling_window_cache/rolling_window_cache_impl.go:523 +0x274
+  chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).scaling.func2()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/rolling_window_cache/rolling_window_cache_impl.go:418 +0x46
+
+Goroutine 92 (running) created at:
+  chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).scaling()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/rolling_window_cache/rolling_window_cache_impl.go:415 +0x136
+  chainmaker.org/chainmaker/store/v2/rolling_window_cache.NewRollingWindowCacher.gowrap1()
+      /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/rolling_window_cache/rolling_window_cache_impl.go:103 +0x33
+==================

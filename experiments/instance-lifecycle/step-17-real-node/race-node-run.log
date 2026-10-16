@@ -1,0 +1,17 @@
+baseline 218091
+optimized 218092
+Traceback (most recent call last):
+  File "/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-17-real-node/race_node.py", line 5, in <module>
+    restart();time.sleep(1);c=Client();f=open(O/'race-node-requests.jsonl','w')
+    ^^^^^^^^^
+  File "/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-17-real-node/run.py", line 49, in restart
+    subprocess.run([sys.executable,str(O/'nodes.py'),'start'],check=True);wait_nodes()
+                                                                          ^^^^^^^^^^^^
+  File "/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-17-real-node/run.py", line 40, in wait_nodes
+    with socket.create_connection(('127.0.0.1',port),1):break
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socket.py", line 852, in create_connection
+    raise exceptions[0]
+  File "/usr/lib/python3.12/socket.py", line 837, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
