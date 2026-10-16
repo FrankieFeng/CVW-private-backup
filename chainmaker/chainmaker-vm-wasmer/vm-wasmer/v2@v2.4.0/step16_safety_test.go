@@ -175,4 +175,5 @@ func TestStep16TemplateCost(t *testing.T) {
 	runtime.ReadMemStats(&after)
 	s15Must(t, enc.Encode(map[string]interface{}{"kind": "template_memory", "label": s.Label, "logical_retained_bytes": cap(retained.Image) + cap(retained.Ranges)*16, "go_heap_delta_bytes": int64(after.HeapAlloc) - int64(before.HeapAlloc), "excludes": "native module memory and original WASM already retained by baseline"}))
 	runtime.KeepAlive(retained)
+	runtime.KeepAlive(b) // exclude the baseline source buffer from the GC heap difference
 }
