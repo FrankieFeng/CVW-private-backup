@@ -641,7 +641,7 @@ func (p *vmPool) GetInstance() *wrappedInstance {
 		if err != nil {
 			panic(err)
 		}
-		p.lastCreated = instance
+		// Step17: no shared last-instance pointer writes on the node path.
 		return instance
 	}
 
@@ -1073,7 +1073,8 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 	startTime := time.Now().UnixNano()
 	module, err := loadStaticModule(store, compileCode, configID, log)
 	endTime := time.Now().UnixNano()
-	compileTime = float64(endTime-startTime) / 1e9
+	_ = startTime
+	_ = endTime // Legacy global benchmark counter is not written on concurrent node paths.
 	if err != nil {
 		return nil, fmt.Errorf("[%s_%s], byte code compile failed", contractId.Name, contractId.Version)
 	}
@@ -1114,7 +1115,9 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 		return nil, fmt.Errorf("[%s_%s], byte code compile failed, %s", contractId.Name, contractId.Version, err.Error())
 	}
 
+	vmPool.initialMemory = nil // Never retain a view of an instance that is about to close.
 	vmPool.CloseInstance(instance)
+	step17Pool(vmPool)
 	log.Infof("vm pool verify byteCode finish.")
 
 	if !vmPool.freshOnDemand {
@@ -1394,7 +1397,7 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 	//}
 	endTime := time.Now().UnixNano()
 	fmt.Printf("endNew:%d\n", endTime)
-	newInstanceTime += float64(endTime-startTime) / 1e9
+	_ = endTime // Avoid the legacy unsynchronized aggregate counter.
 	return instance, nil
 }
 

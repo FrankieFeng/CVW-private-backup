@@ -14,6 +14,7 @@ import (
 	"chainmaker.org/chainmaker/utils/v2"
 	wasmer "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -45,6 +46,13 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64) (
 	contractResult *commonPb.ContractResult, specialTxType protocol.ExecOrderTxType) {
 
+	// Shared native Store is not proven safe for concurrent mutation. Serialize root VM calls
+	// in this experiment; synchronous nested calls run under their root owner's lock.
+	if os.Getenv("CM_STEP17_SERIALIZE_VM") == "1" && txContext.GetDepth() == 0 {
+		r.instancesManager.invokeMu.Lock()
+		defer r.instancesManager.invokeMu.Unlock()
+	}
+	step17Begin := time.Now()
 	r.log.Debugf("called invoke for tx:%s", txContext.GetTx().Payload.TxId)
 	logStr := fmt.Sprintf("wasmer runtime invoke[%s]: ", txContext.GetTx().Payload.TxId)
 	startTime := utils.CurrentTimeMillisSeconds()
@@ -59,6 +67,7 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 	specialTxType = protocol.ExecOrderTxTypeNormal
 
 	var instanceInfo *wrappedInstance
+	defer func() { step17Invoke(r.pool, instanceInfo, contract, method, txContext, contractResult, step17Begin) }()
 	defer func() {
 		endTime := utils.CurrentTimeMillisSeconds()
 		logStr = fmt.Sprintf("%s used time %d", logStr, endTime-startTime)
@@ -236,6 +245,7 @@ func (r *RuntimeInstance) InvokeTime(contract *commonPb.Contract, method string,
 	specialTxType = protocol.ExecOrderTxTypeNormal
 
 	var instanceInfo *wrappedInstance
+
 	defer func() {
 		//endTime := utils.CurrentTimeMillisSeconds()
 		endTime = time.Now().UnixNano()

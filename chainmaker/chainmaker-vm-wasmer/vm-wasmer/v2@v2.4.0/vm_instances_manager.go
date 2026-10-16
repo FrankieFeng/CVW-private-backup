@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
 package wasmer
 
 import (
+	"bytes"
 	"fmt"
 	"sync"
 
@@ -22,7 +23,8 @@ type InstancesManager struct {
 	// chain identifier
 	chainId string
 	// control map operations
-	m sync.RWMutex
+	m        sync.RWMutex
+	invokeMu sync.Mutex
 	// contractName_contractVersion -> vm pool
 	instanceMap map[string]*vmPool
 	// module log
@@ -109,12 +111,18 @@ func (m *InstancesManager) getVmPool(contractId *commonPb.Contract, byteCode []b
 				return nil, err
 			}
 
-			pool.grow(defaultMinSize)
+			if !pool.freshOnDemand {
+				pool.grow(defaultMinSize)
+			}
 			m.instanceMap[key] = pool
 			end := utils.CurrentTimeMillisSeconds()
 			m.log.Infof("[%s] init vmPool done, currentSize=%d, spend %dms", key, pool.currentSize, end-start)
 		}
 	}
+	if pool != nil && !bytes.Equal(pool.byteCode, byteCode) {
+		return nil, fmt.Errorf("contract identity reused with different WASM: %s", key)
+	}
+	step17Cache(pool, ok)
 	return pool, err
 }
 

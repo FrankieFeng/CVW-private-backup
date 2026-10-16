@@ -260,7 +260,7 @@ func prepareStaticMemory(source []byte, c *commonPb.Contract, config string) (pl
 	return plan, nil
 }
 func (p *staticMemoryPlan) restore(module *wasm.Module, instance *wasm.Instance, source []byte, contract *commonPb.Contract, config string) error {
-	if p.Module != module || p.ConfigID != config || p.Key!=staticSHA([]byte(contract.Name+"\x00"+contract.Version+"\x00"+p.SourceSHA+"\x00"+config)) {
+	if p.Module != module || p.ConfigID != config || p.Key != staticSHA([]byte(contract.Name+"\x00"+contract.Version+"\x00"+p.SourceSHA+"\x00"+config)) {
 		return fmt.Errorf("static template module/config mismatch")
 	}
 	// Key is bound at pool construction; recomputing SHA over the original WASM per
@@ -280,6 +280,9 @@ func (p *staticMemoryPlan) restore(module *wasm.Module, instance *wasm.Instance,
 }
 func loadStaticModule(store *wasm.Store, bytecode []byte, config string, log *logger.CMLogger) (*wasm.Module, error) {
 	path := os.Getenv("CM_STEP16_SERIALIZED_MODULE")
+	if dir := os.Getenv("CM_STEP17_ARTIFACT_DIR"); dir != "" {
+		path = filepath.Join(dir, staticSHA(bytecode)+".module")
+	}
 	if path == "" {
 		return wasm.NewModule(store, bytecode, log)
 	}
