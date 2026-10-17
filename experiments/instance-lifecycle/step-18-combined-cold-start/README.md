@@ -1,62 +1,53 @@
-# Step-18：Go/WASM 冷启动组合优化 pilot
+# Step-18：Go/WASM冷启动完整8组pilot
 
-本轮只做 compute、ERC721、fact 的小样本 VM 实验。**P 裁剪源码/构建流程未恢复，P=1 的四组保留为 blocked；不能宣称完成三因素组合验证。** A 使用已有可达静态数组填充原型，由原 Go 链接器修正地址；C 使用 step-16 去 active Data + fresh Memory Copy。没有扩大到八合约或启动真实节点。
+**已从历史会话恢复原PB裁剪补丁，补齐compute/ERC721/fact全部8组。** 本批三项组合比C单独开启进一步降低完整VM Invoke中位数；compute的P95未全面胜出，仍需独立批次确认。此前P blocked判断已修正，初始报告与样本完整保留。
 
-实施状态、依赖、冲突和首次失败见 [AUDIT.md](AUDIT.md)。8 组组会表见 [PPT.md](PPT.md)；结果解释见 [RESULTS.md](RESULTS.md)。所有表中的缺失/blocked/not_tested 均不是通过。
+- [恢复证据与SDK语义变化](recovered-pb/RECOVERY.md)
+- [当前实施审计](AUDIT.md)
+- [完整结果、CI、交互与内存分析](RESULTS.md)
+- [8组PPT对照表](PPT.md)
 
-## 固定环境与构建
+`samples.csv`有960条plain和960条独立probe，三合约每组40次。`summary.csv`、`paired_effects.csv`、`interactions.csv`、`variants.csv`、`correctness.csv`为当前完整矩阵；所有原始JSONL在`full-pilot/`。`initial-pilot/`保存原4组/blocked报告，`pilot-plain-n40/`和`pilot-probe-n40/`仍是原4组数据；`attempt-01-wrong-initbloc-target/`保留失败的首次A恢复，均不混入新批。
 
-- CVW 实验基线 `4cdf6c51df36f3ff350baf120863edc893da7383`，分支 `experiment/step18-combined-cold-start`，worktree `/home/frankie/mygitprojects/.worktrees/cvw-step18`。
-- guest Go1.24.1，host Go1.25.0；ChainMaker VM/protocol2.4.0；Wasmer6.0.1。native库 SHA-256 `dcdfa7164c58856f6e0c01597fd52c9a4c5f7da772751e3a874f7333612c3db9`。
-- `environment.json`、`resolved-modules.txt`、`artifact_hashes.json` 记录源码、依赖、产物；原始文件及所有最终 WASM 保留在 `artifacts/`。`variants.csv` 同时列 plain 性能构建和 probe 诊断构建；P=1 不填造假的产物哈希。
-- A：读取 Go1.24.1 `moduledata.end`，按首次 heap arena 预留点计算填充。本次固定构建在 initBloc 后还有5个64KiB的元数据页，诊断检查首次 `sysReserveAlignedSbrk` 的 bloc=4194304、skip=0、align=4194304。不将静态区末尾对齐视为已完成 A。此页数不是通用阈值，新 WASM 必须重新校准。
-- P：只有四份历史裁剪 WASM，没有可恢复源码/配方，未改变 SDK 公开 API 来冒充旧 P。历史文件哈希见 `historical-pb-artifacts.json`。
-- C：最终每份 WASM 独立重算模板/范围/哈希，去除 active Data 后编译；新建 Instance → Copy → WASI Initialize → `_start`。Module、源 WASM hash、合约版本、metering配置、native库指纹共同约束模板，禁止跨二进制复用。其他节保持逐字节相同，见 `static_sections.csv`。
-- 诊断只改独立的 Go1.24.1 副本，原工具链不动。`diagnostic-runtime.patch` 与 `prototype/step18_wasm.go.txt` 保存插桩。plain/probe 各自布局校准，诊断的绝对时间不能替代未插桩性能。
+## 固定构建
 
-## 统一计时边界
+独立worktree `/home/frankie/mygitprojects/.worktrees/cvw-step18`，分支 `experiment/step18-combined-cold-start`；基础提交4cdf6c51df36f3ff350baf120863edc893da7383，初始报告提交d9a117b。当前提交见branch.json。
 
-调用的是 **实际 `RuntimeInstance.Invoke` + 测试 TxSimContext/SnapshotMock**。`CM_FRESH_INVOKE=1` 令 GetInstance 同步创建，关闭同步完成，不复用已执行业务 Instance；本轮无池等待、无后台 grow。Module/模板预处理在样本窗口外单独统计。
+guest Go1.24.1、host Go1.25.0、VM/protocol2.4.0、Wasmer6.0.1不变；native SHA256为dcdfa7164c58856f6e0c01597fd52c9a4c5f7da772751e3a874f7333612c3db9。SDK是在0.1.3源码私有副本上应用原历史API删除补丁，原module cache不变。所有最终原始WASM、nodata、模板在artifacts，各自按最终WASM/配置关联，无跨二进制模板复用。
 
-|指标|边界|
-|---|---|
-|S0→S1|`newInstanceFromModule` 开始，含 UUID/WASI环境取得/import准备、NewInstance、C恢复，至静态 Memory 可用；不是仅 C API NewInstance|
-|`start_ns`|调用 WASI start RawFunction 前后；不含 WASI Initialize/导出查找|
-|A `a_ns`|仅 probe：`_start` 调用入口至非runtime package init开始；包含Go runtime启动，不含此前 WASI Initialize；guest/host单调时钟用7次调用中最小RTT校准，记录误差|
-|B1 `b1_ns`|仅 probe：Go非runtime模块的 `doInit(m.inittasks)` 循环；含新增 A 小 init，不等于PB自身耗时|
-|创建至S2|同S1起点，包含 WASI Initialize、`_start`；截止start返回，早于handle关闭/最终wrapper绑定|
-|创建至S3|同创建起点至Invoke内SetGas返回，含S2后的绑定/控制逻辑|
-|完整 `invoke_ns`|Invoke入口前至返回后，含GetInstance同步创建、上述初始化、SetGas、CallMethod/业务/host syscall、Gas读取、defer上下文清理、CallDeallocate及Instance.Close；测试Tx/参数map准备在窗口外|
+A通过可达数组交给Go链接器布局，不手改WASM偏移；每个P版本重新校准首次heap arena位置。P删除GetBatchState API，非透明裁剪；仅限不依赖该API/相关反射行为且已验证的构建。C使用新Instance的初始零memory，去active Data后直接拷贝必要范围，发生在WASI Initialize/_start之前。不做S2 Snapshot，不复用已执行业务Instance。
 
-这些阶段嵌套，不相加。plain 所有性能样本均无 S2 observer。probe 在S2读取标记/校准，会污染probe S3/Invoke，分析器只从probe提取A/B1和误差；不能用probe Invoke宣称性能收益。
+## 计时和统计
 
-每合约独立进程，4个有效组合每轮随机排列、5轮预热丢弃、40轮正式记录；固定 CPU affinity、GOMAXPROCS=1、关闭自动GC、每20轮边界显式GC。每个original/nodata/diagnostic模块在单独新进程作为首个模块编译并Serialize，测量时Deserialize。只对完全相同 WASM hash 的第一版A=0产物复用已隔离编译的模块，加载器仍检查ConfigID/ArtifactSHA。避免既有首编译Gas异常，并非把不同WASM共享Module。
+实际RuntimeInstance.Invoke + 测试TxSimContext/SnapshotMock。CM_FRESH_INVOKE=1使GetInstance同步新建、Revert同步关闭，无后台grow/池等待。完整Invoke含NewInstance、WASI Initialize、_start、SetGas、CallMethod/业务/host syscall、Gas读取、上下文清理、CallDeallocate和Instance.Close；测试Tx和参数构造、Module/模板预处理在窗口外。
 
-`summary.csv` 使用中位数、nearest-rank P95；CI为4000次循环移动块bootstrap的中位数95%区间，块长5轮。`paired_effects.csv` 用同轮时间差，负值表示更快；`interactions.csv` 的 A×C 为 `t101-t100-t001+t000`，正值表示延迟改善小于简单相加。只有一批、40个配对轮，CI仅描述本机短批不确定性，不证明跨批/跨机器稳定性。
+S1从newInstanceFromModule入口到静态memory就绪，含UUID/import/WASI环境准备和Copy；S2同起点至_start返回；S3同起点至SetGas返回。start_ns仅RawFunction.Call。阶段嵌套，不能相加。A/B1来自独立probe的host/guest单调时钟标记，记录校准误差；probe S2 observer影响S3/Invoke，正式结论只用plain。
 
-## 重现
+每合约单进程、8个实验池共存、每轮8组随机排列、5轮预热、40轮采样、固定CPU affinity与GOMAXPROCS1、关闭自动GC并在20轮边界GC。每个original/nodata单独首编译/Serialize，测量进程Deserialize，隔离已有首编译Gas异常。相同P0源hash/配置的旧隔离产物可复用，加载器仍核对来源及产物。
 
-在原报告目录运行；先保留现有结果，重建时使用新的输出目录/新的worktree，脚本不会覆盖已有 artifact 目录。P=1 当前明确不可重建，不会静默改成P=0。
+Median、nearest-rank P95；CI为4000次循环移动块bootstrap中位数区间，块长5轮。配对差在同轮计算；负值更快。二阶/三阶交互同轮先作有限差分再统计，不由不同组中位数相加。只有一个完整矩阵批次，不宣称跨批稳定或节点收益。
+
+## 重新构建和运行
+
+现有结果不覆盖；使用新的输出目录和独立worktree。S18_REPO指向保留step-14/15/16资料的原CVW，S18_WORKTREE可指定新的实验worktree。SDK副本和diff已持久化，不依赖原/tmp目录或再读取会话。
 
 ```bash
-cd /home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-18-combined-cold-start
-python3 pipeline.py build
+python3 pipeline.py build                 # 构建P0；已有artifact时拒绝覆盖
+python3 recovered-pb/restore.py           # SDK私有副本应用已恢复原补丁
+python3 recovered-pb/build.py             # P1、每P校准A、每最终WASM重算C
 python3 pipeline.py host
-python3 pipeline.py compile
-python3 pipeline.py run --batch pilot-plain-n40 --mode plain --n 40 --seed 181701
-python3 pipeline.py run --batch pilot-probe-n40 --mode probe --n 40 --seed 181701
-python3 pipeline.py validate
-python3 pipeline.py template-cost
-python3 analyze.py
-python3 report.py
+python3 full_pilot.py prepare             # P1逐模块独立首编译
+python3 full_pilot.py run --mode probe --n 40 --seed 181802
+python3 full_pilot.py run --mode plain --n 40 --seed 181802
+python3 full_pilot.py validate
+python3 analyze_full.py
+python3 publish_full.py
 ```
 
-重现脚本依赖既有step-14/15/16资料；`S18_REPO`可指定其CVW根目录，`S18_WORKTREE`可指定新的独立实验worktree。
+SDK source在recovered-pb/sdk，Go诊断patch和prototype在根目录；原始Go工具链不修改。旧analyze.py/report.py是初始4组分析器，当前完整结果请使用analyze_full.py/publish_full.py。重现编译阶段的SDK公共API变更必须保留审计，不得换成其他实现来冒充P。
 
-代码在 `prototype/`，完整分支改动见 `prototype.patch`。原 step-16 helper 已在基线提交内。构建不升级任何依赖。`attempt-01-wrong-initbloc-target/` 是保留的失败恢复尝试，不参与最终统计。
+## 正确性和回退
 
-## 正确性范围与回滚
+correctness.csv逐组给出S1 Memory、Globals、业务输出/写集/事件、同逻辑WASM的Gas、模板不变性和fresh隔离。Table静态节保持并检查全表nullness；真实函数身份仍not_tested。ERC721/fact实际执行非法数字输入的guest错误；compute guest异常、真实跨合约和全部trap/OOG未覆盖。8目标合约P1构建成功不等于8合约业务安全通过。全部safe=not_certified。
 
-`correctness.csv` 逐组报告真实guest业务返回、排序状态写集、事件、registry/native Gas、S1 Memory、Globals、fresh Memory/Globals隔离、模板不变性。实际执行host缺失导出方法分支，以及ERC721/fact非法数字输入的guest错误分支；不覆盖compute guest错误、全部trap/OOG/host错误。C0/C1在同逻辑WASM内要求Gas完全一致；跨A二进制分别记录启动与业务Gas，不能默认新合约Gas策略已获认可。Table提供静态Function/Code/Element保持和全表nullness；真实Table函数对象身份、真实跨合约调用均为not_tested，未认证生产安全。
-
-关闭C：`CM_STATIC_MEMORY_COPY=0`；关闭A：恢复保留的A0原始WASM并重建/加载对应Module，不能对A1模板换一个开关冒充A0。P未启用。实验不改生产main/正式节点；回滚仅停止测试进程并切回原worktree，保留数据后可由用户移除独立实验worktree。不要对已有脏main执行reset。step-17缓存回收、共享Store race和真实Table身份问题未修复，本轮结果不能作为生产启用依据。
+新进程/重建池时CM_STATIC_MEMORY_COPY=0并加载对应original模块可关闭C。A/P关闭必须选择保留的A0/P0 WASM重建Module，不能给其他二进制套旧模板。完整回退选择000原始WASM、关闭C并停止实验进程；生产main/正式节点从未修改，不对脏main做reset。step-17缓存退休/回收、race、真实Table身份问题未解决，当前不能生产启用。

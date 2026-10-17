@@ -1,4 +1,4 @@
-"""Step-18 pilot. No PB replacement is invented when its source is missing."""
+"""Initial A/C builder; recovered complete matrix uses recovered-pb/build.py and full_pilot.py."""
 import argparse,csv,hashlib,importlib.util,json,os,platform,shutil,struct,subprocess,sys,time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent
@@ -117,11 +117,11 @@ func init() {{ if experimentHeapLayoutPadPtr == nil {{ panic("experiment heap la
   finally:
    if pad.exists():pad.unlink()
   for a in (0,1):
-   for c in (0,1):variants.append(dict(contract=contract,A=a,P=1,C=c,flavor='plain',status='blocked_missing_pb_source',reason='historical trimmed WASM has no recoverable trim source/recipe; cannot compose source-level A or verify SDK/Gas provenance'))
+   for c in (0,1):variants.append(dict(contract=contract,A=a,P=1,C=c,flavor='plain',status='pending_recovered_pb_build' if (ROOT/'recovered-pb/sdk.diff').exists() else 'blocked_missing_pb_source',reason='P is built separately with recovered-pb/build.py; initial A/C stage does not build P'))
  (ROOT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n');csvwrite(ROOT/'variants.csv',variants);csvwrite(ROOT/'layout.csv',layouts)
  env=dict(baseline_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=WT,text=True).strip(),branch=subprocess.check_output(['git','branch','--show-current'],cwd=WT,text=True).strip(),host=platform.platform(),cpu=Path('/proc/cpuinfo').read_text().split('model name')[1].splitlines()[0],guest_go=subprocess.check_output([str(GO/'bin/go'),'version'],text=True).strip(),host_go=subprocess.check_output(['/usr/local/go/bin/go','version'],text=True).strip(),wasmer_library_sha256=sha((VM/'wasmer-go/packaged/lib/linux-amd64/libwasmer.so').read_bytes()),runtime_symtab_sha256=sha((GO/'src/runtime/symtab.go').read_bytes()),guest_sources={str(p.relative_to(WT)):sha(p.read_bytes()) for c in CONTRACTS for p in (WT/'chainmaker/testdata-instrument'/c).glob('*.go')},registry_sha256=sha((WT/'registry/registry.go').read_bytes()))
  (ROOT/'environment.json').write_text(json.dumps(env,indent=2)+'\n')
- print('built',len(manifest),'logical builds; P=1 explicitly blocked',flush=True)
+ print('built',len(manifest),'P0 logical builds; build recovered P separately with recovered-pb/build.py',flush=True)
 def hostenv(label):
  e=os.environ.copy();e.update(GOROOT='/usr/local/go',GOTOOLCHAIN='local',GOMAXPROCS='1',CM_INSTANCE_LIFECYCLE_TRACE='0',S15_MANIFEST=str(ROOT/'manifest.json'),S15_CONTRACT=label,S16_ARTIFACTS=str(ROOT/'artifacts'));return e
 def host():

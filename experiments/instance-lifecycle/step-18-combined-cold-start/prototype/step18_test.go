@@ -54,10 +54,19 @@ func TestStep18Pilot(t *testing.T) {
 	s15Must(t, e)
 	defer out.Close()
 	emit := func(v interface{}) { s15Must(t, json.NewEncoder(out).Encode(v)) }
-	pools := make([]*vmPool, 4)
-	selected := make([]s15Spec, 4)
-	for a := 0; a < 2; a++ {
-		label := fmt.Sprintf("%s-a%dp0-%s", contract, a, mode)
+	groups := 4
+	full := os.Getenv("S18_FULL") == "1"
+	if full {
+		groups = 8
+	}
+	pools := make([]*vmPool, groups)
+	selected := make([]s15Spec, groups)
+	for j := 0; j < groups/2; j++ {
+		a, pv := j, 0
+		if full {
+			a, pv = j/2, j%2
+		}
+		label := fmt.Sprintf("%s-a%dp%d-%s", contract, a, pv, mode)
 		var s s15Spec
 		for _, v := range specs {
 			if v.Label == label {
@@ -68,12 +77,12 @@ func TestStep18Pilot(t *testing.T) {
 			t.Fatal("missing build", label)
 		}
 		for c := 0; c < 2; c++ {
-			k := a*2 + c
+			k := j*2 + c
 			p := step18Pool(t, s, contract, c == 1)
 			pools[k] = p
 			selected[k] = s
 			if c == 1 {
-				emit(map[string]interface{}{"kind": "module", "contract": contract, "A": a, "P": 0, "C": c, "mode": mode, "template_ns": p.staticPlan.PrecomputeNS, "template_bytes": len(p.staticPlan.Image), "range_metadata_bytes": len(p.staticPlan.Ranges) * 16, "template_sha256": fmt.Sprintf("%x", sha256.Sum256(p.staticPlan.Image)), "source_sha256": p.staticPlan.SourceSHA, "config_id": p.staticPlan.ConfigID})
+				emit(map[string]interface{}{"kind": "module", "contract": contract, "A": a, "P": pv, "C": c, "mode": mode, "template_ns": p.staticPlan.PrecomputeNS, "template_bytes": len(p.staticPlan.Image), "range_metadata_bytes": len(p.staticPlan.Ranges) * 16, "template_sha256": fmt.Sprintf("%x", sha256.Sum256(p.staticPlan.Image)), "source_sha256": p.staticPlan.SourceSHA, "config_id": p.staticPlan.ConfigID})
 			}
 		}
 	}
@@ -86,8 +95,12 @@ func TestStep18Pilot(t *testing.T) {
 		if i >= 0 && i%20 == 0 {
 			runtime.GC()
 		}
-		for pos, k := range rng.Perm(4) {
+		for pos, k := range rng.Perm(groups) {
 			p, s := pools[k], selected[k]
+			aFactor, pv := k/2, 0
+			if full {
+				aFactor, pv = k/4, (k/2)%2
+			}
 			s.Label = contract
 			// Probe reads happen at S2, outside the plain performance run. They affect
 			// probe S3/Invoke and are explicitly excluded from performance conclusions.
@@ -103,7 +116,7 @@ func TestStep18Pilot(t *testing.T) {
 					read := func(idx int32) int64 { v, e := fn.Call(idx); s15Must(t, e); return v.(int64) }
 					begin, end, moduleEnd := read(0), read(1), read(3)
 					reserveBloc, skipped, alignment := read(4), read(5), read(6)
-					if k/2 == 1 && (reserveBloc != 4<<20 || skipped != 0 || alignment != 4<<20) {
+					if aFactor == 1 && (reserveBloc != 4<<20 || skipped != 0 || alignment != 4<<20) {
 						t.Fatalf("A first reserve missed: bloc=%d skip=%d align=%d", reserveBloc, skipped, alignment)
 					}
 					// Calibrate the host/guest monotonic clocks. Minimum RTT bounds uncertainty.
@@ -129,8 +142,8 @@ func TestStep18Pilot(t *testing.T) {
 			}
 			seen[id] = true
 			row["contract"] = contract
-			row["A"] = k / 2
-			row["P"] = 0
+			row["A"] = aFactor
+			row["P"] = pv
 			row["C"] = k % 2
 			row["mode"] = mode
 			row["sample"] = i
@@ -163,8 +176,12 @@ func TestStep18Checks(t *testing.T) {
 	s15Must(t, e)
 	defer out.Close()
 	enc := json.NewEncoder(out)
+	pv := 0
+	if os.Getenv("S18_P") == "1" {
+		pv = 1
+	}
 	for a := 0; a < 2; a++ {
-		label := fmt.Sprintf("%s-a%dp0-plain", contract, a)
+		label := fmt.Sprintf("%s-a%dp%d-plain", contract, a, pv)
 		var s s15Spec
 		for _, v := range specs {
 			if v.Label == label {
@@ -229,7 +246,7 @@ func TestStep18Checks(t *testing.T) {
 			if c == 1 {
 				templateSame = templateBefore == fmt.Sprintf("%x", sha256.Sum256(p.staticPlan.Image))
 			}
-			s15Must(t, enc.Encode(map[string]interface{}{"kind": "checks", "contract": contract, "A": a, "P": 0, "C": c, "s1_checks": s1Checks, "s1_mismatches": s1Mismatch, "fresh_memory_isolation": independent, "template_immutable": templateSame, "success": success, "exception": exception, "guest_error": guestError, "exception_scope": "host missing export; guest invalid numeric input for ERC721/fact only; no general traps/OOG", "cross_contract": "not_tested", "table_function_identity": "not_tested"}))
+			s15Must(t, enc.Encode(map[string]interface{}{"kind": "checks", "contract": contract, "A": a, "P": pv, "C": c, "s1_checks": s1Checks, "s1_mismatches": s1Mismatch, "fresh_memory_isolation": independent, "template_immutable": templateSame, "success": success, "exception": exception, "guest_error": guestError, "exception_scope": "host missing export; guest invalid numeric input for ERC721/fact only; no general traps/OOG", "cross_contract": "not_tested", "table_function_identity": "not_tested"}))
 		}
 	}
 }

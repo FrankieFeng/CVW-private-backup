@@ -1,0 +1,46 @@
+*** Begin Patch
+*** Update File: /home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-18-combined-cold-start/recovered-pb/sdk/sdk/chainmaker.go
+@@
+-import (
+-	vmPb "chainmaker.org/chainmaker/pb-go/v2/vm"
+-	"fmt"
++import (
++	"fmt"
+@@
+-	// GetBatchState get [BatchKeys] from chain
+-	// @param batchKey: 获取的参数名
+-	// @return1: 获取结果
+-	// @return2: 获取错误信息
+-	GetBatchState(batchKeys []*vmPb.BatchKey) ([]*vmPb.BatchKey, ResultCode)
+ 	// GetStateFromKeyByte get [key] from chain
+@@
+-func (s *SimContextImpl) GetBatchState(batchKeys []*vmPb.BatchKey) ([]*vmPb.BatchKey, ResultCode) {
+-	if err := s.batchKeysLimit(batchKeys); err != nil {
+-		return nil, ERROR
+-	}
+-	getBatchStateKeys := vmPb.BatchKeys{Keys: batchKeys}
+-	getBatchStateKeysByte, err := getBatchStateKeys.Marshal()
+-	if err != nil {
+-		return nil, ERROR
+-	}
+-	ec := NewEasyCodec()
+-	ec.AddBytes("BatchKeys", getBatchStateKeysByte)
+-	value, code := GetBytesFromChain(ec, ContractMethodSenderAddressLen, ContractMethodSenderAddress)
+-	if code != SUCCESS {
+-		return nil, code
+-	}
+-	keys := &vmPb.BatchKeys{}
+-	if err = keys.Unmarshal(value); err != nil {
+-		return nil, ERROR
+-	}
+-	return keys.Keys, SUCCESS
+-}
+-func (s *SimContextImpl) batchKeysLimit(keys []*vmPb.BatchKey) error {
+-	if len(keys) > defaultLimitKeys {
+-		return fmt.Errorf("over batch keys count limit %d", defaultLimitKeys)
+-	}
+-	return nil
+-}
+-
+ // common
+*** End Patch
