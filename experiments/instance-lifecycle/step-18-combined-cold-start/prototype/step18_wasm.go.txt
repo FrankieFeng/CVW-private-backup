@@ -1,0 +1,12 @@
+//go:build wasip1 && wasm
+package runtime
+var step18Times [2]int64
+var step18Reserve [3]int64
+//go:wasmexport Step18Read
+func Step18Read(index int32) int64 {
+ if index == 2 { return nanotime() }
+ if index == 3 { return int64(firstmoduledata.end) }
+ if index >= 4 && index <= 6 { return step18Reserve[index-4] }
+ if index < 0 || index > 1 { return -1 }
+ return step18Times[index]
+}

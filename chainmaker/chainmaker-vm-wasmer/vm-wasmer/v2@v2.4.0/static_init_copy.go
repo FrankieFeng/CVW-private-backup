@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"golang.org/x/sys/unix"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -29,9 +30,9 @@ type staticMemoryPlan struct {
 	PrecomputeNS             int64
 }
 type creationProfile struct {
-	Begin                                     time.Time
-	S1NS, S2NS, S3NS, CopyNS                  int64
-	NativeBeforeBusiness, NativeAfterBusiness uint64
+	Begin                                          time.Time
+	StartNS, StartMonoNS, S1NS, S2NS, S3NS, CopyNS int64
+	NativeBeforeBusiness, NativeAfterBusiness      uint64
 }
 type staticReader struct {
 	b []byte
@@ -260,7 +261,7 @@ func prepareStaticMemory(source []byte, c *commonPb.Contract, config string) (pl
 	return plan, nil
 }
 func (p *staticMemoryPlan) restore(module *wasm.Module, instance *wasm.Instance, source []byte, contract *commonPb.Contract, config string) error {
-	if p.Module != module || p.ConfigID != config || p.Key!=staticSHA([]byte(contract.Name+"\x00"+contract.Version+"\x00"+p.SourceSHA+"\x00"+config)) {
+	if p.Module != module || p.ConfigID != config || p.Key != staticSHA([]byte(contract.Name+"\x00"+contract.Version+"\x00"+p.SourceSHA+"\x00"+config)) {
 		return fmt.Errorf("static template module/config mismatch")
 	}
 	// Key is bound at pool construction; recomputing SHA over the original WASM per
@@ -301,4 +302,12 @@ func loadStaticModule(store *wasm.Store, bytecode []byte, config string, log *lo
 		return nil, fmt.Errorf("serialized artifact key mismatch")
 	}
 	return wasm.DeserializeModule(store, b)
+}
+
+func step18MonoNow() int64 {
+	var ts unix.Timespec
+	if e := unix.ClockGettime(unix.CLOCK_MONOTONIC, &ts); e != nil {
+		panic(e)
+	}
+	return ts.Nano()
 }

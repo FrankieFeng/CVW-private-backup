@@ -1,0 +1,24 @@
+--- /usr/local/go-version/go1.24.1/src/runtime/proc.go	2025-02-28 01:57:18.000000000 +0800
++++ /home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-18-combined-cold-start/toolchains/go1.24.1-diagnostic/src/runtime/proc.go	2026-10-17 23:40:34.447353334 +0800
+@@ -250,9 +250,11 @@
+ 	// by package plugin). Run through the modules in dependency
+ 	// order (the order they are initialized by the dynamic
+ 	// loader, i.e. they are added to the moduledata linked list).
++	step18Times[0] = nanotime()
+ 	for m := &firstmoduledata; m != nil; m = m.next {
+ 		doInit(m.inittasks)
+ 	}
++	step18Times[1] = nanotime()
+ 
+ 	// Disable init tracing after main init done to avoid overhead
+ 	// of collecting statistics in malloc and newproc
+--- /usr/local/go-version/go1.24.1/src/runtime/mem_sbrk.go	2025-02-28 01:57:18.000000000 +0800
++++ /home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-18-combined-cold-start/toolchains/go1.24.1-diagnostic/src/runtime/mem_sbrk.go	2026-10-17 23:40:34.450385242 +0800
+@@ -219,6 +219,7 @@
+ 
+ func sysReserveAlignedSbrk(size, align uintptr) (unsafe.Pointer, uintptr) {
+ 	lock(&memlock)
++	if step18Reserve[0] == 0 { step18Reserve = [3]int64{int64(bloc), int64(alignUp(bloc, align)-bloc), int64(align)} }
+ 	if p := memAllocNoGrow(size + align); p != nil {
+ 		// We can satisfy the reservation from the free list.
+ 		// Trim off the unaligned parts.

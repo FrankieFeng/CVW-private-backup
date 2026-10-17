@@ -1349,7 +1349,12 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 	p.traceLifecycle("T2", instanceID, wasmInstance, "start_before", "")
 	start, startErr := wasmInstance.Exports.GetWasiStartRawFunction()
 	if start != nil {
+		beginStart := time.Now()
+		if os.Getenv("S18_DIAG") == "1" {
+			profile.StartMonoNS = step18MonoNow()
+		}
 		_, startErr = start.Call()
+		profile.StartNS = time.Since(beginStart).Nanoseconds()
 		p.traceLifecycle("T3", instanceID, wasmInstance, "start_return", lifecycleError(startErr))
 	} else {
 		p.traceLifecycle("T3", instanceID, wasmInstance, "start_absent", lifecycleError(startErr))
