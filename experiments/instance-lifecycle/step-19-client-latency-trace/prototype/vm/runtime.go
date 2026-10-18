@@ -1,0 +1,377 @@
+/*
+Copyright (C) BABEC. All rights reserved.
+Copyright (C) THL A29 Limited, a Tencent company. All rights reserved.
+
+SPDX-License-Identifier: Apache-2.0
+*/
+
+package wasmer
+
+import (
+	"chainmaker.org/chainmaker/logger/v2"
+	commonPb "chainmaker.org/chainmaker/pb-go/v2/common"
+	"chainmaker.org/chainmaker/protocol/v2"
+	"chainmaker.org/chainmaker/utils/v2"
+	wasmer "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
+	"fmt"
+	"os"
+	"time"
+)
+
+const (
+	// InitContractFunc means `init_contract` function name
+	InitContractFunc = "init_contract"
+	// UpgradeContractFunc means `upgrade` function name
+	UpgradeContractFunc = "upgrade"
+	// runtimeGasLimit is the unified gas limit used by runtime.
+	runtimeGasLimit uint64 = 1<<31 - 1
+)
+
+// RuntimeInstance wasm runtime
+type RuntimeInstance struct {
+	pool             *vmPool
+	log              *logger.CMLogger
+	chainId          string
+	instancesManager *InstancesManager
+}
+
+// Pool comment at next version
+// nolint:revive
+func (r *RuntimeInstance) Pool() *vmPool {
+	return r.pool
+}
+
+// Invoke contract by call vm, implement protocol.RuntimeInstance
+func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byteCode []byte,
+	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64) (
+	contractResult *commonPb.ContractResult, specialTxType protocol.ExecOrderTxType) {
+
+	step19Trace(txContext.GetTx().Payload.TxId, "vm_enter")
+	// Shared native Store is not proven safe for concurrent mutation. Serialize root VM calls
+	// in this experiment; synchronous nested calls run under their root owner's lock.
+	if os.Getenv("CM_STEP17_SERIALIZE_VM") == "1" && txContext.GetDepth() == 0 {
+		r.instancesManager.invokeMu.Lock()
+		defer r.instancesManager.invokeMu.Unlock()
+	}
+	step19Trace(txContext.GetTx().Payload.TxId, "vm_lock_acquired")
+	defer step19Trace(txContext.GetTx().Payload.TxId, "vm_end")
+	step17Begin := time.Now()
+	r.log.Debugf("called invoke for tx:%s", txContext.GetTx().Payload.TxId)
+	logStr := fmt.Sprintf("wasmer runtime invoke[%s]: ", txContext.GetTx().Payload.TxId)
+	startTime := utils.CurrentTimeMillisSeconds()
+	blockVersion := txContext.GetBlockVersion()
+
+	// set default return value
+	contractResult = &commonPb.ContractResult{
+		Code:    uint32(0),
+		Result:  nil,
+		Message: "",
+	}
+	specialTxType = protocol.ExecOrderTxTypeNormal
+
+	var instanceInfo *wrappedInstance
+	defer func() { step17Invoke(r.pool, instanceInfo, contract, method, txContext, contractResult, step17Begin) }()
+	defer func() {
+		endTime := utils.CurrentTimeMillisSeconds()
+		logStr = fmt.Sprintf("%s used time %d", logStr, endTime-startTime)
+		r.log.Debugf(logStr)
+		panicErr := recover()
+		if panicErr != nil {
+			contractResult.Code = 1
+			contractResult.Message = fmt.Sprint(panicErr)
+			r.log.Infof("panic recover err:%v", panicErr)
+			if instanceInfo != nil {
+				instanceInfo.errCount++
+			}
+			specialTxType = protocol.ExecOrderTxTypeNormal
+		}
+	}()
+
+	// if cross contract call, then new instance
+	if txContext.GetDepth() > 0 {
+		//var err error
+		//instanceInfo, err = r.pool.NewInstance()
+		//defer r.pool.CloseInstance(instanceInfo)
+		//if err != nil {
+		//	panic(err)
+		//}
+		r.log.Debugf("depth>0 before get instance for tx: %s", txContext.GetTx().Payload.TxId)
+		instanceInfo = r.pool.GetInstance()
+		r.log.Debugf("depth>0 after get instance for tx: %s", txContext.GetTx().Payload.TxId)
+		defer r.pool.RevertInstance(instanceInfo)
+	} else {
+		r.log.Debugf("before get instance for tx: %s", txContext.GetTx().Payload.TxId)
+		instanceInfo = r.pool.GetInstance()
+		r.log.Debugf("after get instance for tx: %s", txContext.GetTx().Payload.TxId)
+		defer r.pool.RevertInstance(instanceInfo)
+	}
+
+	step19Trace(txContext.GetTx().Payload.TxId, "instance_ready")
+	instance := instanceInfo.wasmInstance
+	gasLimit := runtimeGasLimit
+	availableGas := gasLimit
+	if gasUsed < gasLimit {
+		availableGas = gasLimit - gasUsed
+	} else {
+		availableGas = 0
+	}
+	r.log.Debugf("gasLimit:%d", availableGas)
+	setGasErr := setGasByExport(instance, availableGas)
+	if setGasErr != nil {
+		panic(setGasErr)
+	}
+
+	instanceInfo.initProfile.S3NS = time.Since(instanceInfo.initProfile.Begin).Nanoseconds()
+	if r.pool.profileObserver != nil {
+		r.pool.profileObserver("S3", instance)
+	}
+	instanceInfo.initProfile.NativeBeforeBusiness = instance.GetGasRemaining()
+	var sc = NewSimContext(method, r.log, r.chainId)
+	defer sc.removeCtxPointer()
+	sc.Contract = contract
+	sc.TxSimContext = txContext
+	sc.ContractResult = contractResult
+	sc.parameters = parameters
+	sc.Instance = instance
+	sc.lifecyclePool = r.pool
+	sc.lifecycleID = instanceInfo.id
+	sc.SpecialTxType = protocol.ExecOrderTxTypeNormal
+
+	//运行中如果死循环或者gas超值，它会自动中止，返回unreachable的err
+	r.pool.traceLifecycle("T6", instanceInfo.id, instance, "call_before", "")
+	err := sc.CallMethod(instance)
+	instanceInfo.initProfile.NativeAfterBusiness = instance.GetGasRemaining()
+	r.pool.traceLifecycle("T7", instanceInfo.id, instance, "call_return", lifecycleError(err))
+	//r.log.Infof("contract invoke finished, tx:%s, call method err is %s",
+	//	txContext.GetTx().Payload.TxId, err)
+	if err != nil {
+		r.log.Infof("contract invoke failed, %s, tx: %s", err, txContext.GetTx().Payload.TxId)
+	}
+	specialTxType = sc.SpecialTxType
+
+	// gas Log
+	gasRemaining, err := getGasByExport(instance)
+	if err != nil {
+		panic(err)
+	}
+	//这里用于判断是否属于gas超支的err
+	//注意这里判断条件是有问题的，以前是判断GetGasRemaining<=0，但是gasremaining是uint64无符号，
+	//所以如果gas消耗完，要么是GetGasRemaining=0或GetGasRemaining=uint64的max
+	if gasRemaining == 0 || gasRemaining == ^uint64(0) {
+		err = fmt.Errorf("contract invoke failed, out of gas %d, tx: %s", runtimeGasLimit,
+			txContext.GetTx().Payload.TxId)
+	}
+	gas := gasLimit - gasRemaining
+	logStr += fmt.Sprintf("used gas %d ", gas)
+	contractResult.GasUsed = gas
+
+	if err != nil {
+		contractResult.Code = 1
+		msg := fmt.Sprintf("contract invoke failed, %s, tx: %s", err.Error(), txContext.GetTx().Payload.TxId)
+		r.log.Infof(msg)
+		contractResult.Message = msg
+		if method == InitContractFunc && txContext.GetBlockVersion() >= 2201 {
+			r.instancesManager.CloseAVmPool(contract)
+		} else {
+			instanceInfo.errCount++
+		}
+		return
+	} else if blockVersion >= 2030100 && contractResult.Code != 0 {
+		if method == InitContractFunc || method == UpgradeContractFunc {
+			r.instancesManager.CloseAVmPool(contract)
+		} else {
+			instanceInfo.errCount++
+		}
+	}
+	contractResult.ContractEvent = sc.ContractEvent
+	contractResult.GasUsed = gas
+	r.log.Infof("contract invoke finished, tx:%s, contractName:%s, contractMethod:%s, runtimeContractResult:%d, gasUsed:%d",
+		txContext.GetTx().Payload.TxId, contract.Name, method, sc.ContractResult.Code, gas)
+
+	return
+}
+
+func setGasByExport(instance *wasmer.Instance, gas uint64) error {
+	setGasFn, err := instance.Exports.GetRawFunction("SetGas")
+	if err != nil {
+		return err
+	}
+	defer setGasFn.Close()
+
+	_, err = setGasFn.Call(int64(gas))
+	return err
+}
+
+func getGasByExport(instance *wasmer.Instance) (uint64, error) {
+	getGasFn, err := instance.Exports.GetRawFunction("GetGas")
+	if err != nil {
+		return 0, err
+	}
+	defer getGasFn.Close()
+
+	result, err := getGasFn.Call()
+	if err != nil {
+		return 0, err
+	}
+
+	switch v := result.(type) {
+	case int32:
+		return uint64(v), nil
+	case uint32:
+		return uint64(v), nil
+	case int64:
+		return uint64(v), nil
+	case uint64:
+		return v, nil
+	default:
+		return 0, fmt.Errorf("GetGas return type %T not supported", result)
+	}
+}
+
+// Invoke contract by call vm, implement protocol.RuntimeInstance
+func (r *RuntimeInstance) InvokeTime(contract *commonPb.Contract, method string, byteCode []byte,
+	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64) (
+	contractResult *commonPb.ContractResult, specialTxType protocol.ExecOrderTxType, startTime, endTime int64, executionTime float64, callMethodTime float64) {
+	//fmt.Println(txContext)
+	txId := txContext.GetTx().Payload.TxId
+	contractName := contract.Name
+	//r.log.Debugf("called invoke for tx:%s", txId)
+	logStr := fmt.Sprintf("wasmer runtime invoke[%s]: ", txContext.GetTx().Payload.TxId)
+	//startTime := utils.CurrentTimeMillisSeconds()
+	startTime = time.Now().UnixNano()
+	//fmt.Printf("startInvoke:%d\n", startTime)
+	// set default return value
+	contractResult = &commonPb.ContractResult{
+		Code:    uint32(0),
+		Result:  nil,
+		Message: "",
+	}
+	specialTxType = protocol.ExecOrderTxTypeNormal
+
+	var instanceInfo *wrappedInstance
+
+	defer func() {
+		//endTime := utils.CurrentTimeMillisSeconds()
+		endTime = time.Now().UnixNano()
+		//fmt.Printf("endInvoke:%d\n", endTime)
+		executionTime = float64(endTime-startTime) / 1e9
+
+		panicErr := recover()
+		if panicErr != nil {
+			contractResult.Code = 1
+			contractResult.Message = fmt.Sprint(panicErr)
+			if instanceInfo != nil {
+				instanceInfo.errCount++
+			}
+			specialTxType = protocol.ExecOrderTxTypeNormal
+		}
+		logStr = fmt.Sprintf("invoke vm, tx id:%s, contractName:%+v, contractMethod:%+v, runtimeContractResult:%d ,startTime:%d, endTime:%d, executionTime:%.6f s, callMethodTime:%.6f s",
+			txId, contractName, method, contractResult.Code, startTime, endTime, executionTime, callMethodTime)
+		r.log.Debugf(logStr)
+	}()
+
+	// if cross contract call, then new instance
+	if txContext.GetDepth() > 0 {
+		//var err error
+		//instanceInfo, err = r.pool.NewInstance()
+		//defer r.pool.CloseInstance(instanceInfo)
+		//if err != nil {
+		//	panic(err)
+		//}
+		//r.log.Debugf("before get instance for tx: %s", txContext.GetTx().Payload.TxId)
+		instanceInfo = r.pool.GetInstance()
+		//r.log.Debugf("after get instance for tx: %s", txContext.GetTx().Payload.TxId)
+		defer r.pool.RevertInstance(instanceInfo)
+	} else {
+		//r.log.Debugf("before get instance for tx: %s", txContext.GetTx().Payload.TxId)
+		instanceInfo = r.pool.GetInstance()
+		//r.log.Debugf("after get instance for tx: %s", txContext.GetTx().Payload.TxId)
+		defer r.pool.RevertInstance(instanceInfo)
+	}
+	instanceInfoSnapshot := *instanceInfo
+	defer func() {
+		if instanceInfo == nil || instanceInfo.wasmInstance == nil {
+			return
+		}
+		r.log.Infof("instance_compare tx:%s contract:%s method:%s instanceId:%s same_all_fields:%t",
+			txId, contractName, method, instanceInfo.id, instanceInfoSnapshot == *instanceInfo)
+	}()
+
+	instance := instanceInfo.wasmInstance
+	gasLimit := runtimeGasLimit
+	availableGas := gasLimit
+	if gasUsed < gasLimit {
+		availableGas = gasLimit - gasUsed
+	} else {
+		availableGas = 0
+	}
+	r.log.Debugf("gasLimit:%d", availableGas)
+	setGasErr := setGasByExport(instance, availableGas)
+	if setGasErr != nil {
+		panic(setGasErr)
+	}
+	var sc = NewSimContext(method, r.log, r.chainId)
+	defer sc.removeCtxPointer()
+	sc.Contract = contract
+	sc.TxSimContext = txContext
+	sc.ContractResult = contractResult
+	sc.parameters = parameters
+	sc.Instance = instance
+	sc.lifecyclePool = r.pool
+	sc.lifecycleID = instanceInfo.id
+	sc.SpecialTxType = protocol.ExecOrderTxTypeNormal
+
+	var err error
+	func() {
+		t0 := time.Now()
+		defer func() { callMethodTime = time.Since(t0).Seconds() }()
+		r.pool.traceLifecycle("T6", instanceInfo.id, instance, "call_before", "")
+		err = sc.CallMethod(instance)
+		r.pool.traceLifecycle("T7", instanceInfo.id, instance, "call_return", lifecycleError(err))
+	}()
+	r.log.Debugf("b5_profile sample_id=%s instance_mode=unknown instance_id=%s tx_id=%s contract=%s method=%s total_ns=%d internal_total_ns=%d runtime_ns=%d prepare_ns=%d dispatch_pre_ns=%d allocate_ns=%d copy_lookup_ns=%d export_call_ns=%d dispatch_post_ns=%d syscall_ns=%d syscall_count=%d syscall_method=%s parameter_bytes=%d",
+		txId, instanceInfo.id, txId, contractName, method,
+		int64(callMethodTime*1e9), sc.B5Profile.TotalNs, sc.B5Profile.RuntimeNs, sc.B5Profile.PrepareNs,
+		sc.B5Profile.DispatchPreNs, sc.B5Profile.AllocateNs, sc.B5Profile.CopyLookupNs,
+		sc.B5Profile.ExportCallNs, sc.B5Profile.DispatchPostNs, sc.B5Profile.SyscallNs, sc.B5Profile.SyscallCount,
+		sc.B5Profile.SyscallMethod, sc.B5Profile.ParameterSize)
+
+	//r.log.Infof("contract invoke finished, tx:%s, call method err is %s",
+	//	txContext.GetTx().Payload.TxId, err)
+	if err != nil {
+		//r.log.Errorf("contract invoke failed, %s, tx: %s", err, txContext.GetTx().Payload.TxId)
+	}
+	specialTxType = sc.SpecialTxType
+
+	// gas Log
+	gasRemaining, err := getGasByExport(instance)
+	if err != nil {
+		panic(err)
+	}
+	//注意这里判断条件是有问题的，以前是判断GetGasRemaining<=0，但是gasremaining是uint64无符号，
+	//所以如果gas消耗完，要么是GetGasRemaining=0或GetGasRemaining=uint64的max
+	if gasRemaining == 0 || gasRemaining == ^uint64(0) {
+		err = fmt.Errorf("contract invoke failed, out of gas %d, tx: %s", runtimeGasLimit,
+			txContext.GetTx().Payload.TxId)
+	}
+	gas := gasLimit - gasRemaining
+	logStr += fmt.Sprintf("used gas %d ", gas)
+	contractResult.GasUsed = gas
+
+	if err != nil {
+		contractResult.Code = 1
+		msg := fmt.Sprintf("contract invoke failed, %s, tx: %s", err.Error(), txContext.GetTx().Payload.TxId)
+		r.log.Debugf(msg)
+		contractResult.Message = msg
+		if method == "init_contract" && txContext.GetBlockVersion() >= 2201 {
+			r.instancesManager.CloseAVmPool(contract)
+		} else {
+			instanceInfo.errCount++
+		}
+		return
+	}
+	contractResult.ContractEvent = sc.ContractEvent
+	contractResult.GasUsed = gas
+
+	return
+}

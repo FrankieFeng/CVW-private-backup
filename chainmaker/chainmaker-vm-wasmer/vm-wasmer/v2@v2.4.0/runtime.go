@@ -46,12 +46,15 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64) (
 	contractResult *commonPb.ContractResult, specialTxType protocol.ExecOrderTxType) {
 
+	step19Trace(txContext.GetTx().Payload.TxId, "vm_enter")
 	// Shared native Store is not proven safe for concurrent mutation. Serialize root VM calls
 	// in this experiment; synchronous nested calls run under their root owner's lock.
 	if os.Getenv("CM_STEP17_SERIALIZE_VM") == "1" && txContext.GetDepth() == 0 {
 		r.instancesManager.invokeMu.Lock()
 		defer r.instancesManager.invokeMu.Unlock()
 	}
+	step19Trace(txContext.GetTx().Payload.TxId, "vm_lock_acquired")
+	defer step19Trace(txContext.GetTx().Payload.TxId, "vm_end")
 	step17Begin := time.Now()
 	r.log.Debugf("called invoke for tx:%s", txContext.GetTx().Payload.TxId)
 	logStr := fmt.Sprintf("wasmer runtime invoke[%s]: ", txContext.GetTx().Payload.TxId)
@@ -103,6 +106,7 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 		defer r.pool.RevertInstance(instanceInfo)
 	}
 
+	step19Trace(txContext.GetTx().Payload.TxId, "instance_ready")
 	instance := instanceInfo.wasmInstance
 	gasLimit := runtimeGasLimit
 	availableGas := gasLimit

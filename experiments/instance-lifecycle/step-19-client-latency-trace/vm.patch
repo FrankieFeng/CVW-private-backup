@@ -1,0 +1,56 @@
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go
+index 8d77b1f..9e360a0 100644
+--- a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go
++++ b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go
+@@ -46,12 +46,15 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
+ 	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64) (
+ 	contractResult *commonPb.ContractResult, specialTxType protocol.ExecOrderTxType) {
+ 
++	step19Trace(txContext.GetTx().Payload.TxId, "vm_enter")
+ 	// Shared native Store is not proven safe for concurrent mutation. Serialize root VM calls
+ 	// in this experiment; synchronous nested calls run under their root owner's lock.
+ 	if os.Getenv("CM_STEP17_SERIALIZE_VM") == "1" && txContext.GetDepth() == 0 {
+ 		r.instancesManager.invokeMu.Lock()
+ 		defer r.instancesManager.invokeMu.Unlock()
+ 	}
++	step19Trace(txContext.GetTx().Payload.TxId, "vm_lock_acquired")
++	defer step19Trace(txContext.GetTx().Payload.TxId, "vm_end")
+ 	step17Begin := time.Now()
+ 	r.log.Debugf("called invoke for tx:%s", txContext.GetTx().Payload.TxId)
+ 	logStr := fmt.Sprintf("wasmer runtime invoke[%s]: ", txContext.GetTx().Payload.TxId)
+@@ -103,6 +106,7 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
+ 		defer r.pool.RevertInstance(instanceInfo)
+ 	}
+ 
++	step19Trace(txContext.GetTx().Payload.TxId, "instance_ready")
+ 	instance := instanceInfo.wasmInstance
+ 	gasLimit := runtimeGasLimit
+ 	availableGas := gasLimit
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/step19_trace.go b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/step19_trace.go
+new file mode 100644
+index 0000000..ed6df5c
+--- /dev/null
++++ b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/step19_trace.go
+@@ -0,0 +1,22 @@
++// Experiment-only trace, enabled solely for step-19 transaction IDs.
++package wasmer
++
++import (
++	"encoding/json"
++	"fmt"
++	"golang.org/x/sys/unix"
++	"os"
++	"strings"
++)
++
++func step19Trace(tx, stage string) {
++	if os.Getenv("CM_STEP19_TRACE") != "1" || !strings.HasPrefix(tx, "1919") {
++		return
++	}
++	var t unix.Timespec
++	if e := unix.ClockGettime(unix.CLOCK_MONOTONIC, &t); e != nil {
++		panic(e)
++	}
++	b, _ := json.Marshal(map[string]interface{}{"tx_id": tx, "stage": stage, "mono_ns": t.Nano()})
++	fmt.Printf("STEP19 %s\n", b)
++}

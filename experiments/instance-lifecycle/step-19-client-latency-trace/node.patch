@@ -1,0 +1,140 @@
+diff --git a/go.mod b/go.mod
+index a094308..b8eee5b 100644
+--- a/go.mod
++++ b/go.mod
+@@ -299,11 +299,11 @@ require (
+ )
+ 
+ replace (
+-	chainmaker.org/chainmaker/consensus-tbft/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/consensus-tbft/v2@v2.4.0
+-	chainmaker.org/chainmaker/protocol/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/protocol/v2@v2.4.0
+-	chainmaker.org/chainmaker/utils/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/utils/v2@v2.4.0
+-	chainmaker.org/chainmaker/vm-wasmer/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0
+-	chainmaker.org/chainmaker/vm/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0
++	chainmaker.org/chainmaker/consensus-tbft/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step19/chainmaker/chainmaker-vm-wasmer/consensus-tbft/v2@v2.4.0
++	chainmaker.org/chainmaker/protocol/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step19/chainmaker/chainmaker-vm-wasmer/protocol/v2@v2.4.0
++	chainmaker.org/chainmaker/utils/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step19/chainmaker/chainmaker-vm-wasmer/utils/v2@v2.4.0
++	chainmaker.org/chainmaker/vm-wasmer/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step19/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0
++	chainmaker.org/chainmaker/vm/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step19/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0
+ 	github.com/RedisBloom/redisbloom-go => chainmaker.org/third_party/redisbloom-go v1.0.0
+ 	github.com/btcsuite/btcd => chainmaker.org/third_party/btcd v1.0.0
+ 	github.com/dgraph-io/badger/v3 => chainmaker.org/third_party/badger/v3 v3.0.0
+diff --git a/module/core/common/committer.go b/module/core/common/committer.go
+index 4e229bf..56282bd 100644
+--- a/module/core/common/committer.go
++++ b/module/core/common/committer.go
+@@ -6,6 +6,7 @@ SPDX-License-Identifier: Apache-2.0
+ package common
+ 
+ import (
++	"chainmaker.org/chainmaker-go/module/step19trace"
+ 	"encoding/hex"
+ 	"fmt"
+ 	"strconv"
+@@ -64,6 +65,9 @@ func (cb *CommitBlock) CommitBlock(
+ 		panic(err)
+ 	}
+ 	cb.ledgerCache.SetLastCommittedBlock(block)
++	for _, tx := range block.Txs {
++		step19trace.Emit(tx.Payload.TxId, "putblock_returned")
++	}
+ 	dbLasts = utils.CurrentTimeMillisSeconds() - startDBTick
+ 
+ 	// TxFilter adds
+@@ -145,6 +149,9 @@ func (cb *CommitBlock) CommitBlock(
+ 		RwsetList: rwSet,
+ 	}
+ 	otherLasts = utils.CurrentTimeMillisSeconds() - startOtherTick
++	for _, tx := range block.Txs {
++		step19trace.Emit(tx.Payload.TxId, "commit_common_return")
++	}
+ 
+ 	return
+ }
+diff --git a/module/rpcserver/api_service.go b/module/rpcserver/api_service.go
+index ba616e4..05daff3 100644
+--- a/module/rpcserver/api_service.go
++++ b/module/rpcserver/api_service.go
+@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
+ package rpcserver
+ 
+ import (
++	"chainmaker.org/chainmaker-go/module/step19trace"
+ 	"context"
+ 	"encoding/hex"
+ 	"encoding/json"
+@@ -140,6 +141,8 @@ func (s *ApiService) SendRequest(ctx context.Context, req *commonPb.TxRequest) (
+ 
+ // SendRequestSync - deal received TxRequest, sync tx result and send response
+ func (s *ApiService) SendRequestSync(ctx context.Context, req *commonPb.TxRequest) (*commonPb.TxResponse, error) {
++	step19trace.Emit(req.Payload.TxId, "rpc_enter")
++	defer step19trace.Emit(req.Payload.TxId, "rpc_return")
+ 	s.log.DebugDynamic(func() string {
+ 		return fmt.Sprintf("SendRequestSync[%s],payload:%#v,\n----signer:%v\n----endorsers:%+v",
+ 			req.Payload.TxId, req.Payload, req.Sender, req.Endorsers)
+@@ -605,7 +608,9 @@ func (s *ApiService) dealTransact(ctx context.Context, tx *commonPb.Transaction,
+ 		defer dispatcher.Unregister(tx.Payload.ChainId, tx.Payload.TxId)
+ 	}
+ 
++	step19trace.Emit(tx.Payload.TxId, "addtx_begin")
+ 	err = s.chainMakerServer.AddTx(tx.Payload.ChainId, tx, source)
++	step19trace.Emit(tx.Payload.TxId, "addtx_end")
+ 
+ 	s.incInvokeCounter(tx.Payload.ChainId, err)
+ 	s.updateTxSizeHistogram(tx, err)
+@@ -629,6 +634,7 @@ func (s *ApiService) dealTransact(ctx context.Context, tx *commonPb.Transaction,
+ 		defer ticker.Stop()
+ 		select {
+ 		case r := <-txResultC:
++			step19trace.Emit(tx.Payload.TxId, "sync_result_received")
+ 			resp.Code = r.Result.Code
+ 			resp.Message = r.Result.Message
+ 			resp.ContractResult = r.Result.ContractResult
+diff --git a/module/rpcserver/tx_result_dispatcher.go b/module/rpcserver/tx_result_dispatcher.go
+index 7bc6f13..2cc9ba7 100644
+--- a/module/rpcserver/tx_result_dispatcher.go
++++ b/module/rpcserver/tx_result_dispatcher.go
+@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
+ package rpcserver
+ 
+ import (
++	"chainmaker.org/chainmaker-go/module/step19trace"
+ 	"errors"
+ 	"fmt"
+ 	"strings"
+@@ -272,6 +273,7 @@ func (child *childDispatcher) start() {
+ 			log.Debugf("child dispatcher [%s] received block [%d]", child.chainId,
+ 				ev.BlockInfo.Block.Header.BlockHeight)
+ 			for _, tx := range ev.BlockInfo.Block.Txs {
++				step19trace.Emit(tx.Payload.TxId, "committed_event_received")
+ 				child.trySendTxResult(tx, ev.BlockInfo.Block.Header.BlockHeight)
+ 			}
+ 		case <-child.stopC:
+diff --git a/module/step19trace/trace.go b/module/step19trace/trace.go
+new file mode 100644
+index 0000000..ca7ab91
+--- /dev/null
++++ b/module/step19trace/trace.go
+@@ -0,0 +1,22 @@
++// Experiment-only trace, enabled solely for step-19 transaction IDs.
++package step19trace
++
++import (
++	"encoding/json"
++	"fmt"
++	"golang.org/x/sys/unix"
++	"os"
++	"strings"
++)
++
++func Emit(tx, stage string) {
++	if os.Getenv("CM_STEP19_TRACE") != "1" || !strings.HasPrefix(tx, "1919") {
++		return
++	}
++	var t unix.Timespec
++	if e := unix.ClockGettime(unix.CLOCK_MONOTONIC, &t); e != nil {
++		panic(e)
++	}
++	b, _ := json.Marshal(map[string]interface{}{"tx_id": tx, "stage": stage, "mono_ns": t.Nano()})
++	fmt.Printf("STEP19 %s\n", b)
++}
