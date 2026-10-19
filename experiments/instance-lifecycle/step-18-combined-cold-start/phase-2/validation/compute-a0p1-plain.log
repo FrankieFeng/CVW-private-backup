@@ -1,0 +1,98 @@
+=== RUN   TestStep16Validation
+opmap length 216 
+2026-10-19 10:16:25.533	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1080	[compute-a0p1-plain_1.0.0], new module success
+startNew:1792376185534175107
+2026-10-19 10:16:25.534	[DEBUG]	[Vm]	v2@v2.4.0/vm_bridge.go:536	init vmBridgeManager
+2026-10-19 10:16:25.536	[INFO]	step16	v2@v2.4.0/vm_pool.go:758	[compute-a0p1-plain_1.0.0] wasiEnv acquire finalize_new freelist_len=0 total_from_freelist=0 total_finalize_new=1
+2026-10-19 10:16:25.538	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:25.539	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: 80251f47013b41ef8bdaf23c221466c3
+endNew:1792376185539978751
+2026-10-19 10:16:25.539	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=80251f47013b41ef8bdaf23c221466c3
+2026-10-19 10:16:25.540	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[compute-a0p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:25.540	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:25.540	[INFO]	step16	v2@v2.4.0/vm_pool.go:1118	vm pool verify byteCode finish.
+2026-10-19 10:16:25.540	[INFO]	step16	v2@v2.4.0/vm_pool.go:1123	vm pool startRefreshingLoop...
+2026-10-19 10:16:25.545	[DEBUG]	step16	v2@v2.4.0/runtime.go:48	called invoke for tx:STEP16_FIXED_TX
+2026-10-19 10:16:25.545	[DEBUG]	step16	v2@v2.4.0/runtime.go:91	before get instance for tx: STEP16_FIXED_TX
+startNew:1792376185545134017
+2026-10-19 10:16:25.545	[INFO]	step16	v2@v2.4.0/vm_pool.go:747	[compute-a0p1-plain_1.0.0] wasiEnv acquire from_freelist freelist_len=0 total_from_freelist=1 total_finalize_new=1
+2026-10-19 10:16:25.551	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:25.556	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: f6b65ecb1dff42f2a0b46e099588d3c6
+endNew:1792376185556431512
+2026-10-19 10:16:25.556	[DEBUG]	step16	v2@v2.4.0/runtime.go:93	after get instance for tx: STEP16_FIXED_TX
+2026-10-19 10:16:25.556	[DEBUG]	step16	v2@v2.4.0/runtime.go:105	gasLimit:2147483647
+2026-10-19 10:16:25.559	[DEBUG]	step16	v2@v2.4.0/sim_context.go:127	sc.Contract = name:"compute-a0p1-plain" version:"1.0.0" runtime_type:WASMER 
+2026-10-19 10:16:25.559	[DEBUG]	step16	v2@v2.4.0/sim_context.go:128	sc.method = bigNumCal
+2026-10-19 10:16:25.559	[DEBUG]	step16	v2@v2.4.0/sim_context.go:143	lengthOfSubject: 399
+2026-10-19 10:16:25.572	[DEBUG]	step16	v2@v2.4.0/sim_context.go:195	contract invoke success
+2026-10-19 10:16:25.572	[INFO]	step16	v2@v2.4.0/runtime.go:175	contract invoke finished, tx:STEP16_FIXED_TX, contractName:compute-a0p1-plain, contractMethod:bigNumCal, runtimeContractResult:0, gasUsed:120027
+2026-10-19 10:16:25.572	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=f6b65ecb1dff42f2a0b46e099588d3c6
+2026-10-19 10:16:25.572	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[compute-a0p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:25.572	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:25.572	[DEBUG]	step16	v2@v2.4.0/runtime.go:65	wasmer runtime invoke[STEP16_FIXED_TX]: used gas 120027  used time 27
+2026-10-19 10:16:25.572	[DEBUG]	test	v2@v2.4.0/tx_sim_context.go:767	txSimContext[STEP16_FIXED_TX] access db spend time:0
+startNew:1792376185572592373
+2026-10-19 10:16:25.572	[INFO]	step16	v2@v2.4.0/vm_pool.go:747	[compute-a0p1-plain_1.0.0] wasiEnv acquire from_freelist freelist_len=0 total_from_freelist=2 total_finalize_new=1
+2026-10-19 10:16:25.573	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:25.575	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: 08934b60a4ca47d8b0580986d45a1a22
+endNew:1792376185575317863
+startNew:1792376185575325321
+2026-10-19 10:16:25.577	[INFO]	step16	v2@v2.4.0/vm_pool.go:758	[compute-a0p1-plain_1.0.0] wasiEnv acquire finalize_new freelist_len=0 total_from_freelist=2 total_finalize_new=2
+2026-10-19 10:16:25.578	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:25.579	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: d8cbf2d20ce34927b358e26b956889e1
+endNew:1792376185579642834
+2026-10-19 10:16:25.588	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=08934b60a4ca47d8b0580986d45a1a22
+2026-10-19 10:16:25.588	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[compute-a0p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:25.588	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:25.588	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=d8cbf2d20ce34927b358e26b956889e1
+2026-10-19 10:16:25.588	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[compute-a0p1-plain_1.0.0] wasiEnv release freelist_len=2
+2026-10-19 10:16:25.588	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+opmap length 216 
+2026-10-19 10:16:25.623	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1080	[compute-a0p1-plain_1.0.0], new module success
+startNew:1792376185623273691
+2026-10-19 10:16:25.624	[INFO]	step16	v2@v2.4.0/vm_pool.go:758	[compute-a0p1-plain_1.0.0] wasiEnv acquire finalize_new freelist_len=0 total_from_freelist=0 total_finalize_new=1
+2026-10-19 10:16:25.625	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:25.626	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: 59f7effe699b48d3981b4a8697bfcee0
+endNew:1792376185626641073
+2026-10-19 10:16:25.626	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=59f7effe699b48d3981b4a8697bfcee0
+2026-10-19 10:16:25.626	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[compute-a0p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:25.626	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:25.626	[INFO]	step16	v2@v2.4.0/vm_pool.go:1118	vm pool verify byteCode finish.
+2026-10-19 10:16:25.626	[INFO]	step16	v2@v2.4.0/vm_pool.go:1123	vm pool startRefreshingLoop...
+2026-10-19 10:16:25.626	[DEBUG]	step16	v2@v2.4.0/runtime.go:48	called invoke for tx:STEP16_FIXED_TX
+2026-10-19 10:16:25.626	[DEBUG]	step16	v2@v2.4.0/runtime.go:91	before get instance for tx: STEP16_FIXED_TX
+startNew:1792376185626722998
+2026-10-19 10:16:25.626	[INFO]	step16	v2@v2.4.0/vm_pool.go:747	[compute-a0p1-plain_1.0.0] wasiEnv acquire from_freelist freelist_len=0 total_from_freelist=1 total_finalize_new=1
+2026-10-19 10:16:25.632	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:25.637	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: ff2cc577d11b4a468d6d2e31ec0c9016
+endNew:1792376185637923473
+2026-10-19 10:16:25.637	[DEBUG]	step16	v2@v2.4.0/runtime.go:93	after get instance for tx: STEP16_FIXED_TX
+2026-10-19 10:16:25.637	[DEBUG]	step16	v2@v2.4.0/runtime.go:105	gasLimit:2147483647
+2026-10-19 10:16:25.643	[DEBUG]	step16	v2@v2.4.0/sim_context.go:127	sc.Contract = name:"compute-a0p1-plain" version:"1.0.0" runtime_type:WASMER 
+2026-10-19 10:16:25.643	[DEBUG]	step16	v2@v2.4.0/sim_context.go:128	sc.method = bigNumCal
+2026-10-19 10:16:25.643	[DEBUG]	step16	v2@v2.4.0/sim_context.go:143	lengthOfSubject: 399
+2026-10-19 10:16:25.656	[DEBUG]	step16	v2@v2.4.0/sim_context.go:195	contract invoke success
+2026-10-19 10:16:25.656	[INFO]	step16	v2@v2.4.0/runtime.go:175	contract invoke finished, tx:STEP16_FIXED_TX, contractName:compute-a0p1-plain, contractMethod:bigNumCal, runtimeContractResult:0, gasUsed:120027
+2026-10-19 10:16:25.656	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=ff2cc577d11b4a468d6d2e31ec0c9016
+2026-10-19 10:16:25.656	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[compute-a0p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:25.656	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:25.656	[DEBUG]	step16	v2@v2.4.0/runtime.go:65	wasmer runtime invoke[STEP16_FIXED_TX]: used gas 120027  used time 30
+2026-10-19 10:16:25.656	[DEBUG]	test	v2@v2.4.0/tx_sim_context.go:767	txSimContext[STEP16_FIXED_TX] access db spend time:0
+startNew:1792376185656185806
+2026-10-19 10:16:25.656	[INFO]	step16	v2@v2.4.0/vm_pool.go:747	[compute-a0p1-plain_1.0.0] wasiEnv acquire from_freelist freelist_len=0 total_from_freelist=2 total_finalize_new=1
+2026-10-19 10:16:25.656	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:25.658	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: 887c78c761bc49008b088afed62e29a7
+endNew:1792376185658540883
+startNew:1792376185658545396
+2026-10-19 10:16:25.659	[INFO]	step16	v2@v2.4.0/vm_pool.go:758	[compute-a0p1-plain_1.0.0] wasiEnv acquire finalize_new freelist_len=0 total_from_freelist=2 total_finalize_new=2
+2026-10-19 10:16:25.660	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:25.661	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: b3ebec15168e4386bfe9dddf12f52a30
+endNew:1792376185661794135
+2026-10-19 10:16:25.670	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=887c78c761bc49008b088afed62e29a7
+2026-10-19 10:16:25.670	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[compute-a0p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:25.670	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:25.670	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=b3ebec15168e4386bfe9dddf12f52a30
+2026-10-19 10:16:25.670	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[compute-a0p1-plain_1.0.0] wasiEnv release freelist_len=2
+2026-10-19 10:16:25.670	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+--- PASS: TestStep16Validation (0.51s)
+PASS

@@ -1,0 +1,142 @@
+=== RUN   TestStep16Validation
+opmap length 216 
+2026-10-19 10:16:27.094	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1080	[erc721-a1p1-plain_1.0.0], new module success
+startNew:1792376187095193433
+2026-10-19 10:16:27.095	[DEBUG]	[Vm]	v2@v2.4.0/vm_bridge.go:536	init vmBridgeManager
+2026-10-19 10:16:27.096	[INFO]	step16	v2@v2.4.0/vm_pool.go:758	[erc721-a1p1-plain_1.0.0] wasiEnv acquire finalize_new freelist_len=0 total_from_freelist=0 total_finalize_new=1
+2026-10-19 10:16:27.098	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:27.098	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: 27e231f9fef44f56b3083d9f640b4ca2
+endNew:1792376187098996830
+2026-10-19 10:16:27.099	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=27e231f9fef44f56b3083d9f640b4ca2
+2026-10-19 10:16:27.099	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[erc721-a1p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:27.099	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:27.099	[INFO]	step16	v2@v2.4.0/vm_pool.go:1118	vm pool verify byteCode finish.
+2026-10-19 10:16:27.099	[INFO]	step16	v2@v2.4.0/vm_pool.go:1123	vm pool startRefreshingLoop...
+2026-10-19 10:16:27.105	[DEBUG]	step16	v2@v2.4.0/runtime.go:48	called invoke for tx:STEP16_FIXED_TX
+2026-10-19 10:16:27.105	[DEBUG]	step16	v2@v2.4.0/runtime.go:91	before get instance for tx: STEP16_FIXED_TX
+startNew:1792376187105291155
+2026-10-19 10:16:27.105	[INFO]	step16	v2@v2.4.0/vm_pool.go:747	[erc721-a1p1-plain_1.0.0] wasiEnv acquire from_freelist freelist_len=0 total_from_freelist=1 total_finalize_new=1
+2026-10-19 10:16:27.114	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:27.120	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: 06a7726e69584f30ab2167d7eb006bef
+endNew:1792376187120165272
+2026-10-19 10:16:27.120	[DEBUG]	step16	v2@v2.4.0/runtime.go:93	after get instance for tx: STEP16_FIXED_TX
+2026-10-19 10:16:27.120	[DEBUG]	step16	v2@v2.4.0/runtime.go:105	gasLimit:2147483647
+2026-10-19 10:16:27.124	[DEBUG]	step16	v2@v2.4.0/sim_context.go:127	sc.Contract = name:"erc721-a1p1-plain" version:"1.0.0" runtime_type:WASMER 
+2026-10-19 10:16:27.124	[DEBUG]	step16	v2@v2.4.0/sim_context.go:128	sc.method = mint
+2026-10-19 10:16:27.124	[DEBUG]	step16	v2@v2.4.0/sim_context.go:143	lengthOfSubject: 514
+2026-10-19 10:16:27.124	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1001 
+
+2026-10-19 10:16:27.124	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-19 10:16:27.124	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-19 10:16:27.124	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-19 10:16:27.124	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-19 10:16:27.124	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-19 10:16:27.124	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-10-19 10:16:27.124	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1001, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-19 10:16:27.124	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1001, value = 1 
+
+2026-10-19 10:16:27.124	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1001_metadata, value = step15 
+
+2026-10-19 10:16:27.124	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1001_latestTxInfo, value = {"TxId":"TX_ID","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-10-19 10:16:27.124	[DEBUG]	step16	v2@v2.4.0/sim_context.go:195	contract invoke success
+2026-10-19 10:16:27.124	[INFO]	step16	v2@v2.4.0/runtime.go:175	contract invoke finished, tx:STEP16_FIXED_TX, contractName:erc721-a1p1-plain, contractMethod:mint, runtimeContractResult:0, gasUsed:235
+2026-10-19 10:16:27.124	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=06a7726e69584f30ab2167d7eb006bef
+2026-10-19 10:16:27.124	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[erc721-a1p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:27.124	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:27.124	[DEBUG]	step16	v2@v2.4.0/runtime.go:65	wasmer runtime invoke[STEP16_FIXED_TX]: used gas 235  used time 19
+2026-10-19 10:16:27.124	[DEBUG]	test	v2@v2.4.0/tx_sim_context.go:767	txSimContext[STEP16_FIXED_TX] access db spend time:0
+startNew:1792376187125224222
+2026-10-19 10:16:27.125	[INFO]	step16	v2@v2.4.0/vm_pool.go:747	[erc721-a1p1-plain_1.0.0] wasiEnv acquire from_freelist freelist_len=0 total_from_freelist=2 total_finalize_new=1
+2026-10-19 10:16:27.126	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:27.127	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: f3245123680a4fdca40f3381b994d84f
+endNew:1792376187127150812
+startNew:1792376187127158809
+2026-10-19 10:16:27.128	[INFO]	step16	v2@v2.4.0/vm_pool.go:758	[erc721-a1p1-plain_1.0.0] wasiEnv acquire finalize_new freelist_len=0 total_from_freelist=2 total_finalize_new=2
+2026-10-19 10:16:27.129	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:27.130	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: b4fdcca17bf742d6b755f42b3f0df0ff
+endNew:1792376187130185544
+2026-10-19 10:16:27.142	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=f3245123680a4fdca40f3381b994d84f
+2026-10-19 10:16:27.142	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[erc721-a1p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:27.142	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:27.142	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=b4fdcca17bf742d6b755f42b3f0df0ff
+2026-10-19 10:16:27.142	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[erc721-a1p1-plain_1.0.0] wasiEnv release freelist_len=2
+2026-10-19 10:16:27.142	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+opmap length 216 
+2026-10-19 10:16:27.184	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1080	[erc721-a1p1-plain_1.0.0], new module success
+startNew:1792376187184560165
+2026-10-19 10:16:27.185	[INFO]	step16	v2@v2.4.0/vm_pool.go:758	[erc721-a1p1-plain_1.0.0] wasiEnv acquire finalize_new freelist_len=0 total_from_freelist=0 total_finalize_new=1
+2026-10-19 10:16:27.186	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:27.187	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: f3722ad840fd45f3914f6d62527bfba1
+endNew:1792376187187173264
+2026-10-19 10:16:27.187	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=f3722ad840fd45f3914f6d62527bfba1
+2026-10-19 10:16:27.187	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[erc721-a1p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:27.187	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:27.187	[INFO]	step16	v2@v2.4.0/vm_pool.go:1118	vm pool verify byteCode finish.
+2026-10-19 10:16:27.187	[INFO]	step16	v2@v2.4.0/vm_pool.go:1123	vm pool startRefreshingLoop...
+2026-10-19 10:16:27.187	[DEBUG]	step16	v2@v2.4.0/runtime.go:48	called invoke for tx:STEP16_FIXED_TX
+2026-10-19 10:16:27.187	[DEBUG]	step16	v2@v2.4.0/runtime.go:91	before get instance for tx: STEP16_FIXED_TX
+startNew:1792376187187263135
+2026-10-19 10:16:27.187	[INFO]	step16	v2@v2.4.0/vm_pool.go:747	[erc721-a1p1-plain_1.0.0] wasiEnv acquire from_freelist freelist_len=0 total_from_freelist=1 total_finalize_new=1
+2026-10-19 10:16:27.195	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:27.200	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: 29335e69b3b5407cb627a2bdc80e2993
+endNew:1792376187200319899
+2026-10-19 10:16:27.200	[DEBUG]	step16	v2@v2.4.0/runtime.go:93	after get instance for tx: STEP16_FIXED_TX
+2026-10-19 10:16:27.200	[DEBUG]	step16	v2@v2.4.0/runtime.go:105	gasLimit:2147483647
+2026-10-19 10:16:27.204	[DEBUG]	step16	v2@v2.4.0/sim_context.go:127	sc.Contract = name:"erc721-a1p1-plain" version:"1.0.0" runtime_type:WASMER 
+2026-10-19 10:16:27.204	[DEBUG]	step16	v2@v2.4.0/sim_context.go:128	sc.method = mint
+2026-10-19 10:16:27.204	[DEBUG]	step16	v2@v2.4.0/sim_context.go:143	lengthOfSubject: 514
+2026-10-19 10:16:27.204	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1001 
+
+2026-10-19 10:16:27.204	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-19 10:16:27.204	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-19 10:16:27.204	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-19 10:16:27.204	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-19 10:16:27.204	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-19 10:16:27.204	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-10-19 10:16:27.204	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1001, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-19 10:16:27.204	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1001, value = 1 
+
+2026-10-19 10:16:27.204	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1001_metadata, value = step15 
+
+2026-10-19 10:16:27.205	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1001_latestTxInfo, value = {"TxId":"TX_ID","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-10-19 10:16:27.205	[DEBUG]	step16	v2@v2.4.0/sim_context.go:195	contract invoke success
+2026-10-19 10:16:27.205	[INFO]	step16	v2@v2.4.0/runtime.go:175	contract invoke finished, tx:STEP16_FIXED_TX, contractName:erc721-a1p1-plain, contractMethod:mint, runtimeContractResult:0, gasUsed:235
+2026-10-19 10:16:27.205	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=29335e69b3b5407cb627a2bdc80e2993
+2026-10-19 10:16:27.205	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[erc721-a1p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:27.205	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:27.205	[DEBUG]	step16	v2@v2.4.0/runtime.go:65	wasmer runtime invoke[STEP16_FIXED_TX]: used gas 235  used time 18
+2026-10-19 10:16:27.205	[DEBUG]	test	v2@v2.4.0/tx_sim_context.go:767	txSimContext[STEP16_FIXED_TX] access db spend time:0
+startNew:1792376187205163657
+2026-10-19 10:16:27.205	[INFO]	step16	v2@v2.4.0/vm_pool.go:747	[erc721-a1p1-plain_1.0.0] wasiEnv acquire from_freelist freelist_len=0 total_from_freelist=2 total_finalize_new=1
+2026-10-19 10:16:27.206	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:27.206	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: 61b7535d67e443749d1d948a3edf5c00
+endNew:1792376187206626318
+startNew:1792376187206633075
+2026-10-19 10:16:27.207	[INFO]	step16	v2@v2.4.0/vm_pool.go:758	[erc721-a1p1-plain_1.0.0] wasiEnv acquire finalize_new freelist_len=0 total_from_freelist=2 total_finalize_new=2
+2026-10-19 10:16:27.209	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:1340	newInstanceFromModule success
+2026-10-19 10:16:27.209	[INFO]	step16	v2@v2.4.0/vm_pool.go:1390	new instance id: 8a047978aa76489d82e4ef257382f7f8
+endNew:1792376187209491177
+2026-10-19 10:16:27.221	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=61b7535d67e443749d1d948a3edf5c00
+2026-10-19 10:16:27.221	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[erc721-a1p1-plain_1.0.0] wasiEnv release freelist_len=1
+2026-10-19 10:16:27.221	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+2026-10-19 10:16:27.221	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:720	CallDeallocate site=CloseInstance instance_id=8a047978aa76489d82e4ef257382f7f8
+2026-10-19 10:16:27.221	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:782	[erc721-a1p1-plain_1.0.0] wasiEnv release freelist_len=2
+2026-10-19 10:16:27.221	[DEBUG]	step16	v2@v2.4.0/vm_pool.go:735	instance closed.
+--- PASS: TestStep16Validation (0.50s)
+PASS
