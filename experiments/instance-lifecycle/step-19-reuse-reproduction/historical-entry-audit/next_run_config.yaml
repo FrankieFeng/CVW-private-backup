@@ -1,0 +1,30 @@
+status: designed_only_blocked_by_store_and_reclamation_gates
+scope: new_explicit_protocol_not_claimed_recovered_September_parameters
+node_num: 4
+conditions:
+  - id: R0
+    instance_policy: reuse_reference_only
+    logical_wasm: shared_rebuildable_P0_baseline
+  - id: R1
+    instance_policy: discard_background_refill
+    logical_wasm: same_as_R0
+  - id: R1_AC_future
+    instance_policy: discard_background_refill
+    logical_wasm: same_source_workload_with_A_only
+    copy_template: generated_from_final_A_wasm
+common:
+  thread_num: 4
+  effective_workers_per_client: 1
+  loop_num_short_trial: 8
+  loop_num_target_after_gates: 1000
+  sleep_time_ms: 0
+  climb_time_s: 0
+  add_option: "no"
+  root_vm_serial_lock: false
+  synchronous_fresh: false
+  production_paths_allowed: false
+metrics:
+  primary: N_over_sum_InvokeTime
+  additional_legacy_formula: N_over_global_VM_span
+  auxiliary: unique_successful_commit_TPS
+  all_four_raw_node_logs_required: true

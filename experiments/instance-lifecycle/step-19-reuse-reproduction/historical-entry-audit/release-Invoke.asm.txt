@@ -1,0 +1,1589 @@
+TEXT local.chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke(SB) /home/frankie/mygitprojects/CVW/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go
+  runtime.go:44		0x22b1000		4c8da424f0fcffff		LEAQ 0xfffffcf0(SP), R12										
+  runtime.go:44		0x22b1008		4d3b6610			CMPQ R12, 0x10(R14)											
+  runtime.go:44		0x22b100c		0f86d8100000			JBE 0x22b20ea												
+  runtime.go:44		0x22b1012		55				PUSHQ BP												
+  runtime.go:44		0x22b1013		4889e5				MOVQ SP, BP												
+  runtime.go:44		0x22b1016		4881ec88030000			SUBQ $0x388, SP												
+  runtime.go:44		0x22b101d		440f11bc2468030000		MOVUPS X15, 0x368(SP)											
+  runtime.go:44		0x22b1026		440f11bc2478030000		MOVUPS X15, 0x378(SP)											
+  logger.go:166		0x22b102f		48898424a8030000		MOVQ AX, 0x3a8(SP)											
+  logger.go:166		0x22b1037		48899c24b0030000		MOVQ BX, 0x3b0(SP)											
+  logger.go:166		0x22b103f		4c899424e0030000		MOVQ R10, 0x3e0(SP)											
+  logger.go:166		0x22b1047		4c899c24e8030000		MOVQ R11, 0x3e8(SP)											
+  logger.go:166		0x22b104f		4889bc24c0030000		MOVQ DI, 0x3c0(SP)											
+  logger.go:166		0x22b1057		48898c24b8030000		MOVQ CX, 0x3b8(SP)											
+  runtime.go:44		0x22b105f		c644245300			MOVB $0x0, 0x53(SP)											
+  runtime.go:44		0x22b1064		48c784241801000000000000	MOVQ $0x0, 0x118(SP)											
+  runtime.go:44		0x22b1070		48c744246000000000		MOVQ $0x0, 0x60(SP)											
+  runtime.go:48		0x22b1079		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:48		0x22b1081		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:48		0x22b1088		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:48		0x22b1090		ffd1				CALL CX													
+  runtime.go:48		0x22b1092		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:48		0x22b109a		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:48		0x22b109e		48898c24f8000000		MOVQ CX, 0xf8(SP)											
+  runtime.go:48		0x22b10a6		440f11bc2428010000		MOVUPS X15, 0x128(SP)											
+  runtime.go:48		0x22b10af		488b08				MOVQ 0(AX), CX												
+  runtime.go:48		0x22b10b2		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:48		0x22b10b6		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:48		0x22b10ba		e821f4fafe			CALL runtime.convTstring(SB)										
+  runtime.go:48		0x22b10bf		488d0dbabbf700			LEAQ type:string(SB), CX										
+  runtime.go:48		0x22b10c6		48898c2428010000		MOVQ CX, 0x128(SP)											
+  runtime.go:48		0x22b10ce		4889842430010000		MOVQ AX, 0x130(SP)											
+  logger.go:166		0x22b10d6		488b8c24f8000000		MOVQ 0xf8(SP), CX											
+  logger.go:166		0x22b10de		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b10e1		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b10e6		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b10ef		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b10f4		488d0dbad95401			LEAQ 0x154d9ba(IP), CX											
+  sugar.go:133		0x22b10fb		bf17000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+15(SB), DI	
+  sugar.go:133		0x22b1100		488db42428010000		LEAQ 0x128(SP), SI											
+  sugar.go:133		0x22b1108		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b110e		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b1111		e82aee4eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:49		0x22b1116		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:49		0x22b111e		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:49		0x22b1125		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:49		0x22b112d		ffd1				CALL CX													
+  runtime.go:49		0x22b112f		440f11bc2458010000		MOVUPS X15, 0x158(SP)											
+  runtime.go:49		0x22b1138		488b08				MOVQ 0(AX), CX												
+  runtime.go:49		0x22b113b		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:49		0x22b113f		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:49		0x22b1143		e898f3fafe			CALL runtime.convTstring(SB)										
+  runtime.go:49		0x22b1148		488d0d31bbf700			LEAQ type:string(SB), CX										
+  runtime.go:49		0x22b114f		48898c2458010000		MOVQ CX, 0x158(SP)											
+  runtime.go:49		0x22b1157		4889842460010000		MOVQ AX, 0x160(SP)											
+  runtime.go:49		0x22b115f		488d0505b85501			LEAQ 0x155b805(IP), AX											
+  runtime.go:49		0x22b1166		bb1b000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+19(SB), BX	
+  runtime.go:49		0x22b116b		488d8c2458010000		LEAQ 0x158(SP), CX											
+  runtime.go:49		0x22b1173		bf01000000			MOVL $0x1, DI												
+  runtime.go:49		0x22b1178		4889fe				MOVQ DI, SI												
+  runtime.go:49		0x22b117b		0f1f440000			NOPL 0(AX)(AX*1)											
+  runtime.go:49		0x22b1180		e83bc105ff			CALL fmt.Sprintf(SB)											
+  runtime.go:49		0x22b1185		48898424a8000000		MOVQ AX, 0xa8(SP)											
+  runtime.go:49		0x22b118d		48899c24b0000000		MOVQ BX, 0xb0(SP)											
+  runtime.go:50		0x22b1195		e826b6c0ff			CALL local.chainmaker.org/chainmaker/utils/v2.CurrentTimeMillisSeconds(SB)				
+  runtime.go:50		0x22b119a		4889442458			MOVQ AX, 0x58(SP)											
+  runtime.go:51		0x22b119f		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:51		0x22b11a7		488b4958			MOVQ 0x58(CX), CX											
+  runtime.go:51		0x22b11ab		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:51		0x22b11b3		ffd1				CALL CX													
+  runtime.go:51		0x22b11b5		89442454			MOVL AX, 0x54(SP)											
+  runtime.go:54		0x22b11b9		488d05400c2b01			LEAQ type:bPOeo0AA(SB), AX										
+  runtime.go:54		0x22b11c0		e8dbecf4fe			CALL runtime.newobject(SB)										
+  runtime.go:54		0x22b11c5		4889842418010000		MOVQ AX, 0x118(SP)											
+  runtime.go:59		0x22b11cd		48c744246000000000		MOVQ $0x0, 0x60(SP)											
+  runtime.go:61		0x22b11d6		48c784240001000000000000	MOVQ $0x0, 0x100(SP)											
+  runtime.go:62		0x22b11e2		488d0d97100000			LEAQ local.chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke.func1(SB), CX		
+  runtime.go:62		0x22b11e9		48898c2428030000		MOVQ CX, 0x328(SP)											
+  runtime.go:62		0x22b11f1		488d8c24a8000000		LEAQ 0xa8(SP), CX											
+  runtime.go:62		0x22b11f9		48898c2430030000		MOVQ CX, 0x330(SP)											
+  runtime.go:62		0x22b1201		488b4c2458			MOVQ 0x58(SP), CX											
+  runtime.go:62		0x22b1206		48898c2438030000		MOVQ CX, 0x338(SP)											
+  runtime.go:62		0x22b120e		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:62		0x22b1216		48898c2440030000		MOVQ CX, 0x340(SP)											
+  runtime.go:62		0x22b121e		488d8c2418010000		LEAQ 0x118(SP), CX											
+  runtime.go:62		0x22b1226		48898c2448030000		MOVQ CX, 0x348(SP)											
+  runtime.go:62		0x22b122e		488d8c2400010000		LEAQ 0x100(SP), CX											
+  runtime.go:62		0x22b1236		48898c2450030000		MOVQ CX, 0x350(SP)											
+  runtime.go:62		0x22b123e		488d4c2460			LEAQ 0x60(SP), CX											
+  runtime.go:62		0x22b1243		48898c2458030000		MOVQ CX, 0x358(SP)											
+  runtime.go:62		0x22b124b		488d8c2428030000		LEAQ 0x328(SP), CX											
+  runtime.go:62		0x22b1253		48898c2468030000		MOVQ CX, 0x368(SP)											
+  runtime.go:62		0x22b125b		c644245301			MOVB $0x1, 0x53(SP)											
+  runtime.go:79		0x22b1260		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:79		0x22b1268		488b8998000000			MOVQ 0x98(CX), CX											
+  runtime.go:79		0x22b126f		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:79		0x22b1277		ffd1				CALL CX													
+  runtime.go:79		0x22b1279		0f1f8000000000			NOPL 0(AX)												
+  runtime.go:79		0x22b1280		4885c0				TESTQ AX, AX												
+  logger.go:166		0x22b1283		0f8ea4010000			JLE 0x22b142d												
+  runtime.go:86		0x22b1289		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:86		0x22b1291		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:86		0x22b1298		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:86		0x22b12a0		ffd1				CALL CX													
+  runtime.go:86		0x22b12a2		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:86		0x22b12aa		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:86		0x22b12ae		48898c24f0000000		MOVQ CX, 0xf0(SP)											
+  runtime.go:86		0x22b12b6		440f11bc2418030000		MOVUPS X15, 0x318(SP)											
+  runtime.go:86		0x22b12bf		488b08				MOVQ 0(AX), CX												
+  runtime.go:86		0x22b12c2		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:86		0x22b12c6		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:86		0x22b12ca		e811f2fafe			CALL runtime.convTstring(SB)										
+  runtime.go:86		0x22b12cf		488d0daab9f700			LEAQ type:string(SB), CX										
+  runtime.go:86		0x22b12d6		48898c2418030000		MOVQ CX, 0x318(SP)											
+  runtime.go:86		0x22b12de		4889842420030000		MOVQ AX, 0x320(SP)											
+  logger.go:166		0x22b12e6		488b8c24f0000000		MOVQ 0xf0(SP), CX											
+  logger.go:166		0x22b12ee		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b12f1		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b12f6		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b12ff		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b1304		488d0d74325801			LEAQ 0x1583274(IP), CX											
+  sugar.go:133		0x22b130b		bf26000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+30(SB), DI	
+  sugar.go:133		0x22b1310		488db42418030000		LEAQ 0x318(SP), SI											
+  sugar.go:133		0x22b1318		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b131e		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b1321		e81aec4eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:87		0x22b1326		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:87		0x22b132e		488b01				MOVQ 0(CX), AX												
+  runtime.go:87		0x22b1331		e88aa60000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.(*vmPool).GetInstance(SB)					
+  runtime.go:87		0x22b1336		4889842400010000		MOVQ AX, 0x100(SP)											
+  runtime.go:88		0x22b133e		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:88		0x22b1346		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:88		0x22b134d		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:88		0x22b1355		ffd1				CALL CX													
+  runtime.go:88		0x22b1357		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:88		0x22b135f		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:88		0x22b1363		48898c24e8000000		MOVQ CX, 0xe8(SP)											
+  runtime.go:88		0x22b136b		440f11bc2408030000		MOVUPS X15, 0x308(SP)											
+  runtime.go:88		0x22b1374		488b08				MOVQ 0(AX), CX												
+  runtime.go:88		0x22b1377		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:88		0x22b137b		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:88		0x22b137f		90				NOPL													
+  runtime.go:88		0x22b1380		e85bf1fafe			CALL runtime.convTstring(SB)										
+  runtime.go:88		0x22b1385		488d0df4b8f700			LEAQ type:string(SB), CX										
+  runtime.go:88		0x22b138c		48898c2408030000		MOVQ CX, 0x308(SP)											
+  runtime.go:88		0x22b1394		4889842410030000		MOVQ AX, 0x310(SP)											
+  logger.go:166		0x22b139c		488b8c24e8000000		MOVQ 0xe8(SP), CX											
+  logger.go:166		0x22b13a4		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b13a7		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b13ac		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b13b5		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b13ba		488d0d9dfb5701			LEAQ 0x157fb9d(IP), CX											
+  sugar.go:133		0x22b13c1		bf25000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+29(SB), DI	
+  sugar.go:133		0x22b13c6		488db42408030000		LEAQ 0x308(SP), SI											
+  sugar.go:133		0x22b13ce		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b13d4		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b13d7		e864eb4eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:89		0x22b13dc		488b8c2400010000		MOVQ 0x100(SP), CX											
+  runtime.go:89		0x22b13e4		488b9424a8030000		MOVQ 0x3a8(SP), DX											
+  runtime.go:89		0x22b13ec		488b1a				MOVQ 0(DX), BX												
+  runtime.go:89		0x22b13ef		488d352a0e0000			LEAQ chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke.deferwrap1(SB), SI		
+  runtime.go:89		0x22b13f6		4889b424f0020000		MOVQ SI, 0x2f0(SP)											
+  runtime.go:89		0x22b13fe		48899c24f8020000		MOVQ BX, 0x2f8(SP)											
+  runtime.go:89		0x22b1406		48898c2400030000		MOVQ CX, 0x300(SP)											
+  runtime.go:89		0x22b140e		488d8c24f0020000		LEAQ 0x2f0(SP), CX											
+  runtime.go:89		0x22b1416		48898c2470030000		MOVQ CX, 0x370(SP)											
+  runtime.go:89		0x22b141e		c644245303			MOVB $0x3, 0x53(SP)											
+  runtime.go:89		0x22b1423		b803000000			MOVL $0x3, AX												
+  logger.go:166		0x22b1428		e99e010000			JMP 0x22b15cb												
+  runtime.go:91		0x22b142d		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:91		0x22b1435		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:91		0x22b143c		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:91		0x22b1444		ffd1				CALL CX													
+  runtime.go:91		0x22b1446		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:91		0x22b144e		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:91		0x22b1452		48898c24e0000000		MOVQ CX, 0xe0(SP)											
+  runtime.go:91		0x22b145a		440f11bc24e0020000		MOVUPS X15, 0x2e0(SP)											
+  runtime.go:91		0x22b1463		488b08				MOVQ 0(AX), CX												
+  runtime.go:91		0x22b1466		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:91		0x22b146a		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:91		0x22b146e		e86df0fafe			CALL runtime.convTstring(SB)										
+  runtime.go:91		0x22b1473		488d0d06b8f700			LEAQ type:string(SB), CX										
+  runtime.go:91		0x22b147a		48898c24e0020000		MOVQ CX, 0x2e0(SP)											
+  runtime.go:91		0x22b1482		48898424e8020000		MOVQ AX, 0x2e8(SP)											
+  logger.go:166		0x22b148a		488b8c24e0000000		MOVQ 0xe0(SP), CX											
+  logger.go:166		0x22b1492		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b1495		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b149a		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b14a3		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b14a8		488d0d1f645601			LEAQ 0x156641f(IP), CX											
+  sugar.go:133		0x22b14af		bf1e000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+22(SB), DI	
+  sugar.go:133		0x22b14b4		488db424e0020000		LEAQ 0x2e0(SP), SI											
+  sugar.go:133		0x22b14bc		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b14c2		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b14c5		e876ea4eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:92		0x22b14ca		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:92		0x22b14d2		488b01				MOVQ 0(CX), AX												
+  runtime.go:92		0x22b14d5		e8e6a40000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.(*vmPool).GetInstance(SB)					
+  runtime.go:92		0x22b14da		4889842400010000		MOVQ AX, 0x100(SP)											
+  runtime.go:93		0x22b14e2		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:93		0x22b14ea		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:93		0x22b14f1		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:93		0x22b14f9		ffd1				CALL CX													
+  runtime.go:93		0x22b14fb		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:93		0x22b1503		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:93		0x22b1507		48898c24d8000000		MOVQ CX, 0xd8(SP)											
+  runtime.go:93		0x22b150f		440f11bc24d0020000		MOVUPS X15, 0x2d0(SP)											
+  runtime.go:93		0x22b1518		488b08				MOVQ 0(AX), CX												
+  runtime.go:93		0x22b151b		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:93		0x22b151f		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:93		0x22b1523		e8b8effafe			CALL runtime.convTstring(SB)										
+  runtime.go:93		0x22b1528		488d0d51b7f700			LEAQ type:string(SB), CX										
+  runtime.go:93		0x22b152f		48898c24d0020000		MOVQ CX, 0x2d0(SP)											
+  runtime.go:93		0x22b1537		48898424d8020000		MOVQ AX, 0x2d8(SP)											
+  logger.go:166		0x22b153f		488b8c24d8000000		MOVQ 0xd8(SP), CX											
+  logger.go:166		0x22b1547		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b154a		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b154f		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b1558		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b155d		488d0d30275601			LEAQ 0x1562730(IP), CX											
+  sugar.go:133		0x22b1564		bf1d000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+21(SB), DI	
+  sugar.go:133		0x22b1569		488db424d0020000		LEAQ 0x2d0(SP), SI											
+  sugar.go:133		0x22b1571		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b1577		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b157a		e8c1e94eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:94		0x22b157f		488b8c2400010000		MOVQ 0x100(SP), CX											
+  runtime.go:94		0x22b1587		488b9424a8030000		MOVQ 0x3a8(SP), DX											
+  runtime.go:94		0x22b158f		488b1a				MOVQ 0(DX), BX												
+  runtime.go:94		0x22b1592		488d35270c0000			LEAQ chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke.deferwrap2(SB), SI		
+  runtime.go:94		0x22b1599		4889b424b8020000		MOVQ SI, 0x2b8(SP)											
+  runtime.go:94		0x22b15a1		48899c24c0020000		MOVQ BX, 0x2c0(SP)											
+  runtime.go:94		0x22b15a9		48898c24c8020000		MOVQ CX, 0x2c8(SP)											
+  runtime.go:94		0x22b15b1		488d8c24b8020000		LEAQ 0x2b8(SP), CX											
+  runtime.go:94		0x22b15b9		48898c2478030000		MOVQ CX, 0x378(SP)											
+  runtime.go:94		0x22b15c1		c644245305			MOVB $0x5, 0x53(SP)											
+  runtime.go:94		0x22b15c6		b805000000			MOVL $0x5, AX												
+  runtime.go:112	0x22b15cb		88442452			MOVB AL, 0x52(SP)											
+  runtime.go:97		0x22b15cf		488b8c2400010000		MOVQ 0x100(SP), CX											
+  runtime.go:97		0x22b15d7		488b4910			MOVQ 0x10(CX), CX											
+  runtime.go:97		0x22b15db		48898c2408010000		MOVQ CX, 0x108(SP)											
+  runtime.go:101	0x22b15e3		488b8c24e8030000		MOVQ 0x3e8(SP), CX											
+  runtime.go:101	0x22b15eb		488d9901000080			LEAQ 0x80000001(CX), BX											
+  runtime.go:101	0x22b15f2		48f7db				NEGQ BX													
+  runtime.go:105	0x22b15f5		488b5208			MOVQ 0x8(DX), DX											
+  runtime.go:105	0x22b15f9		48899424d0000000		MOVQ DX, 0xd0(SP)											
+  runtime.go:105	0x22b1601		440f11bc24a8020000		MOVUPS X15, 0x2a8(SP)											
+  runtime.go:100	0x22b160a		4881f9ffffff7f			CMPQ CX, $0x7fffffff											
+  runtime.go:105	0x22b1611		b800000000			MOVL $0x0, AX												
+  runtime.go:105	0x22b1616		480f42c3			CMOVB BX, AX												
+  runtime.go:105	0x22b161a		4889842490000000		MOVQ AX, 0x90(SP)											
+  runtime.go:105	0x22b1622		e839eefafe			CALL runtime.convT64(SB)										
+  runtime.go:105	0x22b1627		488d0d52b8f700			LEAQ type:uint64(SB), CX										
+  runtime.go:105	0x22b162e		48898c24a8020000		MOVQ CX, 0x2a8(SP)											
+  runtime.go:105	0x22b1636		48898424b0020000		MOVQ AX, 0x2b0(SP)											
+  logger.go:166		0x22b163e		488b8c24d0000000		MOVQ 0xd0(SP), CX											
+  logger.go:166		0x22b1646		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b1649		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b164e		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b1657		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b165c		488d0d34204601			LEAQ 0x1462034(IP), CX											
+  sugar.go:133		0x22b1663		bf0b000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+3(SB), DI	
+  sugar.go:133		0x22b1668		488db424a8020000		LEAQ 0x2a8(SP), SI											
+  sugar.go:133		0x22b1670		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b1676		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b1679		e8c2e84eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:106	0x22b167e		488b842408010000		MOVQ 0x108(SP), AX											
+  runtime.go:106	0x22b1686		488b9c2490000000		MOVQ 0x90(SP), BX											
+  runtime.go:106	0x22b168e		e84d0e0000			CALL local.chainmaker.org/chainmaker/vm-wasmer/v2.setGasByExport(SB)					
+  runtime.go:107	0x22b1693		4885c0				TESTQ AX, AX												
+  runtime.go:100	0x22b1696		0f85290a0000			JNE 0x22b20c5												
+  runtime.go:111	0x22b169c		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:111	0x22b16a4		488b5108			MOVQ 0x8(CX), DX											
+  runtime.go:111	0x22b16a8		48899424b8000000		MOVQ DX, 0xb8(SP)											
+  runtime.go:111	0x22b16b0		488b5110			MOVQ 0x10(CX), DX											
+  runtime.go:111	0x22b16b4		4889942420010000		MOVQ DX, 0x120(SP)											
+  runtime.go:111	0x22b16bc		488b4918			MOVQ 0x18(CX), CX											
+  runtime.go:111	0x22b16c0		48898c2488000000		MOVQ CX, 0x88(SP)											
+  sim_context.go:43	0x22b16c8		488d0591433a01			LEAQ type:X7BOskM/(SB), AX										
+  sim_context.go:43	0x22b16cf		e8cce7f4fe			CALL runtime.newobject(SB)										
+  sim_context.go:43	0x22b16d4		4889842460030000		MOVQ AX, 0x360(SP)											
+  sim_context.go:43	0x22b16dc		488dbc24f8010000		LEAQ 0x1f8(SP), DI											
+  sim_context.go:43	0x22b16e4		488d7ff0			LEAQ -0x10(DI), DI											
+  sim_context.go:43	0x22b16e8		48896c24f0			MOVQ BP, -0x10(SP)											
+  sim_context.go:43	0x22b16ed		488d6c24f0			LEAQ -0x10(SP), BP											
+  sim_context.go:43	0x22b16f2		e838b5fbfe			CALL 0x126cc2f												
+  sim_context.go:43	0x22b16f7		488b6d00			MOVQ 0(BP), BP												
+  sim_context.go:44	0x22b16fb		488b8c24b8030000		MOVQ 0x3b8(SP), CX											
+  sim_context.go:44	0x22b1703		48898c2428020000		MOVQ CX, 0x228(SP)											
+  sim_context.go:44	0x22b170b		488b9424c0030000		MOVQ 0x3c0(SP), DX											
+  sim_context.go:44	0x22b1713		4889942430020000		MOVQ DX, 0x230(SP)											
+  sim_context.go:45	0x22b171b		488b9c24b8000000		MOVQ 0xb8(SP), BX											
+  sim_context.go:45	0x22b1723		48899c2418020000		MOVQ BX, 0x218(SP)											
+  sim_context.go:46	0x22b172b		488b9c2420010000		MOVQ 0x120(SP), BX											
+  sim_context.go:46	0x22b1733		48899c2478020000		MOVQ BX, 0x278(SP)											
+  sim_context.go:46	0x22b173b		488b9c2488000000		MOVQ 0x88(SP), BX											
+  sim_context.go:46	0x22b1743		48899c2480020000		MOVQ BX, 0x280(SP)											
+  sim_context.go:43	0x22b174b		833d0ec4800300			CMPL runtime.writeBarrier(SB), $0x0									
+  sim_context.go:43	0x22b1752		741f				JE 0x22b1773												
+  sim_context.go:43	0x22b1754		4889c3				MOVQ AX, BX												
+  sim_context.go:43	0x22b1757		488d8c24f8010000		LEAQ 0x1f8(SP), CX											
+  sim_context.go:43	0x22b175f		488d05fa423a01			LEAQ type:X7BOskM/(SB), AX										
+  sim_context.go:43	0x22b1766		e8f5eff4fe			CALL runtime.wbMove(SB)											
+  sim_context.go:43	0x22b176b		488b842460030000		MOVQ 0x360(SP), AX											
+  sim_context.go:43	0x22b1773		4889c7				MOVQ AX, DI												
+  sim_context.go:43	0x22b1776		488db424f8010000		LEAQ 0x1f8(SP), SI											
+  sim_context.go:43	0x22b177e		6690				NOPW													
+  sim_context.go:43	0x22b1780		48896c24f0			MOVQ BP, -0x10(SP)											
+  sim_context.go:43	0x22b1785		488d6c24f0			LEAQ -0x10(SP), BP											
+  sim_context.go:43	0x22b178a		e8d7b7fbfe			CALL 0x126cf66												
+  sim_context.go:43	0x22b178f		488b6d00			MOVQ 0(BP), BP												
+  sim_context.go:49	0x22b1793		e888380000			CALL local.chainmaker.org/chainmaker/vm-wasmer/v2.(*SimContext).putCtxPointer(SB)			
+  runtime.go:112	0x22b1798		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:112	0x22b179d		83c908				ORL $0x8, CX												
+  runtime.go:112	0x22b17a0		488d15b9090000			LEAQ local.chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke.deferwrap3(SB), DX		
+  runtime.go:112	0x22b17a7		48899424e8010000		MOVQ DX, 0x1e8(SP)											
+  runtime.go:112	0x22b17af		488b842460030000		MOVQ 0x360(SP), AX											
+  runtime.go:112	0x22b17b7		48898424f0010000		MOVQ AX, 0x1f0(SP)											
+  runtime.go:112	0x22b17bf		488d9424e8010000		LEAQ 0x1e8(SP), DX											
+  runtime.go:112	0x22b17c7		4889942480030000		MOVQ DX, 0x380(SP)											
+  runtime.go:112	0x22b17cf		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:113	0x22b17d3		833d86c3800300			CMPL runtime.writeBarrier(SB), $0x0									
+  runtime.go:113	0x22b17da		7512				JNE 0x22b17ee												
+  runtime.go:113	0x22b17dc		488b9424b0030000		MOVQ 0x3b0(SP), DX											
+  runtime.go:114	0x22b17e4		488bb424a0030000		MOVQ 0x3a0(SP), SI											
+  runtime.go:113	0x22b17ec		eb2c				JMP 0x22b181a												
+  runtime.go:113	0x22b17ee		e8cdadfbfe			CALL local.runtime.gcWriteBarrier4(SB)									
+  runtime.go:113	0x22b17f3		488b9424b0030000		MOVQ 0x3b0(SP), DX											
+  runtime.go:113	0x22b17fb		498913				MOVQ DX, 0(R11)												
+  runtime.go:113	0x22b17fe		488b7010			MOVQ 0x10(AX), SI											
+  runtime.go:113	0x22b1802		49897308			MOVQ SI, 0x8(R11)											
+  runtime.go:114	0x22b1806		488bb424a0030000		MOVQ 0x3a0(SP), SI											
+  runtime.go:114	0x22b180e		49897310			MOVQ SI, 0x10(R11)											
+  runtime.go:114	0x22b1812		488b7808			MOVQ 0x8(AX), DI											
+  runtime.go:114	0x22b1816		49897b18			MOVQ DI, 0x18(R11)											
+  runtime.go:112	0x22b181a		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:113	0x22b181e		48895010			MOVQ DX, 0x10(AX)											
+  runtime.go:114	0x22b1822		488bbc2498030000		MOVQ 0x398(SP), DI											
+  runtime.go:114	0x22b182a		488938				MOVQ DI, 0(AX)												
+  runtime.go:114	0x22b182d		48897008			MOVQ SI, 0x8(AX)											
+  runtime.go:115	0x22b1831		4c8b842418010000		MOVQ 0x118(SP), R8											
+  runtime.go:115	0x22b1839		833d20c3800300			CMPL runtime.writeBarrier(SB), $0x0									
+  runtime.go:115	0x22b1840		7512				JNE 0x22b1854												
+  runtime.go:117	0x22b1842		488b9c2408010000		MOVQ 0x108(SP), BX											
+  runtime.go:116	0x22b184a		4c8b8c24e0030000		MOVQ 0x3e0(SP), R9											
+  runtime.go:115	0x22b1852		eb38				JMP 0x22b188c												
+  runtime.go:115	0x22b1854		e8a7adfbfe			CALL runtime.gcWriteBarrier6(SB)									
+  runtime.go:115	0x22b1859		4d8903				MOVQ R8, 0(R11)												
+  runtime.go:115	0x22b185c		4c8b4818			MOVQ 0x18(AX), R9											
+  runtime.go:115	0x22b1860		4d894b08			MOVQ R9, 0x8(R11)											
+  runtime.go:116	0x22b1864		4c8b8c24e0030000		MOVQ 0x3e0(SP), R9											
+  runtime.go:116	0x22b186c		4d894b10			MOVQ R9, 0x10(R11)											
+  runtime.go:116	0x22b1870		4c8b5040			MOVQ 0x40(AX), R10											
+  runtime.go:116	0x22b1874		4d895318			MOVQ R10, 0x18(R11)											
+  runtime.go:117	0x22b1878		488b9c2408010000		MOVQ 0x108(SP), BX											
+  runtime.go:117	0x22b1880		49895b20			MOVQ BX, 0x20(R11)											
+  runtime.go:117	0x22b1884		4c8b5028			MOVQ 0x28(AX), R10											
+  runtime.go:117	0x22b1888		4d895328			MOVQ R10, 0x28(R11)											
+  runtime.go:115	0x22b188c		4c894018			MOVQ R8, 0x18(AX)											
+  runtime.go:116	0x22b1890		4c894840			MOVQ R9, 0x40(AX)											
+  runtime.go:117	0x22b1894		48895828			MOVQ BX, 0x28(AX)											
+  runtime.go:118	0x22b1898		48c780a800000000000000		MOVQ $0x0, 0xa8(AX)											
+  runtime.go:121	0x22b18a3		e858280000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.(*SimContext).CallMethod(SB)				
+  runtime.go:124	0x22b18a8		4885c0				TESTQ AX, AX												
+  runtime.go:124	0x22b18ab		0f84e1000000			JE 0x22b1992												
+  runtime.go:121	0x22b18b1		48899c2410010000		MOVQ BX, 0x110(SP)											
+  runtime.go:121	0x22b18b9		4889842480000000		MOVQ AX, 0x80(SP)											
+  runtime.go:125	0x22b18c1		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:125	0x22b18c9		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:125	0x22b18d0		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:125	0x22b18d8		ffd1				CALL CX													
+  runtime.go:125	0x22b18da		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:125	0x22b18e2		488b5108			MOVQ 0x8(CX), DX											
+  runtime.go:125	0x22b18e6		48899424c8000000		MOVQ DX, 0xc8(SP)											
+  runtime.go:125	0x22b18ee		440f11bc24c8010000		MOVUPS X15, 0x1c8(SP)											
+  runtime.go:125	0x22b18f7		440f11bc24d8010000		MOVUPS X15, 0x1d8(SP)											
+  runtime.go:124	0x22b1900		488b9c2480000000		MOVQ 0x80(SP), BX											
+  runtime.go:124	0x22b1908		4885db				TESTQ BX, BX												
+  runtime.go:125	0x22b190b		7406				JE 0x22b1913												
+  runtime.go:125	0x22b190d		488b7308			MOVQ 0x8(BX), SI											
+  runtime.go:125	0x22b1911		eb03				JMP 0x22b1916												
+  runtime.go:125	0x22b1913		4889de				MOVQ BX, SI												
+  runtime.go:125	0x22b1916		4889b424c8010000		MOVQ SI, 0x1c8(SP)											
+  runtime.go:125	0x22b191e		488b8c2410010000		MOVQ 0x110(SP), CX											
+  runtime.go:125	0x22b1926		48898c24d0010000		MOVQ CX, 0x1d0(SP)											
+  runtime.go:125	0x22b192e		488b08				MOVQ 0(AX), CX												
+  runtime.go:125	0x22b1931		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:125	0x22b1935		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:125	0x22b1939		e8a2ebfafe			CALL runtime.convTstring(SB)										
+  runtime.go:125	0x22b193e		488d0d3bb3f700			LEAQ type:string(SB), CX										
+  runtime.go:125	0x22b1945		48898c24d8010000		MOVQ CX, 0x1d8(SP)											
+  runtime.go:125	0x22b194d		48898424e0010000		MOVQ AX, 0x1e0(SP)											
+  logger.go:226		0x22b1955		488b8c24c8000000		MOVQ 0xc8(SP), CX											
+  logger.go:226		0x22b195d		488b01				MOVQ 0(CX), AX												
+  sugar.go:138		0x22b1960		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:138		0x22b1965		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:138		0x22b196e		31db				XORL BX, BX												
+  sugar.go:138		0x22b1970		488d0d12505701			LEAQ 0x1575012(IP), CX											
+  sugar.go:138		0x22b1977		bf22000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+26(SB), DI	
+  sugar.go:138		0x22b197c		488db424c8010000		LEAQ 0x1c8(SP), SI											
+  sugar.go:138		0x22b1984		41b802000000			MOVL $0x2, R8												
+  sugar.go:138		0x22b198a		4d89c1				MOVQ R8, R9												
+  sugar.go:138		0x22b198d		e8aee54eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:127	0x22b1992		488b8c2460030000		MOVQ 0x360(SP), CX											
+  runtime.go:127	0x22b199a		488b89a8000000			MOVQ 0xa8(CX), CX											
+  runtime.go:127	0x22b19a1		48894c2460			MOVQ CX, 0x60(SP)											
+  runtime.go:130	0x22b19a6		488b842408010000		MOVQ 0x108(SP), AX											
+  runtime.go:130	0x22b19ae		e8cd0c0000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.getGasByExport(SB)						
+  runtime.go:131	0x22b19b3		4885db				TESTQ BX, BX												
+  runtime.go:131	0x22b19b6		0f85fc060000			JNE 0x22b20b8												
+  runtime.go:130	0x22b19bc		4889442470			MOVQ AX, 0x70(SP)											
+  runtime.go:137	0x22b19c1		4885c0				TESTQ AX, AX												
+  runtime.go:137	0x22b19c4		740a				JE 0x22b19d0												
+  runtime.go:137	0x22b19c6		4883f8ff			CMPQ AX, $-0x1												
+  runtime.go:137	0x22b19ca		0f85a0000000			JNE 0x22b1a70												
+  runtime.go:139	0x22b19d0		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:139	0x22b19d8		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:139	0x22b19df		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:139	0x22b19e7		ffd1				CALL CX													
+  runtime.go:138	0x22b19e9		440f11bc2438010000		MOVUPS X15, 0x138(SP)											
+  runtime.go:138	0x22b19f2		440f11bc2448010000		MOVUPS X15, 0x148(SP)											
+  runtime.go:138	0x22b19fb		488d0d7eb4f700			LEAQ type:uint64(SB), CX										
+  runtime.go:138	0x22b1a02		48898c2438010000		MOVQ CX, 0x138(SP)											
+  runtime.go:138	0x22b1a0a		488d0ddf5c9d01			LEAQ chainmaker.org/chainmaker/vm-wasmer/v2..stmp_20(SB), CX						
+  runtime.go:138	0x22b1a11		48898c2440010000		MOVQ CX, 0x140(SP)											
+  runtime.go:139	0x22b1a19		488b08				MOVQ 0(AX), CX												
+  runtime.go:139	0x22b1a1c		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:139	0x22b1a20		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:139	0x22b1a24		e8b7eafafe			CALL runtime.convTstring(SB)										
+  runtime.go:139	0x22b1a29		488d0d50b2f700			LEAQ type:string(SB), CX										
+  runtime.go:139	0x22b1a30		48898c2448010000		MOVQ CX, 0x148(SP)											
+  runtime.go:139	0x22b1a38		4889842450010000		MOVQ AX, 0x150(SP)											
+  runtime.go:138	0x22b1a40		488d0570e55901			LEAQ 0x159e570(IP), AX											
+  runtime.go:138	0x22b1a47		bb2d000000			MOVL $_ZN3std2io5stdio14OUTPUT_CAPTURE7__getit5__KEY17hfee6694b74917c49E+5(SB), BX			
+  runtime.go:138	0x22b1a4c		488d8c2438010000		LEAQ 0x138(SP), CX											
+  runtime.go:138	0x22b1a54		bf02000000			MOVL $0x2, DI												
+  runtime.go:138	0x22b1a59		4889fe				MOVQ DI, SI												
+  runtime.go:138	0x22b1a5c		0f1f4000			NOPL 0(AX)												
+  runtime.go:138	0x22b1a60		e85b8105ff			CALL local.fmt.Errorf(SB)										
+  runtime.go:145	0x22b1a65		4889d9				MOVQ BX, CX												
+  runtime.go:145	0x22b1a68		4889c3				MOVQ AX, BX												
+  runtime.go:141	0x22b1a6b		488b442470			MOVQ 0x70(SP), AX											
+  runtime.go:145	0x22b1a70		48899c2480000000		MOVQ BX, 0x80(SP)											
+  runtime.go:145	0x22b1a78		48898c2410010000		MOVQ CX, 0x110(SP)											
+  runtime.go:142	0x22b1a80		440f11bc2458010000		MOVUPS X15, 0x158(SP)											
+  runtime.go:141	0x22b1a89		480501000080			ADDQ $-0x7fffffff, AX											
+  runtime.go:141	0x22b1a8f		48f7d8				NEGQ AX													
+  runtime.go:141	0x22b1a92		4889442478			MOVQ AX, 0x78(SP)											
+  runtime.go:142	0x22b1a97		e8c4e9fafe			CALL runtime.convT64(SB)										
+  runtime.go:142	0x22b1a9c		488d0dddb3f700			LEAQ type:uint64(SB), CX										
+  runtime.go:142	0x22b1aa3		48898c2458010000		MOVQ CX, 0x158(SP)											
+  runtime.go:142	0x22b1aab		4889842460010000		MOVQ AX, 0x160(SP)											
+  runtime.go:142	0x22b1ab3		488d05b1414601			LEAQ 0x14641b1(IP), AX											
+  runtime.go:142	0x22b1aba		bb0c000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+4(SB), BX	
+  runtime.go:142	0x22b1abf		488d8c2458010000		LEAQ 0x158(SP), CX											
+  runtime.go:142	0x22b1ac7		bf01000000			MOVL $0x1, DI												
+  runtime.go:142	0x22b1acc		4889fe				MOVQ DI, SI												
+  runtime.go:142	0x22b1acf		e8ecb705ff			CALL fmt.Sprintf(SB)											
+  runtime.go:142	0x22b1ad4		488b8c24a8000000		MOVQ 0xa8(SP), CX											
+  runtime.go:142	0x22b1adc		488b9424b0000000		MOVQ 0xb0(SP), DX											
+  runtime.go:142	0x22b1ae4		4889c7				MOVQ AX, DI												
+  runtime.go:142	0x22b1ae7		4889de				MOVQ BX, SI												
+  runtime.go:142	0x22b1aea		31c0				XORL AX, AX												
+  runtime.go:142	0x22b1aec		4889cb				MOVQ CX, BX												
+  runtime.go:142	0x22b1aef		4889d1				MOVQ DX, CX												
+  runtime.go:142	0x22b1af2		e80962f9fe			CALL local.runtime.concatstring2(SB)									
+  runtime.go:142	0x22b1af7		48898424a8000000		MOVQ AX, 0xa8(SP)											
+  runtime.go:142	0x22b1aff		48899c24b0000000		MOVQ BX, 0xb0(SP)											
+  runtime.go:143	0x22b1b07		488b8c2418010000		MOVQ 0x118(SP), CX											
+  runtime.go:143	0x22b1b0f		488b542478			MOVQ 0x78(SP), DX											
+  runtime.go:143	0x22b1b14		48895130			MOVQ DX, 0x30(CX)											
+  runtime.go:145	0x22b1b18		488b8c2480000000		MOVQ 0x80(SP), CX											
+  runtime.go:145	0x22b1b20		4885c9				TESTQ CX, CX												
+  runtime.go:145	0x22b1b23		0f8516030000			JNE 0x22b1e3f												
+  runtime.go:156	0x22b1b29		8b4c2454			MOVL 0x54(SP), CX											
+  runtime.go:156	0x22b1b2d		81f914fa1e00			CMPL CX, $0x1efa14											
+  runtime.go:156	0x22b1b33		0f82b0000000			JB 0x22b1be9												
+  runtime.go:156	0x22b1b39		488b8c2418010000		MOVQ 0x118(SP), CX											
+  runtime.go:156	0x22b1b41		833900				CMPL 0(CX), $0x0											
+  runtime.go:156	0x22b1b44		0f849f000000			JE 0x22b1be9												
+  runtime.go:157	0x22b1b4a		488b8c24c0030000		MOVQ 0x3c0(SP), CX											
+  runtime.go:157	0x22b1b52		4883f90d			CMPQ CX, $0xd												
+  runtime.go:157	0x22b1b56		752a				JNE 0x22b1b82												
+  runtime.go:157	0x22b1b58		48be696e69745f636f6e		MOVQ $0x6e6f635f74696e69, SI										
+  runtime.go:157	0x22b1b62		488bbc24b8030000		MOVQ 0x3b8(SP), DI											
+  runtime.go:157	0x22b1b6a		483937				CMPQ 0(DI), SI												
+  runtime.go:157	0x22b1b6d		751b				JNE 0x22b1b8a												
+  runtime.go:157	0x22b1b6f		817f0874726163			CMPL 0x8(DI), $0x63617274										
+  runtime.go:157	0x22b1b76		7512				JNE 0x22b1b8a												
+  runtime.go:157	0x22b1b78		807f0c74			CMPB 0xc(DI), $0x74											
+  runtime.go:157	0x22b1b7c		742a				JE 0x22b1ba8												
+  runtime.go:157	0x22b1b7e		6690				NOPW													
+  runtime.go:157	0x22b1b80		eb08				JMP 0x22b1b8a												
+  runtime.go:157	0x22b1b82		488bbc24b8030000		MOVQ 0x3b8(SP), DI											
+  runtime.go:157	0x22b1b8a		4883f907			CMPQ CX, $0x7												
+  runtime.go:157	0x22b1b8e		754c				JNE 0x22b1bdc												
+  runtime.go:157	0x22b1b90		813f75706772			CMPL 0(DI), $0x72677075											
+  runtime.go:157	0x22b1b96		7544				JNE 0x22b1bdc												
+  runtime.go:157	0x22b1b98		66817f046164			CMPW 0x4(DI), $0x6461											
+  runtime.go:157	0x22b1b9e		6690				NOPW													
+  runtime.go:157	0x22b1ba0		753a				JNE 0x22b1bdc												
+  runtime.go:157	0x22b1ba2		807f0665			CMPB 0x6(DI), $0x65											
+  runtime.go:157	0x22b1ba6		7534				JNE 0x22b1bdc												
+  runtime.go:158	0x22b1ba8		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:158	0x22b1bb0		488b4120			MOVQ 0x20(CX), AX											
+  runtime.go:158	0x22b1bb4		488b9c24b0030000		MOVQ 0x3b0(SP), BX											
+  runtime.go:158	0x22b1bbc		0f1f4000			NOPL 0(AX)												
+  runtime.go:158	0x22b1bc0		e89b940000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.(*InstancesManager).CloseAVmPool(SB)			
+  runtime.go:166	0x22b1bc5		488b8c24c0030000		MOVQ 0x3c0(SP), CX											
+  runtime.go:164	0x22b1bcd		488b542478			MOVQ 0x78(SP), DX											
+  runtime.go:166	0x22b1bd2		488bbc24b8030000		MOVQ 0x3b8(SP), DI											
+  runtime.go:158	0x22b1bda		eb1d				JMP 0x22b1bf9												
+  runtime.go:160	0x22b1bdc		488b9c2400010000		MOVQ 0x100(SP), BX											
+  runtime.go:160	0x22b1be4		ff4330				INCL 0x30(BX)												
+  runtime.go:160	0x22b1be7		eb10				JMP 0x22b1bf9												
+  runtime.go:166	0x22b1be9		488b8c24c0030000		MOVQ 0x3c0(SP), CX											
+  runtime.go:166	0x22b1bf1		488bbc24b8030000		MOVQ 0x3b8(SP), DI											
+  runtime.go:163	0x22b1bf9		488b9c2418010000		MOVQ 0x118(SP), BX											
+  runtime.go:163	0x22b1c01		488bb42460030000		MOVQ 0x360(SP), SI											
+  runtime.go:163	0x22b1c09		4c8b8698000000			MOVQ 0x98(SI), R8											
+  runtime.go:163	0x22b1c10		4c8b8ea0000000			MOVQ 0xa0(SI), R9											
+  runtime.go:163	0x22b1c17		4c8b9690000000			MOVQ 0x90(SI), R10											
+  runtime.go:163	0x22b1c1e		4c894340			MOVQ R8, 0x40(BX)											
+  runtime.go:163	0x22b1c22		4c894b48			MOVQ R9, 0x48(BX)											
+  runtime.go:163	0x22b1c26		833d33bf800300			CMPL runtime.writeBarrier(SB), $0x0									
+  runtime.go:163	0x22b1c2d		7410				JE 0x22b1c3f												
+  runtime.go:163	0x22b1c2f		e84ca9fbfe			CALL local.runtime.gcWriteBarrier2(SB)									
+  runtime.go:163	0x22b1c34		4d8913				MOVQ R10, 0(R11)											
+  runtime.go:163	0x22b1c37		4c8b4338			MOVQ 0x38(BX), R8											
+  runtime.go:163	0x22b1c3b		4d894308			MOVQ R8, 0x8(R11)											
+  runtime.go:163	0x22b1c3f		4c895338			MOVQ R10, 0x38(BX)											
+  runtime.go:164	0x22b1c43		488b8c2418010000		MOVQ 0x118(SP), CX											
+  runtime.go:164	0x22b1c4b		48895130			MOVQ DX, 0x30(CX)											
+  runtime.go:166	0x22b1c4f		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:166	0x22b1c57		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:166	0x22b1c5e		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:166	0x22b1c66		ffd1				CALL CX													
+  runtime.go:165	0x22b1c68		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:165	0x22b1c70		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:165	0x22b1c74		48898c24c0000000		MOVQ CX, 0xc0(SP)											
+  runtime.go:165	0x22b1c7c		488dbc2478010000		LEAQ 0x178(SP), DI											
+  runtime.go:165	0x22b1c84		488d7fd0			LEAQ -0x30(DI), DI											
+  runtime.go:165	0x22b1c88		48896c24f0			MOVQ BP, -0x10(SP)											
+  runtime.go:165	0x22b1c8d		488d6c24f0			LEAQ -0x10(SP), BP											
+  runtime.go:165	0x22b1c92		e8b9affbfe			CALL 0x126cc50												
+  runtime.go:165	0x22b1c97		488b6d00			MOVQ 0(BP), BP												
+  runtime.go:166	0x22b1c9b		488b08				MOVQ 0(AX), CX												
+  runtime.go:166	0x22b1c9e		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:166	0x22b1ca2		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:166	0x22b1ca6		e835e8fafe			CALL runtime.convTstring(SB)										
+  runtime.go:166	0x22b1cab		488d0dceaff700			LEAQ type:string(SB), CX										
+  runtime.go:166	0x22b1cb2		48898c2478010000		MOVQ CX, 0x178(SP)											
+  runtime.go:166	0x22b1cba		4889842480010000		MOVQ AX, 0x180(SP)											
+  runtime.go:166	0x22b1cc2		488b8c24b0030000		MOVQ 0x3b0(SP), CX											
+  runtime.go:166	0x22b1cca		488b01				MOVQ 0(CX), AX												
+  runtime.go:166	0x22b1ccd		488b5908			MOVQ 0x8(CX), BX											
+  runtime.go:166	0x22b1cd1		e80ae8fafe			CALL runtime.convTstring(SB)										
+  runtime.go:166	0x22b1cd6		488d0da3aff700			LEAQ type:string(SB), CX										
+  runtime.go:166	0x22b1cdd		48898c2488010000		MOVQ CX, 0x188(SP)											
+  runtime.go:166	0x22b1ce5		4889842490010000		MOVQ AX, 0x190(SP)											
+  runtime.go:166	0x22b1ced		488b8424b8030000		MOVQ 0x3b8(SP), AX											
+  runtime.go:166	0x22b1cf5		488b9c24c0030000		MOVQ 0x3c0(SP), BX											
+  runtime.go:166	0x22b1cfd		0f1f00				NOPL 0(AX)												
+  runtime.go:166	0x22b1d00		e8dbe7fafe			CALL runtime.convTstring(SB)										
+  runtime.go:166	0x22b1d05		488d0d74aff700			LEAQ type:string(SB), CX										
+  runtime.go:166	0x22b1d0c		48898c2498010000		MOVQ CX, 0x198(SP)											
+  runtime.go:166	0x22b1d14		48898424a0010000		MOVQ AX, 0x1a0(SP)											
+  runtime.go:166	0x22b1d1c		488b8c2460030000		MOVQ 0x360(SP), CX											
+  runtime.go:166	0x22b1d24		488b4918			MOVQ 0x18(CX), CX											
+  runtime.go:166	0x22b1d28		8b01				MOVL 0(CX), AX												
+  runtime.go:166	0x22b1d2a		e811a8f4fe			CALL local.runtime.convT32(SB)										
+  runtime.go:166	0x22b1d2f		488d0dcab0f700			LEAQ type:uint32(SB), CX										
+  runtime.go:166	0x22b1d36		48898c24a8010000		MOVQ CX, 0x1a8(SP)											
+  runtime.go:166	0x22b1d3e		48898424b0010000		MOVQ AX, 0x1b0(SP)											
+  runtime.go:166	0x22b1d46		488b442478			MOVQ 0x78(SP), AX											
+  runtime.go:166	0x22b1d4b		e810e7fafe			CALL runtime.convT64(SB)										
+  runtime.go:166	0x22b1d50		488d0d29b1f700			LEAQ type:uint64(SB), CX										
+  runtime.go:166	0x22b1d57		48898c24b8010000		MOVQ CX, 0x1b8(SP)											
+  runtime.go:166	0x22b1d5f		48898424c0010000		MOVQ AX, 0x1c0(SP)											
+  logger.go:226		0x22b1d67		488b8c24c0000000		MOVQ 0xc0(SP), CX											
+  logger.go:226		0x22b1d6f		488b01				MOVQ 0(CX), AX												
+  sugar.go:138		0x22b1d72		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:138		0x22b1d77		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:138		0x22b1d80		31db				XORL BX, BX												
+  sugar.go:138		0x22b1d82		488d0ddf6f6001			LEAQ 0x1606fdf(IP), CX											
+  sugar.go:138		0x22b1d89		bf69000000			MOVL $_ZN3std10sys_common11thread_info11THREAD_INFO7__getit5__KEY17hc87dac05a8e8ee5eE+41(SB), DI	
+  sugar.go:138		0x22b1d8e		488db42478010000		LEAQ 0x178(SP), SI											
+  sugar.go:138		0x22b1d96		41b805000000			MOVL $0x5, R8												
+  sugar.go:138		0x22b1d9c		4d89c1				MOVQ R8, R9												
+  sugar.go:138		0x22b1d9f		90				NOPL													
+  sugar.go:138		0x22b1da0		e89be14eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:168	0x22b1da5		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:168	0x22b1daa		f6c108				TESTL $0x8, CL												
+  logger.go:226		0x22b1dad		741d				JE 0x22b1dcc												
+  runtime.go:168	0x22b1daf		83e1f7				ANDL $-0x9, CX												
+  runtime.go:168	0x22b1db2		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:168	0x22b1db6		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:168	0x22b1dba		488b942480030000		MOVQ 0x380(SP), DX											
+  runtime.go:168	0x22b1dc2		488b02				MOVQ 0(DX), AX												
+  runtime.go:168	0x22b1dc5		ffd0				CALL AX													
+  runtime.go:168	0x22b1dc7		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:168	0x22b1dcc		f6c104				TESTL $0x4, CL												
+  runtime.go:168	0x22b1dcf		741d				JE 0x22b1dee												
+  runtime.go:168	0x22b1dd1		83e1fb				ANDL $-0x5, CX												
+  runtime.go:168	0x22b1dd4		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:168	0x22b1dd8		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:168	0x22b1ddc		488b942478030000		MOVQ 0x378(SP), DX											
+  runtime.go:168	0x22b1de4		488b02				MOVQ 0(DX), AX												
+  runtime.go:168	0x22b1de7		ffd0				CALL AX													
+  runtime.go:168	0x22b1de9		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:168	0x22b1dee		f6c102				TESTL $0x2, CL												
+  runtime.go:168	0x22b1df1		741d				JE 0x22b1e10												
+  runtime.go:168	0x22b1df3		83e1fd				ANDL $-0x3, CX												
+  runtime.go:168	0x22b1df6		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:168	0x22b1dfa		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:168	0x22b1dfe		488b942470030000		MOVQ 0x370(SP), DX											
+  runtime.go:168	0x22b1e06		488b02				MOVQ 0(DX), AX												
+  runtime.go:168	0x22b1e09		ffd0				CALL AX													
+  runtime.go:168	0x22b1e0b		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:168	0x22b1e10		f6c101				TESTL $0x1, CL												
+  runtime.go:168	0x22b1e13		7414				JE 0x22b1e29												
+  runtime.go:168	0x22b1e15		83e1fe				ANDL $-0x2, CX												
+  runtime.go:168	0x22b1e18		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:168	0x22b1e1c		488b942468030000		MOVQ 0x368(SP), DX											
+  runtime.go:168	0x22b1e24		488b02				MOVQ 0(DX), AX												
+  runtime.go:168	0x22b1e27		ffd0				CALL AX													
+  runtime.go:168	0x22b1e29		488b5c2460			MOVQ 0x60(SP), BX											
+  runtime.go:168	0x22b1e2e		488b842418010000		MOVQ 0x118(SP), AX											
+  runtime.go:168	0x22b1e36		4881c488030000			ADDQ $0x388, SP												
+  runtime.go:168	0x22b1e3d		5d				POPQ BP													
+  runtime.go:168	0x22b1e3e		c3				RET													
+  runtime.go:146	0x22b1e3f		488b942418010000		MOVQ 0x118(SP), DX											
+  runtime.go:146	0x22b1e47		c70201000000			MOVL $0x1, 0(DX)											
+  runtime.go:147	0x22b1e4d		488b4918			MOVQ 0x18(CX), CX											
+  runtime.go:147	0x22b1e51		488b842410010000		MOVQ 0x110(SP), AX											
+  runtime.go:147	0x22b1e59		ffd1				CALL CX													
+  runtime.go:147	0x22b1e5b		4889842470010000		MOVQ AX, 0x170(SP)											
+  runtime.go:147	0x22b1e63		48899c2498000000		MOVQ BX, 0x98(SP)											
+  runtime.go:147	0x22b1e6b		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:147	0x22b1e73		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:147	0x22b1e7a		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:147	0x22b1e82		ffd1				CALL CX													
+  runtime.go:147	0x22b1e84		4889842468010000		MOVQ AX, 0x168(SP)											
+  runtime.go:147	0x22b1e8c		440f11bc2438010000		MOVUPS X15, 0x138(SP)											
+  runtime.go:147	0x22b1e95		440f11bc2448010000		MOVUPS X15, 0x148(SP)											
+  runtime.go:147	0x22b1e9e		488b842470010000		MOVQ 0x170(SP), AX											
+  runtime.go:147	0x22b1ea6		488b9c2498000000		MOVQ 0x98(SP), BX											
+  runtime.go:147	0x22b1eae		e82de6fafe			CALL runtime.convTstring(SB)										
+  runtime.go:147	0x22b1eb3		488d0dc6adf700			LEAQ type:string(SB), CX										
+  runtime.go:147	0x22b1eba		48898c2438010000		MOVQ CX, 0x138(SP)											
+  runtime.go:147	0x22b1ec2		4889842440010000		MOVQ AX, 0x140(SP)											
+  runtime.go:147	0x22b1eca		488b8c2468010000		MOVQ 0x168(SP), CX											
+  runtime.go:147	0x22b1ed2		488b09				MOVQ 0(CX), CX												
+  runtime.go:147	0x22b1ed5		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:147	0x22b1ed9		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:147	0x22b1edd		0f1f00				NOPL 0(AX)												
+  runtime.go:147	0x22b1ee0		e8fbe5fafe			CALL runtime.convTstring(SB)										
+  runtime.go:147	0x22b1ee5		488d0d94adf700			LEAQ type:string(SB), CX										
+  runtime.go:147	0x22b1eec		48898c2448010000		MOVQ CX, 0x148(SP)											
+  runtime.go:147	0x22b1ef4		4889842450010000		MOVQ AX, 0x150(SP)											
+  runtime.go:147	0x22b1efc		488d05864a5701			LEAQ 0x1574a86(IP), AX											
+  runtime.go:147	0x22b1f03		bb22000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+26(SB), BX	
+  runtime.go:147	0x22b1f08		488d8c2438010000		LEAQ 0x138(SP), CX											
+  runtime.go:147	0x22b1f10		bf02000000			MOVL $0x2, DI												
+  runtime.go:147	0x22b1f15		4889fe				MOVQ DI, SI												
+  runtime.go:147	0x22b1f18		e8a3b305ff			CALL fmt.Sprintf(SB)											
+  runtime.go:147	0x22b1f1d		48898424a0000000		MOVQ AX, 0xa0(SP)											
+  runtime.go:147	0x22b1f25		48895c2468			MOVQ BX, 0x68(SP)											
+  runtime.go:148	0x22b1f2a		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:148	0x22b1f32		488b4908			MOVQ 0x8(CX), CX											
+  logger.go:226		0x22b1f36		488b09				MOVQ 0(CX), CX												
+  sugar.go:138		0x22b1f39		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:138		0x22b1f3e		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:138		0x22b1f47		4889df				MOVQ BX, DI												
+  sugar.go:138		0x22b1f4a		31f6				XORL SI, SI												
+  sugar.go:138		0x22b1f4c		4531c0				XORL R8, R8												
+  sugar.go:138		0x22b1f4f		4d89c1				MOVQ R8, R9												
+  sugar.go:138		0x22b1f52		31db				XORL BX, BX												
+  runtime.go:147	0x22b1f54		4889c2				MOVQ AX, DX												
+  sugar.go:138		0x22b1f57		4889c8				MOVQ CX, AX												
+  sugar.go:138		0x22b1f5a		4889d1				MOVQ DX, CX												
+  sugar.go:138		0x22b1f5d		0f1f00				NOPL 0(AX)												
+  sugar.go:138		0x22b1f60		e8dbdf4eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:149	0x22b1f65		488b8c2418010000		MOVQ 0x118(SP), CX											
+  runtime.go:149	0x22b1f6d		488b542468			MOVQ 0x68(SP), DX											
+  runtime.go:149	0x22b1f72		48895128			MOVQ DX, 0x28(CX)											
+  runtime.go:149	0x22b1f76		833de3bb800300			CMPL runtime.writeBarrier(SB), $0x0									
+  runtime.go:149	0x22b1f7d		750a				JNE 0x22b1f89												
+  runtime.go:149	0x22b1f7f		488bb424a0000000		MOVQ 0xa0(SP), SI											
+  runtime.go:149	0x22b1f87		eb18				JMP 0x22b1fa1												
+  runtime.go:149	0x22b1f89		e8f2a5fbfe			CALL local.runtime.gcWriteBarrier2(SB)									
+  runtime.go:149	0x22b1f8e		488bb424a0000000		MOVQ 0xa0(SP), SI											
+  runtime.go:149	0x22b1f96		498933				MOVQ SI, 0(R11)												
+  runtime.go:149	0x22b1f99		488b7920			MOVQ 0x20(CX), DI											
+  runtime.go:149	0x22b1f9d		49897b08			MOVQ DI, 0x8(R11)											
+  runtime.go:149	0x22b1fa1		48897120			MOVQ SI, 0x20(CX)											
+  runtime.go:150	0x22b1fa5		488b8c24c0030000		MOVQ 0x3c0(SP), CX											
+  runtime.go:150	0x22b1fad		4883f90d			CMPQ CX, $0xd												
+  logger.go:226		0x22b1fb1		755e				JNE 0x22b2011												
+  runtime.go:150	0x22b1fb3		48b9696e69745f636f6e		MOVQ $0x6e6f635f74696e69, CX										
+  runtime.go:150	0x22b1fbd		488bb424b8030000		MOVQ 0x3b8(SP), SI											
+  runtime.go:150	0x22b1fc5		48390e				CMPQ 0(SI), CX												
+  runtime.go:150	0x22b1fc8		7547				JNE 0x22b2011												
+  runtime.go:150	0x22b1fca		817e0874726163			CMPL 0x8(SI), $0x63617274										
+  runtime.go:150	0x22b1fd1		753e				JNE 0x22b2011												
+  runtime.go:150	0x22b1fd3		807e0c74			CMPB 0xc(SI), $0x74											
+  runtime.go:150	0x22b1fd7		7538				JNE 0x22b2011												
+  runtime.go:150	0x22b1fd9		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:150	0x22b1fe1		488b4958			MOVQ 0x58(CX), CX											
+  runtime.go:150	0x22b1fe5		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:150	0x22b1fed		ffd1				CALL CX													
+  runtime.go:150	0x22b1fef		3d99080000			CMPL AX, $0x899												
+  runtime.go:150	0x22b1ff4		721b				JB 0x22b2011												
+  runtime.go:151	0x22b1ff6		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:151	0x22b1ffe		488b4120			MOVQ 0x20(CX), AX											
+  runtime.go:151	0x22b2002		488b9c24b0030000		MOVQ 0x3b0(SP), BX											
+  runtime.go:151	0x22b200a		e851900000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.(*InstancesManager).CloseAVmPool(SB)			
+  runtime.go:151	0x22b200f		eb0b				JMP 0x22b201c												
+  runtime.go:153	0x22b2011		488b8c2400010000		MOVQ 0x100(SP), CX											
+  runtime.go:153	0x22b2019		ff4130				INCL 0x30(CX)												
+  runtime.go:155	0x22b201c		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:155	0x22b2021		f6c108				TESTL $0x8, CL												
+  runtime.go:155	0x22b2024		741d				JE 0x22b2043												
+  runtime.go:155	0x22b2026		83e1f7				ANDL $-0x9, CX												
+  runtime.go:155	0x22b2029		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:155	0x22b202d		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:155	0x22b2031		488b942480030000		MOVQ 0x380(SP), DX											
+  runtime.go:155	0x22b2039		488b02				MOVQ 0(DX), AX												
+  runtime.go:155	0x22b203c		ffd0				CALL AX													
+  runtime.go:155	0x22b203e		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:155	0x22b2043		f6c104				TESTL $0x4, CL												
+  runtime.go:155	0x22b2046		741f				JE 0x22b2067												
+  runtime.go:155	0x22b2048		83e1fb				ANDL $-0x5, CX												
+  runtime.go:155	0x22b204b		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:155	0x22b204f		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:155	0x22b2053		488b942478030000		MOVQ 0x378(SP), DX											
+  runtime.go:155	0x22b205b		488b02				MOVQ 0(DX), AX												
+  runtime.go:155	0x22b205e		6690				NOPW													
+  runtime.go:155	0x22b2060		ffd0				CALL AX													
+  runtime.go:155	0x22b2062		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:155	0x22b2067		f6c102				TESTL $0x2, CL												
+  runtime.go:155	0x22b206a		741d				JE 0x22b2089												
+  runtime.go:155	0x22b206c		83e1fd				ANDL $-0x3, CX												
+  runtime.go:155	0x22b206f		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:155	0x22b2073		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:155	0x22b2077		488b942470030000		MOVQ 0x370(SP), DX											
+  runtime.go:155	0x22b207f		488b02				MOVQ 0(DX), AX												
+  runtime.go:155	0x22b2082		ffd0				CALL AX													
+  runtime.go:155	0x22b2084		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:155	0x22b2089		f6c101				TESTL $0x1, CL												
+  runtime.go:155	0x22b208c		7414				JE 0x22b20a2												
+  runtime.go:155	0x22b208e		83e1fe				ANDL $-0x2, CX												
+  runtime.go:155	0x22b2091		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:155	0x22b2095		488b942468030000		MOVQ 0x368(SP), DX											
+  runtime.go:155	0x22b209d		488b02				MOVQ 0(DX), AX												
+  runtime.go:155	0x22b20a0		ffd0				CALL AX													
+  runtime.go:155	0x22b20a2		488b5c2460			MOVQ 0x60(SP), BX											
+  runtime.go:155	0x22b20a7		488b842418010000		MOVQ 0x118(SP), AX											
+  runtime.go:155	0x22b20af		4881c488030000			ADDQ $0x388, SP												
+  runtime.go:155	0x22b20b6		5d				POPQ BP													
+  runtime.go:155	0x22b20b7		c3				RET													
+  runtime.go:132	0x22b20b8		488b4308			MOVQ 0x8(BX), AX											
+  runtime.go:132	0x22b20bc		4889cb				MOVQ CX, BX												
+  runtime.go:132	0x22b20bf		90				NOPL													
+  runtime.go:132	0x22b20c0		e8bb0cfbfe			CALL runtime.gopanic(SB)										
+  runtime.go:108	0x22b20c5		488b4008			MOVQ 0x8(AX), AX											
+  runtime.go:108	0x22b20c9		e8b20cfbfe			CALL runtime.gopanic(SB)										
+  runtime.go:108	0x22b20ce		90				NOPL													
+  runtime.go:108	0x22b20cf		e82c62f7fe			CALL local.runtime.deferreturn(SB)									
+  runtime.go:108	0x22b20d4		488b842418010000		MOVQ 0x118(SP), AX											
+  runtime.go:108	0x22b20dc		488b5c2460			MOVQ 0x60(SP), BX											
+  runtime.go:108	0x22b20e1		4881c488030000			ADDQ $0x388, SP												
+  runtime.go:108	0x22b20e8		5d				POPQ BP													
+  runtime.go:108	0x22b20e9		c3				RET													
+  runtime.go:44		0x22b20ea		4889442418			MOVQ AX, 0x18(SP)											
+  runtime.go:44		0x22b20ef		48895c2420			MOVQ BX, 0x20(SP)											
+  runtime.go:44		0x22b20f4		48894c2428			MOVQ CX, 0x28(SP)											
+  runtime.go:44		0x22b20f9		48897c2430			MOVQ DI, 0x30(SP)											
+  runtime.go:44		0x22b20fe		4889742438			MOVQ SI, 0x38(SP)											
+  runtime.go:44		0x22b2103		4c89442440			MOVQ R8, 0x40(SP)											
+  runtime.go:44		0x22b2108		4c894c2448			MOVQ R9, 0x48(SP)											
+  runtime.go:44		0x22b210d		4c89542450			MOVQ R10, 0x50(SP)											
+  runtime.go:44		0x22b2112		4c895c2458			MOVQ R11, 0x58(SP)											
+  runtime.go:44		0x22b2117		e86485fbfe			CALL local.runtime.morestack_noctxt.abi0(SB)								
+  runtime.go:44		0x22b211c		488b442418			MOVQ 0x18(SP), AX											
+  runtime.go:44		0x22b2121		488b5c2420			MOVQ 0x20(SP), BX											
+  runtime.go:44		0x22b2126		488b4c2428			MOVQ 0x28(SP), CX											
+  runtime.go:44		0x22b212b		488b7c2430			MOVQ 0x30(SP), DI											
+  runtime.go:44		0x22b2130		488b742438			MOVQ 0x38(SP), SI											
+  runtime.go:44		0x22b2135		4c8b442440			MOVQ 0x40(SP), R8											
+  runtime.go:44		0x22b213a		4c8b4c2448			MOVQ 0x48(SP), R9											
+  runtime.go:44		0x22b213f		4c8b542450			MOVQ 0x50(SP), R10											
+  runtime.go:44		0x22b2144		4c8b5c2458			MOVQ 0x58(SP), R11											
+  runtime.go:44		0x22b2149		e9b2eeffff			JMP chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke(SB)				
+
+TEXT chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke(SB) /home/frankie/mygitprojects/CVW/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go
+  runtime.go:44		0x22b1000		4c8da424f0fcffff		LEAQ 0xfffffcf0(SP), R12										
+  runtime.go:44		0x22b1008		4d3b6610			CMPQ R12, 0x10(R14)											
+  runtime.go:44		0x22b100c		0f86d8100000			JBE 0x22b20ea												
+  runtime.go:44		0x22b1012		55				PUSHQ BP												
+  runtime.go:44		0x22b1013		4889e5				MOVQ SP, BP												
+  runtime.go:44		0x22b1016		4881ec88030000			SUBQ $0x388, SP												
+  runtime.go:44		0x22b101d		440f11bc2468030000		MOVUPS X15, 0x368(SP)											
+  runtime.go:44		0x22b1026		440f11bc2478030000		MOVUPS X15, 0x378(SP)											
+  logger.go:166		0x22b102f		48898424a8030000		MOVQ AX, 0x3a8(SP)											
+  logger.go:166		0x22b1037		48899c24b0030000		MOVQ BX, 0x3b0(SP)											
+  logger.go:166		0x22b103f		4c899424e0030000		MOVQ R10, 0x3e0(SP)											
+  logger.go:166		0x22b1047		4c899c24e8030000		MOVQ R11, 0x3e8(SP)											
+  logger.go:166		0x22b104f		4889bc24c0030000		MOVQ DI, 0x3c0(SP)											
+  logger.go:166		0x22b1057		48898c24b8030000		MOVQ CX, 0x3b8(SP)											
+  runtime.go:44		0x22b105f		c644245300			MOVB $0x0, 0x53(SP)											
+  runtime.go:44		0x22b1064		48c784241801000000000000	MOVQ $0x0, 0x118(SP)											
+  runtime.go:44		0x22b1070		48c744246000000000		MOVQ $0x0, 0x60(SP)											
+  runtime.go:48		0x22b1079		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:48		0x22b1081		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:48		0x22b1088		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:48		0x22b1090		ffd1				CALL CX													
+  runtime.go:48		0x22b1092		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:48		0x22b109a		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:48		0x22b109e		48898c24f8000000		MOVQ CX, 0xf8(SP)											
+  runtime.go:48		0x22b10a6		440f11bc2428010000		MOVUPS X15, 0x128(SP)											
+  runtime.go:48		0x22b10af		488b08				MOVQ 0(AX), CX												
+  runtime.go:48		0x22b10b2		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:48		0x22b10b6		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:48		0x22b10ba		e821f4fafe			CALL runtime.convTstring(SB)										
+  runtime.go:48		0x22b10bf		488d0dbabbf700			LEAQ type:string(SB), CX										
+  runtime.go:48		0x22b10c6		48898c2428010000		MOVQ CX, 0x128(SP)											
+  runtime.go:48		0x22b10ce		4889842430010000		MOVQ AX, 0x130(SP)											
+  logger.go:166		0x22b10d6		488b8c24f8000000		MOVQ 0xf8(SP), CX											
+  logger.go:166		0x22b10de		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b10e1		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b10e6		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b10ef		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b10f4		488d0dbad95401			LEAQ 0x154d9ba(IP), CX											
+  sugar.go:133		0x22b10fb		bf17000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+15(SB), DI	
+  sugar.go:133		0x22b1100		488db42428010000		LEAQ 0x128(SP), SI											
+  sugar.go:133		0x22b1108		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b110e		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b1111		e82aee4eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:49		0x22b1116		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:49		0x22b111e		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:49		0x22b1125		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:49		0x22b112d		ffd1				CALL CX													
+  runtime.go:49		0x22b112f		440f11bc2458010000		MOVUPS X15, 0x158(SP)											
+  runtime.go:49		0x22b1138		488b08				MOVQ 0(AX), CX												
+  runtime.go:49		0x22b113b		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:49		0x22b113f		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:49		0x22b1143		e898f3fafe			CALL runtime.convTstring(SB)										
+  runtime.go:49		0x22b1148		488d0d31bbf700			LEAQ type:string(SB), CX										
+  runtime.go:49		0x22b114f		48898c2458010000		MOVQ CX, 0x158(SP)											
+  runtime.go:49		0x22b1157		4889842460010000		MOVQ AX, 0x160(SP)											
+  runtime.go:49		0x22b115f		488d0505b85501			LEAQ 0x155b805(IP), AX											
+  runtime.go:49		0x22b1166		bb1b000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+19(SB), BX	
+  runtime.go:49		0x22b116b		488d8c2458010000		LEAQ 0x158(SP), CX											
+  runtime.go:49		0x22b1173		bf01000000			MOVL $0x1, DI												
+  runtime.go:49		0x22b1178		4889fe				MOVQ DI, SI												
+  runtime.go:49		0x22b117b		0f1f440000			NOPL 0(AX)(AX*1)											
+  runtime.go:49		0x22b1180		e83bc105ff			CALL fmt.Sprintf(SB)											
+  runtime.go:49		0x22b1185		48898424a8000000		MOVQ AX, 0xa8(SP)											
+  runtime.go:49		0x22b118d		48899c24b0000000		MOVQ BX, 0xb0(SP)											
+  runtime.go:50		0x22b1195		e826b6c0ff			CALL local.chainmaker.org/chainmaker/utils/v2.CurrentTimeMillisSeconds(SB)				
+  runtime.go:50		0x22b119a		4889442458			MOVQ AX, 0x58(SP)											
+  runtime.go:51		0x22b119f		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:51		0x22b11a7		488b4958			MOVQ 0x58(CX), CX											
+  runtime.go:51		0x22b11ab		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:51		0x22b11b3		ffd1				CALL CX													
+  runtime.go:51		0x22b11b5		89442454			MOVL AX, 0x54(SP)											
+  runtime.go:54		0x22b11b9		488d05400c2b01			LEAQ type:bPOeo0AA(SB), AX										
+  runtime.go:54		0x22b11c0		e8dbecf4fe			CALL runtime.newobject(SB)										
+  runtime.go:54		0x22b11c5		4889842418010000		MOVQ AX, 0x118(SP)											
+  runtime.go:59		0x22b11cd		48c744246000000000		MOVQ $0x0, 0x60(SP)											
+  runtime.go:61		0x22b11d6		48c784240001000000000000	MOVQ $0x0, 0x100(SP)											
+  runtime.go:62		0x22b11e2		488d0d97100000			LEAQ local.chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke.func1(SB), CX		
+  runtime.go:62		0x22b11e9		48898c2428030000		MOVQ CX, 0x328(SP)											
+  runtime.go:62		0x22b11f1		488d8c24a8000000		LEAQ 0xa8(SP), CX											
+  runtime.go:62		0x22b11f9		48898c2430030000		MOVQ CX, 0x330(SP)											
+  runtime.go:62		0x22b1201		488b4c2458			MOVQ 0x58(SP), CX											
+  runtime.go:62		0x22b1206		48898c2438030000		MOVQ CX, 0x338(SP)											
+  runtime.go:62		0x22b120e		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:62		0x22b1216		48898c2440030000		MOVQ CX, 0x340(SP)											
+  runtime.go:62		0x22b121e		488d8c2418010000		LEAQ 0x118(SP), CX											
+  runtime.go:62		0x22b1226		48898c2448030000		MOVQ CX, 0x348(SP)											
+  runtime.go:62		0x22b122e		488d8c2400010000		LEAQ 0x100(SP), CX											
+  runtime.go:62		0x22b1236		48898c2450030000		MOVQ CX, 0x350(SP)											
+  runtime.go:62		0x22b123e		488d4c2460			LEAQ 0x60(SP), CX											
+  runtime.go:62		0x22b1243		48898c2458030000		MOVQ CX, 0x358(SP)											
+  runtime.go:62		0x22b124b		488d8c2428030000		LEAQ 0x328(SP), CX											
+  runtime.go:62		0x22b1253		48898c2468030000		MOVQ CX, 0x368(SP)											
+  runtime.go:62		0x22b125b		c644245301			MOVB $0x1, 0x53(SP)											
+  runtime.go:79		0x22b1260		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:79		0x22b1268		488b8998000000			MOVQ 0x98(CX), CX											
+  runtime.go:79		0x22b126f		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:79		0x22b1277		ffd1				CALL CX													
+  runtime.go:79		0x22b1279		0f1f8000000000			NOPL 0(AX)												
+  runtime.go:79		0x22b1280		4885c0				TESTQ AX, AX												
+  logger.go:166		0x22b1283		0f8ea4010000			JLE 0x22b142d												
+  runtime.go:86		0x22b1289		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:86		0x22b1291		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:86		0x22b1298		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:86		0x22b12a0		ffd1				CALL CX													
+  runtime.go:86		0x22b12a2		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:86		0x22b12aa		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:86		0x22b12ae		48898c24f0000000		MOVQ CX, 0xf0(SP)											
+  runtime.go:86		0x22b12b6		440f11bc2418030000		MOVUPS X15, 0x318(SP)											
+  runtime.go:86		0x22b12bf		488b08				MOVQ 0(AX), CX												
+  runtime.go:86		0x22b12c2		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:86		0x22b12c6		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:86		0x22b12ca		e811f2fafe			CALL runtime.convTstring(SB)										
+  runtime.go:86		0x22b12cf		488d0daab9f700			LEAQ type:string(SB), CX										
+  runtime.go:86		0x22b12d6		48898c2418030000		MOVQ CX, 0x318(SP)											
+  runtime.go:86		0x22b12de		4889842420030000		MOVQ AX, 0x320(SP)											
+  logger.go:166		0x22b12e6		488b8c24f0000000		MOVQ 0xf0(SP), CX											
+  logger.go:166		0x22b12ee		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b12f1		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b12f6		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b12ff		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b1304		488d0d74325801			LEAQ 0x1583274(IP), CX											
+  sugar.go:133		0x22b130b		bf26000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+30(SB), DI	
+  sugar.go:133		0x22b1310		488db42418030000		LEAQ 0x318(SP), SI											
+  sugar.go:133		0x22b1318		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b131e		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b1321		e81aec4eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:87		0x22b1326		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:87		0x22b132e		488b01				MOVQ 0(CX), AX												
+  runtime.go:87		0x22b1331		e88aa60000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.(*vmPool).GetInstance(SB)					
+  runtime.go:87		0x22b1336		4889842400010000		MOVQ AX, 0x100(SP)											
+  runtime.go:88		0x22b133e		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:88		0x22b1346		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:88		0x22b134d		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:88		0x22b1355		ffd1				CALL CX													
+  runtime.go:88		0x22b1357		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:88		0x22b135f		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:88		0x22b1363		48898c24e8000000		MOVQ CX, 0xe8(SP)											
+  runtime.go:88		0x22b136b		440f11bc2408030000		MOVUPS X15, 0x308(SP)											
+  runtime.go:88		0x22b1374		488b08				MOVQ 0(AX), CX												
+  runtime.go:88		0x22b1377		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:88		0x22b137b		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:88		0x22b137f		90				NOPL													
+  runtime.go:88		0x22b1380		e85bf1fafe			CALL runtime.convTstring(SB)										
+  runtime.go:88		0x22b1385		488d0df4b8f700			LEAQ type:string(SB), CX										
+  runtime.go:88		0x22b138c		48898c2408030000		MOVQ CX, 0x308(SP)											
+  runtime.go:88		0x22b1394		4889842410030000		MOVQ AX, 0x310(SP)											
+  logger.go:166		0x22b139c		488b8c24e8000000		MOVQ 0xe8(SP), CX											
+  logger.go:166		0x22b13a4		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b13a7		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b13ac		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b13b5		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b13ba		488d0d9dfb5701			LEAQ 0x157fb9d(IP), CX											
+  sugar.go:133		0x22b13c1		bf25000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+29(SB), DI	
+  sugar.go:133		0x22b13c6		488db42408030000		LEAQ 0x308(SP), SI											
+  sugar.go:133		0x22b13ce		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b13d4		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b13d7		e864eb4eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:89		0x22b13dc		488b8c2400010000		MOVQ 0x100(SP), CX											
+  runtime.go:89		0x22b13e4		488b9424a8030000		MOVQ 0x3a8(SP), DX											
+  runtime.go:89		0x22b13ec		488b1a				MOVQ 0(DX), BX												
+  runtime.go:89		0x22b13ef		488d352a0e0000			LEAQ chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke.deferwrap1(SB), SI		
+  runtime.go:89		0x22b13f6		4889b424f0020000		MOVQ SI, 0x2f0(SP)											
+  runtime.go:89		0x22b13fe		48899c24f8020000		MOVQ BX, 0x2f8(SP)											
+  runtime.go:89		0x22b1406		48898c2400030000		MOVQ CX, 0x300(SP)											
+  runtime.go:89		0x22b140e		488d8c24f0020000		LEAQ 0x2f0(SP), CX											
+  runtime.go:89		0x22b1416		48898c2470030000		MOVQ CX, 0x370(SP)											
+  runtime.go:89		0x22b141e		c644245303			MOVB $0x3, 0x53(SP)											
+  runtime.go:89		0x22b1423		b803000000			MOVL $0x3, AX												
+  logger.go:166		0x22b1428		e99e010000			JMP 0x22b15cb												
+  runtime.go:91		0x22b142d		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:91		0x22b1435		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:91		0x22b143c		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:91		0x22b1444		ffd1				CALL CX													
+  runtime.go:91		0x22b1446		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:91		0x22b144e		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:91		0x22b1452		48898c24e0000000		MOVQ CX, 0xe0(SP)											
+  runtime.go:91		0x22b145a		440f11bc24e0020000		MOVUPS X15, 0x2e0(SP)											
+  runtime.go:91		0x22b1463		488b08				MOVQ 0(AX), CX												
+  runtime.go:91		0x22b1466		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:91		0x22b146a		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:91		0x22b146e		e86df0fafe			CALL runtime.convTstring(SB)										
+  runtime.go:91		0x22b1473		488d0d06b8f700			LEAQ type:string(SB), CX										
+  runtime.go:91		0x22b147a		48898c24e0020000		MOVQ CX, 0x2e0(SP)											
+  runtime.go:91		0x22b1482		48898424e8020000		MOVQ AX, 0x2e8(SP)											
+  logger.go:166		0x22b148a		488b8c24e0000000		MOVQ 0xe0(SP), CX											
+  logger.go:166		0x22b1492		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b1495		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b149a		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b14a3		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b14a8		488d0d1f645601			LEAQ 0x156641f(IP), CX											
+  sugar.go:133		0x22b14af		bf1e000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+22(SB), DI	
+  sugar.go:133		0x22b14b4		488db424e0020000		LEAQ 0x2e0(SP), SI											
+  sugar.go:133		0x22b14bc		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b14c2		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b14c5		e876ea4eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:92		0x22b14ca		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:92		0x22b14d2		488b01				MOVQ 0(CX), AX												
+  runtime.go:92		0x22b14d5		e8e6a40000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.(*vmPool).GetInstance(SB)					
+  runtime.go:92		0x22b14da		4889842400010000		MOVQ AX, 0x100(SP)											
+  runtime.go:93		0x22b14e2		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:93		0x22b14ea		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:93		0x22b14f1		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:93		0x22b14f9		ffd1				CALL CX													
+  runtime.go:93		0x22b14fb		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:93		0x22b1503		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:93		0x22b1507		48898c24d8000000		MOVQ CX, 0xd8(SP)											
+  runtime.go:93		0x22b150f		440f11bc24d0020000		MOVUPS X15, 0x2d0(SP)											
+  runtime.go:93		0x22b1518		488b08				MOVQ 0(AX), CX												
+  runtime.go:93		0x22b151b		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:93		0x22b151f		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:93		0x22b1523		e8b8effafe			CALL runtime.convTstring(SB)										
+  runtime.go:93		0x22b1528		488d0d51b7f700			LEAQ type:string(SB), CX										
+  runtime.go:93		0x22b152f		48898c24d0020000		MOVQ CX, 0x2d0(SP)											
+  runtime.go:93		0x22b1537		48898424d8020000		MOVQ AX, 0x2d8(SP)											
+  logger.go:166		0x22b153f		488b8c24d8000000		MOVQ 0xd8(SP), CX											
+  logger.go:166		0x22b1547		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b154a		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b154f		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b1558		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b155d		488d0d30275601			LEAQ 0x1562730(IP), CX											
+  sugar.go:133		0x22b1564		bf1d000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+21(SB), DI	
+  sugar.go:133		0x22b1569		488db424d0020000		LEAQ 0x2d0(SP), SI											
+  sugar.go:133		0x22b1571		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b1577		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b157a		e8c1e94eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:94		0x22b157f		488b8c2400010000		MOVQ 0x100(SP), CX											
+  runtime.go:94		0x22b1587		488b9424a8030000		MOVQ 0x3a8(SP), DX											
+  runtime.go:94		0x22b158f		488b1a				MOVQ 0(DX), BX												
+  runtime.go:94		0x22b1592		488d35270c0000			LEAQ chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke.deferwrap2(SB), SI		
+  runtime.go:94		0x22b1599		4889b424b8020000		MOVQ SI, 0x2b8(SP)											
+  runtime.go:94		0x22b15a1		48899c24c0020000		MOVQ BX, 0x2c0(SP)											
+  runtime.go:94		0x22b15a9		48898c24c8020000		MOVQ CX, 0x2c8(SP)											
+  runtime.go:94		0x22b15b1		488d8c24b8020000		LEAQ 0x2b8(SP), CX											
+  runtime.go:94		0x22b15b9		48898c2478030000		MOVQ CX, 0x378(SP)											
+  runtime.go:94		0x22b15c1		c644245305			MOVB $0x5, 0x53(SP)											
+  runtime.go:94		0x22b15c6		b805000000			MOVL $0x5, AX												
+  runtime.go:112	0x22b15cb		88442452			MOVB AL, 0x52(SP)											
+  runtime.go:97		0x22b15cf		488b8c2400010000		MOVQ 0x100(SP), CX											
+  runtime.go:97		0x22b15d7		488b4910			MOVQ 0x10(CX), CX											
+  runtime.go:97		0x22b15db		48898c2408010000		MOVQ CX, 0x108(SP)											
+  runtime.go:101	0x22b15e3		488b8c24e8030000		MOVQ 0x3e8(SP), CX											
+  runtime.go:101	0x22b15eb		488d9901000080			LEAQ 0x80000001(CX), BX											
+  runtime.go:101	0x22b15f2		48f7db				NEGQ BX													
+  runtime.go:105	0x22b15f5		488b5208			MOVQ 0x8(DX), DX											
+  runtime.go:105	0x22b15f9		48899424d0000000		MOVQ DX, 0xd0(SP)											
+  runtime.go:105	0x22b1601		440f11bc24a8020000		MOVUPS X15, 0x2a8(SP)											
+  runtime.go:100	0x22b160a		4881f9ffffff7f			CMPQ CX, $0x7fffffff											
+  runtime.go:105	0x22b1611		b800000000			MOVL $0x0, AX												
+  runtime.go:105	0x22b1616		480f42c3			CMOVB BX, AX												
+  runtime.go:105	0x22b161a		4889842490000000		MOVQ AX, 0x90(SP)											
+  runtime.go:105	0x22b1622		e839eefafe			CALL runtime.convT64(SB)										
+  runtime.go:105	0x22b1627		488d0d52b8f700			LEAQ type:uint64(SB), CX										
+  runtime.go:105	0x22b162e		48898c24a8020000		MOVQ CX, 0x2a8(SP)											
+  runtime.go:105	0x22b1636		48898424b0020000		MOVQ AX, 0x2b0(SP)											
+  logger.go:166		0x22b163e		488b8c24d0000000		MOVQ 0xd0(SP), CX											
+  logger.go:166		0x22b1646		488b01				MOVQ 0(CX), AX												
+  sugar.go:133		0x22b1649		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:133		0x22b164e		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:133		0x22b1657		bbffffffff			MOVL $-0x1, BX												
+  sugar.go:133		0x22b165c		488d0d34204601			LEAQ 0x1462034(IP), CX											
+  sugar.go:133		0x22b1663		bf0b000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+3(SB), DI	
+  sugar.go:133		0x22b1668		488db424a8020000		LEAQ 0x2a8(SP), SI											
+  sugar.go:133		0x22b1670		41b801000000			MOVL $0x1, R8												
+  sugar.go:133		0x22b1676		4d89c1				MOVQ R8, R9												
+  sugar.go:133		0x22b1679		e8c2e84eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:106	0x22b167e		488b842408010000		MOVQ 0x108(SP), AX											
+  runtime.go:106	0x22b1686		488b9c2490000000		MOVQ 0x90(SP), BX											
+  runtime.go:106	0x22b168e		e84d0e0000			CALL local.chainmaker.org/chainmaker/vm-wasmer/v2.setGasByExport(SB)					
+  runtime.go:107	0x22b1693		4885c0				TESTQ AX, AX												
+  runtime.go:100	0x22b1696		0f85290a0000			JNE 0x22b20c5												
+  runtime.go:111	0x22b169c		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:111	0x22b16a4		488b5108			MOVQ 0x8(CX), DX											
+  runtime.go:111	0x22b16a8		48899424b8000000		MOVQ DX, 0xb8(SP)											
+  runtime.go:111	0x22b16b0		488b5110			MOVQ 0x10(CX), DX											
+  runtime.go:111	0x22b16b4		4889942420010000		MOVQ DX, 0x120(SP)											
+  runtime.go:111	0x22b16bc		488b4918			MOVQ 0x18(CX), CX											
+  runtime.go:111	0x22b16c0		48898c2488000000		MOVQ CX, 0x88(SP)											
+  sim_context.go:43	0x22b16c8		488d0591433a01			LEAQ type:X7BOskM/(SB), AX										
+  sim_context.go:43	0x22b16cf		e8cce7f4fe			CALL runtime.newobject(SB)										
+  sim_context.go:43	0x22b16d4		4889842460030000		MOVQ AX, 0x360(SP)											
+  sim_context.go:43	0x22b16dc		488dbc24f8010000		LEAQ 0x1f8(SP), DI											
+  sim_context.go:43	0x22b16e4		488d7ff0			LEAQ -0x10(DI), DI											
+  sim_context.go:43	0x22b16e8		48896c24f0			MOVQ BP, -0x10(SP)											
+  sim_context.go:43	0x22b16ed		488d6c24f0			LEAQ -0x10(SP), BP											
+  sim_context.go:43	0x22b16f2		e838b5fbfe			CALL 0x126cc2f												
+  sim_context.go:43	0x22b16f7		488b6d00			MOVQ 0(BP), BP												
+  sim_context.go:44	0x22b16fb		488b8c24b8030000		MOVQ 0x3b8(SP), CX											
+  sim_context.go:44	0x22b1703		48898c2428020000		MOVQ CX, 0x228(SP)											
+  sim_context.go:44	0x22b170b		488b9424c0030000		MOVQ 0x3c0(SP), DX											
+  sim_context.go:44	0x22b1713		4889942430020000		MOVQ DX, 0x230(SP)											
+  sim_context.go:45	0x22b171b		488b9c24b8000000		MOVQ 0xb8(SP), BX											
+  sim_context.go:45	0x22b1723		48899c2418020000		MOVQ BX, 0x218(SP)											
+  sim_context.go:46	0x22b172b		488b9c2420010000		MOVQ 0x120(SP), BX											
+  sim_context.go:46	0x22b1733		48899c2478020000		MOVQ BX, 0x278(SP)											
+  sim_context.go:46	0x22b173b		488b9c2488000000		MOVQ 0x88(SP), BX											
+  sim_context.go:46	0x22b1743		48899c2480020000		MOVQ BX, 0x280(SP)											
+  sim_context.go:43	0x22b174b		833d0ec4800300			CMPL runtime.writeBarrier(SB), $0x0									
+  sim_context.go:43	0x22b1752		741f				JE 0x22b1773												
+  sim_context.go:43	0x22b1754		4889c3				MOVQ AX, BX												
+  sim_context.go:43	0x22b1757		488d8c24f8010000		LEAQ 0x1f8(SP), CX											
+  sim_context.go:43	0x22b175f		488d05fa423a01			LEAQ type:X7BOskM/(SB), AX										
+  sim_context.go:43	0x22b1766		e8f5eff4fe			CALL runtime.wbMove(SB)											
+  sim_context.go:43	0x22b176b		488b842460030000		MOVQ 0x360(SP), AX											
+  sim_context.go:43	0x22b1773		4889c7				MOVQ AX, DI												
+  sim_context.go:43	0x22b1776		488db424f8010000		LEAQ 0x1f8(SP), SI											
+  sim_context.go:43	0x22b177e		6690				NOPW													
+  sim_context.go:43	0x22b1780		48896c24f0			MOVQ BP, -0x10(SP)											
+  sim_context.go:43	0x22b1785		488d6c24f0			LEAQ -0x10(SP), BP											
+  sim_context.go:43	0x22b178a		e8d7b7fbfe			CALL 0x126cf66												
+  sim_context.go:43	0x22b178f		488b6d00			MOVQ 0(BP), BP												
+  sim_context.go:49	0x22b1793		e888380000			CALL local.chainmaker.org/chainmaker/vm-wasmer/v2.(*SimContext).putCtxPointer(SB)			
+  runtime.go:112	0x22b1798		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:112	0x22b179d		83c908				ORL $0x8, CX												
+  runtime.go:112	0x22b17a0		488d15b9090000			LEAQ local.chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke.deferwrap3(SB), DX		
+  runtime.go:112	0x22b17a7		48899424e8010000		MOVQ DX, 0x1e8(SP)											
+  runtime.go:112	0x22b17af		488b842460030000		MOVQ 0x360(SP), AX											
+  runtime.go:112	0x22b17b7		48898424f0010000		MOVQ AX, 0x1f0(SP)											
+  runtime.go:112	0x22b17bf		488d9424e8010000		LEAQ 0x1e8(SP), DX											
+  runtime.go:112	0x22b17c7		4889942480030000		MOVQ DX, 0x380(SP)											
+  runtime.go:112	0x22b17cf		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:113	0x22b17d3		833d86c3800300			CMPL runtime.writeBarrier(SB), $0x0									
+  runtime.go:113	0x22b17da		7512				JNE 0x22b17ee												
+  runtime.go:113	0x22b17dc		488b9424b0030000		MOVQ 0x3b0(SP), DX											
+  runtime.go:114	0x22b17e4		488bb424a0030000		MOVQ 0x3a0(SP), SI											
+  runtime.go:113	0x22b17ec		eb2c				JMP 0x22b181a												
+  runtime.go:113	0x22b17ee		e8cdadfbfe			CALL local.runtime.gcWriteBarrier4(SB)									
+  runtime.go:113	0x22b17f3		488b9424b0030000		MOVQ 0x3b0(SP), DX											
+  runtime.go:113	0x22b17fb		498913				MOVQ DX, 0(R11)												
+  runtime.go:113	0x22b17fe		488b7010			MOVQ 0x10(AX), SI											
+  runtime.go:113	0x22b1802		49897308			MOVQ SI, 0x8(R11)											
+  runtime.go:114	0x22b1806		488bb424a0030000		MOVQ 0x3a0(SP), SI											
+  runtime.go:114	0x22b180e		49897310			MOVQ SI, 0x10(R11)											
+  runtime.go:114	0x22b1812		488b7808			MOVQ 0x8(AX), DI											
+  runtime.go:114	0x22b1816		49897b18			MOVQ DI, 0x18(R11)											
+  runtime.go:112	0x22b181a		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:113	0x22b181e		48895010			MOVQ DX, 0x10(AX)											
+  runtime.go:114	0x22b1822		488bbc2498030000		MOVQ 0x398(SP), DI											
+  runtime.go:114	0x22b182a		488938				MOVQ DI, 0(AX)												
+  runtime.go:114	0x22b182d		48897008			MOVQ SI, 0x8(AX)											
+  runtime.go:115	0x22b1831		4c8b842418010000		MOVQ 0x118(SP), R8											
+  runtime.go:115	0x22b1839		833d20c3800300			CMPL runtime.writeBarrier(SB), $0x0									
+  runtime.go:115	0x22b1840		7512				JNE 0x22b1854												
+  runtime.go:117	0x22b1842		488b9c2408010000		MOVQ 0x108(SP), BX											
+  runtime.go:116	0x22b184a		4c8b8c24e0030000		MOVQ 0x3e0(SP), R9											
+  runtime.go:115	0x22b1852		eb38				JMP 0x22b188c												
+  runtime.go:115	0x22b1854		e8a7adfbfe			CALL runtime.gcWriteBarrier6(SB)									
+  runtime.go:115	0x22b1859		4d8903				MOVQ R8, 0(R11)												
+  runtime.go:115	0x22b185c		4c8b4818			MOVQ 0x18(AX), R9											
+  runtime.go:115	0x22b1860		4d894b08			MOVQ R9, 0x8(R11)											
+  runtime.go:116	0x22b1864		4c8b8c24e0030000		MOVQ 0x3e0(SP), R9											
+  runtime.go:116	0x22b186c		4d894b10			MOVQ R9, 0x10(R11)											
+  runtime.go:116	0x22b1870		4c8b5040			MOVQ 0x40(AX), R10											
+  runtime.go:116	0x22b1874		4d895318			MOVQ R10, 0x18(R11)											
+  runtime.go:117	0x22b1878		488b9c2408010000		MOVQ 0x108(SP), BX											
+  runtime.go:117	0x22b1880		49895b20			MOVQ BX, 0x20(R11)											
+  runtime.go:117	0x22b1884		4c8b5028			MOVQ 0x28(AX), R10											
+  runtime.go:117	0x22b1888		4d895328			MOVQ R10, 0x28(R11)											
+  runtime.go:115	0x22b188c		4c894018			MOVQ R8, 0x18(AX)											
+  runtime.go:116	0x22b1890		4c894840			MOVQ R9, 0x40(AX)											
+  runtime.go:117	0x22b1894		48895828			MOVQ BX, 0x28(AX)											
+  runtime.go:118	0x22b1898		48c780a800000000000000		MOVQ $0x0, 0xa8(AX)											
+  runtime.go:121	0x22b18a3		e858280000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.(*SimContext).CallMethod(SB)				
+  runtime.go:124	0x22b18a8		4885c0				TESTQ AX, AX												
+  runtime.go:124	0x22b18ab		0f84e1000000			JE 0x22b1992												
+  runtime.go:121	0x22b18b1		48899c2410010000		MOVQ BX, 0x110(SP)											
+  runtime.go:121	0x22b18b9		4889842480000000		MOVQ AX, 0x80(SP)											
+  runtime.go:125	0x22b18c1		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:125	0x22b18c9		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:125	0x22b18d0		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:125	0x22b18d8		ffd1				CALL CX													
+  runtime.go:125	0x22b18da		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:125	0x22b18e2		488b5108			MOVQ 0x8(CX), DX											
+  runtime.go:125	0x22b18e6		48899424c8000000		MOVQ DX, 0xc8(SP)											
+  runtime.go:125	0x22b18ee		440f11bc24c8010000		MOVUPS X15, 0x1c8(SP)											
+  runtime.go:125	0x22b18f7		440f11bc24d8010000		MOVUPS X15, 0x1d8(SP)											
+  runtime.go:124	0x22b1900		488b9c2480000000		MOVQ 0x80(SP), BX											
+  runtime.go:124	0x22b1908		4885db				TESTQ BX, BX												
+  runtime.go:125	0x22b190b		7406				JE 0x22b1913												
+  runtime.go:125	0x22b190d		488b7308			MOVQ 0x8(BX), SI											
+  runtime.go:125	0x22b1911		eb03				JMP 0x22b1916												
+  runtime.go:125	0x22b1913		4889de				MOVQ BX, SI												
+  runtime.go:125	0x22b1916		4889b424c8010000		MOVQ SI, 0x1c8(SP)											
+  runtime.go:125	0x22b191e		488b8c2410010000		MOVQ 0x110(SP), CX											
+  runtime.go:125	0x22b1926		48898c24d0010000		MOVQ CX, 0x1d0(SP)											
+  runtime.go:125	0x22b192e		488b08				MOVQ 0(AX), CX												
+  runtime.go:125	0x22b1931		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:125	0x22b1935		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:125	0x22b1939		e8a2ebfafe			CALL runtime.convTstring(SB)										
+  runtime.go:125	0x22b193e		488d0d3bb3f700			LEAQ type:string(SB), CX										
+  runtime.go:125	0x22b1945		48898c24d8010000		MOVQ CX, 0x1d8(SP)											
+  runtime.go:125	0x22b194d		48898424e0010000		MOVQ AX, 0x1e0(SP)											
+  logger.go:226		0x22b1955		488b8c24c8000000		MOVQ 0xc8(SP), CX											
+  logger.go:226		0x22b195d		488b01				MOVQ 0(CX), AX												
+  sugar.go:138		0x22b1960		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:138		0x22b1965		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:138		0x22b196e		31db				XORL BX, BX												
+  sugar.go:138		0x22b1970		488d0d12505701			LEAQ 0x1575012(IP), CX											
+  sugar.go:138		0x22b1977		bf22000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+26(SB), DI	
+  sugar.go:138		0x22b197c		488db424c8010000		LEAQ 0x1c8(SP), SI											
+  sugar.go:138		0x22b1984		41b802000000			MOVL $0x2, R8												
+  sugar.go:138		0x22b198a		4d89c1				MOVQ R8, R9												
+  sugar.go:138		0x22b198d		e8aee54eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:127	0x22b1992		488b8c2460030000		MOVQ 0x360(SP), CX											
+  runtime.go:127	0x22b199a		488b89a8000000			MOVQ 0xa8(CX), CX											
+  runtime.go:127	0x22b19a1		48894c2460			MOVQ CX, 0x60(SP)											
+  runtime.go:130	0x22b19a6		488b842408010000		MOVQ 0x108(SP), AX											
+  runtime.go:130	0x22b19ae		e8cd0c0000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.getGasByExport(SB)						
+  runtime.go:131	0x22b19b3		4885db				TESTQ BX, BX												
+  runtime.go:131	0x22b19b6		0f85fc060000			JNE 0x22b20b8												
+  runtime.go:130	0x22b19bc		4889442470			MOVQ AX, 0x70(SP)											
+  runtime.go:137	0x22b19c1		4885c0				TESTQ AX, AX												
+  runtime.go:137	0x22b19c4		740a				JE 0x22b19d0												
+  runtime.go:137	0x22b19c6		4883f8ff			CMPQ AX, $-0x1												
+  runtime.go:137	0x22b19ca		0f85a0000000			JNE 0x22b1a70												
+  runtime.go:139	0x22b19d0		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:139	0x22b19d8		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:139	0x22b19df		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:139	0x22b19e7		ffd1				CALL CX													
+  runtime.go:138	0x22b19e9		440f11bc2438010000		MOVUPS X15, 0x138(SP)											
+  runtime.go:138	0x22b19f2		440f11bc2448010000		MOVUPS X15, 0x148(SP)											
+  runtime.go:138	0x22b19fb		488d0d7eb4f700			LEAQ type:uint64(SB), CX										
+  runtime.go:138	0x22b1a02		48898c2438010000		MOVQ CX, 0x138(SP)											
+  runtime.go:138	0x22b1a0a		488d0ddf5c9d01			LEAQ chainmaker.org/chainmaker/vm-wasmer/v2..stmp_20(SB), CX						
+  runtime.go:138	0x22b1a11		48898c2440010000		MOVQ CX, 0x140(SP)											
+  runtime.go:139	0x22b1a19		488b08				MOVQ 0(AX), CX												
+  runtime.go:139	0x22b1a1c		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:139	0x22b1a20		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:139	0x22b1a24		e8b7eafafe			CALL runtime.convTstring(SB)										
+  runtime.go:139	0x22b1a29		488d0d50b2f700			LEAQ type:string(SB), CX										
+  runtime.go:139	0x22b1a30		48898c2448010000		MOVQ CX, 0x148(SP)											
+  runtime.go:139	0x22b1a38		4889842450010000		MOVQ AX, 0x150(SP)											
+  runtime.go:138	0x22b1a40		488d0570e55901			LEAQ 0x159e570(IP), AX											
+  runtime.go:138	0x22b1a47		bb2d000000			MOVL $_ZN3std2io5stdio14OUTPUT_CAPTURE7__getit5__KEY17hfee6694b74917c49E+5(SB), BX			
+  runtime.go:138	0x22b1a4c		488d8c2438010000		LEAQ 0x138(SP), CX											
+  runtime.go:138	0x22b1a54		bf02000000			MOVL $0x2, DI												
+  runtime.go:138	0x22b1a59		4889fe				MOVQ DI, SI												
+  runtime.go:138	0x22b1a5c		0f1f4000			NOPL 0(AX)												
+  runtime.go:138	0x22b1a60		e85b8105ff			CALL local.fmt.Errorf(SB)										
+  runtime.go:145	0x22b1a65		4889d9				MOVQ BX, CX												
+  runtime.go:145	0x22b1a68		4889c3				MOVQ AX, BX												
+  runtime.go:141	0x22b1a6b		488b442470			MOVQ 0x70(SP), AX											
+  runtime.go:145	0x22b1a70		48899c2480000000		MOVQ BX, 0x80(SP)											
+  runtime.go:145	0x22b1a78		48898c2410010000		MOVQ CX, 0x110(SP)											
+  runtime.go:142	0x22b1a80		440f11bc2458010000		MOVUPS X15, 0x158(SP)											
+  runtime.go:141	0x22b1a89		480501000080			ADDQ $-0x7fffffff, AX											
+  runtime.go:141	0x22b1a8f		48f7d8				NEGQ AX													
+  runtime.go:141	0x22b1a92		4889442478			MOVQ AX, 0x78(SP)											
+  runtime.go:142	0x22b1a97		e8c4e9fafe			CALL runtime.convT64(SB)										
+  runtime.go:142	0x22b1a9c		488d0dddb3f700			LEAQ type:uint64(SB), CX										
+  runtime.go:142	0x22b1aa3		48898c2458010000		MOVQ CX, 0x158(SP)											
+  runtime.go:142	0x22b1aab		4889842460010000		MOVQ AX, 0x160(SP)											
+  runtime.go:142	0x22b1ab3		488d05b1414601			LEAQ 0x14641b1(IP), AX											
+  runtime.go:142	0x22b1aba		bb0c000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+4(SB), BX	
+  runtime.go:142	0x22b1abf		488d8c2458010000		LEAQ 0x158(SP), CX											
+  runtime.go:142	0x22b1ac7		bf01000000			MOVL $0x1, DI												
+  runtime.go:142	0x22b1acc		4889fe				MOVQ DI, SI												
+  runtime.go:142	0x22b1acf		e8ecb705ff			CALL fmt.Sprintf(SB)											
+  runtime.go:142	0x22b1ad4		488b8c24a8000000		MOVQ 0xa8(SP), CX											
+  runtime.go:142	0x22b1adc		488b9424b0000000		MOVQ 0xb0(SP), DX											
+  runtime.go:142	0x22b1ae4		4889c7				MOVQ AX, DI												
+  runtime.go:142	0x22b1ae7		4889de				MOVQ BX, SI												
+  runtime.go:142	0x22b1aea		31c0				XORL AX, AX												
+  runtime.go:142	0x22b1aec		4889cb				MOVQ CX, BX												
+  runtime.go:142	0x22b1aef		4889d1				MOVQ DX, CX												
+  runtime.go:142	0x22b1af2		e80962f9fe			CALL local.runtime.concatstring2(SB)									
+  runtime.go:142	0x22b1af7		48898424a8000000		MOVQ AX, 0xa8(SP)											
+  runtime.go:142	0x22b1aff		48899c24b0000000		MOVQ BX, 0xb0(SP)											
+  runtime.go:143	0x22b1b07		488b8c2418010000		MOVQ 0x118(SP), CX											
+  runtime.go:143	0x22b1b0f		488b542478			MOVQ 0x78(SP), DX											
+  runtime.go:143	0x22b1b14		48895130			MOVQ DX, 0x30(CX)											
+  runtime.go:145	0x22b1b18		488b8c2480000000		MOVQ 0x80(SP), CX											
+  runtime.go:145	0x22b1b20		4885c9				TESTQ CX, CX												
+  runtime.go:145	0x22b1b23		0f8516030000			JNE 0x22b1e3f												
+  runtime.go:156	0x22b1b29		8b4c2454			MOVL 0x54(SP), CX											
+  runtime.go:156	0x22b1b2d		81f914fa1e00			CMPL CX, $0x1efa14											
+  runtime.go:156	0x22b1b33		0f82b0000000			JB 0x22b1be9												
+  runtime.go:156	0x22b1b39		488b8c2418010000		MOVQ 0x118(SP), CX											
+  runtime.go:156	0x22b1b41		833900				CMPL 0(CX), $0x0											
+  runtime.go:156	0x22b1b44		0f849f000000			JE 0x22b1be9												
+  runtime.go:157	0x22b1b4a		488b8c24c0030000		MOVQ 0x3c0(SP), CX											
+  runtime.go:157	0x22b1b52		4883f90d			CMPQ CX, $0xd												
+  runtime.go:157	0x22b1b56		752a				JNE 0x22b1b82												
+  runtime.go:157	0x22b1b58		48be696e69745f636f6e		MOVQ $0x6e6f635f74696e69, SI										
+  runtime.go:157	0x22b1b62		488bbc24b8030000		MOVQ 0x3b8(SP), DI											
+  runtime.go:157	0x22b1b6a		483937				CMPQ 0(DI), SI												
+  runtime.go:157	0x22b1b6d		751b				JNE 0x22b1b8a												
+  runtime.go:157	0x22b1b6f		817f0874726163			CMPL 0x8(DI), $0x63617274										
+  runtime.go:157	0x22b1b76		7512				JNE 0x22b1b8a												
+  runtime.go:157	0x22b1b78		807f0c74			CMPB 0xc(DI), $0x74											
+  runtime.go:157	0x22b1b7c		742a				JE 0x22b1ba8												
+  runtime.go:157	0x22b1b7e		6690				NOPW													
+  runtime.go:157	0x22b1b80		eb08				JMP 0x22b1b8a												
+  runtime.go:157	0x22b1b82		488bbc24b8030000		MOVQ 0x3b8(SP), DI											
+  runtime.go:157	0x22b1b8a		4883f907			CMPQ CX, $0x7												
+  runtime.go:157	0x22b1b8e		754c				JNE 0x22b1bdc												
+  runtime.go:157	0x22b1b90		813f75706772			CMPL 0(DI), $0x72677075											
+  runtime.go:157	0x22b1b96		7544				JNE 0x22b1bdc												
+  runtime.go:157	0x22b1b98		66817f046164			CMPW 0x4(DI), $0x6461											
+  runtime.go:157	0x22b1b9e		6690				NOPW													
+  runtime.go:157	0x22b1ba0		753a				JNE 0x22b1bdc												
+  runtime.go:157	0x22b1ba2		807f0665			CMPB 0x6(DI), $0x65											
+  runtime.go:157	0x22b1ba6		7534				JNE 0x22b1bdc												
+  runtime.go:158	0x22b1ba8		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:158	0x22b1bb0		488b4120			MOVQ 0x20(CX), AX											
+  runtime.go:158	0x22b1bb4		488b9c24b0030000		MOVQ 0x3b0(SP), BX											
+  runtime.go:158	0x22b1bbc		0f1f4000			NOPL 0(AX)												
+  runtime.go:158	0x22b1bc0		e89b940000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.(*InstancesManager).CloseAVmPool(SB)			
+  runtime.go:166	0x22b1bc5		488b8c24c0030000		MOVQ 0x3c0(SP), CX											
+  runtime.go:164	0x22b1bcd		488b542478			MOVQ 0x78(SP), DX											
+  runtime.go:166	0x22b1bd2		488bbc24b8030000		MOVQ 0x3b8(SP), DI											
+  runtime.go:158	0x22b1bda		eb1d				JMP 0x22b1bf9												
+  runtime.go:160	0x22b1bdc		488b9c2400010000		MOVQ 0x100(SP), BX											
+  runtime.go:160	0x22b1be4		ff4330				INCL 0x30(BX)												
+  runtime.go:160	0x22b1be7		eb10				JMP 0x22b1bf9												
+  runtime.go:166	0x22b1be9		488b8c24c0030000		MOVQ 0x3c0(SP), CX											
+  runtime.go:166	0x22b1bf1		488bbc24b8030000		MOVQ 0x3b8(SP), DI											
+  runtime.go:163	0x22b1bf9		488b9c2418010000		MOVQ 0x118(SP), BX											
+  runtime.go:163	0x22b1c01		488bb42460030000		MOVQ 0x360(SP), SI											
+  runtime.go:163	0x22b1c09		4c8b8698000000			MOVQ 0x98(SI), R8											
+  runtime.go:163	0x22b1c10		4c8b8ea0000000			MOVQ 0xa0(SI), R9											
+  runtime.go:163	0x22b1c17		4c8b9690000000			MOVQ 0x90(SI), R10											
+  runtime.go:163	0x22b1c1e		4c894340			MOVQ R8, 0x40(BX)											
+  runtime.go:163	0x22b1c22		4c894b48			MOVQ R9, 0x48(BX)											
+  runtime.go:163	0x22b1c26		833d33bf800300			CMPL runtime.writeBarrier(SB), $0x0									
+  runtime.go:163	0x22b1c2d		7410				JE 0x22b1c3f												
+  runtime.go:163	0x22b1c2f		e84ca9fbfe			CALL local.runtime.gcWriteBarrier2(SB)									
+  runtime.go:163	0x22b1c34		4d8913				MOVQ R10, 0(R11)											
+  runtime.go:163	0x22b1c37		4c8b4338			MOVQ 0x38(BX), R8											
+  runtime.go:163	0x22b1c3b		4d894308			MOVQ R8, 0x8(R11)											
+  runtime.go:163	0x22b1c3f		4c895338			MOVQ R10, 0x38(BX)											
+  runtime.go:164	0x22b1c43		488b8c2418010000		MOVQ 0x118(SP), CX											
+  runtime.go:164	0x22b1c4b		48895130			MOVQ DX, 0x30(CX)											
+  runtime.go:166	0x22b1c4f		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:166	0x22b1c57		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:166	0x22b1c5e		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:166	0x22b1c66		ffd1				CALL CX													
+  runtime.go:165	0x22b1c68		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:165	0x22b1c70		488b4908			MOVQ 0x8(CX), CX											
+  runtime.go:165	0x22b1c74		48898c24c0000000		MOVQ CX, 0xc0(SP)											
+  runtime.go:165	0x22b1c7c		488dbc2478010000		LEAQ 0x178(SP), DI											
+  runtime.go:165	0x22b1c84		488d7fd0			LEAQ -0x30(DI), DI											
+  runtime.go:165	0x22b1c88		48896c24f0			MOVQ BP, -0x10(SP)											
+  runtime.go:165	0x22b1c8d		488d6c24f0			LEAQ -0x10(SP), BP											
+  runtime.go:165	0x22b1c92		e8b9affbfe			CALL 0x126cc50												
+  runtime.go:165	0x22b1c97		488b6d00			MOVQ 0(BP), BP												
+  runtime.go:166	0x22b1c9b		488b08				MOVQ 0(AX), CX												
+  runtime.go:166	0x22b1c9e		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:166	0x22b1ca2		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:166	0x22b1ca6		e835e8fafe			CALL runtime.convTstring(SB)										
+  runtime.go:166	0x22b1cab		488d0dceaff700			LEAQ type:string(SB), CX										
+  runtime.go:166	0x22b1cb2		48898c2478010000		MOVQ CX, 0x178(SP)											
+  runtime.go:166	0x22b1cba		4889842480010000		MOVQ AX, 0x180(SP)											
+  runtime.go:166	0x22b1cc2		488b8c24b0030000		MOVQ 0x3b0(SP), CX											
+  runtime.go:166	0x22b1cca		488b01				MOVQ 0(CX), AX												
+  runtime.go:166	0x22b1ccd		488b5908			MOVQ 0x8(CX), BX											
+  runtime.go:166	0x22b1cd1		e80ae8fafe			CALL runtime.convTstring(SB)										
+  runtime.go:166	0x22b1cd6		488d0da3aff700			LEAQ type:string(SB), CX										
+  runtime.go:166	0x22b1cdd		48898c2488010000		MOVQ CX, 0x188(SP)											
+  runtime.go:166	0x22b1ce5		4889842490010000		MOVQ AX, 0x190(SP)											
+  runtime.go:166	0x22b1ced		488b8424b8030000		MOVQ 0x3b8(SP), AX											
+  runtime.go:166	0x22b1cf5		488b9c24c0030000		MOVQ 0x3c0(SP), BX											
+  runtime.go:166	0x22b1cfd		0f1f00				NOPL 0(AX)												
+  runtime.go:166	0x22b1d00		e8dbe7fafe			CALL runtime.convTstring(SB)										
+  runtime.go:166	0x22b1d05		488d0d74aff700			LEAQ type:string(SB), CX										
+  runtime.go:166	0x22b1d0c		48898c2498010000		MOVQ CX, 0x198(SP)											
+  runtime.go:166	0x22b1d14		48898424a0010000		MOVQ AX, 0x1a0(SP)											
+  runtime.go:166	0x22b1d1c		488b8c2460030000		MOVQ 0x360(SP), CX											
+  runtime.go:166	0x22b1d24		488b4918			MOVQ 0x18(CX), CX											
+  runtime.go:166	0x22b1d28		8b01				MOVL 0(CX), AX												
+  runtime.go:166	0x22b1d2a		e811a8f4fe			CALL local.runtime.convT32(SB)										
+  runtime.go:166	0x22b1d2f		488d0dcab0f700			LEAQ type:uint32(SB), CX										
+  runtime.go:166	0x22b1d36		48898c24a8010000		MOVQ CX, 0x1a8(SP)											
+  runtime.go:166	0x22b1d3e		48898424b0010000		MOVQ AX, 0x1b0(SP)											
+  runtime.go:166	0x22b1d46		488b442478			MOVQ 0x78(SP), AX											
+  runtime.go:166	0x22b1d4b		e810e7fafe			CALL runtime.convT64(SB)										
+  runtime.go:166	0x22b1d50		488d0d29b1f700			LEAQ type:uint64(SB), CX										
+  runtime.go:166	0x22b1d57		48898c24b8010000		MOVQ CX, 0x1b8(SP)											
+  runtime.go:166	0x22b1d5f		48898424c0010000		MOVQ AX, 0x1c0(SP)											
+  logger.go:226		0x22b1d67		488b8c24c0000000		MOVQ 0xc0(SP), CX											
+  logger.go:226		0x22b1d6f		488b01				MOVQ 0(CX), AX												
+  sugar.go:138		0x22b1d72		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:138		0x22b1d77		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:138		0x22b1d80		31db				XORL BX, BX												
+  sugar.go:138		0x22b1d82		488d0ddf6f6001			LEAQ 0x1606fdf(IP), CX											
+  sugar.go:138		0x22b1d89		bf69000000			MOVL $_ZN3std10sys_common11thread_info11THREAD_INFO7__getit5__KEY17hc87dac05a8e8ee5eE+41(SB), DI	
+  sugar.go:138		0x22b1d8e		488db42478010000		LEAQ 0x178(SP), SI											
+  sugar.go:138		0x22b1d96		41b805000000			MOVL $0x5, R8												
+  sugar.go:138		0x22b1d9c		4d89c1				MOVQ R8, R9												
+  sugar.go:138		0x22b1d9f		90				NOPL													
+  sugar.go:138		0x22b1da0		e89be14eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:168	0x22b1da5		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:168	0x22b1daa		f6c108				TESTL $0x8, CL												
+  logger.go:226		0x22b1dad		741d				JE 0x22b1dcc												
+  runtime.go:168	0x22b1daf		83e1f7				ANDL $-0x9, CX												
+  runtime.go:168	0x22b1db2		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:168	0x22b1db6		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:168	0x22b1dba		488b942480030000		MOVQ 0x380(SP), DX											
+  runtime.go:168	0x22b1dc2		488b02				MOVQ 0(DX), AX												
+  runtime.go:168	0x22b1dc5		ffd0				CALL AX													
+  runtime.go:168	0x22b1dc7		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:168	0x22b1dcc		f6c104				TESTL $0x4, CL												
+  runtime.go:168	0x22b1dcf		741d				JE 0x22b1dee												
+  runtime.go:168	0x22b1dd1		83e1fb				ANDL $-0x5, CX												
+  runtime.go:168	0x22b1dd4		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:168	0x22b1dd8		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:168	0x22b1ddc		488b942478030000		MOVQ 0x378(SP), DX											
+  runtime.go:168	0x22b1de4		488b02				MOVQ 0(DX), AX												
+  runtime.go:168	0x22b1de7		ffd0				CALL AX													
+  runtime.go:168	0x22b1de9		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:168	0x22b1dee		f6c102				TESTL $0x2, CL												
+  runtime.go:168	0x22b1df1		741d				JE 0x22b1e10												
+  runtime.go:168	0x22b1df3		83e1fd				ANDL $-0x3, CX												
+  runtime.go:168	0x22b1df6		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:168	0x22b1dfa		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:168	0x22b1dfe		488b942470030000		MOVQ 0x370(SP), DX											
+  runtime.go:168	0x22b1e06		488b02				MOVQ 0(DX), AX												
+  runtime.go:168	0x22b1e09		ffd0				CALL AX													
+  runtime.go:168	0x22b1e0b		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:168	0x22b1e10		f6c101				TESTL $0x1, CL												
+  runtime.go:168	0x22b1e13		7414				JE 0x22b1e29												
+  runtime.go:168	0x22b1e15		83e1fe				ANDL $-0x2, CX												
+  runtime.go:168	0x22b1e18		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:168	0x22b1e1c		488b942468030000		MOVQ 0x368(SP), DX											
+  runtime.go:168	0x22b1e24		488b02				MOVQ 0(DX), AX												
+  runtime.go:168	0x22b1e27		ffd0				CALL AX													
+  runtime.go:168	0x22b1e29		488b5c2460			MOVQ 0x60(SP), BX											
+  runtime.go:168	0x22b1e2e		488b842418010000		MOVQ 0x118(SP), AX											
+  runtime.go:168	0x22b1e36		4881c488030000			ADDQ $0x388, SP												
+  runtime.go:168	0x22b1e3d		5d				POPQ BP													
+  runtime.go:168	0x22b1e3e		c3				RET													
+  runtime.go:146	0x22b1e3f		488b942418010000		MOVQ 0x118(SP), DX											
+  runtime.go:146	0x22b1e47		c70201000000			MOVL $0x1, 0(DX)											
+  runtime.go:147	0x22b1e4d		488b4918			MOVQ 0x18(CX), CX											
+  runtime.go:147	0x22b1e51		488b842410010000		MOVQ 0x110(SP), AX											
+  runtime.go:147	0x22b1e59		ffd1				CALL CX													
+  runtime.go:147	0x22b1e5b		4889842470010000		MOVQ AX, 0x170(SP)											
+  runtime.go:147	0x22b1e63		48899c2498000000		MOVQ BX, 0x98(SP)											
+  runtime.go:147	0x22b1e6b		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:147	0x22b1e73		488b89e8000000			MOVQ 0xe8(CX), CX											
+  runtime.go:147	0x22b1e7a		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:147	0x22b1e82		ffd1				CALL CX													
+  runtime.go:147	0x22b1e84		4889842468010000		MOVQ AX, 0x168(SP)											
+  runtime.go:147	0x22b1e8c		440f11bc2438010000		MOVUPS X15, 0x138(SP)											
+  runtime.go:147	0x22b1e95		440f11bc2448010000		MOVUPS X15, 0x148(SP)											
+  runtime.go:147	0x22b1e9e		488b842470010000		MOVQ 0x170(SP), AX											
+  runtime.go:147	0x22b1ea6		488b9c2498000000		MOVQ 0x98(SP), BX											
+  runtime.go:147	0x22b1eae		e82de6fafe			CALL runtime.convTstring(SB)										
+  runtime.go:147	0x22b1eb3		488d0dc6adf700			LEAQ type:string(SB), CX										
+  runtime.go:147	0x22b1eba		48898c2438010000		MOVQ CX, 0x138(SP)											
+  runtime.go:147	0x22b1ec2		4889842440010000		MOVQ AX, 0x140(SP)											
+  runtime.go:147	0x22b1eca		488b8c2468010000		MOVQ 0x168(SP), CX											
+  runtime.go:147	0x22b1ed2		488b09				MOVQ 0(CX), CX												
+  runtime.go:147	0x22b1ed5		488b4118			MOVQ 0x18(CX), AX											
+  runtime.go:147	0x22b1ed9		488b5920			MOVQ 0x20(CX), BX											
+  runtime.go:147	0x22b1edd		0f1f00				NOPL 0(AX)												
+  runtime.go:147	0x22b1ee0		e8fbe5fafe			CALL runtime.convTstring(SB)										
+  runtime.go:147	0x22b1ee5		488d0d94adf700			LEAQ type:string(SB), CX										
+  runtime.go:147	0x22b1eec		48898c2448010000		MOVQ CX, 0x148(SP)											
+  runtime.go:147	0x22b1ef4		4889842450010000		MOVQ AX, 0x150(SP)											
+  runtime.go:147	0x22b1efc		488d05864a5701			LEAQ 0x1574a86(IP), AX											
+  runtime.go:147	0x22b1f03		bb22000000			MOVL $_ZN3std11collections4hash3map11RandomState3new4KEYS7__getit5__KEY17hc510b8383306a22dE+26(SB), BX	
+  runtime.go:147	0x22b1f08		488d8c2438010000		LEAQ 0x138(SP), CX											
+  runtime.go:147	0x22b1f10		bf02000000			MOVL $0x2, DI												
+  runtime.go:147	0x22b1f15		4889fe				MOVQ DI, SI												
+  runtime.go:147	0x22b1f18		e8a3b305ff			CALL fmt.Sprintf(SB)											
+  runtime.go:147	0x22b1f1d		48898424a0000000		MOVQ AX, 0xa0(SP)											
+  runtime.go:147	0x22b1f25		48895c2468			MOVQ BX, 0x68(SP)											
+  runtime.go:148	0x22b1f2a		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:148	0x22b1f32		488b4908			MOVQ 0x8(CX), CX											
+  logger.go:226		0x22b1f36		488b09				MOVQ 0(CX), CX												
+  sugar.go:138		0x22b1f39		440f113c24			MOVUPS X15, 0(SP)											
+  sugar.go:138		0x22b1f3e		48c744241000000000		MOVQ $0x0, 0x10(SP)											
+  sugar.go:138		0x22b1f47		4889df				MOVQ BX, DI												
+  sugar.go:138		0x22b1f4a		31f6				XORL SI, SI												
+  sugar.go:138		0x22b1f4c		4531c0				XORL R8, R8												
+  sugar.go:138		0x22b1f4f		4d89c1				MOVQ R8, R9												
+  sugar.go:138		0x22b1f52		31db				XORL BX, BX												
+  runtime.go:147	0x22b1f54		4889c2				MOVQ AX, DX												
+  sugar.go:138		0x22b1f57		4889c8				MOVQ CX, AX												
+  sugar.go:138		0x22b1f5a		4889d1				MOVQ DX, CX												
+  sugar.go:138		0x22b1f5d		0f1f00				NOPL 0(AX)												
+  sugar.go:138		0x22b1f60		e8dbdf4eff			CALL local.go.uber.org/zap.(*SugaredLogger).log(SB)							
+  runtime.go:149	0x22b1f65		488b8c2418010000		MOVQ 0x118(SP), CX											
+  runtime.go:149	0x22b1f6d		488b542468			MOVQ 0x68(SP), DX											
+  runtime.go:149	0x22b1f72		48895128			MOVQ DX, 0x28(CX)											
+  runtime.go:149	0x22b1f76		833de3bb800300			CMPL runtime.writeBarrier(SB), $0x0									
+  runtime.go:149	0x22b1f7d		750a				JNE 0x22b1f89												
+  runtime.go:149	0x22b1f7f		488bb424a0000000		MOVQ 0xa0(SP), SI											
+  runtime.go:149	0x22b1f87		eb18				JMP 0x22b1fa1												
+  runtime.go:149	0x22b1f89		e8f2a5fbfe			CALL local.runtime.gcWriteBarrier2(SB)									
+  runtime.go:149	0x22b1f8e		488bb424a0000000		MOVQ 0xa0(SP), SI											
+  runtime.go:149	0x22b1f96		498933				MOVQ SI, 0(R11)												
+  runtime.go:149	0x22b1f99		488b7920			MOVQ 0x20(CX), DI											
+  runtime.go:149	0x22b1f9d		49897b08			MOVQ DI, 0x8(R11)											
+  runtime.go:149	0x22b1fa1		48897120			MOVQ SI, 0x20(CX)											
+  runtime.go:150	0x22b1fa5		488b8c24c0030000		MOVQ 0x3c0(SP), CX											
+  runtime.go:150	0x22b1fad		4883f90d			CMPQ CX, $0xd												
+  logger.go:226		0x22b1fb1		755e				JNE 0x22b2011												
+  runtime.go:150	0x22b1fb3		48b9696e69745f636f6e		MOVQ $0x6e6f635f74696e69, CX										
+  runtime.go:150	0x22b1fbd		488bb424b8030000		MOVQ 0x3b8(SP), SI											
+  runtime.go:150	0x22b1fc5		48390e				CMPQ 0(SI), CX												
+  runtime.go:150	0x22b1fc8		7547				JNE 0x22b2011												
+  runtime.go:150	0x22b1fca		817e0874726163			CMPL 0x8(SI), $0x63617274										
+  runtime.go:150	0x22b1fd1		753e				JNE 0x22b2011												
+  runtime.go:150	0x22b1fd3		807e0c74			CMPB 0xc(SI), $0x74											
+  runtime.go:150	0x22b1fd7		7538				JNE 0x22b2011												
+  runtime.go:150	0x22b1fd9		488b8c2498030000		MOVQ 0x398(SP), CX											
+  runtime.go:150	0x22b1fe1		488b4958			MOVQ 0x58(CX), CX											
+  runtime.go:150	0x22b1fe5		488b8424a0030000		MOVQ 0x3a0(SP), AX											
+  runtime.go:150	0x22b1fed		ffd1				CALL CX													
+  runtime.go:150	0x22b1fef		3d99080000			CMPL AX, $0x899												
+  runtime.go:150	0x22b1ff4		721b				JB 0x22b2011												
+  runtime.go:151	0x22b1ff6		488b8c24a8030000		MOVQ 0x3a8(SP), CX											
+  runtime.go:151	0x22b1ffe		488b4120			MOVQ 0x20(CX), AX											
+  runtime.go:151	0x22b2002		488b9c24b0030000		MOVQ 0x3b0(SP), BX											
+  runtime.go:151	0x22b200a		e851900000			CALL chainmaker.org/chainmaker/vm-wasmer/v2.(*InstancesManager).CloseAVmPool(SB)			
+  runtime.go:151	0x22b200f		eb0b				JMP 0x22b201c												
+  runtime.go:153	0x22b2011		488b8c2400010000		MOVQ 0x100(SP), CX											
+  runtime.go:153	0x22b2019		ff4130				INCL 0x30(CX)												
+  runtime.go:155	0x22b201c		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:155	0x22b2021		f6c108				TESTL $0x8, CL												
+  runtime.go:155	0x22b2024		741d				JE 0x22b2043												
+  runtime.go:155	0x22b2026		83e1f7				ANDL $-0x9, CX												
+  runtime.go:155	0x22b2029		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:155	0x22b202d		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:155	0x22b2031		488b942480030000		MOVQ 0x380(SP), DX											
+  runtime.go:155	0x22b2039		488b02				MOVQ 0(DX), AX												
+  runtime.go:155	0x22b203c		ffd0				CALL AX													
+  runtime.go:155	0x22b203e		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:155	0x22b2043		f6c104				TESTL $0x4, CL												
+  runtime.go:155	0x22b2046		741f				JE 0x22b2067												
+  runtime.go:155	0x22b2048		83e1fb				ANDL $-0x5, CX												
+  runtime.go:155	0x22b204b		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:155	0x22b204f		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:155	0x22b2053		488b942478030000		MOVQ 0x378(SP), DX											
+  runtime.go:155	0x22b205b		488b02				MOVQ 0(DX), AX												
+  runtime.go:155	0x22b205e		6690				NOPW													
+  runtime.go:155	0x22b2060		ffd0				CALL AX													
+  runtime.go:155	0x22b2062		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:155	0x22b2067		f6c102				TESTL $0x2, CL												
+  runtime.go:155	0x22b206a		741d				JE 0x22b2089												
+  runtime.go:155	0x22b206c		83e1fd				ANDL $-0x3, CX												
+  runtime.go:155	0x22b206f		884c2452			MOVB CL, 0x52(SP)											
+  runtime.go:155	0x22b2073		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:155	0x22b2077		488b942470030000		MOVQ 0x370(SP), DX											
+  runtime.go:155	0x22b207f		488b02				MOVQ 0(DX), AX												
+  runtime.go:155	0x22b2082		ffd0				CALL AX													
+  runtime.go:155	0x22b2084		0fb64c2452			MOVZX 0x52(SP), CX											
+  runtime.go:155	0x22b2089		f6c101				TESTL $0x1, CL												
+  runtime.go:155	0x22b208c		7414				JE 0x22b20a2												
+  runtime.go:155	0x22b208e		83e1fe				ANDL $-0x2, CX												
+  runtime.go:155	0x22b2091		884c2453			MOVB CL, 0x53(SP)											
+  runtime.go:155	0x22b2095		488b942468030000		MOVQ 0x368(SP), DX											
+  runtime.go:155	0x22b209d		488b02				MOVQ 0(DX), AX												
+  runtime.go:155	0x22b20a0		ffd0				CALL AX													
+  runtime.go:155	0x22b20a2		488b5c2460			MOVQ 0x60(SP), BX											
+  runtime.go:155	0x22b20a7		488b842418010000		MOVQ 0x118(SP), AX											
+  runtime.go:155	0x22b20af		4881c488030000			ADDQ $0x388, SP												
+  runtime.go:155	0x22b20b6		5d				POPQ BP													
+  runtime.go:155	0x22b20b7		c3				RET													
+  runtime.go:132	0x22b20b8		488b4308			MOVQ 0x8(BX), AX											
+  runtime.go:132	0x22b20bc		4889cb				MOVQ CX, BX												
+  runtime.go:132	0x22b20bf		90				NOPL													
+  runtime.go:132	0x22b20c0		e8bb0cfbfe			CALL runtime.gopanic(SB)										
+  runtime.go:108	0x22b20c5		488b4008			MOVQ 0x8(AX), AX											
+  runtime.go:108	0x22b20c9		e8b20cfbfe			CALL runtime.gopanic(SB)										
+  runtime.go:108	0x22b20ce		90				NOPL													
+  runtime.go:108	0x22b20cf		e82c62f7fe			CALL local.runtime.deferreturn(SB)									
+  runtime.go:108	0x22b20d4		488b842418010000		MOVQ 0x118(SP), AX											
+  runtime.go:108	0x22b20dc		488b5c2460			MOVQ 0x60(SP), BX											
+  runtime.go:108	0x22b20e1		4881c488030000			ADDQ $0x388, SP												
+  runtime.go:108	0x22b20e8		5d				POPQ BP													
+  runtime.go:108	0x22b20e9		c3				RET													
+  runtime.go:44		0x22b20ea		4889442418			MOVQ AX, 0x18(SP)											
+  runtime.go:44		0x22b20ef		48895c2420			MOVQ BX, 0x20(SP)											
+  runtime.go:44		0x22b20f4		48894c2428			MOVQ CX, 0x28(SP)											
+  runtime.go:44		0x22b20f9		48897c2430			MOVQ DI, 0x30(SP)											
+  runtime.go:44		0x22b20fe		4889742438			MOVQ SI, 0x38(SP)											
+  runtime.go:44		0x22b2103		4c89442440			MOVQ R8, 0x40(SP)											
+  runtime.go:44		0x22b2108		4c894c2448			MOVQ R9, 0x48(SP)											
+  runtime.go:44		0x22b210d		4c89542450			MOVQ R10, 0x50(SP)											
+  runtime.go:44		0x22b2112		4c895c2458			MOVQ R11, 0x58(SP)											
+  runtime.go:44		0x22b2117		e86485fbfe			CALL local.runtime.morestack_noctxt.abi0(SB)								
+  runtime.go:44		0x22b211c		488b442418			MOVQ 0x18(SP), AX											
+  runtime.go:44		0x22b2121		488b5c2420			MOVQ 0x20(SP), BX											
+  runtime.go:44		0x22b2126		488b4c2428			MOVQ 0x28(SP), CX											
+  runtime.go:44		0x22b212b		488b7c2430			MOVQ 0x30(SP), DI											
+  runtime.go:44		0x22b2130		488b742438			MOVQ 0x38(SP), SI											
+  runtime.go:44		0x22b2135		4c8b442440			MOVQ 0x40(SP), R8											
+  runtime.go:44		0x22b213a		4c8b4c2448			MOVQ 0x48(SP), R9											
+  runtime.go:44		0x22b213f		4c8b542450			MOVQ 0x50(SP), R10											
+  runtime.go:44		0x22b2144		4c8b5c2458			MOVQ 0x58(SP), R11											
+  runtime.go:44		0x22b2149		e9b2eeffff			JMP chainmaker.org/chainmaker/vm-wasmer/v2.(*RuntimeInstance).Invoke(SB)				

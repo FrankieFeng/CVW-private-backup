@@ -1,0 +1,49 @@
+TEXT chainmaker.org/chainmaker/vm-wasmer/v2.(*vmPool).RevertInstance.func1(SB) /home/frankie/mygitprojects/CVW/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go
+  vm_pool.go:668	0x22bbd20		493b6610		CMPQ SP, 0x10(R14)									
+  vm_pool.go:668	0x22bbd24		764b			JBE 0x22bbd71										
+  vm_pool.go:668	0x22bbd26		55			PUSHQ BP										
+  vm_pool.go:668	0x22bbd27		4889e5			MOVQ SP, BP										
+  vm_pool.go:668	0x22bbd2a		4883ec20		SUBQ $0x20, SP										
+  vm_pool.go:668	0x22bbd2e		488b5a10		MOVQ 0x10(DX), BX									
+  vm_pool.go:668	0x22bbd32		488b4208		MOVQ 0x8(DX), AX									
+  vm_pool.go:668	0x22bbd36		4889442418		MOVQ AX, 0x18(SP)									
+  vm_pool.go:672	0x22bbd3b		0f1f440000		NOPL 0(AX)(AX*1)									
+  vm_pool.go:672	0x22bbd40		e87b000000		CALL local.chainmaker.org/chainmaker/vm-wasmer/v2.(*vmPool).CloseInstance(SB)		
+  vm_pool.go:673	0x22bbd45		488b4c2418		MOVQ 0x18(SP), CX									
+  vm_pool.go:673	0x22bbd4a		488b4168		MOVQ 0x68(CX), AX									
+  vm_pool.go:673	0x22bbd4e		488d5c2417		LEAQ 0x17(SP), BX									
+  vm_pool.go:673	0x22bbd53		e888abf3fe		CALL local.runtime.chansend1(SB)							
+  vm_pool.go:674	0x22bbd58		488b4c2418		MOVQ 0x18(SP), CX									
+  vm_pool.go:674	0x22bbd5d		488b4170		MOVQ 0x70(CX), AX									
+  vm_pool.go:674	0x22bbd61		488d5c2417		LEAQ 0x17(SP), BX									
+  vm_pool.go:674	0x22bbd66		e875abf3fe		CALL local.runtime.chansend1(SB)							
+  vm_pool.go:675	0x22bbd6b		4883c420		ADDQ $0x20, SP										
+  vm_pool.go:675	0x22bbd6f		5d			POPQ BP											
+  vm_pool.go:675	0x22bbd70		c3			RET											
+  vm_pool.go:668	0x22bbd71		e88ae8fafe		CALL local.runtime.morestack.abi0(SB)							
+  vm_pool.go:668	0x22bbd76		eba8			JMP local.chainmaker.org/chainmaker/vm-wasmer/v2.(*vmPool).RevertInstance.func1(SB)	
+
+TEXT local.chainmaker.org/chainmaker/vm-wasmer/v2.(*vmPool).RevertInstance.func1(SB) /home/frankie/mygitprojects/CVW/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go
+  vm_pool.go:668	0x22bbd20		493b6610		CMPQ SP, 0x10(R14)									
+  vm_pool.go:668	0x22bbd24		764b			JBE 0x22bbd71										
+  vm_pool.go:668	0x22bbd26		55			PUSHQ BP										
+  vm_pool.go:668	0x22bbd27		4889e5			MOVQ SP, BP										
+  vm_pool.go:668	0x22bbd2a		4883ec20		SUBQ $0x20, SP										
+  vm_pool.go:668	0x22bbd2e		488b5a10		MOVQ 0x10(DX), BX									
+  vm_pool.go:668	0x22bbd32		488b4208		MOVQ 0x8(DX), AX									
+  vm_pool.go:668	0x22bbd36		4889442418		MOVQ AX, 0x18(SP)									
+  vm_pool.go:672	0x22bbd3b		0f1f440000		NOPL 0(AX)(AX*1)									
+  vm_pool.go:672	0x22bbd40		e87b000000		CALL local.chainmaker.org/chainmaker/vm-wasmer/v2.(*vmPool).CloseInstance(SB)		
+  vm_pool.go:673	0x22bbd45		488b4c2418		MOVQ 0x18(SP), CX									
+  vm_pool.go:673	0x22bbd4a		488b4168		MOVQ 0x68(CX), AX									
+  vm_pool.go:673	0x22bbd4e		488d5c2417		LEAQ 0x17(SP), BX									
+  vm_pool.go:673	0x22bbd53		e888abf3fe		CALL local.runtime.chansend1(SB)							
+  vm_pool.go:674	0x22bbd58		488b4c2418		MOVQ 0x18(SP), CX									
+  vm_pool.go:674	0x22bbd5d		488b4170		MOVQ 0x70(CX), AX									
+  vm_pool.go:674	0x22bbd61		488d5c2417		LEAQ 0x17(SP), BX									
+  vm_pool.go:674	0x22bbd66		e875abf3fe		CALL local.runtime.chansend1(SB)							
+  vm_pool.go:675	0x22bbd6b		4883c420		ADDQ $0x20, SP										
+  vm_pool.go:675	0x22bbd6f		5d			POPQ BP											
+  vm_pool.go:675	0x22bbd70		c3			RET											
+  vm_pool.go:668	0x22bbd71		e88ae8fafe		CALL local.runtime.morestack.abi0(SB)							
+  vm_pool.go:668	0x22bbd76		eba8			JMP local.chainmaker.org/chainmaker/vm-wasmer/v2.(*vmPool).RevertInstance.func1(SB)	
