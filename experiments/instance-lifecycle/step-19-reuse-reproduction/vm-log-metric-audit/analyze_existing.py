@@ -56,6 +56,7 @@ def main():
                       p95_ms=sorted(duration)[math.ceil(.95*len(duration))-1]/1e6,
                       source_formula='normalTPSTest lines805-809 N/sum(end-start)',
                       selection='20 saved business samples; warmup/deploy excluded explicitly',
+                      metric_status='adopted_by_user_as_current_protocol_not_claimed_exact_PPT_formula',
                       ppt_version_match='not_confirmed',actual_commit_tps='different_metric')
         summary.append(result)
     compare=[]
@@ -69,7 +70,7 @@ def main():
         if modes:
             aa,bb=modes['R0'],modes['R1'];u,v=aa['duration_sum_vm_log_tps'],bb['duration_sum_vm_log_tps']
             row.update(current_r0_sum_metric=u,current_r1_sum_metric=v,current_drop_pct=(1-v/u)*100,n_each=aa['n'],
-                       comparison='recovered sequential formula; historical formula-version equivalence not established')
+                       comparison='adopted N/sum protocol; historical figures are references, exact formula-version equivalence not claimed')
         else:row.update(current_r0_sum_metric='',current_r1_sum_metric='',current_drop_pct='',n_each=0,comparison='method not sampled; do not substitute another method')
         compare.append(row)
     # Literal selection replay, adapting only the input transport from REUSE_VM timestamps.
