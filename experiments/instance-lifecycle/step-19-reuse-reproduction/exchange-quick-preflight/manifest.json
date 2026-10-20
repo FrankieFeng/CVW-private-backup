@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-20",
+  "status": "not_run_preflight_blocked",
+  "samples": 0,
+  "wasm_candidates": {
+    "exchange": {
+      "path": "/home/frankie/mygitprojects/chainmaker-test-toolkit-master/chainmaker-performance-test/contract/claim_demo/exchange-go.wasm",
+      "sha256": "72ef5f1c54ba6b6c190a56ab2b24a29709d847ea9dfe36b5f70c0bbcaf4387dc",
+      "bytes": 4285184
+    },
+    "identity": {
+      "path": "/home/frankie/mygitprojects/chainmaker-test-toolkit-master/chainmaker-performance-test/contract/claim_demo/identity-go.wasm",
+      "sha256": "a65903219f6d330cd3d6fe02b18f4b24dc136978c50d42a187e22e83383d903f",
+      "bytes": 4909723
+    },
+    "erc721": {
+      "path": "/home/frankie/mygitprojects/chainmaker-test-toolkit-master/chainmaker-performance-test/contract/claim_demo/erc721-go.wasm",
+      "sha256": "a692e438748bc0989095ac5eceda75d1eb106b61fcc29a34567bd465da2baeba",
+      "bytes": 5178387
+    }
+  },
+  "reason": "single buyNow has repeated calls into each shared-Store callee pool; R1 asynchronous Close/grow may overlap subsequent child Invoke even with one outstanding root request",
+  "node_started": false,
+  "production_modified": false,
+  "parameters_rule_source": "chainmaker-test-toolkit-master/chainmaker-performance-test/parallel/Init.go:214",
+  "main_metric_selection": "only successful root exchange.buyNow factory INFO intervals by saved TxID; do not sum nested identity/ERC721 Invoke intervals"
+}
