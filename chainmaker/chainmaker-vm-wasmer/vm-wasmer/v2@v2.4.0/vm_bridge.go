@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"math/big"
 	"sync"
+	"time"
 
 	"chainmaker.org/chainmaker/logger/v2"
 	"chainmaker.org/chainmaker/vm/v2"
@@ -123,6 +124,7 @@ func logMessageWithType(environment interface{}, args []wasmer.Value) ([]wasmer.
 //
 //export sysCall
 func sysCall(environment interface{}, args []wasmer.Value) ([]wasmer.Value, error) {
+	syscallStart := time.Now()
 
 	env, ok := environment.(*CMEnvironment)
 	if !ok {
@@ -171,6 +173,11 @@ func sysCall(environment interface{}, args []wasmer.Value) ([]wasmer.Value, erro
 
 	vbm := GetVmBridgeManager()
 	simContext := vbm.get(ctxPtr.(int32))
+	simContext.B5Profile.SyscallMethod = fmt.Sprint(method)
+	defer func() {
+		simContext.B5Profile.SyscallCount++
+		simContext.B5Profile.SyscallNs += time.Since(syscallStart).Nanoseconds()
+	}()
 
 	// create new WaciInstance for operate on blockchain
 	waciInstance := &WaciInstance{

@@ -435,6 +435,7 @@ func (m *VmManagerImpl) invokeUserContractByRuntime(contract *commonPb.Contract,
 	//记录结束时间。并写入日志
 	endTime := time.Now().UnixNano()
 	executionTime := float64(endTime-startTime) / 1e9
+	fmt.Printf("REUSE_VM tx=%s contract=%s method=%s begin_ns=%d end_ns=%d code=%d gas=%d depth=%d\n", txId, contractName, method, startTime, endTime, runtimeContractResult.Code, runtimeContractResult.GasUsed, txContext.GetDepth())
 	m.Log.Infof("invoke vm, tx id:%s, contractName:%+v, contractMethod:%+v, runtime type:%+v, runtimeContractResult:%d ,startTime:%d, endTime:%d, executionTime:%.6f s",
 		txId, contractName, method, runtimeType, runtimeContractResult.Code, startTime, endTime, executionTime)
 	if runtimeContractResult.Code == 0 {

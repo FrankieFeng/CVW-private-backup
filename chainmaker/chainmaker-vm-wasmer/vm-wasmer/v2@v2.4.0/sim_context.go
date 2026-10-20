@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"strconv"
 	"sync"
+	"time"
 
 	"chainmaker.org/chainmaker/logger/v2"
 
@@ -22,6 +23,8 @@ import (
 
 // SimContext record the contract context
 type SimContext struct {
+	lifecyclePool *vmPool
+	lifecycleID string
 	TxSimContext   protocol.TxSimContext
 	Contract       *commonPb.Contract
 	ContractResult *commonPb.ContractResult
@@ -36,6 +39,24 @@ type SimContext struct {
 	ChainId            string
 	ContractEvent      []*commonPb.ContractEvent
 	SpecialTxType      protocol.ExecOrderTxType
+	B5Profile          B5Profile
+}
+
+// B5Profile records Host-side CallMethod boundaries. ExportCallNs includes
+// the Wasm wrapper, business function, and any SDK syscalls made by it.
+type B5Profile struct {
+	RuntimeNs      int64
+	PrepareNs      int64
+	DispatchPreNs  int64
+	AllocateNs     int64
+	CopyLookupNs   int64
+	ExportCallNs   int64
+	DispatchPostNs int64
+	SyscallNs      int64
+	SyscallCount   int64
+	SyscallMethod  string
+	TotalNs        int64
+	ParameterSize  int
 }
 
 // NewSimContext for every transaction
@@ -54,6 +75,7 @@ func NewSimContext(method string, log *logger.CMLogger, chainId string) *SimCont
 // CallMethod will call contract method
 func (sc *SimContext) CallMethod(instance *wasmer.Instance) error {
 	var bytes []byte
+	b5Start := time.Now()
 
 	runtimeFn, err := instance.Exports.GetRawFunction(protocol.ContractRuntimeTypeMethod)
 	if err != nil {
@@ -65,6 +87,7 @@ func (sc *SimContext) CallMethod(instance *wasmer.Instance) error {
 	if err != nil {
 		return err
 	}
+	b5RuntimeEnd := time.Now()
 
 	runtimeSdkType, ok := sdkType.(int32)
 	if !ok {
@@ -84,16 +107,23 @@ func (sc *SimContext) CallMethod(instance *wasmer.Instance) error {
 		sc.parameters["CONTRACT_BYTECODE"] = []byte("")
 		ec := serialize.NewEasyCodecWithMap(sc.parameters)
 		bytes = ec.Marshal()
+		sc.B5Profile.ParameterSize = len(bytes)
 	} else {
 		return fmt.Errorf("runtime type error, expect rust:[%d], but got %d",
 			uint64(commonPb.RuntimeType_WASMER), runtimeSdkType)
 	}
 
-	return sc.callContract(instance, sc.method, bytes)
+	b5PrepareEnd := time.Now()
+	sc.B5Profile.RuntimeNs = b5RuntimeEnd.Sub(b5Start).Nanoseconds()
+	sc.B5Profile.PrepareNs = b5PrepareEnd.Sub(b5RuntimeEnd).Nanoseconds()
+	err = sc.callContract(instance, sc.method, bytes)
+	sc.B5Profile.TotalNs = time.Since(b5Start).Nanoseconds()
+	return err
 }
 
 func (sc *SimContext) callContract(instance *wasmer.Instance, methodName string, bytes []byte) error {
 
+	dispatchStart := time.Now()
 	sc.Log.Debugf("sc.Contract = %v", sc.Contract)
 	sc.Log.Debugf("sc.method = %v", sc.method)
 	//sc.Log.Debugf("sc.parameters = %v", sc.parameters)
@@ -102,6 +132,8 @@ func (sc *SimContext) callContract(instance *wasmer.Instance, methodName string,
 	//如果按照之前的方法在runtime.go中进行插桩的话对gas结果存在影响，是否应该对我们需要的exportFunc进行插桩？
 	//已解决，有个参数ctxptr是递增的，导致后面ec.Marshal序列化长度不一样，从而导致原本后面在allocateFunc.Call(lengthOfSubject)把参数写入内存的gas计量会有小误差
 	lengthOfSubject := len(bytes)
+	allocateStart := time.Now()
+	sc.B5Profile.DispatchPreNs = allocateStart.Sub(dispatchStart).Nanoseconds()
 
 	allocateFunc, err := instance.Exports.GetRawFunction(protocol.ContractAllocateMethod)
 	if err != nil {
@@ -116,6 +148,8 @@ func (sc *SimContext) callContract(instance *wasmer.Instance, methodName string,
 		sc.Log.Errorf("contract invoke %s failed, %s", protocol.ContractAllocateMethod, err.Error())
 		return fmt.Errorf("%s invoke failed. There may not be enough memory or CPU", protocol.ContractAllocateMethod)
 	}
+	allocateEnd := time.Now()
+	sc.B5Profile.AllocateNs = allocateEnd.Sub(allocateStart).Nanoseconds()
 	dataPtr, ok := allocateResult.(int32)
 	if !ok {
 		return fmt.Errorf("allocateResult is not int32 type")
@@ -134,6 +168,7 @@ func (sc *SimContext) callContract(instance *wasmer.Instance, methodName string,
 		memory[nth] = bytes[nth]
 	}
 
+	copyLookupStart := allocateEnd
 	exportFunc, err := instance.Exports.GetRawFunction(methodName)
 	if err != nil {
 		//if methodName == "init_contract" {
@@ -147,11 +182,18 @@ func (sc *SimContext) callContract(instance *wasmer.Instance, methodName string,
 	}
 	defer exportFunc.Close()
 	// Calls the `invoke` exported function. Given the pointer to the subject.
+	sc.traceBusiness("business_before", instance, nil)
+	exportCallStart := time.Now()
 	_, err = exportFunc.Call()
+	exportCallEnd := time.Now()
+	sc.traceBusiness("business_return", instance, err)
+	sc.B5Profile.CopyLookupNs = exportCallStart.Sub(copyLookupStart).Nanoseconds()
+	sc.B5Profile.ExportCallNs = exportCallEnd.Sub(exportCallStart).Nanoseconds()
 	if err != nil {
 		return err
 	}
 	sc.Log.Debugf("contract invoke success")
+	sc.B5Profile.DispatchPostNs = time.Since(exportCallEnd).Nanoseconds()
 
 	return err
 }

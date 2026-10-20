@@ -627,6 +627,8 @@ type wrappedInstance struct {
 // should be followed by defer resetInstance
 func (p *vmPool) GetInstance() *wrappedInstance {
 
+	acquireBegin := time.Now()
+	defer func() { p.reuseObserve("acquire", "", time.Since(acquireBegin).Nanoseconds()) }()
 	var instance *wrappedInstance
 	// get instance from vm pool
 	select {
@@ -634,6 +636,7 @@ func (p *vmPool) GetInstance() *wrappedInstance {
 		// concurrency safe here
 		atomic.AddInt32(&p.useCount, 1)
 		instance.lastUseTime = utils.CurrentTimeMillisSeconds()
+		p.traceLifecycle("T5", instance.id, instance.wasmInstance, "acquire", "")
 		return instance
 	default:
 		// nothing
@@ -658,12 +661,14 @@ func (p *vmPool) GetInstance() *wrappedInstance {
 	elapsedTimeMS := int32(curTimeMS2 - curTimeMS1)
 	atomic.AddInt32(&p.totalDelay, elapsedTimeMS)
 
+	p.traceLifecycle("T5", instance.id, instance.wasmInstance, "acquire_wait", "")
 	return instance
 }
 
 // RevertInstance revert instance to pool
 func (p *vmPool) RevertInstance(instance *wrappedInstance) {
-	if true || p.shouldDiscard(instance) {
+	if !reuseExperimentEnabled || p.shouldDiscard(instance) {
+		p.traceLifecycle("T8", instance.id, instance.wasmInstance, "drop", "")
 		p.log.Debugf("instance not reused, instance id: %s, errCount: %d", instance.id, instance.errCount)
 		go func() {
 			// Close first so wasiEnv is on freelist before grow→acquireWasiEnv.
@@ -674,6 +679,7 @@ func (p *vmPool) RevertInstance(instance *wrappedInstance) {
 			p.addInstanceC <- struct{}{}
 		}()
 	} else {
+		p.traceLifecycle("T8", instance.id, instance.wasmInstance, "reuse", "")
 		p.instances <- instance
 	}
 }
@@ -687,14 +693,18 @@ func (p *vmPool) NewInstance() (*wrappedInstance, error) {
 // Do not call wasi_env_delete here: packaged Wasmer does not reclaim Tokio worker
 // threads after delete; freelist reuse keeps Threads flat across discard/recreate.
 func (p *vmPool) CloseInstance(instance *wrappedInstance) {
+	closeBegin := time.Now()
+	defer func() { p.reuseObserve("close", "", time.Since(closeBegin).Nanoseconds()) }()
 	if instance == nil {
 		return
 	}
 	p.log.Debugf("CallDeallocate site=CloseInstance instance_id=%s", instance.id)
 	if instance.wasmInstance != nil {
+		p.traceLifecycle("T8", instance.id, instance.wasmInstance, "close_begin", "")
 		if err := CallDeallocate(instance.wasmInstance); err != nil {
 			p.log.Errorf("CallDeallocate(...) error: %v", err)
 		}
+		p.traceLifecycle("T8", instance.id, instance.wasmInstance, "deallocate_done", "")
 		instance.wasmInstance.Close()
 		instance.wasmInstance = nil
 	}
@@ -702,6 +712,7 @@ func (p *vmPool) CloseInstance(instance *wrappedInstance) {
 		p.releaseWasiEnv(instance.wasiEnv)
 		instance.wasiEnv = nil
 	}
+	p.traceLifecycle("T8", instance.id, nil, "close_done", "")
 	p.log.Debugf("instance closed.")
 }
 
@@ -1175,7 +1186,9 @@ func (p *vmPool) grow(count int32) {
 
 		for i := int32(0); i < size; i++ {
 			instance, _ := p.newInstanceFromModule()
+			p.traceLifecycle("T4", instance.id, instance.wasmInstance, "enqueue_before", "")
 			p.instances <- instance
+			p.traceLifecycle("T4", instance.id, nil, "enqueue_done", "")
 			atomic.AddInt32(&p.currentSize, 1)
 		}
 		p.log.Infof("vm pool grow size = %d", size)
@@ -1227,6 +1240,10 @@ func (p *vmPool) NewInstanceFromByteCode() (*wrappedInstance, error) {
 }
 
 func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
+	createBegin := time.Now()
+	defer func() { p.reuseObserve("create", "", time.Since(createBegin).Nanoseconds()) }()
+	instanceID := uuid.GetUUID()
+	p.traceLifecycle("T0", instanceID, nil, "create_begin", "")
 	startTime := time.Now().UnixNano()
 	fmt.Printf("startNew:%d\n", startTime)
 	vb := GetVmBridgeManager()
@@ -1258,6 +1275,7 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 		p.log.Errorf("newInstanceFromModule fail: %s", err.Error())
 		return nil, err
 	}
+	p.traceLifecycle("T1", instanceID, wasmInstance, "instantiate_done", "")
 	p.log.Debugf("newInstanceFromModule success")
 
 	err = wasiEnv.Initialize(p.store, wasmInstance)
@@ -1267,9 +1285,13 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 		return nil, err
 	}
 	// 如果有wasi，获取并执行 WASI start 函数
-	start, _ := wasmInstance.Exports.GetWasiStartRawFunction()
+	p.traceLifecycle("T2", instanceID, wasmInstance, "start_before", "")
+	start, startErr := wasmInstance.Exports.GetWasiStartRawFunction()
 	if start != nil {
-		start.Call()
+		_, startErr = start.Call()
+		p.traceLifecycle("T3", instanceID, wasmInstance, "start_return", lifecycleError(startErr))
+	} else {
+		p.traceLifecycle("T3", instanceID, wasmInstance, "start_absent", lifecycleError(startErr))
 	}
 
 	env.instance = wasmInstance
@@ -1279,7 +1301,7 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 	//fmt.Printf("env.memory.limit %+v\n", limitsAgain)
 	//fmt.Printf("env.memory dataSize %d字节 %d页\n", env.memory.DataSize(), env.memory.Size())
 	instance := &wrappedInstance{
-		id:           uuid.GetUUID(),
+		id:           instanceID,
 		wasmInstance: wasmInstance,
 		wasiEnv:      wasiEnv,
 		lastUseTime:  utils.CurrentTimeMillisSeconds(),

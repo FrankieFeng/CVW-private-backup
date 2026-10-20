@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-20",
+  "cvw_base": "c3e8f2c",
+  "node_base": "351b816",
+  "cvw_worktree": "/home/frankie/mygitprojects/.worktrees/cvw-step19-reuse",
+  "node_worktree": "/home/frankie/mygitprojects/.worktrees/node-step19-reuse",
+  "go": "go1.25.0",
+  "scope": "single-validator smoke; default queue and background grow; no Copy/A/P; no fresh-on-demand; no root VM mutex",
+  "native_sha256": "dcdfa7164c58856f6e0c01597fd52c9a4c5f7da772751e3a874f7333612c3db9",
+  "historical_tps_formula": "not_found",
+  "historical_wasm_hashes": "not_found",
+  "historical_4node_config": "not_found",
+  "baseline_dirty_snapshot": "baseline-workspace.patch",
+  "resource_limits": {
+    "rss_mb": 4096,
+    "threads": 1500,
+    "startup_timeout_s": 60,
+    "rpc_timeout_s": 75
+  },
+  "historical_tps": {
+    "compute.bigNumCal": [
+      295.8,
+      210.4
+    ],
+    "compute.hashCal": [
+      769.6,
+      277.0
+    ],
+    "erc721.mint": [
+      4077.5,
+      311.4
+    ],
+    "fact.saveAndFindByFileHash": [
+      2959.1,
+      380.3
+    ],
+    "exchange.buyNow": [
+      881.2,
+      57.7
+    ]
+  },
+  "chainmaker_sha256": "3b48ebad57c36c08a135fb3640607fd30382861716917fd2bb90033d17d7fc18",
+  "client_sha256": "a7d394281451e7cb005b35d508eae7301e525cf91d32905167db33a08d3cc223",
+  "clock_ticks_per_second": 100,
+  "host_cpu": "Intel(R) Core(TM) Ultra 9 285H",
+  "all_experiment_nodes_stopped": true,
+  "full_benchmark": "not_run",
+  "stop_reasons": [
+    "RSS and virtual address space continued to grow in bounded smoke; no steady state demonstrated",
+    "fact.saveAndFindByFileHash reported Gas differs after R0 Instance reuse",
+    "historical TPS formula, exact WASM hashes and 4-node configuration unavailable"
+  ],
+  "smoke": {
+    "topology": "one validator TBFT, separate empty ledgers per mode",
+    "policies": "same binary; CM_REUSE_EXPERIMENT=R0/R1",
+    "threads": "GOMAXPROCS=4, no root VM mutex",
+    "load": "single synchronous client; 3 warmup +20 measured invokes per method; 100ms sleep after response",
+    "order": "R0 then R1, one smoke per workload; no randomized/cross-batch significance claim",
+    "fact_save": "supplemental workload, not substituted for historical saveAndFindByFileHash",
+    "fact_target": "separate fresh one-contract ledgers; 3 warmup+20 per mode",
+    "telemetry": "lightweight JSON stdout, no Memory SHA; overhead not calibrated",
+    "success_verification": "all 230 user invokes looked up by TxID in committed ledger; 200 measured samples"
+  },
+  "config_sha256": {
+    "network/optimized/sdk.yml": "440f1ee69f435b5000def0d87ca9dc5c6c52f3ca6b7dd38ddd4e5e856cdaf4f4",
+    "network/baseline/sdk.yml": "815ecb0e0b40e3c7e37ca3aa673533c98ea46678b49d76a0ced1f59b25434029",
+    "network/optimized/config/wx-org1.chainmaker.org/chainmaker.yml": "1ed0c2ec588da20cf5edc8071765aba39c0e69676d44b6cd1f3ccf8b6c318717",
+    "network/optimized/config/wx-org1.chainmaker.org/chainmaker-race.yml": "8dec40abe66ed1e175c39431bdffbea746fe7316a375bf974b7a0bae2a7ed124",
+    "network/optimized/config/wx-org1.chainmaker.org/log.yml": "1df1db3cf8777f258bf5422263f655af98f6ae062de81c5c2c5090f6681e8e74",
+    "network/optimized/config/wx-org1.chainmaker.org/chainconfig/bc1.yml": "955fa0b884937fd4fe736d36aaaf150a1e689619e21f2613d6c6ec2e3a9688a2",
+    "network/baseline/config/wx-org1.chainmaker.org/chainmaker.yml": "2eecfa590b9968ca1a14446ae308713b9bde7074360026d1007f49dbc55d8ff3",
+    "network/baseline/config/wx-org1.chainmaker.org/chainmaker-race.yml": "975532d03b537b44b6996c90ea0f5e1b743c238bf2f2c00ea60a05d3c4c41e0d",
+    "network/baseline/config/wx-org1.chainmaker.org/log.yml": "97cffa2ab0ee0e61760ed7763d5db71d5288bd6a4c08ee3c650781c1c09c283f",
+    "network/baseline/config/wx-org1.chainmaker.org/chainconfig/bc1.yml": "69a50e3d424ae9a76d18199c9bd9c361b832fef52d865e174b87eec0ff2f0784",
+    "fact-target-smoke/network/optimized/sdk.yml": "440f1ee69f435b5000def0d87ca9dc5c6c52f3ca6b7dd38ddd4e5e856cdaf4f4",
+    "fact-target-smoke/network/baseline/sdk.yml": "815ecb0e0b40e3c7e37ca3aa673533c98ea46678b49d76a0ced1f59b25434029",
+    "fact-target-smoke/network/optimized/config/wx-org1.chainmaker.org/chainmaker.yml": "d2c39afa02319dd2ff1e5777d5f237dd92a81c74423ccd61c4cf6516a43e0ad6",
+    "fact-target-smoke/network/optimized/config/wx-org1.chainmaker.org/chainmaker-race.yml": "a3910c0ef8ce8bd4af151266d3c5ca4cedb9b87655bd7afc97801b99293c7ff7",
+    "fact-target-smoke/network/optimized/config/wx-org1.chainmaker.org/log.yml": "77734a0d12d975a4d8001bf14f11aa0d3dcd26b13a1bf2273d4291971c9b490e",
+    "fact-target-smoke/network/optimized/config/wx-org1.chainmaker.org/chainconfig/bc1.yml": "5e7d5a0b53f763dcebb01c1082ae487b27809269aae0824ce8dfd99bdc5c8177",
+    "fact-target-smoke/network/baseline/config/wx-org1.chainmaker.org/chainmaker.yml": "c0a08e42ee204c5cddb27f076dc8d57d8e4a8fea8c23ddedc771a7822147c59c",
+    "fact-target-smoke/network/baseline/config/wx-org1.chainmaker.org/chainmaker-race.yml": "163e857811c0e86e621628b44b3cca4ebf61ea5aef2c7e7107d8a00d1a2d0670",
+    "fact-target-smoke/network/baseline/config/wx-org1.chainmaker.org/log.yml": "927badc48f3020973eab28b6574a14668b825eb3ccdea8178165a7d603dfa446",
+    "fact-target-smoke/network/baseline/config/wx-org1.chainmaker.org/chainconfig/bc1.yml": "f573e820e5e6913f8ccdc7b19c6dff12a1ee2ac7cd84f220fb56388986259592"
+  },
+  "source_sha256": {
+    "chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go": "45255e69734b526834a26cf21576a19c46567827a73e68ab27a45e9e8b210abd",
+    "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go": "0215806aa16a3c24c909882714117a787866706cb55b8f14f559af3b4b02dee4",
+    "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/sim_context.go": "8f2fa3c540439b7b7e76776295822c40b2ec42578a743c47177b6aab75c59fc7",
+    "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_bridge_kv.go": "100af8b8ed6ab25ad4a398a8a24f3b7f7f19389b5d10444523e3c9208f99294e",
+    "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_bridge_sql.go": "3f0f735d2520890bf8fd14d76afc4af889418ac35326ff831dc933b7664404ab",
+    "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/resource_sample.go": "b082c04eec202bd82a0661dae3424efb1f649cd9952965fd0fe761400c706e11",
+    "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/instance_lifecycle_trace.go": "b2718d28a237acf684fca40d8000ba49d7e325c53d2d9771fb769f2d8ac8b1a6",
+    "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_bridge.go": "cc040ec18b51427ec2e5ef71367d19b2c9e5049b4f32fa88ea402302ac209497",
+    "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go": "1195b4db536589b7d9684eb3c7849fd5b7fa2b1306ff0e0761089b7c07ff1c0b",
+    "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_instances_manager.go": "7835eae54e1cec6c0e3e999acb2797d9d94c4164c90651e22d970a31e13bcadc"
+  }
+}
