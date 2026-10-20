@@ -1,0 +1,46 @@
+{
+  "contract": "compute.normalCal",
+  "wasm_path": "/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-16-chainmaker-copy/artifacts/compute/original.wasm",
+  "wasm_sha256": "e8b1fe3648b9f731f90352aff1796195f9f1efd1c4043bafec966fac53952507",
+  "wasm_bytes": 4628317,
+  "node_binary_sha256": "3b48ebad57c36c08a135fb3640607fd30382861716917fd2bb90033d17d7fc18",
+  "client_binary_sha256": "a7d394281451e7cb005b35d508eae7301e525cf91d32905167db33a08d3cc223",
+  "vm_runtime_source_commit": "eac4f2942151dc346dace728f1f9e7651c83615f",
+  "node_source_commit": "552df3f464d8e113dbca03c5da385c4ff1afd0b0",
+  "host_go": "1.25.0",
+  "sdk": "chainmaker-sdk-go/v2 v2.4.0",
+  "native": "packaged Wasmer6.0.1, unchanged",
+  "inputs": "15 empty maps per case; 5 warmup +10 measured; same original compute WASM as earlier Step-19",
+  "low_load": "200ms minimum start-to-start spacing plus verified refill/close quiescence; at most one business request",
+  "orders": {
+    "a": [
+      "R0",
+      "R1"
+    ],
+    "b": [
+      "R1",
+      "R0"
+    ]
+  },
+  "guards": {
+    "MemoryMax": "2GiB",
+    "TasksMax": 256,
+    "RuntimeMaxSec": 90,
+    "RSS_soft_mib": 1536,
+    "post_deploy_RSS_delta_mib": 256,
+    "threads_soft": 220,
+    "request_watchdog_s": 15,
+    "refill_watchdog_s": 2
+  },
+  "pressure_gate": "shared Store access lacks synchronization; higher load not enabled",
+  "source_of_main_metric": "actual vm_factory INFO startTime/endTime, timer unchanged; REUSE_VM only crosscheck",
+  "initial_state": "independent empty one-validator TBFT ledgers; same configuration per mode; no contract args",
+  "experiment_branch": "experiment/step19-erc721-minimal",
+  "higher_pressure_status": "not_run_shared_store_safety_gate",
+  "completed_cases": 4,
+  "measured_samples": 40,
+  "total_committed_business_calls": 60,
+  "all_owned_nodes_stopped": true,
+  "original_info_crosschecks": 40,
+  "gas_equal": true
+}
