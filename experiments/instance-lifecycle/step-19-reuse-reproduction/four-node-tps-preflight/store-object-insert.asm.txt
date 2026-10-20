@@ -1,0 +1,52 @@
+
+/home/frankie/mygitprojects/.worktrees/cvw-step19-reuse/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/wasmer-go/packaged/lib/linux-amd64/libwasmer.so:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000003ea240 <wasmer_vm::store::InternalStoreHandle<T>::new>:
+  3ea240:	41 57                	push   %r15
+  3ea242:	41 56                	push   %r14
+  3ea244:	41 55                	push   %r13
+  3ea246:	41 54                	push   %r12
+  3ea248:	53                   	push   %rbx
+  3ea249:	48 89 d3             	mov    %rdx,%rbx
+  3ea24c:	49 89 f6             	mov    %rsi,%r14
+  3ea24f:	4c 8b af d0 00 00 00 	mov    0xd0(%rdi),%r13
+  3ea256:	4d 89 ec             	mov    %r13,%r12
+  3ea259:	49 ff c4             	inc    %r12
+  3ea25c:	74 3c                	je     3ea29a <wasmer_vm::store::InternalStoreHandle<T>::new+0x5a>
+  3ea25e:	49 89 ff             	mov    %rdi,%r15
+  3ea261:	48 81 c7 c0 00 00 00 	add    $0xc0,%rdi
+  3ea268:	4c 3b 2f             	cmp    (%rdi),%r13
+  3ea26b:	75 05                	jne    3ea272 <wasmer_vm::store::InternalStoreHandle<T>::new+0x32>
+  3ea26d:	e8 ce 01 ee ff       	call   2ca440 <alloc::raw_vec::RawVec<T,A>::grow_one>
+  3ea272:	49 8b 87 c8 00 00 00 	mov    0xc8(%r15),%rax
+  3ea279:	49 c1 e5 04          	shl    $0x4,%r13
+  3ea27d:	4e 89 34 28          	mov    %r14,(%rax,%r13,1)
+  3ea281:	4a 89 5c 28 08       	mov    %rbx,0x8(%rax,%r13,1)
+  3ea286:	4d 89 a7 d0 00 00 00 	mov    %r12,0xd0(%r15)
+  3ea28d:	4c 89 e0             	mov    %r12,%rax
+  3ea290:	5b                   	pop    %rbx
+  3ea291:	41 5c                	pop    %r12
+  3ea293:	41 5d                	pop    %r13
+  3ea295:	41 5e                	pop    %r14
+  3ea297:	41 5f                	pop    %r15
+  3ea299:	c3                   	ret
+  3ea29a:	48 8d 3d 0f b3 48 01 	lea    0x148b30f(%rip),%rdi        # 18755b0 <anon.79a7355cdf6964c75f6053aad3aef1d1.147.llvm.10094175889798322872>
+  3ea2a1:	ff 15 79 51 58 01    	call   *0x1585179(%rip)        # 196f420 <_GLOBAL_OFFSET_TABLE_+0x43a0>
+  3ea2a7:	0f 0b                	ud2
+  3ea2a9:	49 89 c7             	mov    %rax,%r15
+  3ea2ac:	4c 89 f7             	mov    %r14,%rdi
+  3ea2af:	48 89 de             	mov    %rbx,%rsi
+  3ea2b2:	e8 e9 67 ff ff       	call   3e0aa0 <core::ptr::drop_in_place<wasmer_vm::memory::VMMemory>>
+  3ea2b7:	eb 14                	jmp    3ea2cd <wasmer_vm::store::InternalStoreHandle<T>::new+0x8d>
+  3ea2b9:	ff 15 a9 10 58 01    	call   *0x15810a9(%rip)        # 196b368 <_GLOBAL_OFFSET_TABLE_+0x2e8>
+  3ea2bf:	49 89 c7             	mov    %rax,%r15
+  3ea2c2:	4c 89 f7             	mov    %r14,%rdi
+  3ea2c5:	48 89 de             	mov    %rbx,%rsi
+  3ea2c8:	e8 d3 67 ff ff       	call   3e0aa0 <core::ptr::drop_in_place<wasmer_vm::memory::VMMemory>>
+  3ea2cd:	4c 89 ff             	mov    %r15,%rdi
+  3ea2d0:	e8 7b 5d d7 ff       	call   160050 <_Unwind_Resume@plt>
+  3ea2d5:	ff 15 8d 10 58 01    	call   *0x158108d(%rip)        # 196b368 <_GLOBAL_OFFSET_TABLE_+0x2e8>
+  3ea2db:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
