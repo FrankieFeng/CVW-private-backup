@@ -1,0 +1,105 @@
+{
+  "date": "2026-10-21",
+  "github_repo": "https://github.com/wqqkakuiii/CVW",
+  "github_main_confirmed_by_ls_remote": "c3e8f2cc1479a11450d61e342a93c3b2416b7cff",
+  "actual_source_commit": "9caf9d2da13eef64363ad39e84a3a19eb2957bbf",
+  "runtime_base_commit": "eac4f2942151dc346dace728f1f9e7651c83615f",
+  "branch": "experiment/step19-testinvoke-reproduction",
+  "production_modified": false,
+  "go": "go1.25.0 linux/amd64",
+  "goroot": "/usr/local/go",
+  "os": "Linux 6.18.33.2-microsoft-standard-WSL2 x86_64 GNU/Linux",
+  "cpu_model": "Intel(R) Core(TM) Ultra 9 285H",
+  "cgo_enabled": true,
+  "gomaxprocs": 4,
+  "go_workspace": "/home/frankie/mygitprojects/.worktrees/cvw-step19-reuse/go.work",
+  "build_dependency_policy": "GOPROXY=off GOTOOLCHAIN=local; workspace MVS; no dependency updates",
+  "wasm_sha256": "e8b1fe3648b9f731f90352aff1796195f9f1efd1c4043bafec966fac53952507",
+  "wasm_bytes": 4628317,
+  "wasm_origin": "same original compute WASM as earlier Step-19; bigNumCal 100-loop version; not proved historical binary",
+  "native_sha256": "dcdfa7164c58856f6e0c01597fd52c9a4c5f7da772751e3a874f7333612c3db9",
+  "native": "existing packaged Wasmer6.0.1",
+  "normal_test_binary_sha256": "f2ac89938cefd74466e10c9e1ed3b505ab0603302e702e3e5b579670a92565aa",
+  "race_test_binary_sha256": "48a8277b00d1beb71db5ef115a4a8398431eb3fc8848ec69bbf358d52c03971d",
+  "formal_design": "3 independent batch pairs; 100 invocations per group per fresh process; no pacing or warmup exclusion; same compiled binary",
+  "orders": {
+    "a": [
+      "R0",
+      "R1"
+    ],
+    "b": [
+      "R1",
+      "R0"
+    ],
+    "c": [
+      "R0",
+      "R1"
+    ]
+  },
+  "formal_samples": 600,
+  "diagnostic_samples": 200,
+  "diagnostic_excluded": true,
+  "erc721": "not_run: unresolved native Store ownership and no join on pool cleanup",
+  "all_owned_processes_stopped": true,
+  "timer_unchanged": true,
+  "environment_fix": "default /usr/local/bin/go lacks inferred GOROOT; explicitly used installed /usr/local/go without changing Go version",
+  "sources": [
+    {
+      "path": "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime_test.go",
+      "local_sha256": "a2fa3017de531306ec17c9cd18944f3ad0eb952e3d82649510223b83390aca89",
+      "github_sha256": "a2fa3017de531306ec17c9cd18944f3ad0eb952e3d82649510223b83390aca89",
+      "byte_identical": true
+    },
+    {
+      "path": "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go",
+      "local_sha256": "1195b4db536589b7d9684eb3c7849fd5b7fa2b1306ff0e0761089b7c07ff1c0b",
+      "github_sha256": "f8ae8dc9c3a6575c688d2ce05a8a941601d0d39719f8892bd721f7d7937f8854",
+      "byte_identical": false
+    },
+    {
+      "path": "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go",
+      "local_sha256": "0215806aa16a3c24c909882714117a787866706cb55b8f14f559af3b4b02dee4",
+      "github_sha256": "4c24349a20634c6cf8291bc97bfc80c082c151c34e98326c1db448e9e7a6970c",
+      "byte_identical": false
+    },
+    {
+      "path": "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/init_test.go",
+      "local_sha256": "7f17d90301c1b06c5a1109a55768d8c51736ad5ab6dbdf0ca84bd7186a0f60cf",
+      "github_sha256": "7f17d90301c1b06c5a1109a55768d8c51736ad5ab6dbdf0ca84bd7186a0f60cf",
+      "byte_identical": true
+    },
+    {
+      "path": "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/sim_context.go",
+      "local_sha256": "8f2fa3c540439b7b7e76776295822c40b2ec42578a743c47177b6aab75c59fc7",
+      "github_sha256": "9b06c6fae172d4323cfec744898c01c6a978512ac5ce38d4b5245a807209648c",
+      "byte_identical": false
+    },
+    {
+      "path": "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_bridge.go",
+      "local_sha256": "cc040ec18b51427ec2e5ef71367d19b2c9e5049b4f32fa88ea402302ac209497",
+      "github_sha256": "526cf9043dab6a4fcc178251d6597888944427d332bb7d38227aa608d186de95",
+      "byte_identical": false
+    },
+    {
+      "path": "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/instance_lifecycle_trace.go",
+      "local_sha256": "b2718d28a237acf684fca40d8000ba49d7e325c53d2d9771fb769f2d8ac8b1a6",
+      "github_sha256": null,
+      "byte_identical": false
+    },
+    {
+      "path": "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/go.mod",
+      "local_sha256": "4462300742344e2cff239d4a88e4aae7d00fb49dbf19d2e7d1fe6bf757ad6571",
+      "github_sha256": "4462300742344e2cff239d4a88e4aae7d00fb49dbf19d2e7d1fe6bf757ad6571",
+      "byte_identical": true
+    },
+    {
+      "path": "chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/go.sum",
+      "local_sha256": "e44feff849bfeb064559000941c3e917fc4945f2cb11cab14030fb3f18d686f9",
+      "github_sha256": "e44feff849bfeb064559000941c3e917fc4945f2cb11cab14030fb3f18d686f9",
+      "byte_identical": true
+    }
+  ],
+  "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "source_diff_sha256": "196d66ce0c7c0aaf7fa27a70e80fc0adf814966107066b3694f25c7714aaf733",
+  "sensitive_source_exclusion": "runtime_test.go contains unrelated PEM fixtures; full file excluded, non-sensitive entry excerpt and SHA supplied"
+}

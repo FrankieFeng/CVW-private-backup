@@ -1,0 +1,1996 @@
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/instance_lifecycle_trace.go b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/instance_lifecycle_trace.go
+new file mode 100644
+index 0000000..c83c88d
+--- /dev/null
++++ b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/instance_lifecycle_trace.go
+@@ -0,0 +1,41 @@
++package wasmer
++
++import (
++	wasmergo "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
++	"encoding/json"
++	"fmt"
++	"os"
++	"sync"
++	"time"
++)
++
++var reuseExperimentEnabled = func() bool {
++	policy := os.Getenv("CM_REUSE_EXPERIMENT")
++	if policy != "R0" && policy != "R1" {
++		panic("CM_REUSE_EXPERIMENT must explicitly be R0 or R1")
++	}
++	return policy == "R0"
++}()
++var reuseOutputMu sync.Mutex
++
++func lifecycleError(err error) string {
++	if err != nil {
++		return err.Error()
++	}
++	return ""
++}
++func (p *vmPool) reuseObserve(event, id string, elapsed int64) {
++	row := map[string]interface{}{"event": event, "instance_id": id, "contract": p.contractKey(), "unix_ns": time.Now().UnixNano(), "elapsed_ns": elapsed, "queue_len": len(p.instances)}
++	reuseOutputMu.Lock()
++	defer reuseOutputMu.Unlock()
++	b, _ := json.Marshal(row)
++	fmt.Printf("REUSE_EVENT %s\n", b)
++}
++func (p *vmPool) traceLifecycle(stage, id string, inst *wasmergo.Instance, event, errText string) {
++	p.reuseObserve(event, id, 0)
++}
++func (sc *SimContext) traceBusiness(event string, inst *wasmergo.Instance, err error) {
++	if sc.lifecyclePool != nil {
++		sc.lifecyclePool.traceLifecycle("business", sc.lifecycleID, inst, event, lifecycleError(err))
++	}
++}
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go
+index 3879d2a..31b58d7 100644
+--- a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go
++++ b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime.go
+@@ -115,10 +115,14 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
+ 	sc.ContractResult = contractResult
+ 	sc.parameters = parameters
+ 	sc.Instance = instance
++	sc.lifecyclePool = r.pool
++	sc.lifecycleID = instanceInfo.id
+ 	sc.SpecialTxType = protocol.ExecOrderTxTypeNormal
+ 
+ 	//运行中如果死循环或者gas超值，它会自动中止，返回unreachable的err
++	r.pool.traceLifecycle("T6", instanceInfo.id, instance, "call_before", "")
+ 	err := sc.CallMethod(instance)
++	r.pool.traceLifecycle("T7", instanceInfo.id, instance, "call_return", lifecycleError(err))
+ 	//r.log.Infof("contract invoke finished, tx:%s, call method err is %s",
+ 	//	txContext.GetTx().Payload.TxId, err)
+ 	if err != nil {
+@@ -293,14 +297,24 @@ func (r *RuntimeInstance) InvokeTime(contract *commonPb.Contract, method string,
+ 	sc.ContractResult = contractResult
+ 	sc.parameters = parameters
+ 	sc.Instance = instance
++	sc.lifecyclePool = r.pool
++	sc.lifecycleID = instanceInfo.id
+ 	sc.SpecialTxType = protocol.ExecOrderTxTypeNormal
+ 
+ 	var err error
+ 	func() {
+ 		t0 := time.Now()
+ 		defer func() { callMethodTime = time.Since(t0).Seconds() }()
++		r.pool.traceLifecycle("T6", instanceInfo.id, instance, "call_before", "")
+ 		err = sc.CallMethod(instance)
++		r.pool.traceLifecycle("T7", instanceInfo.id, instance, "call_return", lifecycleError(err))
+ 	}()
++	r.log.Debugf("b5_profile sample_id=%s instance_mode=unknown instance_id=%s tx_id=%s contract=%s method=%s total_ns=%d internal_total_ns=%d runtime_ns=%d prepare_ns=%d dispatch_pre_ns=%d allocate_ns=%d copy_lookup_ns=%d export_call_ns=%d dispatch_post_ns=%d syscall_ns=%d syscall_count=%d syscall_method=%s parameter_bytes=%d",
++		txId, instanceInfo.id, txId, contractName, method,
++		int64(callMethodTime*1e9), sc.B5Profile.TotalNs, sc.B5Profile.RuntimeNs, sc.B5Profile.PrepareNs,
++		sc.B5Profile.DispatchPreNs, sc.B5Profile.AllocateNs, sc.B5Profile.CopyLookupNs,
++		sc.B5Profile.ExportCallNs, sc.B5Profile.DispatchPostNs, sc.B5Profile.SyscallNs, sc.B5Profile.SyscallCount,
++		sc.B5Profile.SyscallMethod, sc.B5Profile.ParameterSize)
+ 
+ 	//r.log.Infof("contract invoke finished, tx:%s, call method err is %s",
+ 	//	txContext.GetTx().Payload.TxId, err)
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/sim_context.go b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/sim_context.go
+index 3f26587..1f894aa 100644
+--- a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/sim_context.go
++++ b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/sim_context.go
+@@ -1,200 +1,242 @@
+-/*
+-Copyright (C) BABEC. All rights reserved.
+-Copyright (C) THL A29 Limited, a Tencent company. All rights reserved.
+-
+-SPDX-License-Identifier: Apache-2.0
+-*/
+-
+-package wasmer
+-
+-import (
+-	"chainmaker.org/chainmaker/common/v2/serialize"
+-	"fmt"
+-	"strconv"
+-	"sync"
+-
+-	"chainmaker.org/chainmaker/logger/v2"
+-
+-	commonPb "chainmaker.org/chainmaker/pb-go/v2/common"
+-	"chainmaker.org/chainmaker/protocol/v2"
+-	"chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
+-)
+-
+-// SimContext record the contract context
+-type SimContext struct {
+-	TxSimContext   protocol.TxSimContext
+-	Contract       *commonPb.Contract
+-	ContractResult *commonPb.ContractResult
+-	Log            *logger.CMLogger
+-	Instance       *wasmer.Instance
+-
+-	method             string
+-	parameters         map[string][]byte
+-	CtxPtr             int32
+-	SenderAddressCache []byte
+-	GetStateCache      []byte // cache call method GetStateLen value result, one cache per transaction
+-	ChainId            string
+-	ContractEvent      []*commonPb.ContractEvent
+-	SpecialTxType      protocol.ExecOrderTxType
+-}
+-
+-// NewSimContext for every transaction
+-func NewSimContext(method string, log *logger.CMLogger, chainId string) *SimContext {
+-	sc := SimContext{
+-		method:  method,
+-		Log:     log,
+-		ChainId: chainId,
+-	}
+-
+-	sc.putCtxPointer()
+-
+-	return &sc
+-}
+-
+-// CallMethod will call contract method
+-func (sc *SimContext) CallMethod(instance *wasmer.Instance) error {
+-	var bytes []byte
+-
+-	runtimeFn, err := instance.Exports.GetRawFunction(protocol.ContractRuntimeTypeMethod)
+-	if err != nil {
+-		return fmt.Errorf("method [%s] not export, err = %v", protocol.ContractRuntimeTypeMethod, err)
+-	}
+-	defer runtimeFn.Close()
+-
+-	sdkType, err := runtimeFn.Call()
+-	if err != nil {
+-		return err
+-	}
+-
+-	runtimeSdkType, ok := sdkType.(int32)
+-	if !ok {
+-		return fmt.Errorf("sdkType is not int32 type")
+-	}
+-	//runtimeSdkType := int32(2)
+-	//长安链原本go的wasm程序用的是GASM（wazero）跑的，这里是个语言和运行时检查，我添加了int32(commonPb.RuntimeType_GASM) == runtimeSdkType
+-	//让wasmer也可以跑go的wasm程序
+-	if int32(commonPb.RuntimeType_WASMER) == runtimeSdkType || int32(commonPb.RuntimeType_GASM) == runtimeSdkType {
+-
+-		//这个ctxptr是递增的，导致后面ec.Marshal序列化长度不一样，从而导致原本后面在allocateFunc.Call(lengthOfSubject)把参数写入内存的gas计量会有小误差
+-		//sc.Log.Debugf("length of ctx_ptr %d", len(sc.parameters[protocol.ContractContextPtrParam]))
+-		sc.parameters[protocol.ContractContextPtrParam] = []byte(strconv.Itoa(int(sc.CtxPtr)))
+-
+-		//这个CONTRACT_BYTECODE在合约部署阶段会把这个当作上下文参数传过来，由于标准go编译的wasm太长了，导致上下文创建不出来，为此手动把这个参数设置为空
+-		//rust、tinygo没有这个问题是因为他们的字节码比较短
+-		sc.parameters["CONTRACT_BYTECODE"] = []byte("")
+-		ec := serialize.NewEasyCodecWithMap(sc.parameters)
+-		bytes = ec.Marshal()
+-	} else {
+-		return fmt.Errorf("runtime type error, expect rust:[%d], but got %d",
+-			uint64(commonPb.RuntimeType_WASMER), runtimeSdkType)
+-	}
+-
+-	return sc.callContract(instance, sc.method, bytes)
+-}
+-
+-func (sc *SimContext) callContract(instance *wasmer.Instance, methodName string, bytes []byte) error {
+-
+-	sc.Log.Debugf("sc.Contract = %v", sc.Contract)
+-	sc.Log.Debugf("sc.method = %v", sc.method)
+-	//sc.Log.Debugf("sc.parameters = %v", sc.parameters)
+-
+-	//不知道为什么反复调用情况下，这个lengthOfSubject并不是一个固定值，会有一些大小差异，导致allocateFunc.Call(lengthOfSubject)这个函数它的gas开销有所出入
+-	//如果按照之前的方法在runtime.go中进行插桩的话对gas结果存在影响，是否应该对我们需要的exportFunc进行插桩？
+-	//已解决，有个参数ctxptr是递增的，导致后面ec.Marshal序列化长度不一样，从而导致原本后面在allocateFunc.Call(lengthOfSubject)把参数写入内存的gas计量会有小误差
+-	lengthOfSubject := len(bytes)
+-
+-	allocateFunc, err := instance.Exports.GetRawFunction(protocol.ContractAllocateMethod)
+-	if err != nil {
+-		return fmt.Errorf("method [%s] not export, err = %v", protocol.ContractAllocateMethod, err)
+-	}
+-	defer allocateFunc.Close()
+-	sc.Log.Debugf("lengthOfSubject: %d", lengthOfSubject)
+-
+-	// Allocate memory for the subject, and get a pointer to it.
+-	allocateResult, err := allocateFunc.Call(lengthOfSubject)
+-	if err != nil {
+-		sc.Log.Errorf("contract invoke %s failed, %s", protocol.ContractAllocateMethod, err.Error())
+-		return fmt.Errorf("%s invoke failed. There may not be enough memory or CPU", protocol.ContractAllocateMethod)
+-	}
+-	dataPtr, ok := allocateResult.(int32)
+-	if !ok {
+-		return fmt.Errorf("allocateResult is not int32 type")
+-	}
+-
+-	// Write the subject into the memory.
+-	// 经测试instance.Exports.GetMemory("memory")并不会影响开销，应该只有Call的会影响
+-	exportMemory, err := instance.Exports.GetMemory("memory")
+-	if err != nil {
+-		return fmt.Errorf("[%s] can't get exported memory, err = %v", protocol.ContractAllocateMethod, err)
+-	}
+-	memory := exportMemory.Data()[dataPtr:]
+-
+-	//copy(memory, bytes)
+-	for nth := 0; nth < lengthOfSubject; nth++ {
+-		memory[nth] = bytes[nth]
+-	}
+-
+-	exportFunc, err := instance.Exports.GetRawFunction(methodName)
+-	if err != nil {
+-		//if methodName == "init_contract" {
+-		//	sc.Log.Debugf("init_contract not export")
+-		//	return nil
+-		//}
+-		if sc.TxSimContext.GetBlockVersion() < 2200 {
+-			return fmt.Errorf("method [%s] not export", methodName)
+-		}
+-		return fmt.Errorf("find method [%s] failed, err = %v", methodName, err)
+-	}
+-	defer exportFunc.Close()
+-	// Calls the `invoke` exported function. Given the pointer to the subject.
+-	_, err = exportFunc.Call()
+-	if err != nil {
+-		return err
+-	}
+-	sc.Log.Debugf("contract invoke success")
+-
+-	return err
+-}
+-
+-// CallDeallocate deallocate vm memory before closing the instance
+-func CallDeallocate(instance *wasmer.Instance) error {
+-	// TODO 这里setgaslimit是否会影响gas计量？
+-	instance.SetGasLimit(1e19)
+-	// TODO 这里deallocate，主要是因为原本做法参数是写在合约实例的全局变量，这里把合约实例的参数argsmap设置为空
+-	deallocFunc, err := instance.Exports.GetFunction(protocol.ContractDeallocateMethod)
+-	if err != nil {
+-		return err
+-	}
+-	_, err = deallocFunc(0)
+-	return err
+-	//return nil
+-}
+-
+-// putCtxPointer revmoe SimContext from cache
+-func (sc *SimContext) removeCtxPointer() {
+-	vbm := GetVmBridgeManager()
+-	vbm.remove(sc.CtxPtr)
+-}
+-
+-var ctxIndex = int32(0)
+-var lock sync.Mutex
+-
+-// putCtxPointer save SimContext to cache
+-func (sc *SimContext) putCtxPointer() {
+-	lock.Lock()
+-	ctxIndex++
+-	//test
+-	// ctxIndex = 0
+-	//test
+-	if ctxIndex < 1e7 {
+-		ctxIndex += 1e7
+-	}
+-
+-	if ctxIndex >= 1e8 {
+-		ctxIndex = 0
+-	}
+-	sc.CtxPtr = ctxIndex
+-	lock.Unlock()
+-	vbm := GetVmBridgeManager()
+-	vbm.put(sc.CtxPtr, sc)
+-}
++/*
++Copyright (C) BABEC. All rights reserved.
++Copyright (C) THL A29 Limited, a Tencent company. All rights reserved.
++
++SPDX-License-Identifier: Apache-2.0
++*/
++
++package wasmer
++
++import (
++	"chainmaker.org/chainmaker/common/v2/serialize"
++	"fmt"
++	"strconv"
++	"sync"
++	"time"
++
++	"chainmaker.org/chainmaker/logger/v2"
++
++	commonPb "chainmaker.org/chainmaker/pb-go/v2/common"
++	"chainmaker.org/chainmaker/protocol/v2"
++	"chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
++)
++
++// SimContext record the contract context
++type SimContext struct {
++	lifecyclePool *vmPool
++	lifecycleID string
++	TxSimContext   protocol.TxSimContext
++	Contract       *commonPb.Contract
++	ContractResult *commonPb.ContractResult
++	Log            *logger.CMLogger
++	Instance       *wasmer.Instance
++
++	method             string
++	parameters         map[string][]byte
++	CtxPtr             int32
++	SenderAddressCache []byte
++	GetStateCache      []byte // cache call method GetStateLen value result, one cache per transaction
++	ChainId            string
++	ContractEvent      []*commonPb.ContractEvent
++	SpecialTxType      protocol.ExecOrderTxType
++	B5Profile          B5Profile
++}
++
++// B5Profile records Host-side CallMethod boundaries. ExportCallNs includes
++// the Wasm wrapper, business function, and any SDK syscalls made by it.
++type B5Profile struct {
++	RuntimeNs      int64
++	PrepareNs      int64
++	DispatchPreNs  int64
++	AllocateNs     int64
++	CopyLookupNs   int64
++	ExportCallNs   int64
++	DispatchPostNs int64
++	SyscallNs      int64
++	SyscallCount   int64
++	SyscallMethod  string
++	TotalNs        int64
++	ParameterSize  int
++}
++
++// NewSimContext for every transaction
++func NewSimContext(method string, log *logger.CMLogger, chainId string) *SimContext {
++	sc := SimContext{
++		method:  method,
++		Log:     log,
++		ChainId: chainId,
++	}
++
++	sc.putCtxPointer()
++
++	return &sc
++}
++
++// CallMethod will call contract method
++func (sc *SimContext) CallMethod(instance *wasmer.Instance) error {
++	var bytes []byte
++	b5Start := time.Now()
++
++	runtimeFn, err := instance.Exports.GetRawFunction(protocol.ContractRuntimeTypeMethod)
++	if err != nil {
++		return fmt.Errorf("method [%s] not export, err = %v", protocol.ContractRuntimeTypeMethod, err)
++	}
++	defer runtimeFn.Close()
++
++	sdkType, err := runtimeFn.Call()
++	if err != nil {
++		return err
++	}
++	b5RuntimeEnd := time.Now()
++
++	runtimeSdkType, ok := sdkType.(int32)
++	if !ok {
++		return fmt.Errorf("sdkType is not int32 type")
++	}
++	//runtimeSdkType := int32(2)
++	//长安链原本go的wasm程序用的是GASM（wazero）跑的，这里是个语言和运行时检查，我添加了int32(commonPb.RuntimeType_GASM) == runtimeSdkType
++	//让wasmer也可以跑go的wasm程序
++	if int32(commonPb.RuntimeType_WASMER) == runtimeSdkType || int32(commonPb.RuntimeType_GASM) == runtimeSdkType {
++
++		//这个ctxptr是递增的，导致后面ec.Marshal序列化长度不一样，从而导致原本后面在allocateFunc.Call(lengthOfSubject)把参数写入内存的gas计量会有小误差
++		//sc.Log.Debugf("length of ctx_ptr %d", len(sc.parameters[protocol.ContractContextPtrParam]))
++		sc.parameters[protocol.ContractContextPtrParam] = []byte(strconv.Itoa(int(sc.CtxPtr)))
++
++		//这个CONTRACT_BYTECODE在合约部署阶段会把这个当作上下文参数传过来，由于标准go编译的wasm太长了，导致上下文创建不出来，为此手动把这个参数设置为空
++		//rust、tinygo没有这个问题是因为他们的字节码比较短
++		sc.parameters["CONTRACT_BYTECODE"] = []byte("")
++		ec := serialize.NewEasyCodecWithMap(sc.parameters)
++		bytes = ec.Marshal()
++		sc.B5Profile.ParameterSize = len(bytes)
++	} else {
++		return fmt.Errorf("runtime type error, expect rust:[%d], but got %d",
++			uint64(commonPb.RuntimeType_WASMER), runtimeSdkType)
++	}
++
++	b5PrepareEnd := time.Now()
++	sc.B5Profile.RuntimeNs = b5RuntimeEnd.Sub(b5Start).Nanoseconds()
++	sc.B5Profile.PrepareNs = b5PrepareEnd.Sub(b5RuntimeEnd).Nanoseconds()
++	err = sc.callContract(instance, sc.method, bytes)
++	sc.B5Profile.TotalNs = time.Since(b5Start).Nanoseconds()
++	return err
++}
++
++func (sc *SimContext) callContract(instance *wasmer.Instance, methodName string, bytes []byte) error {
++
++	dispatchStart := time.Now()
++	sc.Log.Debugf("sc.Contract = %v", sc.Contract)
++	sc.Log.Debugf("sc.method = %v", sc.method)
++	//sc.Log.Debugf("sc.parameters = %v", sc.parameters)
++
++	//不知道为什么反复调用情况下，这个lengthOfSubject并不是一个固定值，会有一些大小差异，导致allocateFunc.Call(lengthOfSubject)这个函数它的gas开销有所出入
++	//如果按照之前的方法在runtime.go中进行插桩的话对gas结果存在影响，是否应该对我们需要的exportFunc进行插桩？
++	//已解决，有个参数ctxptr是递增的，导致后面ec.Marshal序列化长度不一样，从而导致原本后面在allocateFunc.Call(lengthOfSubject)把参数写入内存的gas计量会有小误差
++	lengthOfSubject := len(bytes)
++	allocateStart := time.Now()
++	sc.B5Profile.DispatchPreNs = allocateStart.Sub(dispatchStart).Nanoseconds()
++
++	allocateFunc, err := instance.Exports.GetRawFunction(protocol.ContractAllocateMethod)
++	if err != nil {
++		return fmt.Errorf("method [%s] not export, err = %v", protocol.ContractAllocateMethod, err)
++	}
++	defer allocateFunc.Close()
++	sc.Log.Debugf("lengthOfSubject: %d", lengthOfSubject)
++
++	// Allocate memory for the subject, and get a pointer to it.
++	allocateResult, err := allocateFunc.Call(lengthOfSubject)
++	if err != nil {
++		sc.Log.Errorf("contract invoke %s failed, %s", protocol.ContractAllocateMethod, err.Error())
++		return fmt.Errorf("%s invoke failed. There may not be enough memory or CPU", protocol.ContractAllocateMethod)
++	}
++	allocateEnd := time.Now()
++	sc.B5Profile.AllocateNs = allocateEnd.Sub(allocateStart).Nanoseconds()
++	dataPtr, ok := allocateResult.(int32)
++	if !ok {
++		return fmt.Errorf("allocateResult is not int32 type")
++	}
++
++	// Write the subject into the memory.
++	// 经测试instance.Exports.GetMemory("memory")并不会影响开销，应该只有Call的会影响
++	exportMemory, err := instance.Exports.GetMemory("memory")
++	if err != nil {
++		return fmt.Errorf("[%s] can't get exported memory, err = %v", protocol.ContractAllocateMethod, err)
++	}
++	memory := exportMemory.Data()[dataPtr:]
++
++	//copy(memory, bytes)
++	for nth := 0; nth < lengthOfSubject; nth++ {
++		memory[nth] = bytes[nth]
++	}
++
++	copyLookupStart := allocateEnd
++	exportFunc, err := instance.Exports.GetRawFunction(methodName)
++	if err != nil {
++		//if methodName == "init_contract" {
++		//	sc.Log.Debugf("init_contract not export")
++		//	return nil
++		//}
++		if sc.TxSimContext.GetBlockVersion() < 2200 {
++			return fmt.Errorf("method [%s] not export", methodName)
++		}
++		return fmt.Errorf("find method [%s] failed, err = %v", methodName, err)
++	}
++	defer exportFunc.Close()
++	// Calls the `invoke` exported function. Given the pointer to the subject.
++	sc.traceBusiness("business_before", instance, nil)
++	exportCallStart := time.Now()
++	_, err = exportFunc.Call()
++	exportCallEnd := time.Now()
++	sc.traceBusiness("business_return", instance, err)
++	sc.B5Profile.CopyLookupNs = exportCallStart.Sub(copyLookupStart).Nanoseconds()
++	sc.B5Profile.ExportCallNs = exportCallEnd.Sub(exportCallStart).Nanoseconds()
++	if err != nil {
++		return err
++	}
++	sc.Log.Debugf("contract invoke success")
++	sc.B5Profile.DispatchPostNs = time.Since(exportCallEnd).Nanoseconds()
++
++	return err
++}
++
++// CallDeallocate deallocate vm memory before closing the instance
++func CallDeallocate(instance *wasmer.Instance) error {
++	// TODO 这里setgaslimit是否会影响gas计量？
++	instance.SetGasLimit(1e19)
++	// TODO 这里deallocate，主要是因为原本做法参数是写在合约实例的全局变量，这里把合约实例的参数argsmap设置为空
++	deallocFunc, err := instance.Exports.GetFunction(protocol.ContractDeallocateMethod)
++	if err != nil {
++		return err
++	}
++	_, err = deallocFunc(0)
++	return err
++	//return nil
++}
++
++// putCtxPointer revmoe SimContext from cache
++func (sc *SimContext) removeCtxPointer() {
++	vbm := GetVmBridgeManager()
++	vbm.remove(sc.CtxPtr)
++}
++
++var ctxIndex = int32(0)
++var lock sync.Mutex
++
++// putCtxPointer save SimContext to cache
++func (sc *SimContext) putCtxPointer() {
++	lock.Lock()
++	ctxIndex++
++	//test
++	// ctxIndex = 0
++	//test
++	if ctxIndex < 1e7 {
++		ctxIndex += 1e7
++	}
++
++	if ctxIndex >= 1e8 {
++		ctxIndex = 0
++	}
++	sc.CtxPtr = ctxIndex
++	lock.Unlock()
++	vbm := GetVmBridgeManager()
++	vbm.put(sc.CtxPtr, sc)
++}
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_bridge.go b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_bridge.go
+index 75c13fa..d72ba04 100644
+--- a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_bridge.go
++++ b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_bridge.go
+@@ -15,6 +15,7 @@ import (
+ 	"fmt"
+ 	"math/big"
+ 	"sync"
++	"time"
+ 
+ 	"chainmaker.org/chainmaker/logger/v2"
+ 	"chainmaker.org/chainmaker/vm/v2"
+@@ -123,6 +124,7 @@ func logMessageWithType(environment interface{}, args []wasmer.Value) ([]wasmer.
+ //
+ //export sysCall
+ func sysCall(environment interface{}, args []wasmer.Value) ([]wasmer.Value, error) {
++	syscallStart := time.Now()
+ 
+ 	env, ok := environment.(*CMEnvironment)
+ 	if !ok {
+@@ -171,6 +173,11 @@ func sysCall(environment interface{}, args []wasmer.Value) ([]wasmer.Value, erro
+ 
+ 	vbm := GetVmBridgeManager()
+ 	simContext := vbm.get(ctxPtr.(int32))
++	simContext.B5Profile.SyscallMethod = fmt.Sprint(method)
++	defer func() {
++		simContext.B5Profile.SyscallCount++
++		simContext.B5Profile.SyscallNs += time.Since(syscallStart).Nanoseconds()
++	}()
+ 
+ 	// create new WaciInstance for operate on blockchain
+ 	waciInstance := &WaciInstance{
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go
+index ef5465c..c52e346 100644
+--- a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go
++++ b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go
+@@ -627,6 +627,8 @@ type wrappedInstance struct {
+ // should be followed by defer resetInstance
+ func (p *vmPool) GetInstance() *wrappedInstance {
+ 
++	acquireBegin := time.Now()
++	defer func() { p.reuseObserve("acquire", "", time.Since(acquireBegin).Nanoseconds()) }()
+ 	var instance *wrappedInstance
+ 	// get instance from vm pool
+ 	select {
+@@ -634,6 +636,7 @@ func (p *vmPool) GetInstance() *wrappedInstance {
+ 		// concurrency safe here
+ 		atomic.AddInt32(&p.useCount, 1)
+ 		instance.lastUseTime = utils.CurrentTimeMillisSeconds()
++		p.traceLifecycle("T5", instance.id, instance.wasmInstance, "acquire", "")
+ 		return instance
+ 	default:
+ 		// nothing
+@@ -658,12 +661,14 @@ func (p *vmPool) GetInstance() *wrappedInstance {
+ 	elapsedTimeMS := int32(curTimeMS2 - curTimeMS1)
+ 	atomic.AddInt32(&p.totalDelay, elapsedTimeMS)
+ 
++	p.traceLifecycle("T5", instance.id, instance.wasmInstance, "acquire_wait", "")
+ 	return instance
+ }
+ 
+ // RevertInstance revert instance to pool
+ func (p *vmPool) RevertInstance(instance *wrappedInstance) {
+-	if true || p.shouldDiscard(instance) {
++	if !reuseExperimentEnabled || p.shouldDiscard(instance) {
++		p.traceLifecycle("T8", instance.id, instance.wasmInstance, "drop", "")
+ 		p.log.Debugf("instance not reused, instance id: %s, errCount: %d", instance.id, instance.errCount)
+ 		go func() {
+ 			// Close first so wasiEnv is on freelist before grow→acquireWasiEnv.
+@@ -674,6 +679,7 @@ func (p *vmPool) RevertInstance(instance *wrappedInstance) {
+ 			p.addInstanceC <- struct{}{}
+ 		}()
+ 	} else {
++		p.traceLifecycle("T8", instance.id, instance.wasmInstance, "reuse", "")
+ 		p.instances <- instance
+ 	}
+ }
+@@ -687,14 +693,18 @@ func (p *vmPool) NewInstance() (*wrappedInstance, error) {
+ // Do not call wasi_env_delete here: packaged Wasmer does not reclaim Tokio worker
+ // threads after delete; freelist reuse keeps Threads flat across discard/recreate.
+ func (p *vmPool) CloseInstance(instance *wrappedInstance) {
++	closeBegin := time.Now()
++	defer func() { p.reuseObserve("close", "", time.Since(closeBegin).Nanoseconds()) }()
+ 	if instance == nil {
+ 		return
+ 	}
+ 	p.log.Debugf("CallDeallocate site=CloseInstance instance_id=%s", instance.id)
+ 	if instance.wasmInstance != nil {
++		p.traceLifecycle("T8", instance.id, instance.wasmInstance, "close_begin", "")
+ 		if err := CallDeallocate(instance.wasmInstance); err != nil {
+ 			p.log.Errorf("CallDeallocate(...) error: %v", err)
+ 		}
++		p.traceLifecycle("T8", instance.id, instance.wasmInstance, "deallocate_done", "")
+ 		instance.wasmInstance.Close()
+ 		instance.wasmInstance = nil
+ 	}
+@@ -702,6 +712,7 @@ func (p *vmPool) CloseInstance(instance *wrappedInstance) {
+ 		p.releaseWasiEnv(instance.wasiEnv)
+ 		instance.wasiEnv = nil
+ 	}
++	p.traceLifecycle("T8", instance.id, nil, "close_done", "")
+ 	p.log.Debugf("instance closed.")
+ }
+ 
+@@ -1175,7 +1186,9 @@ func (p *vmPool) grow(count int32) {
+ 
+ 		for i := int32(0); i < size; i++ {
+ 			instance, _ := p.newInstanceFromModule()
++			p.traceLifecycle("T4", instance.id, instance.wasmInstance, "enqueue_before", "")
+ 			p.instances <- instance
++			p.traceLifecycle("T4", instance.id, nil, "enqueue_done", "")
+ 			atomic.AddInt32(&p.currentSize, 1)
+ 		}
+ 		p.log.Infof("vm pool grow size = %d", size)
+@@ -1227,6 +1240,10 @@ func (p *vmPool) NewInstanceFromByteCode() (*wrappedInstance, error) {
+ }
+ 
+ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
++	createBegin := time.Now()
++	defer func() { p.reuseObserve("create", "", time.Since(createBegin).Nanoseconds()) }()
++	instanceID := uuid.GetUUID()
++	p.traceLifecycle("T0", instanceID, nil, "create_begin", "")
+ 	startTime := time.Now().UnixNano()
+ 	fmt.Printf("startNew:%d\n", startTime)
+ 	vb := GetVmBridgeManager()
+@@ -1258,6 +1275,7 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
+ 		p.log.Errorf("newInstanceFromModule fail: %s", err.Error())
+ 		return nil, err
+ 	}
++	p.traceLifecycle("T1", instanceID, wasmInstance, "instantiate_done", "")
+ 	p.log.Debugf("newInstanceFromModule success")
+ 
+ 	err = wasiEnv.Initialize(p.store, wasmInstance)
+@@ -1267,9 +1285,13 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
+ 		return nil, err
+ 	}
+ 	// 如果有wasi，获取并执行 WASI start 函数
+-	start, _ := wasmInstance.Exports.GetWasiStartRawFunction()
++	p.traceLifecycle("T2", instanceID, wasmInstance, "start_before", "")
++	start, startErr := wasmInstance.Exports.GetWasiStartRawFunction()
+ 	if start != nil {
+-		start.Call()
++		_, startErr = start.Call()
++		p.traceLifecycle("T3", instanceID, wasmInstance, "start_return", lifecycleError(startErr))
++	} else {
++		p.traceLifecycle("T3", instanceID, wasmInstance, "start_absent", lifecycleError(startErr))
+ 	}
+ 
+ 	env.instance = wasmInstance
+@@ -1279,7 +1301,7 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
+ 	//fmt.Printf("env.memory.limit %+v\n", limitsAgain)
+ 	//fmt.Printf("env.memory dataSize %d字节 %d页\n", env.memory.DataSize(), env.memory.Size())
+ 	instance := &wrappedInstance{
+-		id:           uuid.GetUUID(),
++		id:           instanceID,
+ 		wasmInstance: wasmInstance,
+ 		wasiEnv:      wasiEnv,
+ 		lastUseTime:  utils.CurrentTimeMillisSeconds(),
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go b/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go
+index 6599010..4e5bdc3 100644
+--- a/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go
++++ b/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go
+@@ -1,647 +1,648 @@
+-/*
+-Copyright (C) BABEC. All rights reserved.
+-Copyright (C) THL A29 Limited, a Tencent company. All rights reserved.
+-
+-SPDX-License-Identifier: Apache-2.0
+-*/
+-
+-package vm
+-
+-import (
+-	"encoding/binary"
+-	"encoding/hex"
+-	"fmt"
+-	"strconv"
+-	"strings"
+-	"time"
+-
+-	"chainmaker.org/chainmaker/common/v2/msgbus"
+-	acPb "chainmaker.org/chainmaker/pb-go/v2/accesscontrol"
+-	commonPb "chainmaker.org/chainmaker/pb-go/v2/common"
+-	"chainmaker.org/chainmaker/pb-go/v2/config"
+-	"chainmaker.org/chainmaker/pb-go/v2/syscontract"
+-	"chainmaker.org/chainmaker/protocol/v2"
+-	native "chainmaker.org/chainmaker/vm-native/v2"
+-	"github.com/gogo/protobuf/proto"
+-)
+-
+-const (
+-	blockVersion220  = 220
+-	blockVersion2300 = 2300
+-	blockVersion2310 = 2030100
+-	blockVersion2312 = 2030102
+-	blockVersion233  = 2030300
+-)
+-
+-// NewVmManager get vm runtime manager
+-func NewVmManager(instanceManagers map[commonPb.RuntimeType]protocol.VmInstancesManager, wxvmCodePathPrefix string,
+-	accessControl protocol.AccessControlProvider, chainNodesInfoProvider protocol.ChainNodesInfoProvider,
+-	chainConf protocol.ChainConf, log protocol.Logger) protocol.VmManager {
+-
+-	chainId := chainConf.ChainConfig().ChainId
+-	//log := logger.GetLoggerByChain(logger.MODULE_VM, chainId)
+-
+-	//instance VmManagerImpl
+-	return &VmManagerImpl{
+-		ChainId:                chainId,
+-		InstanceManagers:       instanceManagers,
+-		aliveManagers:          make(map[commonPb.RuntimeType]struct{}),
+-		WxvmCodePath:           wxvmCodePathPrefix,
+-		AccessControl:          accessControl,
+-		ChainNodesInfoProvider: chainNodesInfoProvider,
+-		Log:                    log,
+-		ChainConf:              chainConf,
+-	}
+-}
+-
+-// VmManagerImpl implements the VmManager interface, manage vm runtime
+-type VmManagerImpl struct {
+-	InstanceManagers       map[commonPb.RuntimeType]protocol.VmInstancesManager
+-	aliveManagers          map[commonPb.RuntimeType]struct{}
+-	WxvmCodePath           string
+-	SnapshotManager        protocol.SnapshotManager
+-	AccessControl          protocol.AccessControlProvider
+-	ChainNodesInfoProvider protocol.ChainNodesInfoProvider
+-	ChainId                string
+-	Log                    protocol.Logger
+-	ChainConf              protocol.ChainConf // chain config
+-}
+-
+-// GetAccessControl get accessControl manages policies and principles
+-func (m *VmManagerImpl) GetAccessControl() protocol.AccessControlProvider {
+-	return m.AccessControl
+-}
+-
+-// GetChainNodesInfoProvider get ChainNodesInfoProvider provide base node info list of chain.
+-func (m *VmManagerImpl) GetChainNodesInfoProvider() protocol.ChainNodesInfoProvider {
+-	return m.ChainNodesInfoProvider
+-}
+-
+-// Start all vm instance
+-func (m *VmManagerImpl) Start() error {
+-	var err error
+-	// check every instance manager
+-	for runtimeType, instanceManager := range m.InstanceManagers {
+-		// instance manager not exists, or instance manager is not alive, start it
+-		if _, ok := m.aliveManagers[runtimeType]; !ok {
+-			m.Log.Infof("starting vm instance manager: %v", runtimeType)
+-			if err = instanceManager.StartVM(); err != nil {
+-				return fmt.Errorf("failed to start %v vm manager", runtimeType)
+-			}
+-			m.aliveManagers[runtimeType] = struct{}{}
+-		}
+-	}
+-	return nil
+-}
+-
+-// Stop all vm instance
+-func (m *VmManagerImpl) Stop() error {
+-	var err error
+-	// check every instance manager
+-	for runtimeType, instanceManager := range m.InstanceManagers {
+-		//if the manager is alive, stop it
+-		if _, ok := m.aliveManagers[runtimeType]; ok {
+-			m.Log.Infof("stopping vm instance manager: %v", runtimeType)
+-			err = instanceManager.StopVM()
+-			if err != nil {
+-				m.Log.Errorf("failed to stop vm instance manager: %v", runtimeType)
+-				continue
+-			}
+-			delete(m.aliveManagers, runtimeType)
+-		}
+-	}
+-	return err
+-}
+-
+-// BeforeSchedule do sth. before schedule a block
+-func (m *VmManagerImpl) BeforeSchedule(blockFingerprint string, blockHeight uint64) {
+-	//prepare docker go if its instance manager not null
+-	if m.InstanceManagers[commonPb.RuntimeType_DOCKER_GO] != nil {
+-		m.InstanceManagers[commonPb.RuntimeType_DOCKER_GO].BeforeSchedule(blockFingerprint, blockHeight)
+-	}
+-
+-	//prepare go vm if its instance manager not null
+-	if m.InstanceManagers[commonPb.RuntimeType_GO] != nil {
+-		m.InstanceManagers[commonPb.RuntimeType_GO].BeforeSchedule(blockFingerprint, blockHeight)
+-	}
+-}
+-
+-// AfterSchedule do sth. after schedule a block
+-func (m *VmManagerImpl) AfterSchedule(blockFingerprint string, blockHeight uint64) {
+-	//prepare docker go if its instance manager not null
+-	if m.InstanceManagers[commonPb.RuntimeType_DOCKER_GO] != nil {
+-		m.InstanceManagers[commonPb.RuntimeType_DOCKER_GO].AfterSchedule(blockFingerprint, blockHeight)
+-	}
+-
+-	//prepare go vm if its instance manager not null
+-	if m.InstanceManagers[commonPb.RuntimeType_GO] != nil {
+-		m.InstanceManagers[commonPb.RuntimeType_GO].AfterSchedule(blockFingerprint, blockHeight)
+-	}
+-}
+-
+-// OnMessage obtain chain configuration check all vm runtime readiness
+-// if not ready, init and start the instance manager, then add to vm manager InstanceManagers
+-func (m *VmManagerImpl) OnMessage(msg *msgbus.Message) {
+-	m.Log.Infof("vm manager get message,msg.topic:%d", msg.Topic)
+-	switch msg.Topic {
+-	case msgbus.ChainConfig:
+-		m.Log.Info(" get the message, msg topic:msgbus.ChainConfig")
+-		dataStr, ok := msg.Payload.([]string)
+-		if !ok {
+-			m.Log.Error("the type of msg.Payload is not []string")
+-			return
+-		}
+-		if len(dataStr) == 0 {
+-			m.Log.Error("the msg.Payload is empty")
+-			return
+-		}
+-		dataBytes, err := hex.DecodeString(dataStr[0])
+-		if err != nil {
+-			m.Log.Error(err)
+-			return
+-		}
+-		chainConfig := &config.ChainConfig{}
+-		err = proto.Unmarshal(dataBytes, chainConfig)
+-
+-		if err != nil {
+-			m.Log.Error(err)
+-			return
+-		}
+-
+-		for _, vmConfig := range chainConfig.GetVm().GetSupportList() {
+-			vmConfig = strings.ToUpper(vmConfig)
+-			runtimeType := protocol.VmTypeToRunTimeType[vmConfig]
+-
+-			// if the vm instance manager is alive, continue
+-			if _, ok := m.aliveManagers[runtimeType]; ok {
+-				continue
+-			}
+-
+-			m.addNewRuntimeType(chainConfig.GetChainId(), runtimeType)
+-
+-			if runtimeType == commonPb.RuntimeType_DOCKER_GO {
+-				m.addNewRuntimeType(chainConfig.GetChainId(), commonPb.RuntimeType_GO)
+-			}
+-		}
+-	}
+-}
+-
+-// OnQuit nothing to do
+-func (m *VmManagerImpl) OnQuit() {
+-	// nothing for implement interface msgbus.Subscriber
+-}
+-
+-// RunContract run native or user contract according ContractName in contractId, and call the specified function
+-func (m *VmManagerImpl) RunContract(contract *commonPb.Contract, method string, byteCode []byte,
+-	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64, refTxType commonPb.TxType) (
+-	*commonPb.ContractResult, protocol.ExecOrderTxType, commonPb.TxStatusCode) {
+-
+-	//prepare contract result
+-	contractResult := &commonPb.ContractResult{
+-		Code:    uint32(1),
+-		Result:  nil,
+-		Message: "",
+-	}
+-
+-	if txContext.GetBlockVersion() >= v235 {
+-		contractResult.GasUsed = gasUsed
+-	}
+-
+-	contractName := contract.Name
+-	//return err if name is empty
+-	if contractName == "" {
+-		contractResult.Message = "contractName not found"
+-		m.Log.Error(contractResult.Message)
+-		return contractResult, protocol.ExecOrderTxTypeNormal,
+-			commonPb.TxStatusCode_INVALID_CONTRACT_PARAMETER_CONTRACT_NAME
+-	}
+-
+-	if parameters == nil {
+-		parameters = make(map[string][]byte)
+-	}
+-
+-	//if contract version is 0, check contract
+-	if len(contract.Version) == 0 {
+-		var err error
+-		contract, err = txContext.GetContractByName(contractName)
+-		if err != nil {
+-			m.Log.Warn(err)
+-			contractResult.Message = fmt.Sprintf("query contract[%s] error", contractName)
+-			return contractResult, protocol.ExecOrderTxTypeNormal,
+-				commonPb.TxStatusCode_INVALID_CONTRACT_PARAMETER_CONTRACT_NAME
+-		}
+-	}
+-
+-	// starting from version 2030100(v2.3.1), frozen contracts can be upgraded
+-	if txContext.GetBlockVersion() < blockVersion2310 {
+-		if contract.Status == commonPb.ContractStatus_FROZEN {
+-			contractResult.Message = fmt.Sprintf("failed to run user contract, %s has been frozen.", contractName)
+-			return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CONTRACT_FREEZE_FAILED
+-		}
+-	} else {
+-		if contract.Status == commonPb.ContractStatus_FROZEN && method != protocol.ContractUpgradeMethod {
+-			contractResult.Message = fmt.Sprintf("failed to run user contract, %s has been frozen.", contractName)
+-			return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CONTRACT_FREEZE_FAILED
+-		}
+-	}
+-
+-	//check if it revoked
+-	if contract.Status == commonPb.ContractStatus_REVOKED {
+-		contractResult.Message = fmt.Sprintf("failed to run user contract, %s has been revoked.", contractName)
+-		return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CONTRACT_REVOKE_FAILED
+-	}
+-
+-	// record and remove crossInfo
+-	txContext.RecordRuntimeTypeIntoCrossInfo(contract.RuntimeType)
+-	defer txContext.RemoveRuntimeTypeFromCrossInfo()
+-
+-	//check if it is native contract
+-	if native.IsNative(contractName, refTxType) {
+-		if method == "" {
+-			contractResult.Message = "require param method not found."
+-			return contractResult, protocol.ExecOrderTxTypeNormal,
+-				commonPb.TxStatusCode_INVALID_CONTRACT_PARAMETER_METHOD
+-		}
+-
+-		return m.runNativeContract(contract, method, parameters, txContext, gasUsed)
+-	}
+-
+-	//check if its is user contract
+-	if !m.isUserContract(refTxType) {
+-		contractResult.Message = fmt.Sprintf("bad contract call %s, transaction type %s", contractName, refTxType)
+-		return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_INVALID_CONTRACT_TRANSACTION_TYPE
+-	}
+-
+-	// byteCode should have value
+-	if contract.RuntimeType != commonPb.RuntimeType_DOCKER_GO &&
+-		contract.RuntimeType != commonPb.RuntimeType_GO &&
+-		contract.RuntimeType != commonPb.RuntimeType_DOCKER_JAVA &&
+-		len(byteCode) == 0 {
+-		contractResult.Message = fmt.Sprintf("contract %s has no byte code, transaction type %s",
+-			contractName, refTxType)
+-		m.Log.Error(contractResult.Message)
+-		return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CONTRACT_BYTE_CODE_NOT_EXIST_FAILED
+-	}
+-
+-	//run user contract
+-	return m.runUserContract(contract, method, byteCode, parameters, txContext, gasUsed, refTxType)
+-}
+-
+-// runNativeContract invoke native contract
+-func (m *VmManagerImpl) runNativeContract(contract *commonPb.Contract, method string, parameters map[string][]byte,
+-	txContext protocol.TxSimContext, gasUsed uint64) (*commonPb.ContractResult,
+-	protocol.ExecOrderTxType,
+-	commonPb.TxStatusCode) {
+-	txId := txContext.GetTx().Payload.TxId
+-	runtimeType := contract.RuntimeType
+-	m.Log.Infof("invoke native contract[%s], tx id:%s, runtime:%+v, method:%s",
+-		contract.Name, txId, contract.RuntimeType.String(), method)
+-
+-	//defaultGas := uint64(0)
+-	//check if enable gas
+-	//if m.ChainConf.ChainConfig().AccountConfig != nil && m.ChainConf.ChainConfig().AccountConfig.EnableGas {
+-	//	defaultGas = m.ChainConf.ChainConfig().AccountConfig.DefaultGas
+-	//}
+-	//runtimeInstance := native.GetRuntimeInstance(m.ChainId, defaultGas, m.Log)
+-
+-	runtimeInstance := native.GetRuntimeInstance(m.ChainId)
+-	//记录开始时间
+-	startTime := time.Now().UnixNano()
+-	runtimeContractResult := runtimeInstance.Invoke(contract, method, nil, parameters, txContext)
+-	//记录结束时间。并写入日志
+-	endTime := time.Now().UnixNano()
+-	executionTime := float64(endTime-startTime) / 1e9
+-
+-	m.Log.Infof("invoke vm, tx id:%s, runtime type:%+v, runtimeContractResult:%d ,startTime:%d, endTime:%d, executionTime:%.6f s",
+-		txId, runtimeType, runtimeContractResult.Code, startTime, endTime, executionTime)
+-	runtimeContractResult.GasUsed += gasUsed
+-	//check if result code succeed
+-	if runtimeContractResult.Code == uint32(0) {
+-		if contract.Name == syscontract.SystemContract_ACCOUNT_MANAGER.String() &&
+-			method == syscontract.GasAccountFunction_CHARGE_GAS_FOR_MULTI_ACCOUNT.String() {
+-			return runtimeContractResult, protocol.ExecOrderTxTypeChargeGas, commonPb.TxStatusCode_SUCCESS
+-		}
+-		return runtimeContractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_SUCCESS
+-	}
+-	if contract.Name == syscontract.SystemContract_ACCOUNT_MANAGER.String() &&
+-		method == syscontract.GasAccountFunction_CHARGE_GAS_FOR_MULTI_ACCOUNT.String() {
+-		return runtimeContractResult, protocol.ExecOrderTxTypeChargeGas, commonPb.TxStatusCode_CONTRACT_FAIL
+-	}
+-	return runtimeContractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CONTRACT_FAIL
+-}
+-
+-// runUserContract invoke user contract
+-func (m *VmManagerImpl) runUserContract(contract *commonPb.Contract, method string, byteCode []byte,
+-	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64, refTxType commonPb.TxType) (
+-	contractResult *commonPb.ContractResult, specialTxType protocol.ExecOrderTxType, code commonPb.TxStatusCode) {
+-
+-	var (
+-		myContract = contract
+-		//contractName = contract.Name
+-		//status       = contract.Status
+-	)
+-	//nolint:ineffassign
+-	contractResult = &commonPb.ContractResult{Code: uint32(1)}
+-	//if status == commonPb.ContractStatus_ALL {
+-	//	dbContract, err := utils.GetContractByName(txContext.Get, contractName)
+-	//	if err != nil {
+-	//		return nil, commonPb.TxStatusCode_CONTRACT_FAIL
+-	//	}
+-	//	myContract = dbContract
+-	//}
+-
+-	return m.invokeUserContractByRuntime(myContract, method, parameters, txContext, byteCode, gasUsed)
+-}
+-
+-// invokeUserContractByRuntime invoke user contract by runtime
+-func (m *VmManagerImpl) invokeUserContractByRuntime(contract *commonPb.Contract, method string,
+-	parameters map[string][]byte, txContext protocol.TxSimContext, byteCode []byte, gasUsed uint64) (
+-	*commonPb.ContractResult, protocol.ExecOrderTxType, commonPb.TxStatusCode) {
+-	contractResult := &commonPb.ContractResult{Code: uint32(1)}
+-	txId := txContext.GetTx().Payload.TxId
+-	txType := txContext.GetTx().Payload.TxType
+-	runtimeType := contract.RuntimeType
+-	contractName := contract.Name
+-	m.Log.Infof("invoke user contract[%s], tx id:%s, runtime:%s, method:%s",
+-		contract.Name, txId, contract.RuntimeType.String(), method)
+-
+-	//get vm instance manager byt runtime type
+-	vmInstancesManager := m.InstanceManagers[runtimeType]
+-	if vmInstancesManager == nil {
+-
+-		// enable go runtime type
+-		goExists := m.InstanceManagers[commonPb.RuntimeType_GO]
+-		// enable docker_go runtime type
+-		dockerGoExists := m.InstanceManagers[commonPb.RuntimeType_DOCKER_GO]
+-
+-		// enable docker_go runtime type && disable go runtime type && use go runtime type
+-		if runtimeType == commonPb.RuntimeType_GO && dockerGoExists != nil {
+-			contractResult.Message = "incorrect vm go runtime version, you only have docker_go part configured in " +
+-				"chainmaker.yml's vm module, but your contract sdk version >= v2.3.0, it needs go part"
+-		} else if runtimeType == commonPb.RuntimeType_DOCKER_GO && goExists != nil {
+-			// enable go runtime type && disable docker_go runtime type && use docker_go runtime type
+-			contractResult.Message = "incorrect vm go runtime version, you only have go part configured in " +
+-				"chainmaker.yml's vm module, but your contract sdk version < v2.3.0, it needs docker_go part"
+-		} else {
+-			// runtime type not exist
+-			contractResult.Message = fmt.Sprintf("no such vm runtime %q", runtimeType)
+-		}
+-		return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_INVALID_CONTRACT_PARAMETER_RUNTIME_TYPE
+-	}
+-
+-	//new instance
+-	runtimeInstance, err := vmInstancesManager.NewRuntimeInstance(txContext, m.ChainId, method, m.WxvmCodePath,
+-		contract, byteCode, m.Log)
+-	if err != nil {
+-		contractResult.Message = fmt.Sprintf("failed to create vm runtime, contract: %s, %s",
+-			contract.Name, err.Error())
+-		return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CREATE_RUNTIME_INSTANCE_FAILED
+-	}
+-
+-	sender, creator, origin, orderTxType, statusCode, err := m.getMember(contract, txContext, runtimeType)
+-	if err != nil {
+-		contractResult.Message = err.Error()
+-		return contractResult, orderTxType, statusCode
+-	}
+-
+-	m.setParams(parameters, txContext, sender, creator, origin, txId)
+-
+-	// calc the gas used by byte code
+-	// gasUsed := uint64(GasPerByte * len(byteCode))
+-
+-	m.Log.Debugf("invoke vm, tx id:%s, tx type:%+v, contractId:%+v, method:%+v,"+
+-		" runtime type:%+v, byte code len:%+v, params:%+v",
+-		txId, txType, contract, method, runtimeType, len(byteCode), len(parameters))
+-
+-	// begin save point for sql
+-	var dbTransaction protocol.SqlDBTransaction
+-	if m.ChainConf.ChainConfig().Contract.EnableSqlSupport && txType != commonPb.TxType_QUERY_CONTRACT {
+-		txKey := commonPb.GetTxKeyWith(txContext.GetBlockProposer().MemberInfo, txContext.GetBlockHeight())
+-		dbTransaction, err = txContext.GetBlockchainStore().GetDbTransaction(txKey)
+-		if err != nil {
+-			contractResult.Message = fmt.Sprintf("get db transaction from [%s] error %+v", txKey, err)
+-			return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_INTERNAL_ERROR
+-		}
+-		err := dbTransaction.BeginDbSavePoint(txId)
+-		if err != nil {
+-			m.Log.Warn("[%s] begin db save point error, %s", txId, err.Error())
+-		}
+-		//txContext.Put(contractId.Name, []byte("target"), []byte("mysql")) // for dag
+-	}
+-	//记录开始时间
+-	startTime := time.Now().UnixNano()
+-	runtimeContractResult, specialTxType := runtimeInstance.Invoke(contract, method, byteCode, parameters, txContext,
+-		gasUsed)
+-	//记录结束时间。并写入日志
+-	endTime := time.Now().UnixNano()
+-	executionTime := float64(endTime-startTime) / 1e9
+-	m.Log.Infof("invoke vm, tx id:%s, contractName:%+v, contractMethod:%+v, runtime type:%+v, runtimeContractResult:%d ,startTime:%d, endTime:%d, executionTime:%.6f s",
+-		txId, contractName, method, runtimeType, runtimeContractResult.Code, startTime, endTime, executionTime)
+-	if runtimeContractResult.Code == 0 {
+-		return runtimeContractResult, specialTxType, commonPb.TxStatusCode_SUCCESS
+-	}
+-	if m.ChainConf.ChainConfig().Contract.EnableSqlSupport && txType != commonPb.TxType_QUERY_CONTRACT {
+-		err := dbTransaction.RollbackDbSavePoint(txId)
+-		if err != nil {
+-			m.Log.Warn("[%s] rollback db save point error, %s", txId, err.Error())
+-		}
+-	}
+-	return runtimeContractResult, specialTxType, commonPb.TxStatusCode_CONTRACT_FAIL
+-}
+-
+-// setParams sets parameters
+-func (m *VmManagerImpl) setParams(parameters map[string][]byte, txContext protocol.TxSimContext,
+-	sender *acPb.Member, creator *acPb.MemberFull, origin protocol.Member, txId string) {
+-	//check if current call is cross contract call
+-	if string(parameters[syscontract.CrossParams_CALL_TYPE.String()]) == syscontract.CallType_CROSS.String() {
+-		//parameters[protocol.ContractSenderTypeParam] = []byte(strconv.Itoa(int(acPb.MemberType_ADDR)))
+-		parameters[protocol.ContractSenderRoleParam] = []byte(protocol.RoleContract)
+-	} else {
+-		parameters[protocol.ContractSenderRoleParam] = []byte(origin.GetRole()) //non-cross-call sender==origin
+-	}
+-
+-	parameters[protocol.ContractSenderOrgIdParam] = []byte(sender.OrgId)
+-	parameters[protocol.ContractCreatorOrgIdParam] = []byte(creator.OrgId)
+-	parameters[protocol.ContractCreatorRoleParam] = []byte(creator.Role)
+-
+-	typeParam := make([]byte, 4)
+-	addrType := m.ChainConf.ChainConfig().GetVm().GetAddrType()
+-	if txContext.GetBlockVersion() < blockVersion2300 && addrType == config.AddrType_ZXL {
+-		binary.BigEndian.PutUint32(typeParam, uint32(config.AddrType_ZXL))
+-		parameters[protocol.ContractCreatorPkParam] = creator.MemberInfo
+-		parameters[protocol.ContractSenderPkParam] = sender.MemberInfo
+-		parameters[protocol.ContractCreatorTypeParam] = make([]byte, 4)
+-		parameters[protocol.ContractSenderTypeParam] = make([]byte, 4)
+-
+-		memberType := make([]byte, 4)
+-		binary.BigEndian.PutUint32(memberType, uint32(acPb.MemberType_PUBLIC_KEY))
+-		if creator.MemberType == acPb.MemberType_PUBLIC_KEY {
+-			parameters[protocol.ContractCreatorTypeParam] = memberType
+-		}
+-		if sender.MemberType == acPb.MemberType_PUBLIC_KEY {
+-			parameters[protocol.ContractSenderTypeParam] = memberType
+-		}
+-	} else {
+-		//ATTENTION: uid is SKI(SubjectKeyId) in any mode(include cert/pk/pwk etc.)
+-		//SKI generation -- encode public key by DER, then calculate it's by chainmaker default hash
+-		parameters[protocol.ContractCreatorPkParam] = []byte(creator.GetUid())
+-		parameters[protocol.ContractSenderPkParam] = []byte(origin.GetUid())
+-	}
+-
+-	parameters[protocol.ContractTxIdParam] = []byte(txId)
+-	parameters[protocol.ContractBlockHeightParam] = []byte(strconv.FormatUint(txContext.GetBlockHeight(), 10))
+-	parameters[protocol.ContractTxTimeStamp] = []byte(strconv.FormatInt(txContext.GetTx().GetPayload().Timestamp, 10))
+-}
+-
+-// getMember get member by contract
+-func (m *VmManagerImpl) getMember(contract *commonPb.Contract,
+-	txContext protocol.TxSimContext,
+-	runtimeType commonPb.RuntimeType) (
+-	sender *acPb.Member, creator *acPb.MemberFull, senderMember protocol.Member,
+-	tp protocol.ExecOrderTxType, code commonPb.TxStatusCode, err error) {
+-	//先计算Sender
+-	sender = txContext.GetSender()
+-	sender, code = m.getFullCertMember(sender, txContext)
+-	if code != commonPb.TxStatusCode_SUCCESS {
+-		return nil, nil, nil, protocol.ExecOrderTxTypeNormal, code, err
+-	}
+-	// Get three items in the certificate: orgid PK role
+-	senderMember, err = m.AccessControl.NewMember(sender)
+-	if err != nil {
+-		err = fmt.Errorf("failed to unmarshal sender %q", runtimeType)
+-		return nil, nil, nil, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_UNMARSHAL_SENDER_FAILED, err
+-	}
+-	//再计算creator
+-	creator = contract.Creator
+-	if creator == nil {
+-		err = fmt.Errorf("creatorTmp is empty for contract:%s", contract.Name)
+-		return nil, nil, nil, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_GET_CREATOR_FAILED, err
+-	}
+-	//creator.MemberId == "" 这个判断是因为有可能合约是在v2.2.0_alpha或者之前创建的，然后是在v2.2.0正式版运行的
+-	//这个时候需要重新通过ac模块获取Role和PK，但是不记录读集
+-	if txContext.GetBlockVersion() < blockVersion220 || contract.Creator.MemberId == "" {
+-		//在v2.2.0_alpha版中，creator并没有Role，PubKey等信息，所以需要再次查询
+-		//在>220的版本也就是v2.2.0正式版及之后的版本中，creator有了完整的Role，PubKey信息，所以不需要再次查询了
+-
+-		creatorPbMember := &acPb.Member{
+-			OrgId:      creator.OrgId,
+-			MemberType: creator.MemberType,
+-			MemberInfo: creator.MemberInfo,
+-		}
+-		creatorPbMember, code = m.getFullCertMember(creatorPbMember, txContext)
+-		if code != commonPb.TxStatusCode_SUCCESS {
+-			return nil, nil, nil, protocol.ExecOrderTxTypeNormal, code, err
+-		}
+-
+-		// Get three items in the certificate: orgid PK role
+-		creatorMember, err2 := m.AccessControl.NewMember(creatorPbMember)
+-		if err2 != nil {
+-			m.Log.Error("failed to unmarshal creator " + err2.Error())
+-			err = fmt.Errorf("failed to unmarshal creator %q", creatorPbMember)
+-			return nil, nil, nil, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_UNMARSHAL_CREATOR_FAILED, err
+-		}
+-
+-		//construct creator member instance
+-		creator = &acPb.MemberFull{
+-			OrgId:      creatorPbMember.OrgId,
+-			MemberType: creatorPbMember.MemberType,
+-			MemberInfo: creatorPbMember.MemberInfo,
+-			MemberId:   creatorMember.GetMemberId(),
+-			Role:       string(creatorMember.GetRole()),
+-			Uid:        creatorMember.GetUid(),
+-		}
+-	}
+-	return sender, creator, senderMember, 0, 0, err
+-}
+-
+-// getFullCertMember 如果是证书Hash，重新获取完整的证书Member
+-func (m *VmManagerImpl) getFullCertMember(sender *acPb.Member, txContext protocol.TxSimContext) (
+-	*acPb.Member, commonPb.TxStatusCode) {
+-	//在v2.2.0版之前，如果是CertHash，在取完整的Cert的时候，会记录到读集中
+-	//在v2.2.0正式版及之后，取完整Cert不会再放入读集
+-	recordIntoReadSet := txContext.GetBlockVersion() <= blockVersion220
+-	//特殊处理，因为v2.2.0_alpha版的时候对CertAlias没有GetCert，所以没有读集，这是一个Bug
+-	//现在只能将错就错，不然就会不兼容。所以在BlockVersion==220而且是CertAlias的时候，不产生读集
+-	if txContext.GetBlockVersion() == blockVersion220 && sender.MemberType == acPb.MemberType_ALIAS {
+-		return sender, commonPb.TxStatusCode_SUCCESS
+-	}
+-
+-	// If the certificate in the transaction is hash, the original certificate is retrieved
+-	if sender.MemberType == acPb.MemberType_CERT_HASH || sender.MemberType == acPb.MemberType_ALIAS {
+-		var fullCertMemberInfo []byte
+-		var err error
+-		if txContext.GetBlockVersion() >= blockVersion233 {
+-			fullCertMemberInfo, err = m.AccessControl.GetCertFromCache(sender.MemberInfo)
+-
+-		} else {
+-			memberInfoHex := hex.EncodeToString(sender.MemberInfo)
+-			if recordIntoReadSet {
+-				fullCertMemberInfo, err = txContext.Get(syscontract.SystemContract_CERT_MANAGE.String(),
+-					[]byte(memberInfoHex))
+-			} else {
+-				fullCertMemberInfo, err = txContext.GetNoRecord(syscontract.SystemContract_CERT_MANAGE.String(),
+-					[]byte(memberInfoHex))
+-			}
+-
+-		}
+-
+-		if err != nil {
+-			fmt.Println(err)
+-			return nil, commonPb.TxStatusCode_GET_SENDER_CERT_FAILED
+-		}
+-
+-		sender = &acPb.Member{
+-			OrgId:      sender.OrgId,
+-			MemberInfo: fullCertMemberInfo,
+-			MemberType: acPb.MemberType_CERT,
+-		}
+-	}
+-	return sender, commonPb.TxStatusCode_SUCCESS
+-}
+-
+-// isUserContract check if it is user contract
+-func (m *VmManagerImpl) isUserContract(refTxType commonPb.TxType) bool {
+-	switch refTxType {
+-	case
+-		commonPb.TxType_INVOKE_CONTRACT,
+-		commonPb.TxType_QUERY_CONTRACT:
+-		return true
+-	default:
+-		return false
+-	}
+-}
+-
+-// addNewRuntimeType add a  new runtime type
+-func (m *VmManagerImpl) addNewRuntimeType(chainId string, runtimeType commonPb.RuntimeType) {
+-	m.Log.Infof("add new runtime type:%d,chainId:%s", runtimeType, chainId)
+-	// init vm engine
+-	vmInstancesManagerProvider := GetVmProvider(protocol.RunTimeTypeToVmType[runtimeType])
+-	if vmInstancesManagerProvider == nil {
+-		m.Log.Warnf("get vm provider nil,runtimeType:%d, runtime:%s", runtimeType,
+-			protocol.RunTimeTypeToVmType[runtimeType])
+-		return
+-	}
+-	vmInstancesManager, err := vmInstancesManagerProvider(chainId, nil)
+-	if err != nil {
+-		m.Log.Errorf("create instance manager failed, %v", err)
+-		return
+-	}
+-	// if the config in chainmaker.yml does not enable the vm(like docker go/java vm),
+-	// the vmInstancesManager will be nil.
+-	if vmInstancesManager == nil {
+-		m.Log.Debugf("vm instances manager of %v is nil", runtimeType)
+-		return
+-	}
+-
+-	m.InstanceManagers[runtimeType] = vmInstancesManager
+-
+-	m.Log.Infof("starting vm instance manager: %v", runtimeType)
+-	// use a go routine to start vm,
+-	// for in docker vm, it will block the main thread if the connection to engine is not established
+-	go func() {
+-		if err = vmInstancesManager.StartVM(); err != nil {
+-			m.Log.Errorf("failed to start %v vm manager", runtimeType)
+-		}
+-	}()
+-	m.aliveManagers[runtimeType] = struct{}{}
+-}
++/*
++Copyright (C) BABEC. All rights reserved.
++Copyright (C) THL A29 Limited, a Tencent company. All rights reserved.
++
++SPDX-License-Identifier: Apache-2.0
++*/
++
++package vm
++
++import (
++	"encoding/binary"
++	"encoding/hex"
++	"fmt"
++	"strconv"
++	"strings"
++	"time"
++
++	"chainmaker.org/chainmaker/common/v2/msgbus"
++	acPb "chainmaker.org/chainmaker/pb-go/v2/accesscontrol"
++	commonPb "chainmaker.org/chainmaker/pb-go/v2/common"
++	"chainmaker.org/chainmaker/pb-go/v2/config"
++	"chainmaker.org/chainmaker/pb-go/v2/syscontract"
++	"chainmaker.org/chainmaker/protocol/v2"
++	native "chainmaker.org/chainmaker/vm-native/v2"
++	"github.com/gogo/protobuf/proto"
++)
++
++const (
++	blockVersion220  = 220
++	blockVersion2300 = 2300
++	blockVersion2310 = 2030100
++	blockVersion2312 = 2030102
++	blockVersion233  = 2030300
++)
++
++// NewVmManager get vm runtime manager
++func NewVmManager(instanceManagers map[commonPb.RuntimeType]protocol.VmInstancesManager, wxvmCodePathPrefix string,
++	accessControl protocol.AccessControlProvider, chainNodesInfoProvider protocol.ChainNodesInfoProvider,
++	chainConf protocol.ChainConf, log protocol.Logger) protocol.VmManager {
++
++	chainId := chainConf.ChainConfig().ChainId
++	//log := logger.GetLoggerByChain(logger.MODULE_VM, chainId)
++
++	//instance VmManagerImpl
++	return &VmManagerImpl{
++		ChainId:                chainId,
++		InstanceManagers:       instanceManagers,
++		aliveManagers:          make(map[commonPb.RuntimeType]struct{}),
++		WxvmCodePath:           wxvmCodePathPrefix,
++		AccessControl:          accessControl,
++		ChainNodesInfoProvider: chainNodesInfoProvider,
++		Log:                    log,
++		ChainConf:              chainConf,
++	}
++}
++
++// VmManagerImpl implements the VmManager interface, manage vm runtime
++type VmManagerImpl struct {
++	InstanceManagers       map[commonPb.RuntimeType]protocol.VmInstancesManager
++	aliveManagers          map[commonPb.RuntimeType]struct{}
++	WxvmCodePath           string
++	SnapshotManager        protocol.SnapshotManager
++	AccessControl          protocol.AccessControlProvider
++	ChainNodesInfoProvider protocol.ChainNodesInfoProvider
++	ChainId                string
++	Log                    protocol.Logger
++	ChainConf              protocol.ChainConf // chain config
++}
++
++// GetAccessControl get accessControl manages policies and principles
++func (m *VmManagerImpl) GetAccessControl() protocol.AccessControlProvider {
++	return m.AccessControl
++}
++
++// GetChainNodesInfoProvider get ChainNodesInfoProvider provide base node info list of chain.
++func (m *VmManagerImpl) GetChainNodesInfoProvider() protocol.ChainNodesInfoProvider {
++	return m.ChainNodesInfoProvider
++}
++
++// Start all vm instance
++func (m *VmManagerImpl) Start() error {
++	var err error
++	// check every instance manager
++	for runtimeType, instanceManager := range m.InstanceManagers {
++		// instance manager not exists, or instance manager is not alive, start it
++		if _, ok := m.aliveManagers[runtimeType]; !ok {
++			m.Log.Infof("starting vm instance manager: %v", runtimeType)
++			if err = instanceManager.StartVM(); err != nil {
++				return fmt.Errorf("failed to start %v vm manager", runtimeType)
++			}
++			m.aliveManagers[runtimeType] = struct{}{}
++		}
++	}
++	return nil
++}
++
++// Stop all vm instance
++func (m *VmManagerImpl) Stop() error {
++	var err error
++	// check every instance manager
++	for runtimeType, instanceManager := range m.InstanceManagers {
++		//if the manager is alive, stop it
++		if _, ok := m.aliveManagers[runtimeType]; ok {
++			m.Log.Infof("stopping vm instance manager: %v", runtimeType)
++			err = instanceManager.StopVM()
++			if err != nil {
++				m.Log.Errorf("failed to stop vm instance manager: %v", runtimeType)
++				continue
++			}
++			delete(m.aliveManagers, runtimeType)
++		}
++	}
++	return err
++}
++
++// BeforeSchedule do sth. before schedule a block
++func (m *VmManagerImpl) BeforeSchedule(blockFingerprint string, blockHeight uint64) {
++	//prepare docker go if its instance manager not null
++	if m.InstanceManagers[commonPb.RuntimeType_DOCKER_GO] != nil {
++		m.InstanceManagers[commonPb.RuntimeType_DOCKER_GO].BeforeSchedule(blockFingerprint, blockHeight)
++	}
++
++	//prepare go vm if its instance manager not null
++	if m.InstanceManagers[commonPb.RuntimeType_GO] != nil {
++		m.InstanceManagers[commonPb.RuntimeType_GO].BeforeSchedule(blockFingerprint, blockHeight)
++	}
++}
++
++// AfterSchedule do sth. after schedule a block
++func (m *VmManagerImpl) AfterSchedule(blockFingerprint string, blockHeight uint64) {
++	//prepare docker go if its instance manager not null
++	if m.InstanceManagers[commonPb.RuntimeType_DOCKER_GO] != nil {
++		m.InstanceManagers[commonPb.RuntimeType_DOCKER_GO].AfterSchedule(blockFingerprint, blockHeight)
++	}
++
++	//prepare go vm if its instance manager not null
++	if m.InstanceManagers[commonPb.RuntimeType_GO] != nil {
++		m.InstanceManagers[commonPb.RuntimeType_GO].AfterSchedule(blockFingerprint, blockHeight)
++	}
++}
++
++// OnMessage obtain chain configuration check all vm runtime readiness
++// if not ready, init and start the instance manager, then add to vm manager InstanceManagers
++func (m *VmManagerImpl) OnMessage(msg *msgbus.Message) {
++	m.Log.Infof("vm manager get message,msg.topic:%d", msg.Topic)
++	switch msg.Topic {
++	case msgbus.ChainConfig:
++		m.Log.Info(" get the message, msg topic:msgbus.ChainConfig")
++		dataStr, ok := msg.Payload.([]string)
++		if !ok {
++			m.Log.Error("the type of msg.Payload is not []string")
++			return
++		}
++		if len(dataStr) == 0 {
++			m.Log.Error("the msg.Payload is empty")
++			return
++		}
++		dataBytes, err := hex.DecodeString(dataStr[0])
++		if err != nil {
++			m.Log.Error(err)
++			return
++		}
++		chainConfig := &config.ChainConfig{}
++		err = proto.Unmarshal(dataBytes, chainConfig)
++
++		if err != nil {
++			m.Log.Error(err)
++			return
++		}
++
++		for _, vmConfig := range chainConfig.GetVm().GetSupportList() {
++			vmConfig = strings.ToUpper(vmConfig)
++			runtimeType := protocol.VmTypeToRunTimeType[vmConfig]
++
++			// if the vm instance manager is alive, continue
++			if _, ok := m.aliveManagers[runtimeType]; ok {
++				continue
++			}
++
++			m.addNewRuntimeType(chainConfig.GetChainId(), runtimeType)
++
++			if runtimeType == commonPb.RuntimeType_DOCKER_GO {
++				m.addNewRuntimeType(chainConfig.GetChainId(), commonPb.RuntimeType_GO)
++			}
++		}
++	}
++}
++
++// OnQuit nothing to do
++func (m *VmManagerImpl) OnQuit() {
++	// nothing for implement interface msgbus.Subscriber
++}
++
++// RunContract run native or user contract according ContractName in contractId, and call the specified function
++func (m *VmManagerImpl) RunContract(contract *commonPb.Contract, method string, byteCode []byte,
++	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64, refTxType commonPb.TxType) (
++	*commonPb.ContractResult, protocol.ExecOrderTxType, commonPb.TxStatusCode) {
++
++	//prepare contract result
++	contractResult := &commonPb.ContractResult{
++		Code:    uint32(1),
++		Result:  nil,
++		Message: "",
++	}
++
++	if txContext.GetBlockVersion() >= v235 {
++		contractResult.GasUsed = gasUsed
++	}
++
++	contractName := contract.Name
++	//return err if name is empty
++	if contractName == "" {
++		contractResult.Message = "contractName not found"
++		m.Log.Error(contractResult.Message)
++		return contractResult, protocol.ExecOrderTxTypeNormal,
++			commonPb.TxStatusCode_INVALID_CONTRACT_PARAMETER_CONTRACT_NAME
++	}
++
++	if parameters == nil {
++		parameters = make(map[string][]byte)
++	}
++
++	//if contract version is 0, check contract
++	if len(contract.Version) == 0 {
++		var err error
++		contract, err = txContext.GetContractByName(contractName)
++		if err != nil {
++			m.Log.Warn(err)
++			contractResult.Message = fmt.Sprintf("query contract[%s] error", contractName)
++			return contractResult, protocol.ExecOrderTxTypeNormal,
++				commonPb.TxStatusCode_INVALID_CONTRACT_PARAMETER_CONTRACT_NAME
++		}
++	}
++
++	// starting from version 2030100(v2.3.1), frozen contracts can be upgraded
++	if txContext.GetBlockVersion() < blockVersion2310 {
++		if contract.Status == commonPb.ContractStatus_FROZEN {
++			contractResult.Message = fmt.Sprintf("failed to run user contract, %s has been frozen.", contractName)
++			return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CONTRACT_FREEZE_FAILED
++		}
++	} else {
++		if contract.Status == commonPb.ContractStatus_FROZEN && method != protocol.ContractUpgradeMethod {
++			contractResult.Message = fmt.Sprintf("failed to run user contract, %s has been frozen.", contractName)
++			return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CONTRACT_FREEZE_FAILED
++		}
++	}
++
++	//check if it revoked
++	if contract.Status == commonPb.ContractStatus_REVOKED {
++		contractResult.Message = fmt.Sprintf("failed to run user contract, %s has been revoked.", contractName)
++		return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CONTRACT_REVOKE_FAILED
++	}
++
++	// record and remove crossInfo
++	txContext.RecordRuntimeTypeIntoCrossInfo(contract.RuntimeType)
++	defer txContext.RemoveRuntimeTypeFromCrossInfo()
++
++	//check if it is native contract
++	if native.IsNative(contractName, refTxType) {
++		if method == "" {
++			contractResult.Message = "require param method not found."
++			return contractResult, protocol.ExecOrderTxTypeNormal,
++				commonPb.TxStatusCode_INVALID_CONTRACT_PARAMETER_METHOD
++		}
++
++		return m.runNativeContract(contract, method, parameters, txContext, gasUsed)
++	}
++
++	//check if its is user contract
++	if !m.isUserContract(refTxType) {
++		contractResult.Message = fmt.Sprintf("bad contract call %s, transaction type %s", contractName, refTxType)
++		return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_INVALID_CONTRACT_TRANSACTION_TYPE
++	}
++
++	// byteCode should have value
++	if contract.RuntimeType != commonPb.RuntimeType_DOCKER_GO &&
++		contract.RuntimeType != commonPb.RuntimeType_GO &&
++		contract.RuntimeType != commonPb.RuntimeType_DOCKER_JAVA &&
++		len(byteCode) == 0 {
++		contractResult.Message = fmt.Sprintf("contract %s has no byte code, transaction type %s",
++			contractName, refTxType)
++		m.Log.Error(contractResult.Message)
++		return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CONTRACT_BYTE_CODE_NOT_EXIST_FAILED
++	}
++
++	//run user contract
++	return m.runUserContract(contract, method, byteCode, parameters, txContext, gasUsed, refTxType)
++}
++
++// runNativeContract invoke native contract
++func (m *VmManagerImpl) runNativeContract(contract *commonPb.Contract, method string, parameters map[string][]byte,
++	txContext protocol.TxSimContext, gasUsed uint64) (*commonPb.ContractResult,
++	protocol.ExecOrderTxType,
++	commonPb.TxStatusCode) {
++	txId := txContext.GetTx().Payload.TxId
++	runtimeType := contract.RuntimeType
++	m.Log.Infof("invoke native contract[%s], tx id:%s, runtime:%+v, method:%s",
++		contract.Name, txId, contract.RuntimeType.String(), method)
++
++	//defaultGas := uint64(0)
++	//check if enable gas
++	//if m.ChainConf.ChainConfig().AccountConfig != nil && m.ChainConf.ChainConfig().AccountConfig.EnableGas {
++	//	defaultGas = m.ChainConf.ChainConfig().AccountConfig.DefaultGas
++	//}
++	//runtimeInstance := native.GetRuntimeInstance(m.ChainId, defaultGas, m.Log)
++
++	runtimeInstance := native.GetRuntimeInstance(m.ChainId)
++	//记录开始时间
++	startTime := time.Now().UnixNano()
++	runtimeContractResult := runtimeInstance.Invoke(contract, method, nil, parameters, txContext)
++	//记录结束时间。并写入日志
++	endTime := time.Now().UnixNano()
++	executionTime := float64(endTime-startTime) / 1e9
++
++	m.Log.Infof("invoke vm, tx id:%s, runtime type:%+v, runtimeContractResult:%d ,startTime:%d, endTime:%d, executionTime:%.6f s",
++		txId, runtimeType, runtimeContractResult.Code, startTime, endTime, executionTime)
++	runtimeContractResult.GasUsed += gasUsed
++	//check if result code succeed
++	if runtimeContractResult.Code == uint32(0) {
++		if contract.Name == syscontract.SystemContract_ACCOUNT_MANAGER.String() &&
++			method == syscontract.GasAccountFunction_CHARGE_GAS_FOR_MULTI_ACCOUNT.String() {
++			return runtimeContractResult, protocol.ExecOrderTxTypeChargeGas, commonPb.TxStatusCode_SUCCESS
++		}
++		return runtimeContractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_SUCCESS
++	}
++	if contract.Name == syscontract.SystemContract_ACCOUNT_MANAGER.String() &&
++		method == syscontract.GasAccountFunction_CHARGE_GAS_FOR_MULTI_ACCOUNT.String() {
++		return runtimeContractResult, protocol.ExecOrderTxTypeChargeGas, commonPb.TxStatusCode_CONTRACT_FAIL
++	}
++	return runtimeContractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CONTRACT_FAIL
++}
++
++// runUserContract invoke user contract
++func (m *VmManagerImpl) runUserContract(contract *commonPb.Contract, method string, byteCode []byte,
++	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64, refTxType commonPb.TxType) (
++	contractResult *commonPb.ContractResult, specialTxType protocol.ExecOrderTxType, code commonPb.TxStatusCode) {
++
++	var (
++		myContract = contract
++		//contractName = contract.Name
++		//status       = contract.Status
++	)
++	//nolint:ineffassign
++	contractResult = &commonPb.ContractResult{Code: uint32(1)}
++	//if status == commonPb.ContractStatus_ALL {
++	//	dbContract, err := utils.GetContractByName(txContext.Get, contractName)
++	//	if err != nil {
++	//		return nil, commonPb.TxStatusCode_CONTRACT_FAIL
++	//	}
++	//	myContract = dbContract
++	//}
++
++	return m.invokeUserContractByRuntime(myContract, method, parameters, txContext, byteCode, gasUsed)
++}
++
++// invokeUserContractByRuntime invoke user contract by runtime
++func (m *VmManagerImpl) invokeUserContractByRuntime(contract *commonPb.Contract, method string,
++	parameters map[string][]byte, txContext protocol.TxSimContext, byteCode []byte, gasUsed uint64) (
++	*commonPb.ContractResult, protocol.ExecOrderTxType, commonPb.TxStatusCode) {
++	contractResult := &commonPb.ContractResult{Code: uint32(1)}
++	txId := txContext.GetTx().Payload.TxId
++	txType := txContext.GetTx().Payload.TxType
++	runtimeType := contract.RuntimeType
++	contractName := contract.Name
++	m.Log.Infof("invoke user contract[%s], tx id:%s, runtime:%s, method:%s",
++		contract.Name, txId, contract.RuntimeType.String(), method)
++
++	//get vm instance manager byt runtime type
++	vmInstancesManager := m.InstanceManagers[runtimeType]
++	if vmInstancesManager == nil {
++
++		// enable go runtime type
++		goExists := m.InstanceManagers[commonPb.RuntimeType_GO]
++		// enable docker_go runtime type
++		dockerGoExists := m.InstanceManagers[commonPb.RuntimeType_DOCKER_GO]
++
++		// enable docker_go runtime type && disable go runtime type && use go runtime type
++		if runtimeType == commonPb.RuntimeType_GO && dockerGoExists != nil {
++			contractResult.Message = "incorrect vm go runtime version, you only have docker_go part configured in " +
++				"chainmaker.yml's vm module, but your contract sdk version >= v2.3.0, it needs go part"
++		} else if runtimeType == commonPb.RuntimeType_DOCKER_GO && goExists != nil {
++			// enable go runtime type && disable docker_go runtime type && use docker_go runtime type
++			contractResult.Message = "incorrect vm go runtime version, you only have go part configured in " +
++				"chainmaker.yml's vm module, but your contract sdk version < v2.3.0, it needs docker_go part"
++		} else {
++			// runtime type not exist
++			contractResult.Message = fmt.Sprintf("no such vm runtime %q", runtimeType)
++		}
++		return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_INVALID_CONTRACT_PARAMETER_RUNTIME_TYPE
++	}
++
++	//new instance
++	runtimeInstance, err := vmInstancesManager.NewRuntimeInstance(txContext, m.ChainId, method, m.WxvmCodePath,
++		contract, byteCode, m.Log)
++	if err != nil {
++		contractResult.Message = fmt.Sprintf("failed to create vm runtime, contract: %s, %s",
++			contract.Name, err.Error())
++		return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_CREATE_RUNTIME_INSTANCE_FAILED
++	}
++
++	sender, creator, origin, orderTxType, statusCode, err := m.getMember(contract, txContext, runtimeType)
++	if err != nil {
++		contractResult.Message = err.Error()
++		return contractResult, orderTxType, statusCode
++	}
++
++	m.setParams(parameters, txContext, sender, creator, origin, txId)
++
++	// calc the gas used by byte code
++	// gasUsed := uint64(GasPerByte * len(byteCode))
++
++	m.Log.Debugf("invoke vm, tx id:%s, tx type:%+v, contractId:%+v, method:%+v,"+
++		" runtime type:%+v, byte code len:%+v, params:%+v",
++		txId, txType, contract, method, runtimeType, len(byteCode), len(parameters))
++
++	// begin save point for sql
++	var dbTransaction protocol.SqlDBTransaction
++	if m.ChainConf.ChainConfig().Contract.EnableSqlSupport && txType != commonPb.TxType_QUERY_CONTRACT {
++		txKey := commonPb.GetTxKeyWith(txContext.GetBlockProposer().MemberInfo, txContext.GetBlockHeight())
++		dbTransaction, err = txContext.GetBlockchainStore().GetDbTransaction(txKey)
++		if err != nil {
++			contractResult.Message = fmt.Sprintf("get db transaction from [%s] error %+v", txKey, err)
++			return contractResult, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_INTERNAL_ERROR
++		}
++		err := dbTransaction.BeginDbSavePoint(txId)
++		if err != nil {
++			m.Log.Warn("[%s] begin db save point error, %s", txId, err.Error())
++		}
++		//txContext.Put(contractId.Name, []byte("target"), []byte("mysql")) // for dag
++	}
++	//记录开始时间
++	startTime := time.Now().UnixNano()
++	runtimeContractResult, specialTxType := runtimeInstance.Invoke(contract, method, byteCode, parameters, txContext,
++		gasUsed)
++	//记录结束时间。并写入日志
++	endTime := time.Now().UnixNano()
++	executionTime := float64(endTime-startTime) / 1e9
++	fmt.Printf("REUSE_VM tx=%s contract=%s method=%s begin_ns=%d end_ns=%d code=%d gas=%d depth=%d\n", txId, contractName, method, startTime, endTime, runtimeContractResult.Code, runtimeContractResult.GasUsed, txContext.GetDepth())
++	m.Log.Infof("invoke vm, tx id:%s, contractName:%+v, contractMethod:%+v, runtime type:%+v, runtimeContractResult:%d ,startTime:%d, endTime:%d, executionTime:%.6f s",
++		txId, contractName, method, runtimeType, runtimeContractResult.Code, startTime, endTime, executionTime)
++	if runtimeContractResult.Code == 0 {
++		return runtimeContractResult, specialTxType, commonPb.TxStatusCode_SUCCESS
++	}
++	if m.ChainConf.ChainConfig().Contract.EnableSqlSupport && txType != commonPb.TxType_QUERY_CONTRACT {
++		err := dbTransaction.RollbackDbSavePoint(txId)
++		if err != nil {
++			m.Log.Warn("[%s] rollback db save point error, %s", txId, err.Error())
++		}
++	}
++	return runtimeContractResult, specialTxType, commonPb.TxStatusCode_CONTRACT_FAIL
++}
++
++// setParams sets parameters
++func (m *VmManagerImpl) setParams(parameters map[string][]byte, txContext protocol.TxSimContext,
++	sender *acPb.Member, creator *acPb.MemberFull, origin protocol.Member, txId string) {
++	//check if current call is cross contract call
++	if string(parameters[syscontract.CrossParams_CALL_TYPE.String()]) == syscontract.CallType_CROSS.String() {
++		//parameters[protocol.ContractSenderTypeParam] = []byte(strconv.Itoa(int(acPb.MemberType_ADDR)))
++		parameters[protocol.ContractSenderRoleParam] = []byte(protocol.RoleContract)
++	} else {
++		parameters[protocol.ContractSenderRoleParam] = []byte(origin.GetRole()) //non-cross-call sender==origin
++	}
++
++	parameters[protocol.ContractSenderOrgIdParam] = []byte(sender.OrgId)
++	parameters[protocol.ContractCreatorOrgIdParam] = []byte(creator.OrgId)
++	parameters[protocol.ContractCreatorRoleParam] = []byte(creator.Role)
++
++	typeParam := make([]byte, 4)
++	addrType := m.ChainConf.ChainConfig().GetVm().GetAddrType()
++	if txContext.GetBlockVersion() < blockVersion2300 && addrType == config.AddrType_ZXL {
++		binary.BigEndian.PutUint32(typeParam, uint32(config.AddrType_ZXL))
++		parameters[protocol.ContractCreatorPkParam] = creator.MemberInfo
++		parameters[protocol.ContractSenderPkParam] = sender.MemberInfo
++		parameters[protocol.ContractCreatorTypeParam] = make([]byte, 4)
++		parameters[protocol.ContractSenderTypeParam] = make([]byte, 4)
++
++		memberType := make([]byte, 4)
++		binary.BigEndian.PutUint32(memberType, uint32(acPb.MemberType_PUBLIC_KEY))
++		if creator.MemberType == acPb.MemberType_PUBLIC_KEY {
++			parameters[protocol.ContractCreatorTypeParam] = memberType
++		}
++		if sender.MemberType == acPb.MemberType_PUBLIC_KEY {
++			parameters[protocol.ContractSenderTypeParam] = memberType
++		}
++	} else {
++		//ATTENTION: uid is SKI(SubjectKeyId) in any mode(include cert/pk/pwk etc.)
++		//SKI generation -- encode public key by DER, then calculate it's by chainmaker default hash
++		parameters[protocol.ContractCreatorPkParam] = []byte(creator.GetUid())
++		parameters[protocol.ContractSenderPkParam] = []byte(origin.GetUid())
++	}
++
++	parameters[protocol.ContractTxIdParam] = []byte(txId)
++	parameters[protocol.ContractBlockHeightParam] = []byte(strconv.FormatUint(txContext.GetBlockHeight(), 10))
++	parameters[protocol.ContractTxTimeStamp] = []byte(strconv.FormatInt(txContext.GetTx().GetPayload().Timestamp, 10))
++}
++
++// getMember get member by contract
++func (m *VmManagerImpl) getMember(contract *commonPb.Contract,
++	txContext protocol.TxSimContext,
++	runtimeType commonPb.RuntimeType) (
++	sender *acPb.Member, creator *acPb.MemberFull, senderMember protocol.Member,
++	tp protocol.ExecOrderTxType, code commonPb.TxStatusCode, err error) {
++	//先计算Sender
++	sender = txContext.GetSender()
++	sender, code = m.getFullCertMember(sender, txContext)
++	if code != commonPb.TxStatusCode_SUCCESS {
++		return nil, nil, nil, protocol.ExecOrderTxTypeNormal, code, err
++	}
++	// Get three items in the certificate: orgid PK role
++	senderMember, err = m.AccessControl.NewMember(sender)
++	if err != nil {
++		err = fmt.Errorf("failed to unmarshal sender %q", runtimeType)
++		return nil, nil, nil, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_UNMARSHAL_SENDER_FAILED, err
++	}
++	//再计算creator
++	creator = contract.Creator
++	if creator == nil {
++		err = fmt.Errorf("creatorTmp is empty for contract:%s", contract.Name)
++		return nil, nil, nil, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_GET_CREATOR_FAILED, err
++	}
++	//creator.MemberId == "" 这个判断是因为有可能合约是在v2.2.0_alpha或者之前创建的，然后是在v2.2.0正式版运行的
++	//这个时候需要重新通过ac模块获取Role和PK，但是不记录读集
++	if txContext.GetBlockVersion() < blockVersion220 || contract.Creator.MemberId == "" {
++		//在v2.2.0_alpha版中，creator并没有Role，PubKey等信息，所以需要再次查询
++		//在>220的版本也就是v2.2.0正式版及之后的版本中，creator有了完整的Role，PubKey信息，所以不需要再次查询了
++
++		creatorPbMember := &acPb.Member{
++			OrgId:      creator.OrgId,
++			MemberType: creator.MemberType,
++			MemberInfo: creator.MemberInfo,
++		}
++		creatorPbMember, code = m.getFullCertMember(creatorPbMember, txContext)
++		if code != commonPb.TxStatusCode_SUCCESS {
++			return nil, nil, nil, protocol.ExecOrderTxTypeNormal, code, err
++		}
++
++		// Get three items in the certificate: orgid PK role
++		creatorMember, err2 := m.AccessControl.NewMember(creatorPbMember)
++		if err2 != nil {
++			m.Log.Error("failed to unmarshal creator " + err2.Error())
++			err = fmt.Errorf("failed to unmarshal creator %q", creatorPbMember)
++			return nil, nil, nil, protocol.ExecOrderTxTypeNormal, commonPb.TxStatusCode_UNMARSHAL_CREATOR_FAILED, err
++		}
++
++		//construct creator member instance
++		creator = &acPb.MemberFull{
++			OrgId:      creatorPbMember.OrgId,
++			MemberType: creatorPbMember.MemberType,
++			MemberInfo: creatorPbMember.MemberInfo,
++			MemberId:   creatorMember.GetMemberId(),
++			Role:       string(creatorMember.GetRole()),
++			Uid:        creatorMember.GetUid(),
++		}
++	}
++	return sender, creator, senderMember, 0, 0, err
++}
++
++// getFullCertMember 如果是证书Hash，重新获取完整的证书Member
++func (m *VmManagerImpl) getFullCertMember(sender *acPb.Member, txContext protocol.TxSimContext) (
++	*acPb.Member, commonPb.TxStatusCode) {
++	//在v2.2.0版之前，如果是CertHash，在取完整的Cert的时候，会记录到读集中
++	//在v2.2.0正式版及之后，取完整Cert不会再放入读集
++	recordIntoReadSet := txContext.GetBlockVersion() <= blockVersion220
++	//特殊处理，因为v2.2.0_alpha版的时候对CertAlias没有GetCert，所以没有读集，这是一个Bug
++	//现在只能将错就错，不然就会不兼容。所以在BlockVersion==220而且是CertAlias的时候，不产生读集
++	if txContext.GetBlockVersion() == blockVersion220 && sender.MemberType == acPb.MemberType_ALIAS {
++		return sender, commonPb.TxStatusCode_SUCCESS
++	}
++
++	// If the certificate in the transaction is hash, the original certificate is retrieved
++	if sender.MemberType == acPb.MemberType_CERT_HASH || sender.MemberType == acPb.MemberType_ALIAS {
++		var fullCertMemberInfo []byte
++		var err error
++		if txContext.GetBlockVersion() >= blockVersion233 {
++			fullCertMemberInfo, err = m.AccessControl.GetCertFromCache(sender.MemberInfo)
++
++		} else {
++			memberInfoHex := hex.EncodeToString(sender.MemberInfo)
++			if recordIntoReadSet {
++				fullCertMemberInfo, err = txContext.Get(syscontract.SystemContract_CERT_MANAGE.String(),
++					[]byte(memberInfoHex))
++			} else {
++				fullCertMemberInfo, err = txContext.GetNoRecord(syscontract.SystemContract_CERT_MANAGE.String(),
++					[]byte(memberInfoHex))
++			}
++
++		}
++
++		if err != nil {
++			fmt.Println(err)
++			return nil, commonPb.TxStatusCode_GET_SENDER_CERT_FAILED
++		}
++
++		sender = &acPb.Member{
++			OrgId:      sender.OrgId,
++			MemberInfo: fullCertMemberInfo,
++			MemberType: acPb.MemberType_CERT,
++		}
++	}
++	return sender, commonPb.TxStatusCode_SUCCESS
++}
++
++// isUserContract check if it is user contract
++func (m *VmManagerImpl) isUserContract(refTxType commonPb.TxType) bool {
++	switch refTxType {
++	case
++		commonPb.TxType_INVOKE_CONTRACT,
++		commonPb.TxType_QUERY_CONTRACT:
++		return true
++	default:
++		return false
++	}
++}
++
++// addNewRuntimeType add a  new runtime type
++func (m *VmManagerImpl) addNewRuntimeType(chainId string, runtimeType commonPb.RuntimeType) {
++	m.Log.Infof("add new runtime type:%d,chainId:%s", runtimeType, chainId)
++	// init vm engine
++	vmInstancesManagerProvider := GetVmProvider(protocol.RunTimeTypeToVmType[runtimeType])
++	if vmInstancesManagerProvider == nil {
++		m.Log.Warnf("get vm provider nil,runtimeType:%d, runtime:%s", runtimeType,
++			protocol.RunTimeTypeToVmType[runtimeType])
++		return
++	}
++	vmInstancesManager, err := vmInstancesManagerProvider(chainId, nil)
++	if err != nil {
++		m.Log.Errorf("create instance manager failed, %v", err)
++		return
++	}
++	// if the config in chainmaker.yml does not enable the vm(like docker go/java vm),
++	// the vmInstancesManager will be nil.
++	if vmInstancesManager == nil {
++		m.Log.Debugf("vm instances manager of %v is nil", runtimeType)
++		return
++	}
++
++	m.InstanceManagers[runtimeType] = vmInstancesManager
++
++	m.Log.Infof("starting vm instance manager: %v", runtimeType)
++	// use a go routine to start vm,
++	// for in docker vm, it will block the main thread if the connection to engine is not established
++	go func() {
++		if err = vmInstancesManager.StartVM(); err != nil {
++			m.Log.Errorf("failed to start %v vm manager", runtimeType)
++		}
++	}()
++	m.aliveManagers[runtimeType] = struct{}{}
++}
