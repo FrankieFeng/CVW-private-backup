@@ -1,0 +1,10 @@
+--- a/step-19-reuse-reproduction/smoke.py
++++ b/step-19-reuse-reproduction/smoke.py
+@@ -117,7 +117,6 @@
+                         row = request(dict(Op='invoke', Contract=spec['label'], Method=method,
+                                            Params=params), 'warmup' if i < 3 else 'sample', i)
+                         phase_rows.append(row)
+-                        time.sleep(.1)  # bounded smoke; includes deliberate gaps, not saturation TPS
+                     for i, row in enumerate(phase_rows):
+                         request(dict(Op='rwset', Contract=spec['label'], Path=row['response']['tx_id']), 'commit-check', i)
+                     print(policy, spec['label'], method, '23 committed calls checked', flush=True)

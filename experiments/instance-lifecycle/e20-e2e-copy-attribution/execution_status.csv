@@ -1,0 +1,6 @@
+group,state,reason
+R1 Fresh,not_run,shared Store background creation/Call/async Close ownership unproved; E20 RSS guard already triggered
+R2 Fresh+Copy,not_run,same gate; no global lock or synchronous-fresh substitution
+controlled concurrent R1/R2,not_run,serial default-pool gate not passed
+new detailed trace,not_run,stopped all execution after low-a resource threshold
+low-b and low-c,not_run,first formal batch stopped; not three completed repetitions

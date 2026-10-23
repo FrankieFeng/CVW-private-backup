@@ -1,0 +1,16 @@
+metric,status,reason
+client_send_to_node_receive_one_way,missing,no newly executed detailed trace; historical stages intentionally do not subtract cross-process timestamps
+node_rpc_to_vm,historical_only,available in 2026-10-19 raw trace; new low-a has no node RPC stage timestamps
+root_lock_pure_wait,missing,historical entry-to-lock includes output overhead; low-a excludes lock wait from invoke_ns
+default_GetInstance_total,not_run,default pool safety gate failed
+default_channel_receive_wait,missing,no tight monotonic probe immediately bracketing <-p.instances; old events are function elapsed/coarse milliseconds
+fresh_create_to_S1,available,new STEP17 s1_ns includes NewInstance and necessary Copy
+host_copy,available,new STEP17 copy_ns
+pure_WASI_start,missing,s2_ns-s1_ns combines WASI Initialize and Go _start
+pure_CallMethod,missing,not emitted by current STEP17 node records
+vm_return_to_client_one_way,missing,new nodes have no VM monotonic timestamp; residual is not a one-way latency
+per_second_default_creation_rate,not_run,no default pool experiment
+committed_ledger_window_tps,missing,SDK confirmed result/block height available; independent ledger-window scan not executed
+entire_inherited_historical_environment,missing,only explicit script variables and saved config/build hashes available
+new_detail_low_overhead_comparison,not_run,resource stop before detailed trace
+S1_hash_full_state_table,not_retested,unchanged saved binaries use prior Step17 equivalence evidence; not newly marked pass
