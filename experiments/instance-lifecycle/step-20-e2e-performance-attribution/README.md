@@ -1,4 +1,4 @@
-# E20：端到端Copy收益抵消的审计与有界复现
+# Step-20：端到端性能归因
 
 2026-10-23，Asia/Shanghai。**已完成历史审计、原二进制小样本复现，以及首个正式批次的部分采集；因RSS触发预设阈值停止，未完成3个独立批次，未执行新详细追踪或默认池R1/R2。**没有提高资源上限继续采样，没有增加锁或修改优化算法。所有自启节点和客户端均已停止。
 
@@ -107,7 +107,7 @@ SDK-Go/v2 v2.4.0 `InvokeContract(...,60,true)`在当前配置走`SendRequestSync
 
 ## 环境、执行与复核
 
-独立工作树`.worktrees/cvw-e20`，分支`experiment/e20-e2e-copy-attribution`，基于a47ae2f。实际低日志节点及客户端完全复用Step-17保存binary，没有重编或改算法；哈希、源版本、native、配置及完整启动命令见environment.json、*-command.json。仅隔离端口27801/27802、P2P28801/28802及路径变化；两个账本从已停机Step-17 baseline独立复制，无硬链接。链ID、单节点TBFT、20ms出块、SDK/API、GOMAXPROCS=4、artifact与输入不变，三个原Step-17子环境开关保留。
+独立工作树`.worktrees/cvw-step20`，分支`experiment/step-20-e2e-performance-attribution`，基于a47ae2f。实际低日志节点及客户端完全复用Step-17保存binary，没有重编或改算法；哈希、源版本、native、配置及完整启动命令见environment.json、*-command.json。仅隔离端口27801/27802、P2P28801/28802及路径变化；两个账本从已停机Step-17 baseline独立复制，无硬链接。链ID、单节点TBFT、20ms出块、SDK/API、GOMAXPROCS=4、artifact与输入不变，三个原Step-17子环境开关保留。
 
 已实际运行：
 
@@ -120,9 +120,11 @@ python3 -B run.py --kind low --batch a --pairs 100
 只读重算新旧数据（不启动节点）：
 
 ```bash
-python3 -B CVW/experiments/instance-lifecycle/e20-e2e-copy-attribution/analyze.py
+python3 -B CVW/experiments/instance-lifecycle/step-20-e2e-performance-attribution/analyze.py
 ```
 
-run.py拒绝覆盖同名请求/日志；资源已触发，本次不要直接重跑或换标签扩测。停止只针对自有systemd单元/客户端，不操作原Step-17节点及正式生产。回退无需改生产代码；四个E20已启动节点单元均停止。
+run.py拒绝覆盖同名请求/日志；资源已触发，本次不要直接重跑或换标签扩测。停止只针对自有systemd单元/客户端，不操作原Step-17节点及正式生产。回退无需改生产代码；四个Step-20已启动节点单元均停止。
 
 原始client JSONL、节点stdout、资源JSONL、截断状态和待定请求都保留。samples.csv不删未配对热响应；matched_summary.csv/paired_effects.csv仅完整对；vm_invocations.csv保留所有root attempts；historical_same_process_stages.csv及historical_stage_accounting.csv为旧trace重算。日志及配置在本机network目录，账本/证书/密钥不纳入实验提交。
+
+命名说明：本目录由原E20统一更名，详见NAMING.md；原始日志、执行命令及结果未改写。后续实验统一使用`step-N`前缀。

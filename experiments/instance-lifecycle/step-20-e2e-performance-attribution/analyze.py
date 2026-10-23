@@ -1,4 +1,4 @@
-"""Read-only reductions of saved E20 and historical logs; no runtime execution."""
+"""Read-only reductions of saved Step-20 and historical logs; no runtime execution."""
 from pathlib import Path
 from collections import Counter, defaultdict
 import base64

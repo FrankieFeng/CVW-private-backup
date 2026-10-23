@@ -1,0 +1,107 @@
+{
+  "date": "2026-10-23",
+  "scope": "compute.bigNumCal; original synchronous fresh w1 and separate detailed trace; default pool gate pending",
+  "original_source_commit": "b21ca6af7cbb89d8582878380df2d562d715aae8",
+  "diagnostic_source_commit": "a47ae2ff95ed104d68ae8a045233e484d8722e2e",
+  "original_node_source_commit": "351b816ebf7afc400d81c5041e20a595c22fbd5b",
+  "diagnostic_node_source_commit": "2b1ddb17ab1fe0b0932d304a6f0acf8ea84c9ed0",
+  "binaries": {
+    "chainmaker-original": {
+      "path": "/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-17-real-node/chainmaker",
+      "sha256": "ba5cbd3b956fb24f10ac0e73aec1a21a17998709c4977cd5db7cd316141cc2b0"
+    },
+    "client-original": {
+      "path": "/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-17-real-node/client-benchmark",
+      "sha256": "8c54eab4ca354d21ddbf0129909f10cc366e1143a02266b6f6417a7f7ebafd2f"
+    },
+    "chainmaker-trace": {
+      "path": "/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-19-client-latency-trace/chainmaker",
+      "sha256": "c2fceb6a6566c8003dea84bc5929a95cf08457ba179d90d8713291ac11f31c24"
+    },
+    "client-trace": {
+      "path": "/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-19-client-latency-trace/client",
+      "sha256": "0ae7cd3ed4f3e35d9fa1646c3192a77d00937e3ccf1cca6d5be39d8c3ed41c01"
+    }
+  },
+  "wasm_sha256": "e8b1fe3648b9f731f90352aff1796195f9f1efd1c4043bafec966fac53952507",
+  "inputs": {},
+  "root_lock": "same Step17 serialize VM, unchanged; not used to claim default pool concurrency safety",
+  "go": "1.25.0 saved builds, not rebuilt",
+  "native_sha256": "dcdfa7164c58856f6e0c01597fd52c9a4c5f7da772751e3a874f7333612c3db9",
+  "client_api": "SDK-Go/v2 v2.4.0 InvokeContract(...,60,true), SendRequestSync (nodeOnlyAsync false)",
+  "no_artificial_business_sleep": true,
+  "guards": {
+    "MemoryMax": "3GiB per node",
+    "TasksMax": 256,
+    "RuntimeMaxSec": 120,
+    "rss_soft_mib": 2560,
+    "threads_soft": 220,
+    "rpc_watchdog_s": 15
+  },
+  "boot_id": "20e8ebb6-83f4-4316-9eda-decad6d1866b",
+  "time_namespace": "time:[4026531834]",
+  "clock_policy": "only same-process monotonic deltas; no cross-process timestamp subtraction",
+  "worktree": "/home/frankie/mygitprojects/.worktrees/cvw-step20",
+  "branch": "experiment/step20-e2e-performance-attribution",
+  "outcome": "resource_stop_in_first_formal_batch",
+  "completed_independent_formal_batches": 0,
+  "smoke_complete": true,
+  "completed_hot_responses": {
+    "baseline": 88,
+    "optimized": 89
+  },
+  "matched_hot_pairs": 88,
+  "new_detailed_trace_executed": false,
+  "default_pool_executed": false,
+  "all_owned_nodes_stopped": true,
+  "clock_ticks_per_s": 100,
+  "config_hashes": [
+    {
+      "file": "network/optimized/sdk.yml",
+      "sha256": "9276aeb3fa719382f7518934cb72df806f3633c571432e2498e1a5eabacf3431"
+    },
+    {
+      "file": "network/baseline/sdk.yml",
+      "sha256": "8c8314aacb7df4a1afe5548139c3acc98b855eaaa91aac2665fc150cb7bb6da0"
+    },
+    {
+      "file": "network/optimized/config/wx-org1.chainmaker.org/chainmaker.yml",
+      "sha256": "43bc21fe72d8c28b8e1ca98c334c98592e58e0b7950256a0cd8c87d6438c2f58"
+    },
+    {
+      "file": "network/optimized/config/wx-org1.chainmaker.org/chainmaker-race.yml",
+      "sha256": "a28df571b59cf346af691726772529fea98a7f913caa0627b6aa06f231118636"
+    },
+    {
+      "file": "network/optimized/config/wx-org1.chainmaker.org/log.yml",
+      "sha256": "0b5b7f3ec66d69dd814fdf9de6fb1fbf7a277651a23cfd2ce641c336f02daff0"
+    },
+    {
+      "file": "network/optimized/config/wx-org1.chainmaker.org/chainconfig/bc1.yml",
+      "sha256": "7465921260436aab02d5cc6dd7a24c8ba6eeac25fb96658928fd5880ab059738"
+    },
+    {
+      "file": "network/baseline/config/wx-org1.chainmaker.org/chainmaker.yml",
+      "sha256": "6572a7b522f489b7cf06ca17e07210d087bd9fac8d61881c7ae4a31cea70c705"
+    },
+    {
+      "file": "network/baseline/config/wx-org1.chainmaker.org/chainmaker-race.yml",
+      "sha256": "d725144ac5089ec0e3d5d1c2bf0da58c2426f8458130d76cf500e6688c0b17bc"
+    },
+    {
+      "file": "network/baseline/config/wx-org1.chainmaker.org/log.yml",
+      "sha256": "d1a3923b4c1e5a84ae5b6bdfa77cc46a1df241f0f750254272c5c630b4d56d2b"
+    },
+    {
+      "file": "network/baseline/config/wx-org1.chainmaker.org/chainconfig/bc1.yml",
+      "sha256": "6f52b2143a98f5dcbd2923ede921eb8bacfdfe231cbf4d0deb2916fd5f745768"
+    }
+  ],
+  "historical_full_inherited_environment": "not_archived; only explicit script settings/configs verified",
+  "diagnostic_trace_binary_was_not_executed_in_E20": true,
+  "worktree_at_execution": "/home/frankie/mygitprojects/.worktrees/cvw-e20",
+  "branch_at_execution": "experiment/e20-e2e-copy-attribution",
+  "experiment_name": "step-20 \u7aef\u5230\u7aef\u6027\u80fd\u5f52\u56e0",
+  "directory_at_execution": "/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/e20-e2e-copy-attribution",
+  "current_directory": "/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-20-e2e-performance-attribution"
+}
