@@ -1,0 +1,261 @@
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime_test.go b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime_test.go
+index d1c1337..26933e6 100644
+--- a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime_test.go
++++ b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/runtime_test.go
+@@ -380,7 +380,7 @@ func runInvokeWithConfig(t *testing.T, contractMethod, ContractName, contractTyp
+ 	}
+ 
+ 	defer func() {
+-		vmPool.close()
++		step21ClosePool(t, vmPool)
+ 	}()
+ 
+ 	runtimeInst := RuntimeInstance{
+@@ -395,9 +395,12 @@ func runInvokeWithConfig(t *testing.T, contractMethod, ContractName, contractTyp
+ 	totalExecutionTime := float64(0)
+ 	gasDist := make(map[uint64]uint64)
+ 
++	step21Inputs := step21LoadInputs(t, testTime)
+ 	for j := 0; j < testTime; j++ {
++		if step21Inputs != nil { parameters = step21InputMap(step21Inputs[j]); fillingBaseParams(parameters) }
+ 		txSimContext := prepareTxSimContext(ChainId, BlockVersion, ContractName, contractMethod, parameters, SnapshotMock{})
+-		contractResult, _, _, _, executionTime, _ := runtimeInst.InvokeTime(&contractId, contractMethod, wasmBytes, parameters, txSimContext, 0)
++		contractResult, _, beginNS, endNS, executionTime, callMethodTime := runtimeInst.InvokeTime(&contractId, contractMethod, wasmBytes, parameters, txSimContext, 0)
++		step21Sample(j, contractMethod, parameters, contractResult, beginNS, endNS, executionTime, callMethodTime)
+ 		log.Infof("testid = %d contractResult = %v \n", j, contractResult)
+ 		gasUsed := contractResult.GasUsed
+ 		gasDist[gasUsed]++
+@@ -415,6 +418,7 @@ func runInvokeWithConfig(t *testing.T, contractMethod, ContractName, contractTyp
+ 			totalExecutionTime += executionTime
+ 		}
+ 	}
++	step21Quiesce(t, vmPool)
+ 	log.Infof(fmt.Sprint(gasDist))
+ 	maxkey := uint64(0)
+ 	minkey := uint64(1e19)
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/step21_experiment.go b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/step21_experiment.go
+new file mode 100644
+index 0000000..8a5af53
+--- /dev/null
++++ b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/step21_experiment.go
+@@ -0,0 +1,34 @@
++// Step21 experiment-only observations. No Store mutex or reuse policy change.
++package wasmer
++
++import (
++	"encoding/json"
++	"fmt"
++	"os"
++	"time"
++)
++
++var step21Enabled = os.Getenv("CM_STEP21_OBSERVE") == "1"
++
++func step21Emit(row map[string]interface{}) {
++	if !step21Enabled {
++		return
++	}
++	b, err := json.Marshal(row)
++	if err != nil {
++		panic(err)
++	}
++	fmt.Printf("STEP21 %s\n", b)
++}
++
++func (p *vmPool) step21Acquire(w *wrappedInstance, begin time.Time, wait time.Duration, blocked bool) {
++	id := ""
++	if w != nil {
++		id = w.id
++	}
++	step21Emit(map[string]interface{}{
++		"event": "acquire", "unix_ns": time.Now().UnixNano(), "instance_id": id,
++		"getinstance_ns": time.Since(begin).Nanoseconds(), "channel_receive_ns": wait.Nanoseconds(),
++		"empty_branch": blocked, "queue_after_receive": len(p.instances),
++	})
++}
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/step21_experiment_test.go b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/step21_experiment_test.go
+new file mode 100644
+index 0000000..e2f6ddc
+--- /dev/null
++++ b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/step21_experiment_test.go
+@@ -0,0 +1,90 @@
++package wasmer
++
++import (
++	commonPb "chainmaker.org/chainmaker/pb-go/v2/common"
++	"crypto/sha256"
++	"encoding/json"
++	"flag"
++	"fmt"
++	"os"
++	"testing"
++	"time"
++)
++
++var step21InputFile = flag.String("step21_inputs", "", "frozen per-call business parameters; no workload changes")
++
++func step21LoadInputs(t *testing.T, n int) []map[string]string {
++	if *step21InputFile == "" {
++		return nil
++	}
++	b, err := os.ReadFile(*step21InputFile)
++	if err != nil {
++		t.Fatal(err)
++	}
++	var rows []map[string]string
++	if err = json.Unmarshal(b, &rows); err != nil {
++		t.Fatal(err)
++	}
++	if len(rows) < n {
++		t.Fatal("not enough frozen input rows")
++	}
++	return rows
++}
++
++func step21InputMap(row map[string]string) map[string][]byte {
++	r := make(map[string][]byte, len(row))
++	for k, v := range row {
++		r[k] = []byte(v)
++	}
++	return r
++}
++
++func step21Sample(i int, method string, params map[string][]byte, r *commonPb.ContractResult, begin, end int64, total, call float64) {
++	b, _ := json.Marshal(params)
++	step21Emit(map[string]interface{}{
++		"event": "sample", "index": i, "method": method, "begin_ns": begin, "end_ns": end,
++		"invoke_s": total, "callmethod_s": call, "code": r.Code, "gas": r.GasUsed,
++		"result": r.Result, "message": r.Message, "input_sha256": fmt.Sprintf("%x", sha256.Sum256(b)),
++	})
++}
++
++// Drain only after all measured InvokeTime calls. No added wait between calls.
++func step21Quiesce(t *testing.T, p *vmPool) {
++	if !step21Enabled {
++		return
++	}
++	done := make(chan struct{})
++	go func() { p.step21Tasks.Wait(); close(done) }()
++	select {
++	case <-done:
++	case <-time.After(5 * time.Second):
++		t.Fatal("step21 maintenance drain timeout")
++	}
++	ack := make(chan struct{})
++	select {
++	case p.step21Barrier <- ack:
++	case <-time.After(5 * time.Second):
++		t.Fatal("step21 worker barrier timeout")
++	}
++	select {
++	case <-ack:
++	case <-time.After(5 * time.Second):
++		t.Fatal("step21 worker acknowledgement timeout")
++	}
++	step21Emit(map[string]interface{}{"event": "drained", "queue_len": len(p.instances)})
++}
++
++func step21ClosePool(t *testing.T, p *vmPool) {
++	if !step21Enabled {
++		p.close()
++		return
++	}
++	step21Quiesce(t, p)
++	p.close()
++	select {
++	case <-p.step21Done:
++		step21Emit(map[string]interface{}{"event": "closed", "worker_exited": true})
++	case <-time.After(5 * time.Second):
++		t.Error("step21 pool shutdown timeout")
++	}
++}
+diff --git a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go
+index c52e346..12e2b68 100644
+--- a/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go
++++ b/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/vm_pool.go
+@@ -569,6 +569,10 @@ const (
+ // vmPool, each contract has a vm pool providing multiple vm instances to call
+ // vm pool can grow and shrink on demand
+ type vmPool struct {
++	// Step21 observation/drain only; no Store execution mutex.
++	step21Tasks   sync.WaitGroup
++	step21Barrier chan chan struct{}
++	step21Done    chan struct{}
+ 	// the corresponding contract info
+ 	contractId    *commonPb.Contract
+ 	byteCode      []byte
+@@ -630,6 +634,13 @@ func (p *vmPool) GetInstance() *wrappedInstance {
+ 	acquireBegin := time.Now()
+ 	defer func() { p.reuseObserve("acquire", "", time.Since(acquireBegin).Nanoseconds()) }()
+ 	var instance *wrappedInstance
++	var channelWait time.Duration
++	var usedWait bool
++	defer func() {
++		if step21Enabled {
++			p.step21Acquire(instance, acquireBegin, channelWait, usedWait)
++		}
++	}()
+ 	// get instance from vm pool
+ 	select {
+ 	case instance = <-p.instances:
+@@ -648,12 +659,21 @@ func (p *vmPool) GetInstance() *wrappedInstance {
+ 	// if we cannot get it right now, send apply signal and wait
+ 	// add wait time to total delay
+ 	curTimeMS1 := utils.CurrentTimeMillisSeconds()
++	if step21Enabled {
++		p.step21Tasks.Add(1)
++	}
+ 	go func() {
++		if step21Enabled {
++			defer p.step21Tasks.Done()
++		}
+ 		p.applySignalC <- struct{}{}
+ 		log.Debugf("send 'applySignal' to vmPool.")
+ 	}()
+ 
++	usedWait = true
++	waitBegin := time.Now()
+ 	instance = <-p.instances
++	channelWait = time.Since(waitBegin)
+ 	log.Debugf("got an wrappedInstance from vmPool.")
+ 	atomic.AddInt32(&p.useCount, 1)
+ 	curTimeMS2 := utils.CurrentTimeMillisSeconds()
+@@ -670,7 +690,13 @@ func (p *vmPool) RevertInstance(instance *wrappedInstance) {
+ 	if !reuseExperimentEnabled || p.shouldDiscard(instance) {
+ 		p.traceLifecycle("T8", instance.id, instance.wasmInstance, "drop", "")
+ 		p.log.Debugf("instance not reused, instance id: %s, errCount: %d", instance.id, instance.errCount)
++		if step21Enabled {
++			p.step21Tasks.Add(1)
++		}
+ 		go func() {
++			if step21Enabled {
++				defer p.step21Tasks.Done()
++			}
+ 			// Close first so wasiEnv is on freelist before grow→acquireWasiEnv.
+ 			// Previously addInstanceC ran before CloseInstance, causing freelist
+ 			// misses + Finalize storms and unbounded freelist growth under load.
+@@ -1050,6 +1076,8 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
+ 		store:           store,
+ 		module:          module,
+ 		instances:       make(chan *wrappedInstance, defaultMaxSize),
++		step21Barrier:   make(chan chan struct{}),
++		step21Done:      make(chan struct{}),
+ 		currentSize:     0,
+ 		useCount:        0,
+ 		totalDelay:      0,
+@@ -1079,12 +1107,15 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
+ // startRefreshingLoop refreshing loop manages the vm pool
+ // all grow and shrink operations are called here
+ func (p *vmPool) startRefreshingLoop() {
++	defer close(p.step21Done)
+ 
+ 	refreshTimer := time.NewTimer(defaultRefreshTime)
+ 
+ 	key := p.contractId.Name + "_" + p.contractId.Version
+ 	for {
+ 		select {
++		case ack := <-p.step21Barrier:
++			close(ack)
+ 		case <-p.applySignalC:
+ 			log.Debug("vmPool handling an `apply` Signal")
+ 			p.applyGrowCount++

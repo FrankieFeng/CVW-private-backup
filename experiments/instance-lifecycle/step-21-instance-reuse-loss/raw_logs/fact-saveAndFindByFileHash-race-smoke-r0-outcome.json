@@ -1,0 +1,30 @@
+{
+  "label": "fact-saveAndFindByFileHash-race-smoke-r0",
+  "case": "fact-saveAndFindByFileHash",
+  "batch": "race-smoke",
+  "policy": "R0",
+  "requested": 3,
+  "race": true,
+  "observed_calls": 3,
+  "semantic_successes": 3,
+  "raw_code_zero": 3,
+  "execution_safe_observed": true,
+  "lifecycle_closed": true,
+  "reason": "process_exited",
+  "race_detected": false,
+  "systemd": {
+    "MainPID": "0",
+    "Result": "success",
+    "ExecMainStatus": "0",
+    "ControlGroup": "",
+    "MemoryPeak": "317878272",
+    "CPUUsageNSec": "6117318000",
+    "ActiveState": "active",
+    "SubState": "exited"
+  },
+  "all_owned_processes_stopped": true,
+  "wall_s": 1.8092685640003765,
+  "rss_sample_peak_mib": 357.25,
+  "threads_sample_peak": 92,
+  "native_store_safety": "unproved; Go race and bounded success are not a native safety certification"
+}
