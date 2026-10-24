@@ -1213,6 +1213,16 @@ func (p *vmPool) grow(count int32) {
 		if count < size {
 			size = count
 		}
+		// Step21 supplementary safety fix: both apply-grow and discard-add
+		// use this worker-owned capacity bound. Do not construct an instance
+		// that cannot fit in the original bounded pool.
+		room := defaultMaxSize - atomic.LoadInt32(&p.currentSize)
+		if room <= 0 {
+			return
+		}
+		if size > room {
+			size = room
+		}
 		count -= size
 
 		for i := int32(0); i < size; i++ {
