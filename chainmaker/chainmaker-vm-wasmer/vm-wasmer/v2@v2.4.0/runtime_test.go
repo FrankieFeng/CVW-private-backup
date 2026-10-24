@@ -380,7 +380,7 @@ func runInvokeWithConfig(t *testing.T, contractMethod, ContractName, contractTyp
 	}
 
 	defer func() {
-		vmPool.close()
+		step21ClosePool(t, vmPool)
 	}()
 
 	runtimeInst := RuntimeInstance{
@@ -395,9 +395,12 @@ func runInvokeWithConfig(t *testing.T, contractMethod, ContractName, contractTyp
 	totalExecutionTime := float64(0)
 	gasDist := make(map[uint64]uint64)
 
+	step21Inputs := step21LoadInputs(t, testTime)
 	for j := 0; j < testTime; j++ {
+		if step21Inputs != nil { parameters = step21InputMap(step21Inputs[j]); fillingBaseParams(parameters) }
 		txSimContext := prepareTxSimContext(ChainId, BlockVersion, ContractName, contractMethod, parameters, SnapshotMock{})
-		contractResult, _, _, _, executionTime, _ := runtimeInst.InvokeTime(&contractId, contractMethod, wasmBytes, parameters, txSimContext, 0)
+		contractResult, _, beginNS, endNS, executionTime, callMethodTime := runtimeInst.InvokeTime(&contractId, contractMethod, wasmBytes, parameters, txSimContext, 0)
+		step21Sample(j, contractMethod, parameters, contractResult, beginNS, endNS, executionTime, callMethodTime)
 		log.Infof("testid = %d contractResult = %v \n", j, contractResult)
 		gasUsed := contractResult.GasUsed
 		gasDist[gasUsed]++
@@ -415,6 +418,7 @@ func runInvokeWithConfig(t *testing.T, contractMethod, ContractName, contractTyp
 			totalExecutionTime += executionTime
 		}
 	}
+	step21Quiesce(t, vmPool)
 	log.Infof(fmt.Sprint(gasDist))
 	maxkey := uint64(0)
 	minkey := uint64(1e19)

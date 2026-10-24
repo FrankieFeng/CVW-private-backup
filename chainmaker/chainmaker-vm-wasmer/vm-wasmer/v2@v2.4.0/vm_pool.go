@@ -569,6 +569,10 @@ const (
 // vmPool, each contract has a vm pool providing multiple vm instances to call
 // vm pool can grow and shrink on demand
 type vmPool struct {
+	// Step21 observation/drain only; no Store execution mutex.
+	step21Tasks   sync.WaitGroup
+	step21Barrier chan chan struct{}
+	step21Done    chan struct{}
 	// the corresponding contract info
 	contractId    *commonPb.Contract
 	byteCode      []byte
@@ -630,6 +634,13 @@ func (p *vmPool) GetInstance() *wrappedInstance {
 	acquireBegin := time.Now()
 	defer func() { p.reuseObserve("acquire", "", time.Since(acquireBegin).Nanoseconds()) }()
 	var instance *wrappedInstance
+	var channelWait time.Duration
+	var usedWait bool
+	defer func() {
+		if step21Enabled {
+			p.step21Acquire(instance, acquireBegin, channelWait, usedWait)
+		}
+	}()
 	// get instance from vm pool
 	select {
 	case instance = <-p.instances:
@@ -648,12 +659,21 @@ func (p *vmPool) GetInstance() *wrappedInstance {
 	// if we cannot get it right now, send apply signal and wait
 	// add wait time to total delay
 	curTimeMS1 := utils.CurrentTimeMillisSeconds()
+	if step21Enabled {
+		p.step21Tasks.Add(1)
+	}
 	go func() {
+		if step21Enabled {
+			defer p.step21Tasks.Done()
+		}
 		p.applySignalC <- struct{}{}
 		log.Debugf("send 'applySignal' to vmPool.")
 	}()
 
+	usedWait = true
+	waitBegin := time.Now()
 	instance = <-p.instances
+	channelWait = time.Since(waitBegin)
 	log.Debugf("got an wrappedInstance from vmPool.")
 	atomic.AddInt32(&p.useCount, 1)
 	curTimeMS2 := utils.CurrentTimeMillisSeconds()
@@ -670,7 +690,13 @@ func (p *vmPool) RevertInstance(instance *wrappedInstance) {
 	if !reuseExperimentEnabled || p.shouldDiscard(instance) {
 		p.traceLifecycle("T8", instance.id, instance.wasmInstance, "drop", "")
 		p.log.Debugf("instance not reused, instance id: %s, errCount: %d", instance.id, instance.errCount)
+		if step21Enabled {
+			p.step21Tasks.Add(1)
+		}
 		go func() {
+			if step21Enabled {
+				defer p.step21Tasks.Done()
+			}
 			// Close first so wasiEnv is on freelist before grow→acquireWasiEnv.
 			// Previously addInstanceC ran before CloseInstance, causing freelist
 			// misses + Finalize storms and unbounded freelist growth under load.
@@ -1050,6 +1076,8 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 		store:           store,
 		module:          module,
 		instances:       make(chan *wrappedInstance, defaultMaxSize),
+		step21Barrier:   make(chan chan struct{}),
+		step21Done:      make(chan struct{}),
 		currentSize:     0,
 		useCount:        0,
 		totalDelay:      0,
@@ -1079,12 +1107,15 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 // startRefreshingLoop refreshing loop manages the vm pool
 // all grow and shrink operations are called here
 func (p *vmPool) startRefreshingLoop() {
+	defer close(p.step21Done)
 
 	refreshTimer := time.NewTimer(defaultRefreshTime)
 
 	key := p.contractId.Name + "_" + p.contractId.Version
 	for {
 		select {
+		case ack := <-p.step21Barrier:
+			close(ack)
 		case <-p.applySignalC:
 			log.Debug("vmPool handling an `apply` Signal")
 			p.applyGrowCount++
