@@ -43,7 +43,7 @@ func TestStep21BuyNowReadiness(t *testing.T) {
 	if saved != 0 {
 		t.Fatalf("fixture differs from expected Step21 baseline: limit=%d", saved)
 	}
-	w := vm.NewWacsi()
+	w := vm.NewWacsi(log, nil)
 	_, _, _, err := w.CallContract(&common.Contract{Name: "exchange"}, request.Marshal(), tx, make([]byte, 256), nil, 0, true)
 	if err == nil || !strings.Contains(err.Error(), "length less than 0, but got 81") {
 		t.Fatalf("unexpected first guard: %v", err)
