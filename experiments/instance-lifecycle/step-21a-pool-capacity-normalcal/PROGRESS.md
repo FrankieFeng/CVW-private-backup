@@ -174,3 +174,10 @@
 - 9个实际进程、24次功能成功、24个正式组均0次主样本；所有owned unit的MainPID为0/非active。
 - 全部脚本语法检查通过，audit/final-check.json已保存。
 - 即将仅在experiment/step21a-pool-normalcal提交本实验资料；没有push，PROGRESS/STOP是后续恢复入口。
+
+## 独立分支已提交
+
+- 共同诊断源码提交3c01a4b；实验资料首归档提交7b63ed1。最终分支HEAD以`git -C .worktrees/cvw-step21a log -1 --oneline`为准。
+- 已运行：git add本实验目录、git commit；没有git push，独立worktree干净。
+- 结果：部分完成；正式矩阵因安全门未启动，STOP继续有效。
+- 下一条命令（只读）：`cat CVW/experiments/instance-lifecycle/step-21a-pool-capacity-normalcal/README.md`。需要新所有权修复协议后才能另起正式实验，不自动重跑现有失败预检。
