@@ -1,0 +1,47 @@
+{
+  "scope": "previous accepted normalCal b/c/d, raw B5 per-call records",
+  "n_each": 300,
+  "means_ms": {
+    "R0": {
+      "invoke_ns": 82.11808023666667,
+      "callmethod_ns": 81.97548559,
+      "total_ns": 81.97548558666668,
+      "internal_total_ns": 81.96428752333333,
+      "runtime_ns": 0.0036232233333333332,
+      "prepare_ns": 0.010736203333333333,
+      "dispatch_pre_ns": 0.023539266666666666,
+      "allocate_ns": 0.013942943333333332,
+      "copy_lookup_ns": 0.006846,
+      "export_call_ns": 81.73929568000001,
+      "dispatch_post_ns": 0.16328621666666668,
+      "syscall_ns": 0.03649305666666666
+    },
+    "R1": {
+      "invoke_ns": 73.87094147,
+      "callmethod_ns": 73.67523299,
+      "total_ns": 73.67523299,
+      "internal_total_ns": 73.66175204333334,
+      "runtime_ns": 0.00358772,
+      "prepare_ns": 0.009016786666666667,
+      "dispatch_pre_ns": 0.051306533333333335,
+      "allocate_ns": 0.031438353333333335,
+      "copy_lookup_ns": 0.014580986666666665,
+      "export_call_ns": 73.44526810333333,
+      "dispatch_post_ns": 0.10292347,
+      "syscall_ns": 0.03574443
+    }
+  },
+  "export_delta_ms": 8.294027576666679,
+  "callmethod_delta_ms": 8.300252600000007,
+  "overlap_counts": {
+    "R0": {
+      "recorded_create_vs_business": 12,
+      "recorded_close_vs_business": 0
+    },
+    "R1": {
+      "recorded_create_vs_business": 309,
+      "recorded_close_vs_business": 156
+    }
+  },
+  "limitations": "timestamps are recorded wall intervals; conservative region overlap is not proof of actual native data race; normalCal a invalid clock pair excluded completely"
+}
