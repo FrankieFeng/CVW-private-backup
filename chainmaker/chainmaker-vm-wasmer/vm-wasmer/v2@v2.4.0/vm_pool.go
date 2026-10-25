@@ -569,6 +569,8 @@ const (
 // vmPool, each contract has a vm pool providing multiple vm instances to call
 // vm pool can grow and shrink on demand
 type vmPool struct {
+	step21aNativeOwner int32 // common fail-fast observer, not a mutex
+
 	// Step21 observation/drain only; no Store execution mutex.
 	step21Tasks   sync.WaitGroup
 	step21Barrier chan chan struct{}
@@ -719,6 +721,8 @@ func (p *vmPool) NewInstance() (*wrappedInstance, error) {
 // Do not call wasi_env_delete here: packaged Wasmer does not reclaim Tokio worker
 // threads after delete; freelist reuse keeps Threads flat across discard/recreate.
 func (p *vmPool) CloseInstance(instance *wrappedInstance) {
+	p.step21aEnter(3)
+	defer p.step21aLeave(3)
 	closeBegin := time.Now()
 	defer func() { p.reuseObserve("close", "", time.Since(closeBegin).Nanoseconds()) }()
 	if instance == nil {
@@ -1213,15 +1217,17 @@ func (p *vmPool) grow(count int32) {
 		if count < size {
 			size = count
 		}
-		// Step21 supplementary safety fix: both apply-grow and discard-add
-		// use this worker-owned capacity bound. Do not construct an instance
-		// that cannot fit in the original bounded pool.
-		room := defaultMaxSize - atomic.LoadInt32(&p.currentSize)
-		if room <= 0 {
-			return
-		}
-		if size > room {
-			size = room
+		if step21aPoolCapacity {
+			// Step21 supplementary safety fix: both apply-grow and discard-add
+			// use this worker-owned capacity bound. Do not construct an instance
+			// that cannot fit in the original bounded pool.
+			room := defaultMaxSize - atomic.LoadInt32(&p.currentSize)
+			if room <= 0 {
+				return
+			}
+			if size > room {
+				size = room
+			}
 		}
 		count -= size
 
@@ -1281,6 +1287,8 @@ func (p *vmPool) NewInstanceFromByteCode() (*wrappedInstance, error) {
 }
 
 func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
+	p.step21aEnter(1)
+	defer p.step21aLeave(1)
 	createBegin := time.Now()
 	defer func() { p.reuseObserve("create", "", time.Since(createBegin).Nanoseconds()) }()
 	instanceID := uuid.GetUUID()

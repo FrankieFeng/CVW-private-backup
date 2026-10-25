@@ -268,6 +268,8 @@ func (r *RuntimeInstance) InvokeTime(contract *commonPb.Contract, method string,
 		//r.log.Debugf("after get instance for tx: %s", txContext.GetTx().Payload.TxId)
 		defer r.pool.RevertInstance(instanceInfo)
 	}
+	r.pool.step21aEnter(2)
+	defer r.pool.step21aLeave(2)
 	instanceInfoSnapshot := *instanceInfo
 	defer func() {
 		if instanceInfo == nil || instanceInfo.wasmInstance == nil {
