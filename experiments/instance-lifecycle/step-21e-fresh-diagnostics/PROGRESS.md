@@ -85,3 +85,6 @@
 - systemctl --user list-units step21e-*显示0已加载unit。D和C worktree均clean；所有暂存文件限Step21E目录，未包含ELF/native库。
 - 下一条安全操作：记录manifest并在独立E分支提交本目录；向主CVW新增同名IDE阅读镜像（仅Git交付文件，既有21B/C/D不覆盖）。无远程push。
 - 恢复后没有待执行的动态实验。若要进入Step22，先读NEXT_STEP中的Gas冷态、业务Module绑定/缓存、长期回收/供给门槛，不自动扩大到100次或并行。
+
+## Git与IDE收尾完成
+交付提交1eddad0已在experiment/step21e-fresh-diagnostics创建，后续此收尾记录单独提交。仅新增Step21E目录；246个Git交付文件已镜像到主CVW同名目录并逐件校验manifest。未复制ELF/库，未覆盖21B/C/D，未push。所有任务范围内工作完成；没有待运行guest命令。后续研究门槛见NEXT_STEP。
