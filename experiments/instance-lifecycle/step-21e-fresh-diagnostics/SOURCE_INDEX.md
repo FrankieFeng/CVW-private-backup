@@ -1,0 +1,97 @@
+# 源码索引
+
+行号均指本目录隔离代码；原始生产审计证据见Step21B的evidence/current。
+
+- [source/vm/step21e_probe.go:38](source/vm/step21e_probe.go#L38) `func eEmit(v map[string]interface`
+- [source/vm/step21e_probe.go:46](source/vm/step21e_probe.go#L46) `func eRawGas(inst *w.Instance, contract string) uint64`
+- [source/vm/step21e_probe.go:66](source/vm/step21e_probe.go#L66) `func eGas(sc *SimContext, phase, host, when, detail string)`
+- [source/vm/step21e_probe.go:74](source/vm/step21e_probe.go#L74) `func eVerifyGas(inst *w.Instance, contract string, expected uint64)`
+- [source/vm/step21e_probe.go:90](source/vm/step21e_probe.go#L90) `func eBeginMeasure() eMeasure`
+- [source/vm/step21e_probe.go:97](source/vm/step21e_probe.go#L97) `func eEndMeasure(m eMeasure, sc *SimContext)`
+- [source/vm/step21e_checks_test.go:15](source/vm/step21e_checks_test.go#L15) `func eLedgerClone(x map[string]map[string][]byte) map[string]map[string][]byte`
+- [source/vm/step21e_checks_test.go:26](source/vm/step21e_checks_test.go#L26) `func eSuccess(t *testing.T, r *s21cReceipt)`
+- [source/vm/step21e_checks_test.go:32](source/vm/step21e_checks_test.go#L32) `func eInputs(t *testing.T, name string) map[string]string`
+- [source/vm/step21e_checks_test.go:43](source/vm/step21e_checks_test.go#L43) `func TestStep21EGas(t *testing.T)`
+- [source/vm/step21e_checks_test.go:87](source/vm/step21e_checks_test.go#L87) `func TestStep21ENormal(t *testing.T)`
+- [source/vm/step21e_checks_test.go:140](source/vm/step21e_checks_test.go#L140) `func TestStep21EModule(t *testing.T)`
+- [source/vm/step21d_runtime_test.go:38](source/vm/step21d_runtime_test.go#L38) `func newDManager(policy string) *dManager`
+- [source/vm/step21d_runtime_test.go:47](source/vm/step21d_runtime_test.go#L47) `func dEvent(event string, fields map[string]interface`
+- [source/vm/step21d_runtime_test.go:75](source/vm/step21d_runtime_test.go#L75) `func (m *dManager) NewRuntimeInstance(_ protocol.TxSimContext, chain, method, path string, c *common.Contract, code []byte, _ protocol.Logger) (protocol.RuntimeInstance, error)`
+- [source/vm/step21d_runtime_test.go:85](source/vm/step21d_runtime_test.go#L85) `func (m *dManager) makeBundle(c *common.Contract, code []byte) (b *dBundle, err error)`
+- [source/vm/step21d_runtime_test.go:154](source/vm/step21d_runtime_test.go#L154) `func (m *dManager) closeBundle(b *dBundle) (err error)`
+- [source/vm/step21d_runtime_test.go:181](source/vm/step21d_runtime_test.go#L181) `func (m *dManager) Close() error`
+- [source/vm/step21d_runtime_test.go:213](source/vm/step21d_runtime_test.go#L213) `func (r *dRuntime) Invoke(c *common.Contract, method string, code []byte, params map[string][]byte, ctx protocol.TxSimContext, gasUsed uint64) (result *common.ContractResult, order protocol.ExecOrderTxType)`
+- [source/vm/step21d_checks_test.go:14](source/vm/step21d_checks_test.go#L14) `func dN(t *testing.T) int`
+- [source/vm/step21d_checks_test.go:21](source/vm/step21d_checks_test.go#L21) `func dOwner(t *testing.T) func()`
+- [source/vm/step21d_checks_test.go:41](source/vm/step21d_checks_test.go#L41) `func TestStep21DOwnerFailure(t *testing.T)`
+- [source/vm/step21d_checks_test.go:83](source/vm/step21d_checks_test.go#L83) `func TestStep21DCompute(t *testing.T)`
+- [source/vm/step21d_checks_test.go:111](source/vm/step21d_checks_test.go#L111) `func TestStep21DExchange(t *testing.T)`
+- [source/vm/step21d_compile.go:11](source/vm/step21d_compile.go#L11) `func dCompile(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLogger) (*wasmergo.Store, *wasmergo.Module, error)`
+- [source/vm/wasmer-go/managed.go:25](source/vm/wasmer-go/managed.go#L25) `func ManagedBeginOwner()`
+- [source/vm/wasmer-go/managed.go:31](source/vm/wasmer-go/managed.go#L31) `func ManagedAssert()`
+- [source/vm/wasmer-go/managed.go:36](source/vm/wasmer-go/managed.go#L36) `func ManagedOpen(label string) *ManagedScope`
+- [source/vm/wasmer-go/managed.go:42](source/vm/wasmer-go/managed.go#L42) `func (s *ManagedScope) Activate() func()`
+- [source/vm/wasmer-go/managed.go:51](source/vm/wasmer-go/managed.go#L51) `func managedSetFinalizer(obj, fn interface`
+- [source/vm/wasmer-go/managed.go:73](source/vm/wasmer-go/managed.go#L73) `func (s *ManagedScope) Close() (err error)`
+- [source/vm/wasmer-go/managed.go:109](source/vm/wasmer-go/managed.go#L109) `func ManagedCount() int`
+- [source/vm/wasmer-go/managed.go:110](source/vm/wasmer-go/managed.go#L110) `func ManagedEndOwner()`
+- [source/vm/wasmer-go/managed.go:118](source/vm/wasmer-go/managed.go#L118) `func (s *ManagedScope) Suspend()`
+- [source/vm/wasmer-go/managed.go:130](source/vm/wasmer-go/managed.go#L130) `func managedEnterFunction(f *Function) func()`
+- [source/vm/wasmer-go/module.go:76](source/vm/wasmer-go/module.go#L76) `func NewModule(store *Store, bytes []byte, log *logger.CMLogger) (*Module, error)`
+- [source/vm/wasmer-go/module.go:138](source/vm/wasmer-go/module.go#L138) `func ValidateModule(store *Store, bytes []byte) error`
+- [source/vm/wasmer-go/module.go:166](source/vm/wasmer-go/module.go#L166) `func (self *Module) inner() *C.wasm_module_t`
+- [source/vm/wasmer-go/module.go:179](source/vm/wasmer-go/module.go#L179) `func (self *Module) Name() string`
+- [source/vm/wasmer-go/module.go:198](source/vm/wasmer-go/module.go#L198) `func (self *Module) Imports() []*ImportType`
+- [source/vm/wasmer-go/module.go:213](source/vm/wasmer-go/module.go#L213) `func (self *Module) Exports() []*ExportType`
+- [source/vm/wasmer-go/module.go:228](source/vm/wasmer-go/module.go#L228) `func (self *Module) Serialize() ([]byte, error)`
+- [source/vm/wasmer-go/module.go:255](source/vm/wasmer-go/module.go#L255) `func DeserializeModule(store *Store, bytes []byte) (*Module, error)`
+- [source/vm/wasmer-go/module.go:288](source/vm/wasmer-go/module.go#L288) `func (self *Module) Close()`
+- [source/vm/wasmer-go/instance.go:27](source/vm/wasmer-go/instance.go#L27) `func NewInstance(module *Module, imports *ImportObject) (*Instance, error)`
+- [source/vm/wasmer-go/instance.go:68](source/vm/wasmer-go/instance.go#L68) `func (self *Instance) inner() *C.wasm_instance_t`
+- [source/vm/wasmer-go/instance.go:73](source/vm/wasmer-go/instance.go#L73) `func (self *Instance) GetGasRemaining() uint64`
+- [source/vm/wasmer-go/instance.go:78](source/vm/wasmer-go/instance.go#L78) `func (self *Instance) MeteringPointsExhausted() bool`
+- [source/vm/wasmer-go/instance.go:83](source/vm/wasmer-go/instance.go#L83) `func (self *Instance) SetGasLimit(newLimit uint64)`
+- [source/vm/wasmer-go/instance.go:136](source/vm/wasmer-go/instance.go#L136) `func (self *Instance) Close()`
+- [source/vm/wasmer-go/store.go:26](source/vm/wasmer-go/store.go#L26) `func NewStore(engine *Engine) *Store`
+- [source/vm/wasmer-go/store.go:39](source/vm/wasmer-go/store.go#L39) `func (self *Store) inner() *C.wasm_store_t`
+- [source/vm/wasmer-go/store.go:43](source/vm/wasmer-go/store.go#L43) `func (self *Store) Inner() *C.wasm_store_t`
+- [source/vm/wasmer-go/store.go:51](source/vm/wasmer-go/store.go#L51) `func (self *Store) Close()`
+- [source/vm/wasmer-go/wasi.go:87](source/vm/wasmer-go/wasi.go#L87) `func (self WasiVersion) String() string`
+- [source/vm/wasmer-go/wasi.go:105](source/vm/wasmer-go/wasi.go#L105) `func GetWasiVersion(module *Module) WasiVersion`
+- [source/vm/wasmer-go/wasi.go:118](source/vm/wasmer-go/wasi.go#L118) `func NewWasiStateBuilder(programName string) *WasiStateBuilder`
+- [source/vm/wasmer-go/wasi.go:134](source/vm/wasmer-go/wasi.go#L134) `func (self *WasiStateBuilder) Argument(argument string) *WasiStateBuilder`
+- [source/vm/wasmer-go/wasi.go:147](source/vm/wasmer-go/wasi.go#L147) `func (self *WasiStateBuilder) Environment(key string, value string) *WasiStateBuilder`
+- [source/vm/wasmer-go/wasi.go:168](source/vm/wasmer-go/wasi.go#L168) `func (self *WasiStateBuilder) PreopenDirectory(preopenDirectory string) *WasiStateBuilder`
+- [source/vm/wasmer-go/wasi.go:184](source/vm/wasmer-go/wasi.go#L184) `func (self *WasiStateBuilder) MapDirectory(alias string, directory string) *WasiStateBuilder`
+- [source/vm/wasmer-go/wasi.go:198](source/vm/wasmer-go/wasi.go#L198) `func (self *WasiStateBuilder) InheritStdin() *WasiStateBuilder`
+- [source/vm/wasmer-go/wasi.go:211](source/vm/wasmer-go/wasi.go#L211) `func (self *WasiStateBuilder) CaptureStdout() *WasiStateBuilder`
+- [source/vm/wasmer-go/wasi.go:219](source/vm/wasmer-go/wasi.go#L219) `func (self *WasiStateBuilder) InheritStdout() *WasiStateBuilder`
+- [source/vm/wasmer-go/wasi.go:226](source/vm/wasmer-go/wasi.go#L226) `func (self *WasiStateBuilder) CaptureStderr() *WasiStateBuilder`
+- [source/vm/wasmer-go/wasi.go:234](source/vm/wasmer-go/wasi.go#L234) `func (self *WasiStateBuilder) InheritStderr() *WasiStateBuilder`
+- [source/vm/wasmer-go/wasi.go:252](source/vm/wasmer-go/wasi.go#L252) `func (self *WasiStateBuilder) Finalize(store *C.wasm_store_t) (*WasiEnvironment, error)`
+- [source/vm/wasmer-go/wasi.go:256](source/vm/wasmer-go/wasi.go#L256) `func (self *WasiStateBuilder) inner() *C.wasi_config_t`
+- [source/vm/wasmer-go/wasi.go:268](source/vm/wasmer-go/wasi.go#L268) `func newWasiEnvironment(stateBuilder *WasiStateBuilder, store *C.wasm_store_t) (*WasiEnvironment, error)`
+- [source/vm/wasmer-go/wasi.go:291](source/vm/wasmer-go/wasi.go#L291) `func (self *WasiEnvironment) inner() *C.wasi_env_t`
+- [source/vm/wasmer-go/wasi.go:295](source/vm/wasmer-go/wasi.go#L295) `func (self *WasiEnvironment) Initialize(store *Store, instance *Instance) error`
+- [source/vm/wasmer-go/wasi.go:307](source/vm/wasmer-go/wasi.go#L307) `func buildByteSliceFromCBuffer(buffer *C.char, length int) []byte`
+- [source/vm/wasmer-go/wasi.go:367](source/vm/wasmer-go/wasi.go#L367) `func (self *WasiEnvironment) GenerateImportObject(store *Store, module *Module) (*ImportObject, error)`
+- [source/vm/vm_pool.go:634](source/vm/vm_pool.go#L634) `func (p *vmPool) GetInstance() *wrappedInstance`
+- [source/vm/vm_pool.go:691](source/vm/vm_pool.go#L691) `func (p *vmPool) RevertInstance(instance *wrappedInstance)`
+- [source/vm/vm_pool.go:716](source/vm/vm_pool.go#L716) `func (p *vmPool) NewInstance() (*wrappedInstance, error)`
+- [source/vm/vm_pool.go:723](source/vm/vm_pool.go#L723) `func (p *vmPool) CloseInstance(instance *wrappedInstance)`
+- [source/vm/vm_pool.go:749](source/vm/vm_pool.go#L749) `func (p *vmPool) acquireWasiEnv() (*wasmergo.WasiEnvironment, error)`
+- [source/vm/vm_pool.go:774](source/vm/vm_pool.go#L774) `func (p *vmPool) releaseWasiEnv(env *wasmergo.WasiEnvironment)`
+- [source/vm/vm_pool.go:796](source/vm/vm_pool.go#L796) `func (p *vmPool) contractKey() string`
+- [source/vm/vm_pool.go:804](source/vm/vm_pool.go#L804) `func (p *vmPool) WasiEnvStats() (fromFreelist, finalizeNew, freelistDrop uint64, freelistLen int)`
+- [source/vm/vm_pool.go:819](source/vm/vm_pool.go#L819) `func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLogger) (*vmPool, error)`
+- [source/vm/vm_pool.go:1113](source/vm/vm_pool.go#L1113) `func (p *vmPool) startRefreshingLoop()`
+- [source/vm/vm_pool.go:1193](source/vm/vm_pool.go#L1193) `func (p *vmPool) shouldGrow() bool`
+- [source/vm/vm_pool.go:1214](source/vm/vm_pool.go#L1214) `func (p *vmPool) grow(count int32)`
+- [source/vm/vm_pool.go:1248](source/vm/vm_pool.go#L1248) `func (p *vmPool) shouldShrink() bool`
+- [source/vm/vm_pool.go:1256](source/vm/vm_pool.go#L1256) `func (p *vmPool) shrink(count int32)`
+- [source/vm/vm_pool.go:1266](source/vm/vm_pool.go#L1266) `func (p *vmPool) shouldDiscard(instance *wrappedInstance) bool`
+- [source/vm/vm_pool.go:1271](source/vm/vm_pool.go#L1271) `func (p *vmPool) NewInstanceFromByteCode() (*wrappedInstance, error)`
+- [source/vm/vm_pool.go:1289](source/vm/vm_pool.go#L1289) `func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error)`
+- [source/vm/vm_pool.go:1378](source/vm/vm_pool.go#L1378) `func (p *vmPool) getAverageDelay() int32`
+- [source/vm/vm_pool.go:1388](source/vm/vm_pool.go#L1388) `func (p *vmPool) reset()`
+- [source/vm/vm_pool.go:1393](source/vm/vm_pool.go#L1393) `func (p *vmPool) close()`

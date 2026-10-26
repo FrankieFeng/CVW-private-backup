@@ -1,0 +1,276 @@
+=== RUN   TestStep21EGas
+2026-10-26 15:37:42.192	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step21e-init-erc721, runtime:WASMER, method:init_contract
+2026-10-26 15:37:42.192	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21e-init-erc721, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:5176627, params:12
+STEP21C {"Threads":6,"VmRSS":57228,"contract":"erc721","event":"create_begin","instance_id":1,"managed_objects":0,"monotonic_ns":15230766,"owner_tid":596115,"wall_unix_ns":1793000262192821435}
+opmap length 216 
+2026-10-26 15:37:42.241	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 15:37:42.241	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc001db0000 
+2026-10-26 15:37:42.241	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 5176627 
+Total function bodies: 3015
+2026-10-26 15:37:42.854	[DEBUG]	step21d	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+2026-10-26 15:37:42.855	[DEBUG]	[Vm]	vm/vm_bridge.go:535	init vmBridgeManager
+STEP21C {"Threads":23,"VmRSS":298992,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":1,"managed_objects":112,"monotonic_ns":681753606,"owner_tid":596115,"wall_unix_ns":1793000262859344250}
+STEP21C {"Threads":23,"VmRSS":299004,"compile_ns":662187087,"contract":"erc721","create_ns":666591545,"event":"create_done","instance_id":1,"managed_objects":111,"monotonic_ns":681821698,"owner_tid":596115,"wall_unix_ns":1793000262859412624}
+STEP21C {"Threads":23,"VmRSS":299008,"acquire_ns":666611575,"channel_block_ns":0,"contract":"erc721","event":"acquire","in_flight":1,"instance_id":1,"managed_objects":111,"monotonic_ns":681841198,"owner_tid":596115,"previous_uses":0,"queue_len":0,"wall_unix_ns":1793000262859431889}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"1","method":"init_contract","monotonic_ns":682163554,"phase":"set_gas","policy":"R1","remaining":2147483647,"seq":1,"tx_id":"step21e-init-erc721","when":"after"}
+STEP21C {"Threads":23,"VmRSS":299016,"contract":"erc721","event":"execute_begin","instance_id":1,"managed_objects":111,"method":"init_contract","monotonic_ns":681877698,"owner_tid":596115,"wall_unix_ns":1793000262859468629}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"1","method":"init_contract","monotonic_ns":682215656,"phase":"runtime_type","policy":"R1","remaining":2147483647,"seq":2,"tx_id":"step21e-init-erc721","when":"after"}
+2026-10-26 15:37:42.859	[DEBUG]	step21d	vm/sim_context.go:130	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 15:37:42.859	[DEBUG]	step21d	vm/sim_context.go:131	sc.method = init_contract
+2026-10-26 15:37:42.859	[DEBUG]	step21d	vm/sim_context.go:146	lengthOfSubject: 670
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"1","method":"init_contract","monotonic_ns":682306802,"phase":"allocate","policy":"R1","remaining":2147483647,"seq":3,"tx_id":"step21e-init-erc721","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"1","method":"init_contract","monotonic_ns":682322758,"phase":"business","policy":"R1","remaining":2147483647,"seq":4,"tx_id":"step21e-init-erc721","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":128,"host":"PutState","instance_id":"1","method":"init_contract","monotonic_ns":682409835,"phase":"host","policy":"R1","remaining":2147483519,"seq":5,"tx_id":"step21e-init-erc721","when":"before"}
+2026-10-26 15:37:42.859	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = name, value = huanletoken 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":128,"host":"PutState","instance_id":"1","method":"init_contract","monotonic_ns":682449824,"phase":"host","policy":"R1","remaining":2147483519,"seq":6,"tx_id":"step21e-init-erc721","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":201,"host":"PutState","instance_id":"1","method":"init_contract","monotonic_ns":682460882,"phase":"host","policy":"R1","remaining":2147483446,"seq":7,"tx_id":"step21e-init-erc721","when":"before"}
+2026-10-26 15:37:42.859	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = symbol, value = hlt 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":201,"host":"PutState","instance_id":"1","method":"init_contract","monotonic_ns":682483497,"phase":"host","policy":"R1","remaining":2147483446,"seq":8,"tx_id":"step21e-init-erc721","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":274,"host":"PutState","instance_id":"1","method":"init_contract","monotonic_ns":682494071,"phase":"host","policy":"R1","remaining":2147483373,"seq":9,"tx_id":"step21e-init-erc721","when":"before"}
+2026-10-26 15:37:42.859	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = tokenURI, value = https://chainmaker.org.cn 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":274,"host":"PutState","instance_id":"1","method":"init_contract","monotonic_ns":682513179,"phase":"host","policy":"R1","remaining":2147483373,"seq":10,"tx_id":"step21e-init-erc721","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":376,"host":"PutState","instance_id":"1","method":"init_contract","monotonic_ns":682529138,"phase":"host","policy":"R1","remaining":2147483271,"seq":11,"tx_id":"step21e-init-erc721","when":"before"}
+2026-10-26 15:37:42.859	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = admin, value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":376,"host":"PutState","instance_id":"1","method":"init_contract","monotonic_ns":682548029,"phase":"host","policy":"R1","remaining":2147483271,"seq":12,"tx_id":"step21e-init-erc721","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":410,"host":"SuccessResult","instance_id":"1","method":"init_contract","monotonic_ns":682558197,"phase":"host","policy":"R1","remaining":2147483237,"seq":13,"tx_id":"step21e-init-erc721","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":410,"host":"SuccessResult","instance_id":"1","method":"init_contract","monotonic_ns":682563725,"phase":"host","policy":"R1","remaining":2147483237,"seq":14,"tx_id":"step21e-init-erc721","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"event":"export_profile","export_ns":199769,"guest_gc":"not_observed_no_export_or_dwarf","host_gc_count":0,"host_gc_pause_ns":0,"host_heap_after":33176008,"host_heap_before":33110592,"instance_id":"1","method":"init_contract","monotonic_ns":682575167,"owner_thread_cpu_ns":0,"policy":"R1","tx_id":"step21e-init-erc721"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":410,"host":"","instance_id":"1","method":"init_contract","monotonic_ns":682582955,"phase":"business","policy":"R1","remaining":2147483237,"seq":15,"tx_id":"step21e-init-erc721","when":"after"}
+2026-10-26 15:37:42.859	[DEBUG]	step21d	vm/sim_context.go:203	contract invoke success
+STEP21C {"Threads":23,"VmRSS":299200,"call_error_observed":"\u003cnil\u003e","callmethod_ns":386188,"code":0,"contract":"erc721","event":"execute_done","execute_ns":429961,"gas":410,"instance_id":1,"managed_objects":111,"method":"init_contract","monotonic_ns":682307472,"owner_tid":596115,"wall_unix_ns":1793000262859898377}
+STEP21C {"Threads":23,"VmRSS":299204,"contract":"erc721","event":"close_begin","instance_id":1,"managed_objects":111,"monotonic_ns":682328842,"owner_tid":596115,"wall_unix_ns":1793000262859919763}
+STEP21C {"Threads":7,"VmRSS":278108,"close_ns":3656020,"contract":"erc721","error":"\u003cnil\u003e","event":"close_done","instance_id":1,"managed_objects":0,"monotonic_ns":685986949,"owner_tid":596115,"wall_unix_ns":1793000262863577743}
+STEP21C {"call":{"instance_id":1,"gas_in":0,"id":0,"depth":0,"contract":"erc721","method":"init_contract","tx_id":"step21e-init-erc721","begin_ns":1793000262192818599,"end_ns":1793000262863652562,"invoke_seconds_inclusive":0.670833967,"callmethod_seconds_nested":0.000386188,"gas_used_actual":410,"code":0,"result":"Init contract success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21e-init-erc721 contract=erc721 method=init_contract begin_ns=1793000262192818101 end_ns=1793000262863693548 code=0 gas=410 depth=0
+2026-10-26 15:37:42.863	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21e-init-erc721, contractName:erc721, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793000262192818101, endTime:1793000262863693548, executionTime:0.670875 s
+2026-10-26 15:37:42.863	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step21e-init-erc721] access db spend time:0
+2026-10-26 15:37:42.867	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step21e-equal-000, runtime:WASMER, method:mint
+2026-10-26 15:37:42.867	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21e-equal-000, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5176627, params:12
+STEP21C {"Threads":7,"VmRSS":283412,"contract":"erc721","event":"create_begin","instance_id":2,"managed_objects":0,"monotonic_ns":689763442,"owner_tid":596115,"wall_unix_ns":1793000262867353959}
+opmap length 216 
+2026-10-26 15:37:42.888	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 15:37:42.888	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0009f0000 
+2026-10-26 15:37:42.888	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 5176627 
+Total function bodies: 3015
+2026-10-26 15:37:43.511	[DEBUG]	step21d	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+STEP21C {"Threads":24,"VmRSS":328016,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":2,"managed_objects":112,"monotonic_ns":1339917670,"owner_tid":596115,"wall_unix_ns":1793000263517508190}
+STEP21C {"Threads":24,"VmRSS":328020,"compile_ns":644492395,"contract":"erc721","create_ns":650245496,"event":"create_done","instance_id":2,"managed_objects":111,"monotonic_ns":1340008221,"owner_tid":596115,"wall_unix_ns":1793000263517599136}
+STEP21C {"Threads":24,"VmRSS":328020,"acquire_ns":650265929,"channel_block_ns":0,"contract":"erc721","event":"acquire","in_flight":1,"instance_id":2,"managed_objects":111,"monotonic_ns":1340027430,"owner_tid":596115,"previous_uses":0,"queue_len":0,"wall_unix_ns":1793000263517618059}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"2","method":"mint","monotonic_ns":1340357869,"phase":"set_gas","policy":"R1","remaining":2147483647,"seq":1,"tx_id":"step21e-equal-000","when":"after"}
+STEP21C {"Threads":24,"VmRSS":328020,"contract":"erc721","event":"execute_begin","instance_id":2,"managed_objects":111,"method":"mint","monotonic_ns":1340070773,"owner_tid":596115,"wall_unix_ns":1793000263517661700}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"2","method":"mint","monotonic_ns":1340387701,"phase":"runtime_type","policy":"R1","remaining":2147483647,"seq":2,"tx_id":"step21e-equal-000","when":"after"}
+2026-10-26 15:37:43.517	[DEBUG]	step21d	vm/sim_context.go:130	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 15:37:43.517	[DEBUG]	step21d	vm/sim_context.go:131	sc.method = mint
+2026-10-26 15:37:43.517	[DEBUG]	step21d	vm/sim_context.go:146	lengthOfSubject: 694
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"2","method":"mint","monotonic_ns":1340489137,"phase":"allocate","policy":"R1","remaining":2147483647,"seq":3,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"2","method":"mint","monotonic_ns":1340495754,"phase":"business","policy":"R1","remaining":2147483647,"seq":4,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1337,"host":"GetStateLen","instance_id":"2","method":"mint","monotonic_ns":1340618083,"phase":"host","policy":"R1","remaining":2147482310,"seq":5,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:43.517	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-10-26 15:37:43.517	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1337,"host":"GetStateLen","instance_id":"2","method":"mint","monotonic_ns":1340673130,"phase":"host","policy":"R1","remaining":2147482310,"seq":6,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1405,"host":"GetStateLen","instance_id":"2","method":"mint","monotonic_ns":1340686292,"phase":"host","policy":"R1","remaining":2147482242,"seq":7,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:43.517	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-26 15:37:43.518	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1405,"host":"GetStateLen","instance_id":"2","method":"mint","monotonic_ns":1340708407,"phase":"host","policy":"R1","remaining":2147482242,"seq":8,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1473,"host":"GetState","instance_id":"2","method":"mint","monotonic_ns":1340717224,"phase":"host","policy":"R1","remaining":2147482174,"seq":9,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1473,"host":"GetState","instance_id":"2","method":"mint","monotonic_ns":1340726995,"phase":"host","policy":"R1","remaining":2147482174,"seq":10,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1583,"host":"GetStateLen","instance_id":"2","method":"mint","monotonic_ns":1340740415,"phase":"host","policy":"R1","remaining":2147482064,"seq":11,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:43.518	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 15:37:43.518	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1583,"host":"GetStateLen","instance_id":"2","method":"mint","monotonic_ns":1340758396,"phase":"host","policy":"R1","remaining":2147482064,"seq":12,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1958,"host":"PutState","instance_id":"2","method":"mint","monotonic_ns":1340771096,"phase":"host","policy":"R1","remaining":2147481689,"seq":13,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:43.518	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1958,"host":"PutState","instance_id":"2","method":"mint","monotonic_ns":1340785967,"phase":"host","policy":"R1","remaining":2147481689,"seq":14,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2286,"host":"PutState","instance_id":"2","method":"mint","monotonic_ns":1340796020,"phase":"host","policy":"R1","remaining":2147481361,"seq":15,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:43.518	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2286,"host":"PutState","instance_id":"2","method":"mint","monotonic_ns":1340817807,"phase":"host","policy":"R1","remaining":2147481361,"seq":16,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2626,"host":"PutState","instance_id":"2","method":"mint","monotonic_ns":1340832925,"phase":"host","policy":"R1","remaining":2147481021,"seq":17,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:43.518	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2626,"host":"PutState","instance_id":"2","method":"mint","monotonic_ns":1340846235,"phase":"host","policy":"R1","remaining":2147481021,"seq":18,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2965,"host":"PutState","instance_id":"2","method":"mint","monotonic_ns":1340863004,"phase":"host","policy":"R1","remaining":2147480682,"seq":19,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:43.518	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2965,"host":"PutState","instance_id":"2","method":"mint","monotonic_ns":1340883653,"phase":"host","policy":"R1","remaining":2147480682,"seq":20,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"setTokenLatestTxInfo to {\"TxId\":\"step21e-equal-000\",\"BlockHeight\":111,\"From\":\"0000000000000000000000000000000000000000\",\"To\":\"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0\"}","event":"gas","gas_absolute":15060,"host":"log_message","instance_id":"2","method":"mint","monotonic_ns":1341039358,"phase":"host","policy":"R1","remaining":2147468587,"seq":21,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15415,"host":"PutState","instance_id":"2","method":"mint","monotonic_ns":1341064477,"phase":"host","policy":"R1","remaining":2147468232,"seq":22,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:43.518	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step21e-equal-000","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15415,"host":"PutState","instance_id":"2","method":"mint","monotonic_ns":1341090020,"phase":"host","policy":"R1","remaining":2147468232,"seq":23,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15449,"host":"SuccessResult","instance_id":"2","method":"mint","monotonic_ns":1341099945,"phase":"host","policy":"R1","remaining":2147468198,"seq":24,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15449,"host":"SuccessResult","instance_id":"2","method":"mint","monotonic_ns":1341108419,"phase":"host","policy":"R1","remaining":2147468198,"seq":25,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"event":"export_profile","export_ns":593036,"guest_gc":"not_observed_no_export_or_dwarf","host_gc_count":0,"host_gc_pause_ns":0,"host_heap_after":17697136,"host_heap_before":17554072,"instance_id":"2","method":"mint","monotonic_ns":1341159005,"owner_thread_cpu_ns":0,"policy":"R1","tx_id":"step21e-equal-000"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15449,"host":"","instance_id":"2","method":"mint","monotonic_ns":1341166755,"phase":"business","policy":"R1","remaining":2147468198,"seq":26,"tx_id":"step21e-equal-000","when":"after"}
+2026-10-26 15:37:43.518	[DEBUG]	step21d	vm/sim_context.go:203	contract invoke success
+STEP21C {"Threads":24,"VmRSS":328196,"call_error_observed":"\u003cnil\u003e","callmethod_ns":798686,"code":0,"contract":"erc721","event":"execute_done","execute_ns":822928,"gas":15449,"instance_id":2,"managed_objects":111,"method":"mint","monotonic_ns":1340894251,"owner_tid":596115,"wall_unix_ns":1793000263518485171}
+STEP21C {"Threads":24,"VmRSS":328200,"contract":"erc721","event":"close_begin","instance_id":2,"managed_objects":111,"monotonic_ns":1340934325,"owner_tid":596115,"wall_unix_ns":1793000263518525252}
+STEP21C {"Threads":8,"VmRSS":288164,"close_ns":4101049,"contract":"erc721","error":"\u003cnil\u003e","event":"close_done","instance_id":2,"managed_objects":0,"monotonic_ns":1345038366,"owner_tid":596115,"wall_unix_ns":1793000263522629207}
+STEP21C {"call":{"instance_id":2,"gas_in":0,"id":0,"depth":0,"contract":"erc721","method":"mint","tx_id":"step21e-equal-000","begin_ns":1793000262867350841,"end_ns":1793000263522703762,"invoke_seconds_inclusive":0.655352915,"callmethod_seconds_nested":0.000798686,"gas_used_actual":15449,"code":0,"result":"mint success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21e-equal-000 contract=erc721 method=mint begin_ns=1793000262867350090 end_ns=1793000263522713367 code=0 gas=15449 depth=0
+2026-10-26 15:37:43.522	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21e-equal-000, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793000262867350090, endTime:1793000263522713367, executionTime:0.655363 s
+2026-10-26 15:37:43.522	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step21e-equal-000] access db spend time:0
+STEP21E {"after_hash":"8e06cf96dc5fc507faddb609dba80bda1f498ff2ac87ff6ab23a2d89af5d05fb","before_hash":"1aac1c2fae1681cb20569badb8471ef2126c1c7f5d3ba8f3d7d9826c39d01c17","contract":"erc721","event":"equivalent_state","gas":15449,"index":0,"input_sha256":"f71c762d2d7eeb6a1f36f2df46a3063a1973131d54c26860edadfde1ccf78a42","monotonic_ns":1345726996,"policy":"R1"}
+2026-10-26 15:37:43.523	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step21e-equal-000, runtime:WASMER, method:mint
+2026-10-26 15:37:43.523	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21e-equal-000, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5176627, params:12
+STEP21C {"Threads":8,"VmRSS":288256,"contract":"erc721","event":"create_begin","instance_id":3,"managed_objects":0,"monotonic_ns":1345956719,"owner_tid":596115,"wall_unix_ns":1793000263523547615}
+opmap length 216 
+2026-10-26 15:37:43.555	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 15:37:43.555	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc001db0000 
+2026-10-26 15:37:43.555	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 5176627 
+Total function bodies: 3015
+2026-10-26 15:37:44.193	[DEBUG]	step21d	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+STEP21C {"Threads":25,"VmRSS":366252,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":3,"managed_objects":112,"monotonic_ns":2021395961,"owner_tid":596115,"wall_unix_ns":1793000264198986576}
+STEP21C {"Threads":25,"VmRSS":366272,"compile_ns":670347445,"contract":"erc721","create_ns":675518168,"event":"create_done","instance_id":3,"managed_objects":111,"monotonic_ns":2021474755,"owner_tid":596115,"wall_unix_ns":1793000264199065665}
+STEP21C {"Threads":25,"VmRSS":366280,"acquire_ns":675540243,"channel_block_ns":0,"contract":"erc721","event":"acquire","in_flight":1,"instance_id":3,"managed_objects":111,"monotonic_ns":2021496466,"owner_tid":596115,"previous_uses":0,"queue_len":0,"wall_unix_ns":1793000264199087157}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"3","method":"mint","monotonic_ns":2021819451,"phase":"set_gas","policy":"R1","remaining":2147483647,"seq":1,"tx_id":"step21e-equal-000","when":"after"}
+STEP21C {"Threads":25,"VmRSS":366288,"contract":"erc721","event":"execute_begin","instance_id":3,"managed_objects":111,"method":"mint","monotonic_ns":2021532047,"owner_tid":596115,"wall_unix_ns":1793000264199122987}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"3","method":"mint","monotonic_ns":2021856343,"phase":"runtime_type","policy":"R1","remaining":2147483647,"seq":2,"tx_id":"step21e-equal-000","when":"after"}
+2026-10-26 15:37:44.199	[DEBUG]	step21d	vm/sim_context.go:130	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 15:37:44.199	[DEBUG]	step21d	vm/sim_context.go:131	sc.method = mint
+2026-10-26 15:37:44.199	[DEBUG]	step21d	vm/sim_context.go:146	lengthOfSubject: 694
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"3","method":"mint","monotonic_ns":2021989875,"phase":"allocate","policy":"R1","remaining":2147483647,"seq":3,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"3","method":"mint","monotonic_ns":2021998770,"phase":"business","policy":"R1","remaining":2147483647,"seq":4,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1337,"host":"GetStateLen","instance_id":"3","method":"mint","monotonic_ns":2022133400,"phase":"host","policy":"R1","remaining":2147482310,"seq":5,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.199	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-10-26 15:37:44.199	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1337,"host":"GetStateLen","instance_id":"3","method":"mint","monotonic_ns":2022194009,"phase":"host","policy":"R1","remaining":2147482310,"seq":6,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1405,"host":"GetStateLen","instance_id":"3","method":"mint","monotonic_ns":2022208433,"phase":"host","policy":"R1","remaining":2147482242,"seq":7,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.199	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-26 15:37:44.199	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1405,"host":"GetStateLen","instance_id":"3","method":"mint","monotonic_ns":2022242033,"phase":"host","policy":"R1","remaining":2147482242,"seq":8,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1473,"host":"GetState","instance_id":"3","method":"mint","monotonic_ns":2022252666,"phase":"host","policy":"R1","remaining":2147482174,"seq":9,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1473,"host":"GetState","instance_id":"3","method":"mint","monotonic_ns":2022269477,"phase":"host","policy":"R1","remaining":2147482174,"seq":10,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1583,"host":"GetStateLen","instance_id":"3","method":"mint","monotonic_ns":2022281744,"phase":"host","policy":"R1","remaining":2147482064,"seq":11,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.199	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 15:37:44.199	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1583,"host":"GetStateLen","instance_id":"3","method":"mint","monotonic_ns":2022301169,"phase":"host","policy":"R1","remaining":2147482064,"seq":12,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1958,"host":"PutState","instance_id":"3","method":"mint","monotonic_ns":2022314165,"phase":"host","policy":"R1","remaining":2147481689,"seq":13,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.199	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1958,"host":"PutState","instance_id":"3","method":"mint","monotonic_ns":2022329144,"phase":"host","policy":"R1","remaining":2147481689,"seq":14,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2286,"host":"PutState","instance_id":"3","method":"mint","monotonic_ns":2022340876,"phase":"host","policy":"R1","remaining":2147481361,"seq":15,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.199	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2286,"host":"PutState","instance_id":"3","method":"mint","monotonic_ns":2022389530,"phase":"host","policy":"R1","remaining":2147481361,"seq":16,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2626,"host":"PutState","instance_id":"3","method":"mint","monotonic_ns":2022409651,"phase":"host","policy":"R1","remaining":2147481021,"seq":17,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.199	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2626,"host":"PutState","instance_id":"3","method":"mint","monotonic_ns":2022424885,"phase":"host","policy":"R1","remaining":2147481021,"seq":18,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2965,"host":"PutState","instance_id":"3","method":"mint","monotonic_ns":2022438945,"phase":"host","policy":"R1","remaining":2147480682,"seq":19,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.199	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2965,"host":"PutState","instance_id":"3","method":"mint","monotonic_ns":2022463467,"phase":"host","policy":"R1","remaining":2147480682,"seq":20,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"setTokenLatestTxInfo to {\"TxId\":\"step21e-equal-000\",\"BlockHeight\":111,\"From\":\"0000000000000000000000000000000000000000\",\"To\":\"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0\"}","event":"gas","gas_absolute":15060,"host":"log_message","instance_id":"3","method":"mint","monotonic_ns":2022618105,"phase":"host","policy":"R1","remaining":2147468587,"seq":21,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15415,"host":"PutState","instance_id":"3","method":"mint","monotonic_ns":2022639541,"phase":"host","policy":"R1","remaining":2147468232,"seq":22,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.199	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step21e-equal-000","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15415,"host":"PutState","instance_id":"3","method":"mint","monotonic_ns":2022660336,"phase":"host","policy":"R1","remaining":2147468232,"seq":23,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15449,"host":"SuccessResult","instance_id":"3","method":"mint","monotonic_ns":2022669814,"phase":"host","policy":"R1","remaining":2147468198,"seq":24,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15449,"host":"SuccessResult","instance_id":"3","method":"mint","monotonic_ns":2022674970,"phase":"host","policy":"R1","remaining":2147468198,"seq":25,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"event":"export_profile","export_ns":613026,"guest_gc":"not_observed_no_export_or_dwarf","host_gc_count":0,"host_gc_pause_ns":0,"host_heap_after":33241400,"host_heap_before":33097760,"instance_id":"3","method":"mint","monotonic_ns":2022714046,"owner_thread_cpu_ns":0,"policy":"R1","tx_id":"step21e-equal-000"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15449,"host":"","instance_id":"3","method":"mint","monotonic_ns":2022720511,"phase":"business","policy":"R1","remaining":2147468198,"seq":26,"tx_id":"step21e-equal-000","when":"after"}
+2026-10-26 15:37:44.200	[DEBUG]	step21d	vm/sim_context.go:203	contract invoke success
+STEP21C {"Threads":25,"VmRSS":366560,"call_error_observed":"\u003cnil\u003e","callmethod_ns":884229,"code":0,"contract":"erc721","event":"execute_done","execute_ns":916060,"gas":15449,"instance_id":3,"managed_objects":111,"method":"mint","monotonic_ns":2022448507,"owner_tid":596115,"wall_unix_ns":1793000264200039416}
+STEP21C {"Threads":25,"VmRSS":366568,"contract":"erc721","event":"close_begin","instance_id":3,"managed_objects":111,"monotonic_ns":2022477176,"owner_tid":596115,"wall_unix_ns":1793000264200068120}
+STEP21C {"Threads":9,"VmRSS":315052,"close_ns":4282534,"contract":"erc721","error":"\u003cnil\u003e","event":"close_done","instance_id":3,"managed_objects":0,"monotonic_ns":2026762056,"owner_tid":596115,"wall_unix_ns":1793000264204352750}
+STEP21C {"call":{"instance_id":3,"gas_in":0,"id":0,"depth":0,"contract":"erc721","method":"mint","tx_id":"step21e-equal-000","begin_ns":1793000263523546266,"end_ns":1793000264204422347,"invoke_seconds_inclusive":0.680876086,"callmethod_seconds_nested":0.000884229,"gas_used_actual":15449,"code":0,"result":"mint success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21e-equal-000 contract=erc721 method=mint begin_ns=1793000263523545867 end_ns=1793000264204430923 code=0 gas=15449 depth=0
+2026-10-26 15:37:44.204	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21e-equal-000, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793000263523545867, endTime:1793000264204430923, executionTime:0.680885 s
+2026-10-26 15:37:44.204	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step21e-equal-000] access db spend time:0
+STEP21E {"after_hash":"8e06cf96dc5fc507faddb609dba80bda1f498ff2ac87ff6ab23a2d89af5d05fb","before_hash":"1aac1c2fae1681cb20569badb8471ef2126c1c7f5d3ba8f3d7d9826c39d01c17","contract":"erc721","event":"equivalent_state","gas":15449,"index":1,"input_sha256":"f71c762d2d7eeb6a1f36f2df46a3063a1973131d54c26860edadfde1ccf78a42","monotonic_ns":2027270992,"policy":"R1"}
+2026-10-26 15:37:44.205	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step21e-equal-000, runtime:WASMER, method:mint
+2026-10-26 15:37:44.205	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21e-equal-000, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5176627, params:12
+STEP21C {"Threads":9,"VmRSS":315516,"contract":"erc721","event":"create_begin","instance_id":4,"managed_objects":0,"monotonic_ns":2027956517,"owner_tid":596115,"wall_unix_ns":1793000264205547278}
+opmap length 216 
+2026-10-26 15:37:44.242	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 15:37:44.242	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0013d0000 
+2026-10-26 15:37:44.242	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 5176627 
+Total function bodies: 3015
+2026-10-26 15:37:44.875	[DEBUG]	step21d	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+STEP21C {"Threads":26,"VmRSS":373376,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":4,"managed_objects":112,"monotonic_ns":2703366048,"owner_tid":596115,"wall_unix_ns":1793000264880956585}
+STEP21C {"Threads":26,"VmRSS":373376,"compile_ns":669869585,"contract":"erc721","create_ns":675482723,"event":"create_done","instance_id":4,"managed_objects":111,"monotonic_ns":2703439136,"owner_tid":596115,"wall_unix_ns":1793000264881030053}
+STEP21C {"Threads":26,"VmRSS":373380,"acquire_ns":675509542,"channel_block_ns":0,"contract":"erc721","event":"acquire","in_flight":1,"instance_id":4,"managed_objects":111,"monotonic_ns":2703465181,"owner_tid":596115,"previous_uses":0,"queue_len":0,"wall_unix_ns":1793000264881055817}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"4","method":"mint","monotonic_ns":2703787905,"phase":"set_gas","policy":"R1","remaining":2147483647,"seq":1,"tx_id":"step21e-equal-000","when":"after"}
+STEP21C {"Threads":26,"VmRSS":373380,"contract":"erc721","event":"execute_begin","instance_id":4,"managed_objects":111,"method":"mint","monotonic_ns":2703501460,"owner_tid":596115,"wall_unix_ns":1793000264881092389}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"4","method":"mint","monotonic_ns":2703813682,"phase":"runtime_type","policy":"R1","remaining":2147483647,"seq":2,"tx_id":"step21e-equal-000","when":"after"}
+2026-10-26 15:37:44.881	[DEBUG]	step21d	vm/sim_context.go:130	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 15:37:44.881	[DEBUG]	step21d	vm/sim_context.go:131	sc.method = mint
+2026-10-26 15:37:44.881	[DEBUG]	step21d	vm/sim_context.go:146	lengthOfSubject: 694
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"4","method":"mint","monotonic_ns":2703913224,"phase":"allocate","policy":"R1","remaining":2147483647,"seq":3,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":0,"host":"","instance_id":"4","method":"mint","monotonic_ns":2703921097,"phase":"business","policy":"R1","remaining":2147483647,"seq":4,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1337,"host":"GetStateLen","instance_id":"4","method":"mint","monotonic_ns":2704005105,"phase":"host","policy":"R1","remaining":2147482310,"seq":5,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.881	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-10-26 15:37:44.881	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1337,"host":"GetStateLen","instance_id":"4","method":"mint","monotonic_ns":2704053405,"phase":"host","policy":"R1","remaining":2147482310,"seq":6,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1405,"host":"GetStateLen","instance_id":"4","method":"mint","monotonic_ns":2704066297,"phase":"host","policy":"R1","remaining":2147482242,"seq":7,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.881	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-26 15:37:44.881	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1405,"host":"GetStateLen","instance_id":"4","method":"mint","monotonic_ns":2704085321,"phase":"host","policy":"R1","remaining":2147482242,"seq":8,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1473,"host":"GetState","instance_id":"4","method":"mint","monotonic_ns":2704094945,"phase":"host","policy":"R1","remaining":2147482174,"seq":9,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1473,"host":"GetState","instance_id":"4","method":"mint","monotonic_ns":2704120905,"phase":"host","policy":"R1","remaining":2147482174,"seq":10,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1583,"host":"GetStateLen","instance_id":"4","method":"mint","monotonic_ns":2704136818,"phase":"host","policy":"R1","remaining":2147482064,"seq":11,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.881	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 15:37:44.881	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1583,"host":"GetStateLen","instance_id":"4","method":"mint","monotonic_ns":2704156489,"phase":"host","policy":"R1","remaining":2147482064,"seq":12,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1958,"host":"PutState","instance_id":"4","method":"mint","monotonic_ns":2704170801,"phase":"host","policy":"R1","remaining":2147481689,"seq":13,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.881	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":1958,"host":"PutState","instance_id":"4","method":"mint","monotonic_ns":2704185613,"phase":"host","policy":"R1","remaining":2147481689,"seq":14,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2286,"host":"PutState","instance_id":"4","method":"mint","monotonic_ns":2704195812,"phase":"host","policy":"R1","remaining":2147481361,"seq":15,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.881	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2286,"host":"PutState","instance_id":"4","method":"mint","monotonic_ns":2704208690,"phase":"host","policy":"R1","remaining":2147481361,"seq":16,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2626,"host":"PutState","instance_id":"4","method":"mint","monotonic_ns":2704219377,"phase":"host","policy":"R1","remaining":2147481021,"seq":17,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.881	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2626,"host":"PutState","instance_id":"4","method":"mint","monotonic_ns":2704231160,"phase":"host","policy":"R1","remaining":2147481021,"seq":18,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2965,"host":"PutState","instance_id":"4","method":"mint","monotonic_ns":2704241605,"phase":"host","policy":"R1","remaining":2147480682,"seq":19,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.881	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":2965,"host":"PutState","instance_id":"4","method":"mint","monotonic_ns":2704255471,"phase":"host","policy":"R1","remaining":2147480682,"seq":20,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"setTokenLatestTxInfo to {\"TxId\":\"step21e-equal-000\",\"BlockHeight\":111,\"From\":\"0000000000000000000000000000000000000000\",\"To\":\"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0\"}","event":"gas","gas_absolute":15060,"host":"log_message","instance_id":"4","method":"mint","monotonic_ns":2704425908,"phase":"host","policy":"R1","remaining":2147468587,"seq":21,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15415,"host":"PutState","instance_id":"4","method":"mint","monotonic_ns":2704446569,"phase":"host","policy":"R1","remaining":2147468232,"seq":22,"tx_id":"step21e-equal-000","when":"before"}
+2026-10-26 15:37:44.881	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step21e-equal-000","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15415,"host":"PutState","instance_id":"4","method":"mint","monotonic_ns":2704467593,"phase":"host","policy":"R1","remaining":2147468232,"seq":23,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15449,"host":"SuccessResult","instance_id":"4","method":"mint","monotonic_ns":2704481615,"phase":"host","policy":"R1","remaining":2147468198,"seq":24,"tx_id":"step21e-equal-000","when":"before"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15449,"host":"SuccessResult","instance_id":"4","method":"mint","monotonic_ns":2704487692,"phase":"host","policy":"R1","remaining":2147468198,"seq":25,"tx_id":"step21e-equal-000","when":"after"}
+STEP21E {"contract":"erc721","depth":0,"event":"export_profile","export_ns":549982,"guest_gc":"not_observed_no_export_or_dwarf","host_gc_count":0,"host_gc_pause_ns":0,"host_heap_after":12527176,"host_heap_before":12384112,"instance_id":"4","method":"mint","monotonic_ns":2704507917,"owner_thread_cpu_ns":0,"policy":"R1","tx_id":"step21e-equal-000"}
+STEP21E {"contract":"erc721","depth":0,"detail":"","event":"gas","gas_absolute":15449,"host":"","instance_id":"4","method":"mint","monotonic_ns":2704512840,"phase":"business","policy":"R1","remaining":2147468198,"seq":26,"tx_id":"step21e-equal-000","when":"after"}
+2026-10-26 15:37:44.881	[DEBUG]	step21d	vm/sim_context.go:203	contract invoke success
+STEP21C {"Threads":26,"VmRSS":373464,"call_error_observed":"\u003cnil\u003e","callmethod_ns":716598,"code":0,"contract":"erc721","event":"execute_done","execute_ns":737276,"gas":15449,"instance_id":4,"managed_objects":111,"method":"mint","monotonic_ns":2704238036,"owner_tid":596115,"wall_unix_ns":1793000264881828942}
+STEP21C {"Threads":26,"VmRSS":373464,"contract":"erc721","event":"close_begin","instance_id":4,"managed_objects":111,"monotonic_ns":2704263546,"owner_tid":596115,"wall_unix_ns":1793000264881854435}
+STEP21C {"Threads":10,"VmRSS":320268,"close_ns":4445505,"contract":"erc721","error":"\u003cnil\u003e","event":"close_done","instance_id":4,"managed_objects":0,"monotonic_ns":2708710764,"owner_tid":596115,"wall_unix_ns":1793000264886301623}
+STEP21C {"call":{"instance_id":4,"gas_in":0,"id":0,"depth":0,"contract":"erc721","method":"mint","tx_id":"step21e-equal-000","begin_ns":1793000264205545555,"end_ns":1793000264886356630,"invoke_seconds_inclusive":0.680811083,"callmethod_seconds_nested":0.000716598,"gas_used_actual":15449,"code":0,"result":"mint success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21e-equal-000 contract=erc721 method=mint begin_ns=1793000264205545227 end_ns=1793000264886364301 code=0 gas=15449 depth=0
+2026-10-26 15:37:44.886	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21e-equal-000, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793000264205545227, endTime:1793000264886364301, executionTime:0.680819 s
+2026-10-26 15:37:44.886	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step21e-equal-000] access db spend time:0
+STEP21E {"after_hash":"8e06cf96dc5fc507faddb609dba80bda1f498ff2ac87ff6ab23a2d89af5d05fb","before_hash":"1aac1c2fae1681cb20569badb8471ef2126c1c7f5d3ba8f3d7d9826c39d01c17","contract":"erc721","event":"equivalent_state","gas":15449,"index":2,"input_sha256":"f71c762d2d7eeb6a1f36f2df46a3063a1973131d54c26860edadfde1ccf78a42","monotonic_ns":2709208101,"policy":"R1"}
+STEP21C {"Threads":10,"VmRSS":320284,"closed":4,"created":4,"event":"manager_closed","in_flight":0,"managed_objects":0,"monotonic_ns":2708924907,"owner_tid":596115,"wall_unix_ns":1793000264886515831}
+STEP21C {"Threads":10,"VmRSS":320328,"event":"owner_closed","managed_objects":0,"managed_pending":0,"monotonic_ns":2709653200,"owner_tid":596115,"wall_unix_ns":1793000264887243786}
+--- PASS: TestStep21EGas (2.71s)
+PASS

@@ -1,0 +1,185 @@
+[
+  {
+    "case": "fact",
+    "same_business_input_initial_final_rwset_result_events": true,
+    "R0_gas": [
+      1585,
+      991,
+      991
+    ],
+    "R1_gas": [
+      1585,
+      1585,
+      1585
+    ]
+  },
+  {
+    "case": "erc721",
+    "same_business_input_initial_final_rwset_result_events": true,
+    "R0_gas": [
+      15449,
+      11070,
+      11070
+    ],
+    "R1_gas": [
+      15449,
+      15449,
+      15449
+    ]
+  },
+  {
+    "case": "buyNow",
+    "same_business_input_initial_final_rwset_result_events": true,
+    "root_gas": {
+      "R0": 12761395,
+      "R1": 12765774
+    },
+    "six_real_children": [
+      {
+        "contract": "identity",
+        "method": "addWriteList",
+        "R0_instance": 1,
+        "R1_instance": 5,
+        "R0_gas_in": 100276,
+        "R1_gas_in": 100276,
+        "R0_gas_out_inclusive": 101804,
+        "R1_gas_out_inclusive": 101804,
+        "delta_out": 0,
+        "R0_local_delta": 1528,
+        "R1_local_delta": 1528
+      },
+      {
+        "contract": "identity",
+        "method": "isApprovedUser",
+        "R0_instance": 1,
+        "R1_instance": 6,
+        "R0_gas_in": 302309,
+        "R1_gas_in": 302309,
+        "R0_gas_out_inclusive": 302538,
+        "R1_gas_out_inclusive": 302538,
+        "delta_out": 0,
+        "R0_local_delta": 229,
+        "R1_local_delta": 229
+      },
+      {
+        "contract": "identity",
+        "method": "isApprovedUser",
+        "R0_instance": 1,
+        "R1_instance": 7,
+        "R0_gas_in": 705088,
+        "R1_gas_in": 705088,
+        "R0_gas_out_inclusive": 705317,
+        "R1_gas_out_inclusive": 705317,
+        "delta_out": 0,
+        "R0_local_delta": 229,
+        "R1_local_delta": 229
+      },
+      {
+        "contract": "erc721",
+        "method": "mint",
+        "R0_instance": 2,
+        "R1_instance": 8,
+        "R0_gas_in": 1510668,
+        "R1_gas_in": 1510668,
+        "R0_gas_out_inclusive": 1525965,
+        "R1_gas_out_inclusive": 1525965,
+        "delta_out": 0,
+        "R0_local_delta": 15297,
+        "R1_local_delta": 15297
+      },
+      {
+        "contract": "erc721",
+        "method": "setApprovalForAll2",
+        "R0_instance": 2,
+        "R1_instance": 9,
+        "R0_gas_in": 3136862,
+        "R1_gas_in": 3136862,
+        "R0_gas_out_inclusive": 3137143,
+        "R1_gas_out_inclusive": 3137143,
+        "delta_out": 0,
+        "R0_local_delta": 281,
+        "R1_local_delta": 281
+      },
+      {
+        "contract": "erc721",
+        "method": "transferFrom",
+        "R0_instance": 2,
+        "R1_instance": 10,
+        "R0_gas_in": 6374268,
+        "R1_gas_in": 6374268,
+        "R0_gas_out_inclusive": 6386947,
+        "R1_gas_out_inclusive": 6391326,
+        "delta_out": 4379,
+        "R0_local_delta": 12679,
+        "R1_local_delta": 17058
+      }
+    ]
+  },
+  {
+    "case": "trace_on_off_fact",
+    "same_semantics_and_gas": true,
+    "gas": 1585
+  }
+]
+[
+  {
+    "label": "normal-ab",
+    "policy": "R0",
+    "n": 3,
+    "invoke_ms": 77.92455433333333,
+    "callmethod_ms": 77.69232833333334,
+    "export_ms": 77.39765566666667,
+    "owner_thread_cpu_ms": 76.02866666666667,
+    "host_gc_count": 0
+  },
+  {
+    "label": "normal-ab",
+    "policy": "R1",
+    "n": 3,
+    "invoke_ms": 81.161405,
+    "callmethod_ms": 76.32391633333333,
+    "export_ms": 75.91159066666667,
+    "owner_thread_cpu_ms": 71.119,
+    "host_gc_count": 2
+  },
+  {
+    "label": "normal-ba",
+    "policy": "R0",
+    "n": 3,
+    "invoke_ms": 78.806897,
+    "callmethod_ms": 78.60621133333333,
+    "export_ms": 78.26995766666667,
+    "owner_thread_cpu_ms": 74.82600000000001,
+    "host_gc_count": 2
+  },
+  {
+    "label": "normal-ba",
+    "policy": "R1",
+    "n": 3,
+    "invoke_ms": 80.642878,
+    "callmethod_ms": 75.80762566666667,
+    "export_ms": 75.25051533333334,
+    "owner_thread_cpu_ms": 70.80199999999999,
+    "host_gc_count": 0
+  },
+  {
+    "label": "history-bcd",
+    "policy": "R0",
+    "n": 300,
+    "invoke_ms": 82.11808023666667,
+    "callmethod_ms": 81.97548559,
+    "export_ms": 81.73929568,
+    "owner_thread_cpu_ms": null,
+    "host_gc_count": null
+  },
+  {
+    "label": "history-bcd",
+    "policy": "R1",
+    "n": 300,
+    "invoke_ms": 73.87094147,
+    "callmethod_ms": 73.67523299,
+    "export_ms": 73.44526810333333,
+    "owner_thread_cpu_ms": null,
+    "host_gc_count": null
+  }
+]

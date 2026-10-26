@@ -1,0 +1,36 @@
+{
+  "branch": "experiment/step21e-fresh-diagnostics",
+  "parent": "87eb925",
+  "native_sha256": "dcdfa7164c58856f6e0c01597fd52c9a4c5f7da772751e3a874f7333612c3db9",
+  "ldd": {
+    "argv": [
+      "ldd",
+      "/home/frankie/mygitprojects/.worktrees/cvw-step21e/experiments/instance-lifecycle/step-21e-fresh-diagnostics/binaries/step21e.test"
+    ],
+    "exit": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x0000713b8ee64000)\n\tlibwasmer.so => /home/frankie/mygitprojects/.worktrees/cvw-step21e/experiments/instance-lifecycle/step-21e-fresh-diagnostics/source/vm/wasmer-go/packaged/lib/linux-amd64/libwasmer.so (0x0000713b8d400000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x0000713b8d317000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000713b8ee26000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000713b8d000000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000713b8ee66000)\n",
+    "stderr": ""
+  },
+  "elf_notes": {
+    "argv": [
+      "readelf",
+      "-n",
+      "/home/frankie/mygitprojects/.worktrees/cvw-step21e/experiments/instance-lifecycle/step-21e-fresh-diagnostics/source/vm/wasmer-go/packaged/lib/linux-amd64/libwasmer.so"
+    ],
+    "exit": 0,
+    "stdout": "\nDisplaying notes found in: .note.gnu.build-id\n  Owner                Data size \tDescription\n  GNU                  0x00000014\tNT_GNU_BUILD_ID (unique build ID bitstring)\n    Build ID: 69a11e39bb80e3024770895acf2b093aae04b04f\n",
+    "stderr": ""
+  },
+  "go": {
+    "argv": [
+      "/usr/local/go/bin/go",
+      "version"
+    ],
+    "exit": 0,
+    "stdout": "go version go1.25.0 linux/amd64\n",
+    "stderr": ""
+  },
+  "native_candidate": "091074013fa056df0c6502262eae425927272e10",
+  "exact_native_build_source": "not proven",
+  "compile_source_equal_to_D": true
+}
