@@ -354,10 +354,8 @@ func s21cPreparedScenario(t *testing.T, manifest, output string) {
 	defer f.close()
 	for _, name := range []string{"identity", "erc721", "exchange"} {
 		args := map[string]string{}
-		// Explicit admin parameter avoids depending on caller-address defaults; actual guest decides state.
-		if name == "identity" {
-			args["adminAddress"] = "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
-		}
+		// identity derives admin from the actual configured public sender.
+		// Its current source ignores a nonempty adminAddress parameter; do not seed around that logic.
 		if name == "erc721" {
 			args = map[string]string{"name": "Step21C", "symbol": "S21C", "tokenURI": "http://chainmaker.org.cn/"}
 		}
@@ -365,6 +363,16 @@ func s21cPreparedScenario(t *testing.T, manifest, output string) {
 		if r.Result.Code != 0 || r.Status != common.TxStatusCode_SUCCESS {
 			t.Fatalf("real init failed %s: %s", name, r.Result.Message)
 		}
+		if name == "identity" {
+			var admins []string
+			if e := json.Unmarshal([]byte(f.state("identity", "identity", "adminAddress")), &admins); e != nil || len(admins) == 0 || admins[0] == "" {
+				t.Fatal("actual identity initialization did not establish an admin")
+			}
+		}
+		if name == "erc721" && f.state("erc721", "erc721", "admin") != f.member.uid {
+			t.Fatal("actual ERC721 admin does not match configured sender UID")
+		}
+
 	}
 	data, e := os.ReadFile(manifest)
 	if e != nil {
