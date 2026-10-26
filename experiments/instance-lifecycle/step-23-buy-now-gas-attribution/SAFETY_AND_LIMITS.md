@@ -1,0 +1,23 @@
+# 安全与证据边界
+
+本轮只放行已验证的**有界串行诊断**，没有放行默认共享Store后台池、同Store跨线程创建/执行/关闭，未运行100次或TPS压测。
+
+沿用Step22：固定OS owner、每合约/变体独立Store+Module缓存，imports/exports持久元数据提前物化。每次Fresh独立WASI/Instance，同步完成并清理后再调用。跨合约父子使用不同Store，同Store回调重入仍只限已有GetGas/SetGas；原ManagedAssert、in-flight/owner/native函数调用深度守卫未删除。
+
+R0有意保留每个合约的Instance和真实运行时历史，不清理guest缓存、不重跑_start、不重置除原本SetGas之外的运行时状态。它只是性能/语义差异参考，不是可生产正确性基线。
+
+Step22的“每次close后global ManagedCount回到创建前”只适用于Fresh临时scope。R0的其他持久Instance在期间可增长，因此本轮增加了只读 `ManagedScope.ManagedLiveCount`：每次清理必须严格满足 **after = beforeClose − ownedLiveEntries**；Fresh同时继续检查原创建前基线。没有以忽略清理错误或删守卫放行R0。最终manager.created=closed、全部scope登记0、owner退场和进程终止分别核查；已有guard实现原字节保留证据在final-health.json/source.diff。
+
+Gas观测从固定WASM SHA绑定的GetGas槽读取registry指针及Remain，只读且检查地址边界。每个callee在原Getter处核对1次，根原12次bridge Getter+最终Getter共13次；无新增guest Getter调用。桥接观察放在原WACSI调用及原SetGas周围；没有改写Gas规则/结果/guest内存。三模式probe on/off的所有实际Gas和状态均相等，不能据此声称观察对CPU时间无影响。
+
+GetTxRWSet会释放迭代器，中途禁止。进一步发现GetTxRWMapByContractName也不是纯读取：其merge helper会写内部map。原v1观测器及其26进程已保留但排除最终只读证据。最终v2不使用这些API，仅在sc.TxSimContext上透明转发原Get/Put/Del，每个原操作恰好委托一次，返回原value/error，记录到自身Go数组；无多余状态访问、无内部map写入。Caller/子调用仍使用原真实TxSimContext回调。probe off完全不包装状态接口，on/off比较真实根RWSet/Gas/返回/事件，而不把off不存在的操作日志标为相等。
+
+业务操作前缀和逐callee原Get/Put/Del集合可核对；框架内部每callee独占RWMap未读取，明确not_tested。根最终RWSet仍由原f.run在结束时获得。v2已重做所有正式块，v1不作为额外独立样本。
+
+S1全Memory SHA在每次创建后、_start前检查。Copy parser/restore与Step22完全一致；没有S2快照、没有Copy已执行Instance。所有Fresh已使用次数必须为0。R0样本中的继承Step22时间profile和S1 hash属于其**原创建时**，不会伪称每次复用重新创建/哈希，也不纳入任何性能结论。
+
+尚未验证：真实Table元素函数身份、所有内部Globals动态等价、异常/OOG/回滚路径、节点ACL/共识/数据库行为、长期native资源有界和原共享Store池安全。原Table/Element/Global section保留及成功间接调用不等于全表身份验证。
+
+Store长期保留时WASI线程增长的Step22问题仍未解决；本轮每进程最多10次创建，单独退出作为明确资源终点，不放宽上限。native二进制SHA已固定，但精确native构建源码映射仍缺。scope登记0、有限运行无崩溃不能证明不存在所有native泄漏/race。
+
+构建build01因Step22 Git快照遗漏packaged/lib的6个占位Go文件失败，未执行guest。已按Step22实际执行source_hashes恢复原字节，未更新依赖；本轮会提交这些Go文件，只忽略.so。build02只执行受影响v1；build03重新完成最终v2的全部预检和配对验证。比较脚本首轮有括号语法错误，修正后才启动正式块；没有掩盖guest失败或筛除不利Gas样本。

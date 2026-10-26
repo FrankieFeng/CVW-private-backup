@@ -1,0 +1,8 @@
+{
+  "status": "affected_observer_not_eligible_for_final_readonly_claim",
+  "affected_processes": 26,
+  "cause": "GetTxRWMapByContractName merges into its first argument; lower-depth internal maps can be mutated",
+  "evidence": "sim_context_rwset_cache.go:36/46",
+  "raw_logs_retained": true,
+  "next": "review transparent operation observer before v2 preflight"
+}

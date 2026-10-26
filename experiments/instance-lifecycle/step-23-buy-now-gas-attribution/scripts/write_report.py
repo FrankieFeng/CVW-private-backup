@@ -28,7 +28,7 @@ readme=f'''# Step-23：buyNow Gas差异归因与Copy正确性复核
 
 R0：每合约一个已真实init的Instance/WASI bundle持续使用；不清guest缓存、不为追平Gas做重置。R1：同样缓存Store+Module，每次新WASI/Instance。C1：R1生命周期，原Step22 noData+静态区间Copy；恢复发生在WASI.Initialize/_start之前。原active Data初始化已移除，不是原版初始化后追加复制。
 
-三组使用相同build02 binary、三个原WASM、参数、公开测试成员、BlockVersion1/ETHEREUM配置、原Gas映射。固定根TxID `step21c-buy-001`、tokenId1、from/to/metadata；真实init顺序identity→ERC721→exchange，初始/最终账本与21E原receipt严格匹配。每条件分别运行独立进程/等价账本；原始Fixture不伪造callee成功返回。
+三组使用相同build03 binary、三个原WASM、参数、公开测试成员、BlockVersion1/ETHEREUM配置、原Gas映射。固定根TxID `step21c-buy-001`、tokenId1、from/to/metadata；真实init顺序identity→ERC721→exchange，初始/最终账本与21E原receipt严格匹配。每条件分别运行独立进程/等价账本；原始Fixture不伪造callee成功返回。
 
 Store/Module每合约/变体只准备一次（共六个预备Module、实际使用三个），实际Store/Module ID证明没有逐子调用重编译。模板/准备成本另记preparation.csv，不用这些重构成本解释Gas或计算TPS。R0/R1块顺序交替；前三块差异稳定且资源正常，按保存extension_gate扩到五。之后才运行独立Copy五块，顺序交替。
 
@@ -53,13 +53,13 @@ S1全Memory hash在每个新建Instance上实际核对原Image；Copy源码和Ga
 Step21E与22虽然业务输入及初始账本相同，根TxID不同，不能直接减绝对Gas。本轮统一21E TxID后恢复了21E绝对值；未做TxID单因素干预，不能把原1520差额全部断言为TxID成本。
 
 ## 观测器修正与数据排除
-+
-+最初v1使用GetTxRWMapByContractName，深审发现mergeTxReadSet(dst,src)/mergeTxWriteSet会写内部dst，并非只读。该26进程的源码、原CSV/报告已冻结audit/affected_observer_v1，原日志/命令/receipt均保留，ALL_RUNS标记不可作最终只读结论。
-+
-+修正v2不再调用任何中途RWMap/GetTxRWSet接口，只透明转发原Get/Put/Del一次并复制观察值，不清缓存、不改Gas。**v2重新完成全部六个on/off预检、五个生命周期块及五个Copy块**；不是仅靠旧数据继续声称通过。最终表/验证只使用v2标签/build03；总计实际执行52个有界进程。受影响v1不得合并扩大样本数。
-+
-+## 交付与复算
-+
+
+最初v1使用GetTxRWMapByContractName，深审发现mergeTxReadSet(dst,src)/mergeTxWriteSet会写内部dst，并非只读。该26进程的源码、原CSV/报告已冻结audit/affected_observer_v1，原日志/命令/receipt均保留，ALL_RUNS标记不可作最终只读结论。
+
+修正v2不再调用任何中途RWMap/GetTxRWSet接口，只透明转发原Get/Put/Del一次并复制观察值，不清缓存、不改Gas。**v2重新完成全部六个on/off预检、五个生命周期块及五个Copy块**；不是仅靠旧数据继续声称通过。最终表/验证只使用v2标签/build03；总计实际执行52个有界进程。受影响v1不得合并扩大样本数。
+
+## 交付与复算
+
 - [HISTORICAL_AUDIT.md](HISTORICAL_AUDIT.md)：原始证据、条件对照及冷/热/复用区分。
 - [GAS_ATTRIBUTION.md](GAS_ATTRIBUTION.md)：首差窗口、父子Gas传播和未定位项。
 - [GAS_TRACE.csv](GAS_TRACE.csv)、[CALLS.csv](CALLS.csv)、[BRIDGE_GAS.csv](BRIDGE_GAS.csv)：逐计数点、逐调用和桥接观察，包含TxID、序号/深度/Instance、输入/状态摘要。
@@ -137,7 +137,7 @@ environment=f'''# Step-23 环境与版本
 - 原来WASM的精确SDK/compiler构建来源未重新认证；本轮没有重编译或改SDK，A0/A1使用完全相同逻辑source artifact，C1仅按既有方案移除active data。
 - 五生命周期块：R0→R1、R1→R0、R0→R1、R1→R0、R0→R1；每条件独立进程1根。五Copy块同样交替R1/C1。每模式probe off/on各一个预检。共26进程、有效260含init Invoke，另保留受影响v1的260调用，非100次/轮，更非TPS实验。
 - 上限MemoryMax2GiB/RSS软1536MiB，TasksMax256/线程软220，Go45秒/进程60秒，全机available8GiB/swapUsed1GiB；未提高。合并峰值{v['peak_rss_mib']:.2f}MiB/{v['peak_threads']}线程。所有进程退出、owner最终登记0、WSL boot ID未变。
-- 完整原始执行命令、环境、binary SHA在每个raw_logs/*-command.json；构建命令在audit/build02-command.json。scope、Store与Module实际ID在CALLS及原事件中。每进程本地单调时钟只用于事件排序，不跨进程相减；不以诊断时延作性能主张。
+- 完整原始执行命令、环境、binary SHA在每个raw_logs/*-command.json；有效v2构建命令在audit/build03-command.json（v1 build02另保留）。scope、Store与Module实际ID在CALLS及原事件中。每进程本地单调时钟只用于事件排序，不跨进程相减；不以诊断时延作性能主张。
 '''
 (P/'ENVIRONMENT.md').write_text(environment)
 index='''# 源码证据索引
@@ -168,7 +168,7 @@ index='''# 源码证据索引
 
 外部运行依赖来自固定Step21C工作树，原文件已冻结在audit/runtime_reference：tx_sim_context.go:709 GetTxRWSet会释放迭代器；:864 GetTxRWMapByContractName会写内部映射（最终v2不使用）；:934 CallContract真实进入VmManager。wasi.go:525 WacsiImpl.CallContract；:583加原基础费；:600前后真实调用与累计返回合并；:543非isLen只读结果缓存。vm_interface.go:28基础费常量100000。原vm_factory.go也已冻结，未改其边界。
 
-source.diff相对Step22实际执行源（不仅Git快照），包含探针移植、R0 scope登记适配和新诊断。差异列表见audit/source_changes.json；Step22忽略掉的6个占位Go文件按旧hash恢复并在本轮提交。所有实际guest源hash与build02一致已核对。
+source.diff相对Step22实际执行源（不仅Git快照），包含探针移植、R0 scope登记适配和新诊断。差异列表见audit/source_changes.json；Step22忽略掉的6个占位Go文件按旧hash恢复并在本轮提交。所有有效v2 guest源hash与build03一致已核对。
 '''
 for relative,name in [('step23_checks_test.go','TestStep23BuyNow'),('step21d_runtime_test.go','dRuntime.Invoke'),('step23_probe.go','eRawGas'),('step23_probe.go','eGas'),('step23_probe.go','eVerifyGas'),('step23_diagnostics.go','a23RW'),('step23_diagnostics.go','a23Enter'),('step23_diagnostics.go','a23BeforeSet'),('step23_diagnostics.go','a23Bridge'),('step23_diagnostics.go','a23Finish')]:
     token='func '+name if name!='dRuntime.Invoke'else'func (r *dRuntime) Invoke'
