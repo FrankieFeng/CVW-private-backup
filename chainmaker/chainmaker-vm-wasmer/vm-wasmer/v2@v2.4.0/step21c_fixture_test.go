@@ -357,7 +357,7 @@ func s21cPreparedScenario(t *testing.T, manifest, output string) {
 		// identity derives admin from the actual configured public sender.
 		// Its current source ignores a nonempty adminAddress parameter; do not seed around that logic.
 		if name == "erc721" {
-			args = map[string]string{"name": "Step21C", "symbol": "S21C", "tokenURI": "http://chainmaker.org.cn/"}
+			args = map[string]string{"name": "huanletoken", "symbol": "hlt", "tokenURI": "https://chainmaker.org.cn"}
 		}
 		r := f.run("init-"+name, name, "init_contract", "step21c-init-"+name, args)
 		if r.Result.Code != 0 || r.Status != common.TxStatusCode_SUCCESS {
