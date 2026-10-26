@@ -1,0 +1,9 @@
+contract,state,prepared_assertion,dynamic_status
+identity,identity/adminAddress,actual init_contract derives sender address; no business-state seed,not_tested
+identity,identity/userCount,actual init_contract writes 0,not_tested
+identity,identity/from and identity/to,buyNow invokes real addWriteList; then both real isApprovedUser calls read it,not_tested
+erc721,"erc721/name,symbol,tokenURI,admin",actual init_contract with recovered toolkit params,not_tested
+erc721,tokenIds/tokenId,actual mint creates owner=from; transferFrom must update to,not_tested
+erc721,"balanceInfo/from,to; accountInfo/account_tokenId",actual mint/transfer accounting; captured in real RWSet,not_tested
+erc721,operatorApprove/from_senderUID,actual setApprovalForAll2 writes 1,not_tested
+erc721,"tokenInfo/metadata,latestTxInfo; tokenApprove/tokenId","actual business writes/deletes; captured, no fabricated results",not_tested

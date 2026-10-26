@@ -1,0 +1,16 @@
+{
+  "execution_allowed": false,
+  "reason": "Step21B lifecycle/Store validation not performed",
+  "guards_to_retain": {
+    "MemoryMax": "2GiB",
+    "RSS_soft_MiB": 1536,
+    "TasksMax": 256,
+    "Threads_soft": 220,
+    "RuntimeMaxSec": 60,
+    "Go_test_timeout_sec": 45,
+    "MemAvailable_floor_GiB": 8,
+    "SwapUsed_max_GiB": 1
+  },
+  "scope": "plan only; no runtime command generated or launched",
+  "additional_budget_risk": "three independent contract pools each initial grow5; aggregate native threads/RSS must be verified without raising existing limits"
+}

@@ -1,0 +1,45 @@
+{
+  "artifact_count": 3,
+  "artifact_hashes_verified": true,
+  "required_exports_present": true,
+  "input_count": 100,
+  "unique_tokens": 100,
+  "source_call_sequence": [
+    [
+      "identity",
+      "addWriteList"
+    ],
+    [
+      "identity",
+      "isApprovedUser"
+    ],
+    [
+      "identity",
+      "isApprovedUser"
+    ],
+    [
+      "erc721",
+      "mint"
+    ],
+    [
+      "erc721",
+      "setApprovalForAll2"
+    ],
+    [
+      "erc721",
+      "transferFrom"
+    ]
+  ],
+  "downstream_source_nested_user_contract_calls": 0,
+  "source_expected_max_depth": 1,
+  "root_plus_child_Invoke_count_if_success": 7,
+  "wasm_static_CallContract_sites": 6,
+  "entry_skip_first": true,
+  "compile_only": true,
+  "test_binary_executions": 0,
+  "guest_invocations": 0,
+  "formal_invocations": 0,
+  "source_semantic_equivalence_to_all_WASM_unverified": true,
+  "guest_correctness": "not_tested",
+  "native_Store_safety": "not_tested_pending_Step21B"
+}
