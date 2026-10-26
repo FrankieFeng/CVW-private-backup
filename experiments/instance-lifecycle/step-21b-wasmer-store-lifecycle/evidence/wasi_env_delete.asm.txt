@@ -1,0 +1,64 @@
+
+CVW/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/wasmer-go/packaged/lib/linux-amd64/libwasmer.so:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+0000000000300f20 <wasi_env_delete>:
+  300f20:	41 57                	push   %r15
+  300f22:	41 56                	push   %r14
+  300f24:	53                   	push   %rbx
+  300f25:	48 83 ec 10          	sub    $0x10,%rsp
+  300f29:	48 85 ff             	test   %rdi,%rdi
+  300f2c:	74 70                	je     300f9e <wasi_env_delete+0x7e>
+  300f2e:	48 89 fb             	mov    %rdi,%rbx
+  300f31:	48 8b 47 10          	mov    0x10(%rdi),%rax
+  300f35:	48 8b 40 10          	mov    0x10(%rax),%rax
+  300f39:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+  300f3e:	48 8d 74 24 08       	lea    0x8(%rsp),%rsi
+  300f43:	31 d2                	xor    %edx,%edx
+  300f45:	e8 a6 02 0d 00       	call   3d11f0 <wasmer_wasix::state::func_env::WasiFunctionEnv::on_exit>
+  300f4a:	4c 8b 73 10          	mov    0x10(%rbx),%r14
+  300f4e:	49 ff 0e             	decq   (%r14)
+  300f51:	75 38                	jne    300f8b <wasi_env_delete+0x6b>
+  300f53:	4d 8b 7e 10          	mov    0x10(%r14),%r15
+  300f57:	4c 89 ff             	mov    %r15,%rdi
+  300f5a:	e8 e1 67 fc ff       	call   2c7740 <core::ptr::drop_in_place<wasmer::entities::store::inner::StoreInner>>
+  300f5f:	be 50 01 00 00       	mov    $0x150,%esi
+  300f64:	ba 08 00 00 00       	mov    $0x8,%edx
+  300f69:	4c 89 ff             	mov    %r15,%rdi
+  300f6c:	ff 15 7e 14 67 01    	call   *0x167147e(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  300f72:	49 ff 4e 08          	decq   0x8(%r14)
+  300f76:	75 13                	jne    300f8b <wasi_env_delete+0x6b>
+  300f78:	be 18 00 00 00       	mov    $0x18,%esi
+  300f7d:	ba 08 00 00 00       	mov    $0x8,%edx
+  300f82:	4c 89 f7             	mov    %r14,%rdi
+  300f85:	ff 15 65 14 67 01    	call   *0x1671465(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  300f8b:	be 18 00 00 00       	mov    $0x18,%esi
+  300f90:	ba 08 00 00 00       	mov    $0x8,%edx
+  300f95:	48 89 df             	mov    %rbx,%rdi
+  300f98:	ff 15 52 14 67 01    	call   *0x1671452(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  300f9e:	48 83 c4 10          	add    $0x10,%rsp
+  300fa2:	5b                   	pop    %rbx
+  300fa3:	41 5e                	pop    %r14
+  300fa5:	41 5f                	pop    %r15
+  300fa7:	c3                   	ret
+  300fa8:	4c 8d 35 a1 de 18 00 	lea    0x18dea1(%rip),%r14        # 48ee50 <__rust_dealloc>
+  300faf:	be 50 01 00 00       	mov    $0x150,%esi
+  300fb4:	ba 08 00 00 00       	mov    $0x8,%edx
+  300fb9:	4c 89 ff             	mov    %r15,%rdi
+  300fbc:	41 ff d6             	call   *%r14
+  300fbf:	be 18 00 00 00       	mov    $0x18,%esi
+  300fc4:	ba 08 00 00 00       	mov    $0x8,%edx
+  300fc9:	48 89 df             	mov    %rbx,%rdi
+  300fcc:	41 ff d6             	call   *%r14
+  300fcf:	ff 15 eb e5 66 01    	call   *0x166e5eb(%rip)        # 196f5c0 <_GLOBAL_OFFSET_TABLE_+0x4540>
+  300fd5:	ff 15 e5 e5 66 01    	call   *0x166e5e5(%rip)        # 196f5c0 <_GLOBAL_OFFSET_TABLE_+0x4540>
+
+Disassembly of section .fini:

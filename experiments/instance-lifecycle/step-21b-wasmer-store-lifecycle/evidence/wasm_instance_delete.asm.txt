@@ -1,0 +1,63 @@
+
+CVW/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/wasmer-go/packaged/lib/linux-amd64/libwasmer.so:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+00000000004618b0 <wasm_instance_delete>:
+  4618b0:	41 57                	push   %r15
+  4618b2:	41 56                	push   %r14
+  4618b4:	53                   	push   %rbx
+  4618b5:	48 85 ff             	test   %rdi,%rdi
+  4618b8:	74 64                	je     46191e <wasm_instance_delete+0x6e>
+  4618ba:	48 89 fb             	mov    %rdi,%rbx
+  4618bd:	4c 8b 77 60          	mov    0x60(%rdi),%r14
+  4618c1:	49 ff 0e             	decq   (%r14)
+  4618c4:	75 38                	jne    4618fe <wasm_instance_delete+0x4e>
+  4618c6:	4d 8b 7e 10          	mov    0x10(%r14),%r15
+  4618ca:	4c 89 ff             	mov    %r15,%rdi
+  4618cd:	e8 6e 5e e6 ff       	call   2c7740 <core::ptr::drop_in_place<wasmer::entities::store::inner::StoreInner>>
+  4618d2:	be 50 01 00 00       	mov    $0x150,%esi
+  4618d7:	ba 08 00 00 00       	mov    $0x8,%edx
+  4618dc:	4c 89 ff             	mov    %r15,%rdi
+  4618df:	ff 15 0b 0b 51 01    	call   *0x1510b0b(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  4618e5:	49 ff 4e 08          	decq   0x8(%r14)
+  4618e9:	75 13                	jne    4618fe <wasm_instance_delete+0x4e>
+  4618eb:	be 18 00 00 00       	mov    $0x18,%esi
+  4618f0:	ba 08 00 00 00       	mov    $0x8,%edx
+  4618f5:	4c 89 f7             	mov    %r14,%rdi
+  4618f8:	ff 15 f2 0a 51 01    	call   *0x1510af2(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  4618fe:	48 89 df             	mov    %rbx,%rdi
+  461901:	e8 aa a7 fe ff       	call   44c0b0 <core::ptr::drop_in_place<wasmer::entities::instance::Instance>>
+  461906:	be 68 00 00 00       	mov    $0x68,%esi
+  46190b:	ba 08 00 00 00       	mov    $0x8,%edx
+  461910:	48 89 df             	mov    %rbx,%rdi
+  461913:	5b                   	pop    %rbx
+  461914:	41 5e                	pop    %r14
+  461916:	41 5f                	pop    %r15
+  461918:	ff 25 d2 0a 51 01    	jmp    *0x1510ad2(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  46191e:	5b                   	pop    %rbx
+  46191f:	41 5e                	pop    %r14
+  461921:	41 5f                	pop    %r15
+  461923:	c3                   	ret
+  461924:	be 50 01 00 00       	mov    $0x150,%esi
+  461929:	ba 08 00 00 00       	mov    $0x8,%edx
+  46192e:	4c 89 ff             	mov    %r15,%rdi
+  461931:	ff 15 b9 0a 51 01    	call   *0x1510ab9(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  461937:	48 89 df             	mov    %rbx,%rdi
+  46193a:	e8 71 a7 fe ff       	call   44c0b0 <core::ptr::drop_in_place<wasmer::entities::instance::Instance>>
+  46193f:	eb 06                	jmp    461947 <wasm_instance_delete+0x97>
+  461941:	ff 15 21 9a 50 01    	call   *0x1509a21(%rip)        # 196b368 <_GLOBAL_OFFSET_TABLE_+0x2e8>
+  461947:	be 68 00 00 00       	mov    $0x68,%esi
+  46194c:	ba 08 00 00 00       	mov    $0x8,%edx
+  461951:	48 89 df             	mov    %rbx,%rdi
+  461954:	ff 15 96 0a 51 01    	call   *0x1510a96(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  46195a:	ff 15 60 dc 50 01    	call   *0x150dc60(%rip)        # 196f5c0 <_GLOBAL_OFFSET_TABLE_+0x4540>
+
+Disassembly of section .fini:

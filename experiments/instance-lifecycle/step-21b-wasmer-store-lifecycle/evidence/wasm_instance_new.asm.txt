@@ -1,0 +1,2118 @@
+
+CVW/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/wasmer-go/packaged/lib/linux-amd64/libwasmer.so:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000045f550 <wasm_instance_new>:
+  45f550:	55                   	push   %rbp
+  45f551:	41 57                	push   %r15
+  45f553:	41 56                	push   %r14
+  45f555:	41 55                	push   %r13
+  45f557:	41 54                	push   %r12
+  45f559:	53                   	push   %rbx
+  45f55a:	48 81 ec 68 07 00 00 	sub    $0x768,%rsp
+  45f561:	48 85 ff             	test   %rdi,%rdi
+  45f564:	0f 84 4f 1e 00 00    	je     4613b9 <wasm_instance_new+0x1e69>
+  45f56a:	4c 8b 3f             	mov    (%rdi),%r15
+  45f56d:	49 8b 47 10          	mov    0x10(%r15),%rax
+  45f571:	48 89 44 24 18       	mov    %rax,0x18(%rsp)
+  45f576:	48 85 f6             	test   %rsi,%rsi
+  45f579:	0f 84 3a 1e 00 00    	je     4613b9 <wasm_instance_new+0x1e69>
+  45f57f:	48 89 d3             	mov    %rdx,%rbx
+  45f582:	48 85 d2             	test   %rdx,%rdx
+  45f585:	0f 84 2e 1e 00 00    	je     4613b9 <wasm_instance_new+0x1e69>
+  45f58b:	48 89 8c 24 18 02 00 	mov    %rcx,0x218(%rsp)
+  45f592:	00 
+  45f593:	48 8d bc 24 d0 03 00 	lea    0x3d0(%rsp),%rdi
+  45f59a:	00 
+  45f59b:	48 89 b4 24 98 01 00 	mov    %rsi,0x198(%rsp)
+  45f5a2:	00 
+  45f5a3:	ff 15 77 2d 51 01    	call   *0x1512d77(%rip)        # 1972320 <_GLOBAL_OFFSET_TABLE_+0x72a0>
+  45f5a9:	48 8b 84 24 e0 03 00 	mov    0x3e0(%rsp),%rax
+  45f5b0:	00 
+  45f5b1:	48 8b 0b             	mov    (%rbx),%rcx
+  45f5b4:	48 85 c9             	test   %rcx,%rcx
+  45f5b7:	74 27                	je     45f5e0 <wasm_instance_new+0x90>
+  45f5b9:	48 8b 53 08          	mov    0x8(%rbx),%rdx
+  45f5bd:	48 85 d2             	test   %rdx,%rdx
+  45f5c0:	75 23                	jne    45f5e5 <wasm_instance_new+0x95>
+  45f5c2:	48 8d 3d 48 fe f5 00 	lea    0xf5fe48(%rip),%rdi        # 13bf411 <anon.79a7355cdf6964c75f6053aad3aef1d1.173.llvm.10094175889798322872>
+  45f5c9:	48 8d 15 08 61 41 01 	lea    0x1416108(%rip),%rdx        # 18756d8 <anon.79a7355cdf6964c75f6053aad3aef1d1.175.llvm.10094175889798322872>
+  45f5d0:	be 26 00 00 00       	mov    $0x26,%esi
+  45f5d5:	ff 15 55 c3 50 01    	call   *0x150c355(%rip)        # 196b930 <_GLOBAL_OFFSET_TABLE_+0x8b0>
+  45f5db:	e9 aa 1f 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  45f5e0:	ba 08 00 00 00       	mov    $0x8,%edx
+  45f5e5:	48 8d 0c ca          	lea    (%rdx,%rcx,8),%rcx
+  45f5e9:	48 89 94 24 68 04 00 	mov    %rdx,0x468(%rsp)
+  45f5f0:	00 
+  45f5f1:	48 89 8c 24 70 04 00 	mov    %rcx,0x470(%rsp)
+  45f5f8:	00 
+  45f5f9:	48 89 84 24 78 04 00 	mov    %rax,0x478(%rsp)
+  45f600:	00 
+  45f601:	48 8d bc 24 e8 03 00 	lea    0x3e8(%rsp),%rdi
+  45f608:	00 
+  45f609:	48 8d b4 24 68 04 00 	lea    0x468(%rsp),%rsi
+  45f610:	00 
+  45f611:	e8 5a 91 f8 ff       	call   3e8770 <<alloc::vec::Vec<T> as alloc::vec::spec_from_iter::SpecFromIter<T,I>>::from_iter>
+  45f616:	48 8b 84 24 f0 03 00 	mov    0x3f0(%rsp),%rax
+  45f61d:	00 
+  45f61e:	48 89 84 24 20 02 00 	mov    %rax,0x220(%rsp)
+  45f625:	00 
+  45f626:	4c 8b a4 24 f8 03 00 	mov    0x3f8(%rsp),%r12
+  45f62d:	00 
+  45f62e:	48 8b 5c 24 18       	mov    0x18(%rsp),%rbx
+  45f633:	4c 8d 2d 48 a0 51 01 	lea    0x151a048(%rip),%r13        # 1979682 <__rust_no_alloc_shim_is_unstable>
+  45f63a:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  45f63f:	bf 30 00 00 00       	mov    $0x30,%edi
+  45f644:	be 08 00 00 00       	mov    $0x8,%esi
+  45f649:	ff 15 c9 1c 51 01    	call   *0x1511cc9(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45f64f:	48 85 c0             	test   %rax,%rax
+  45f652:	0f 84 b3 1d 00 00    	je     46140b <wasm_instance_new+0x1ebb>
+  45f658:	48 c7 00 00 00 00 00 	movq   $0x0,(%rax)
+  45f65f:	48 c7 40 10 00 00 00 	movq   $0x0,0x10(%rax)
+  45f666:	00 
+  45f667:	48 c7 40 20 00 00 00 	movq   $0x0,0x20(%rax)
+  45f66e:	00 
+  45f66f:	4c 8b b3 d8 00 00 00 	mov    0xd8(%rbx),%r14
+  45f676:	48 8d 15 8b 9c 41 01 	lea    0x1419c8b(%rip),%rdx        # 1879308 <anon.54fbf388007cd38fe002bae626ab8104.196.llvm.49599001125987136+0x60>
+  45f67d:	48 89 df             	mov    %rbx,%rdi
+  45f680:	48 89 c6             	mov    %rax,%rsi
+  45f683:	e8 b8 ab f8 ff       	call   3ea240 <wasmer_vm::store::InternalStoreHandle<T>::new>
+  45f688:	4c 89 b4 24 a0 01 00 	mov    %r14,0x1a0(%rsp)
+  45f68f:	00 
+  45f690:	48 89 84 24 a8 01 00 	mov    %rax,0x1a8(%rsp)
+  45f697:	00 
+  45f698:	48 8d 7c 24 18       	lea    0x18(%rsp),%rdi
+  45f69d:	48 8d b4 24 a0 01 00 	lea    0x1a0(%rsp),%rsi
+  45f6a4:	00 
+  45f6a5:	e8 c6 44 fc ff       	call   423b70 <wasmer::backend::sys::entities::function::Function::new_typed_with_env>
+  45f6aa:	48 89 84 24 88 04 00 	mov    %rax,0x488(%rsp)
+  45f6b1:	00 
+  45f6b2:	48 89 94 24 90 04 00 	mov    %rdx,0x490(%rsp)
+  45f6b9:	00 
+  45f6ba:	48 c7 84 24 80 04 00 	movq   $0x0,0x480(%rsp)
+  45f6c1:	00 00 00 00 00 
+  45f6c6:	48 8d 7c 24 18       	lea    0x18(%rsp),%rdi
+  45f6cb:	48 8d b4 24 a0 01 00 	lea    0x1a0(%rsp),%rsi
+  45f6d2:	00 
+  45f6d3:	e8 f8 32 fc ff       	call   4229d0 <wasmer::backend::sys::entities::function::Function::new_typed_with_env>
+  45f6d8:	48 89 84 24 a0 04 00 	mov    %rax,0x4a0(%rsp)
+  45f6df:	00 
+  45f6e0:	48 89 94 24 a8 04 00 	mov    %rdx,0x4a8(%rsp)
+  45f6e7:	00 
+  45f6e8:	48 c7 84 24 98 04 00 	movq   $0x0,0x498(%rsp)
+  45f6ef:	00 00 00 00 00 
+  45f6f4:	48 8d 7c 24 18       	lea    0x18(%rsp),%rdi
+  45f6f9:	48 8d b4 24 a0 01 00 	lea    0x1a0(%rsp),%rsi
+  45f700:	00 
+  45f701:	e8 5a e3 fa ff       	call   40da60 <wasmer::backend::sys::entities::function::Function::new_typed_with_env>
+  45f706:	48 89 84 24 b8 04 00 	mov    %rax,0x4b8(%rsp)
+  45f70d:	00 
+  45f70e:	48 89 94 24 c0 04 00 	mov    %rdx,0x4c0(%rsp)
+  45f715:	00 
+  45f716:	48 c7 84 24 b0 04 00 	movq   $0x0,0x4b0(%rsp)
+  45f71d:	00 00 00 00 00 
+  45f722:	48 8d 7c 24 18       	lea    0x18(%rsp),%rdi
+  45f727:	48 8d b4 24 a0 01 00 	lea    0x1a0(%rsp),%rsi
+  45f72e:	00 
+  45f72f:	e8 2c 9e fa ff       	call   409560 <wasmer::backend::sys::entities::function::Function::new_typed_with_env>
+  45f734:	48 89 84 24 d0 04 00 	mov    %rax,0x4d0(%rsp)
+  45f73b:	00 
+  45f73c:	48 89 94 24 d8 04 00 	mov    %rdx,0x4d8(%rsp)
+  45f743:	00 
+  45f744:	48 c7 84 24 c8 04 00 	movq   $0x0,0x4c8(%rsp)
+  45f74b:	00 00 00 00 00 
+  45f750:	48 c7 84 24 d8 00 00 	movq   $0x0,0xd8(%rsp)
+  45f757:	00 00 00 00 00 
+  45f75c:	48 c7 84 24 e0 00 00 	movq   $0x8,0xe0(%rsp)
+  45f763:	00 08 00 00 00 
+  45f768:	48 c7 84 24 e8 00 00 	movq   $0x0,0xe8(%rsp)
+  45f76f:	00 00 00 00 00 
+  45f774:	66 48 8d 3d 9c 17 51 	data16 lea 0x151179c(%rip),%rdi        # 1970f18 <_GLOBAL_OFFSET_TABLE_+0x5e98>
+  45f77b:	01 
+  45f77c:	66 66 48 e8 bc 08 d0 	data16 data16 rex.W call 160040 <__tls_get_addr@plt>
+  45f783:	ff 
+  45f784:	48 83 38 00          	cmpq   $0x0,(%rax)
+  45f788:	4c 89 bc 24 b8 03 00 	mov    %r15,0x3b8(%rsp)
+  45f78f:	00 
+  45f790:	74 1a                	je     45f7ac <wasm_instance_new+0x25c>
+  45f792:	66 48 8d 3d 7e 17 51 	data16 lea 0x151177e(%rip),%rdi        # 1970f18 <_GLOBAL_OFFSET_TABLE_+0x5e98>
+  45f799:	01 
+  45f79a:	66 66 48 e8 9e 08 d0 	data16 data16 rex.W call 160040 <__tls_get_addr@plt>
+  45f7a1:	ff 
+  45f7a2:	48 8b 58 08          	mov    0x8(%rax),%rbx
+  45f7a6:	4c 8b 70 10          	mov    0x10(%rax),%r14
+  45f7aa:	eb 27                	jmp    45f7d3 <wasm_instance_new+0x283>
+  45f7ac:	ff 15 96 06 51 01    	call   *0x1510696(%rip)        # 196fe48 <_GLOBAL_OFFSET_TABLE_+0x4dc8>
+  45f7b2:	48 89 c3             	mov    %rax,%rbx
+  45f7b5:	49 89 d6             	mov    %rdx,%r14
+  45f7b8:	66 48 8d 3d 58 17 51 	data16 lea 0x1511758(%rip),%rdi        # 1970f18 <_GLOBAL_OFFSET_TABLE_+0x5e98>
+  45f7bf:	01 
+  45f7c0:	66 66 48 e8 78 08 d0 	data16 data16 rex.W call 160040 <__tls_get_addr@plt>
+  45f7c7:	ff 
+  45f7c8:	48 c7 00 01 00 00 00 	movq   $0x1,(%rax)
+  45f7cf:	4c 89 70 10          	mov    %r14,0x10(%rax)
+  45f7d3:	4c 8d 7b 01          	lea    0x1(%rbx),%r15
+  45f7d7:	66 48 8d 3d 39 17 51 	data16 lea 0x1511739(%rip),%rdi        # 1970f18 <_GLOBAL_OFFSET_TABLE_+0x5e98>
+  45f7de:	01 
+  45f7df:	66 66 48 e8 59 08 d0 	data16 data16 rex.W call 160040 <__tls_get_addr@plt>
+  45f7e6:	ff 
+  45f7e7:	4c 89 78 08          	mov    %r15,0x8(%rax)
+  45f7eb:	0f 10 05 d6 9b 41 01 	movups 0x1419bd6(%rip),%xmm0        # 18793c8 <anon.54fbf388007cd38fe002bae626ab8104.202.llvm.49599001125987136+0x88>
+  45f7f2:	0f 29 84 24 10 03 00 	movaps %xmm0,0x310(%rsp)
+  45f7f9:	00 
+  45f7fa:	f3 0f 6f 05 d6 9b 41 	movdqu 0x1419bd6(%rip),%xmm0        # 18793d8 <anon.54fbf388007cd38fe002bae626ab8104.202.llvm.49599001125987136+0x98>
+  45f801:	01 
+  45f802:	66 0f 7f 84 24 20 03 	movdqa %xmm0,0x320(%rsp)
+  45f809:	00 00 
+  45f80b:	48 89 9c 24 30 03 00 	mov    %rbx,0x330(%rsp)
+  45f812:	00 
+  45f813:	4c 89 b4 24 38 03 00 	mov    %r14,0x338(%rsp)
+  45f81a:	00 
+  45f81b:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  45f820:	41 be 03 00 00 00    	mov    $0x3,%r14d
+  45f826:	41 bf 01 00 00 00    	mov    $0x1,%r15d
+  45f82c:	bf 03 00 00 00       	mov    $0x3,%edi
+  45f831:	be 01 00 00 00       	mov    $0x1,%esi
+  45f836:	ff 15 dc 1a 51 01    	call   *0x1511adc(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45f83c:	48 85 c0             	test   %rax,%rax
+  45f83f:	0f 84 32 1c 00 00    	je     461477 <wasm_instance_new+0x1f27>
+  45f845:	48 89 c3             	mov    %rax,%rbx
+  45f848:	c6 40 02 76          	movb   $0x76,0x2(%rax)
+  45f84c:	66 c7 00 65 6e       	movw   $0x6e65,(%rax)
+  45f851:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  45f856:	bf 0a 00 00 00       	mov    $0xa,%edi
+  45f85b:	be 01 00 00 00       	mov    $0x1,%esi
+  45f860:	ff 15 b2 1a 51 01    	call   *0x1511ab2(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45f866:	48 85 c0             	test   %rax,%rax
+  45f869:	0f 84 b1 1b 00 00    	je     461420 <wasm_instance_new+0x1ed0>
+  45f86f:	48 b9 6e 61 74 69 76 	movabs $0x735f65766974616e,%rcx
+  45f876:	65 5f 73 
+  45f879:	48 89 08             	mov    %rcx,(%rax)
+  45f87c:	66 c7 40 08 68 61    	movw   $0x6168,0x8(%rax)
+  45f882:	48 c7 44 24 30 03 00 	movq   $0x3,0x30(%rsp)
+  45f889:	00 00 
+  45f88b:	48 89 5c 24 38       	mov    %rbx,0x38(%rsp)
+  45f890:	48 c7 44 24 40 03 00 	movq   $0x3,0x40(%rsp)
+  45f897:	00 00 
+  45f899:	48 c7 44 24 48 0a 00 	movq   $0xa,0x48(%rsp)
+  45f8a0:	00 00 
+  45f8a2:	48 89 44 24 50       	mov    %rax,0x50(%rsp)
+  45f8a7:	48 c7 44 24 58 0a 00 	movq   $0xa,0x58(%rsp)
+  45f8ae:	00 00 
+  45f8b0:	48 8d bc 24 10 01 00 	lea    0x110(%rsp),%rdi
+  45f8b7:	00 
+  45f8b8:	48 8d b4 24 10 03 00 	lea    0x310(%rsp),%rsi
+  45f8bf:	00 
+  45f8c0:	48 8d 54 24 30       	lea    0x30(%rsp),%rdx
+  45f8c5:	48 8d 8c 24 80 04 00 	lea    0x480(%rsp),%rcx
+  45f8cc:	00 
+  45f8cd:	e8 9e ed f6 ff       	call   3ce670 <hashbrown::map::HashMap<K,V,S,A>::insert>
+  45f8d2:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  45f8d7:	41 be 03 00 00 00    	mov    $0x3,%r14d
+  45f8dd:	41 bf 01 00 00 00    	mov    $0x1,%r15d
+  45f8e3:	bf 03 00 00 00       	mov    $0x3,%edi
+  45f8e8:	be 01 00 00 00       	mov    $0x1,%esi
+  45f8ed:	ff 15 25 1a 51 01    	call   *0x1511a25(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45f8f3:	48 85 c0             	test   %rax,%rax
+  45f8f6:	0f 84 7b 1b 00 00    	je     461477 <wasm_instance_new+0x1f27>
+  45f8fc:	48 89 c3             	mov    %rax,%rbx
+  45f8ff:	c6 40 02 76          	movb   $0x76,0x2(%rax)
+  45f903:	66 c7 00 65 6e       	movw   $0x6e65,(%rax)
+  45f908:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  45f90d:	bf 10 00 00 00       	mov    $0x10,%edi
+  45f912:	be 01 00 00 00       	mov    $0x1,%esi
+  45f917:	ff 15 fb 19 51 01    	call   *0x15119fb(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45f91d:	48 85 c0             	test   %rax,%rax
+  45f920:	0f 84 0f 1b 00 00    	je     461435 <wasm_instance_new+0x1ee5>
+  45f926:	f3 0f 6f 05 12 9a f4 	movdqu 0xf49a12(%rip),%xmm0        # 13a9340 <anon.54fbf388007cd38fe002bae626ab8104.138.llvm.49599001125987136+0x10>
+  45f92d:	00 
+  45f92e:	f3 0f 7f 00          	movdqu %xmm0,(%rax)
+  45f932:	48 c7 44 24 30 03 00 	movq   $0x3,0x30(%rsp)
+  45f939:	00 00 
+  45f93b:	48 89 5c 24 38       	mov    %rbx,0x38(%rsp)
+  45f940:	48 c7 44 24 40 03 00 	movq   $0x3,0x40(%rsp)
+  45f947:	00 00 
+  45f949:	48 c7 44 24 48 10 00 	movq   $0x10,0x48(%rsp)
+  45f950:	00 00 
+  45f952:	48 89 44 24 50       	mov    %rax,0x50(%rsp)
+  45f957:	48 c7 44 24 58 10 00 	movq   $0x10,0x58(%rsp)
+  45f95e:	00 00 
+  45f960:	48 8d bc 24 10 01 00 	lea    0x110(%rsp),%rdi
+  45f967:	00 
+  45f968:	48 8d b4 24 10 03 00 	lea    0x310(%rsp),%rsi
+  45f96f:	00 
+  45f970:	48 8d 54 24 30       	lea    0x30(%rsp),%rdx
+  45f975:	48 8d 8c 24 98 04 00 	lea    0x498(%rsp),%rcx
+  45f97c:	00 
+  45f97d:	e8 ee ec f6 ff       	call   3ce670 <hashbrown::map::HashMap<K,V,S,A>::insert>
+  45f982:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  45f987:	41 be 03 00 00 00    	mov    $0x3,%r14d
+  45f98d:	41 bf 01 00 00 00    	mov    $0x1,%r15d
+  45f993:	bf 03 00 00 00       	mov    $0x3,%edi
+  45f998:	be 01 00 00 00       	mov    $0x1,%esi
+  45f99d:	ff 15 75 19 51 01    	call   *0x1511975(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45f9a3:	48 85 c0             	test   %rax,%rax
+  45f9a6:	0f 84 cb 1a 00 00    	je     461477 <wasm_instance_new+0x1f27>
+  45f9ac:	48 89 c3             	mov    %rax,%rbx
+  45f9af:	c6 40 02 76          	movb   $0x76,0x2(%rax)
+  45f9b3:	66 c7 00 65 6e       	movw   $0x6e65,(%rax)
+  45f9b8:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  45f9bd:	bf 0e 00 00 00       	mov    $0xe,%edi
+  45f9c2:	be 01 00 00 00       	mov    $0x1,%esi
+  45f9c7:	ff 15 4b 19 51 01    	call   *0x151194b(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45f9cd:	48 85 c0             	test   %rax,%rax
+  45f9d0:	0f 84 74 1a 00 00    	je     46144a <wasm_instance_new+0x1efa>
+  45f9d6:	48 b9 5f 62 69 67 5f 	movabs $0x7078655f6769625f,%rcx
+  45f9dd:	65 78 70 
+  45f9e0:	48 89 48 06          	mov    %rcx,0x6(%rax)
+  45f9e4:	48 b9 6e 61 74 69 76 	movabs $0x625f65766974616e,%rcx
+  45f9eb:	65 5f 62 
+  45f9ee:	48 89 08             	mov    %rcx,(%rax)
+  45f9f1:	48 c7 44 24 30 03 00 	movq   $0x3,0x30(%rsp)
+  45f9f8:	00 00 
+  45f9fa:	48 89 5c 24 38       	mov    %rbx,0x38(%rsp)
+  45f9ff:	48 c7 44 24 40 03 00 	movq   $0x3,0x40(%rsp)
+  45fa06:	00 00 
+  45fa08:	48 c7 44 24 48 0e 00 	movq   $0xe,0x48(%rsp)
+  45fa0f:	00 00 
+  45fa11:	48 89 44 24 50       	mov    %rax,0x50(%rsp)
+  45fa16:	48 c7 44 24 58 0e 00 	movq   $0xe,0x58(%rsp)
+  45fa1d:	00 00 
+  45fa1f:	48 8d bc 24 10 01 00 	lea    0x110(%rsp),%rdi
+  45fa26:	00 
+  45fa27:	48 8d b4 24 10 03 00 	lea    0x310(%rsp),%rsi
+  45fa2e:	00 
+  45fa2f:	48 8d 54 24 30       	lea    0x30(%rsp),%rdx
+  45fa34:	48 8d 8c 24 c8 04 00 	lea    0x4c8(%rsp),%rcx
+  45fa3b:	00 
+  45fa3c:	e8 2f ec f6 ff       	call   3ce670 <hashbrown::map::HashMap<K,V,S,A>::insert>
+  45fa41:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  45fa46:	41 be 03 00 00 00    	mov    $0x3,%r14d
+  45fa4c:	41 bf 01 00 00 00    	mov    $0x1,%r15d
+  45fa52:	bf 03 00 00 00       	mov    $0x3,%edi
+  45fa57:	be 01 00 00 00       	mov    $0x1,%esi
+  45fa5c:	ff 15 b6 18 51 01    	call   *0x15118b6(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45fa62:	48 85 c0             	test   %rax,%rax
+  45fa65:	0f 84 0c 1a 00 00    	je     461477 <wasm_instance_new+0x1f27>
+  45fa6b:	48 89 c3             	mov    %rax,%rbx
+  45fa6e:	c6 40 02 76          	movb   $0x76,0x2(%rax)
+  45fa72:	66 c7 00 65 6e       	movw   $0x6e65,(%rax)
+  45fa77:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  45fa7c:	bf 0f 00 00 00       	mov    $0xf,%edi
+  45fa81:	be 01 00 00 00       	mov    $0x1,%esi
+  45fa86:	ff 15 8c 18 51 01    	call   *0x151188c(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45fa8c:	48 85 c0             	test   %rax,%rax
+  45fa8f:	0f 84 ca 19 00 00    	je     46145f <wasm_instance_new+0x1f0f>
+  45fa95:	48 b9 6c 6f 67 5f 66 	movabs $0x636e75665f676f6c,%rcx
+  45fa9c:	75 6e 63 
+  45fa9f:	48 89 48 07          	mov    %rcx,0x7(%rax)
+  45faa3:	48 b9 6e 61 74 69 76 	movabs $0x6c5f65766974616e,%rcx
+  45faaa:	65 5f 6c 
+  45faad:	48 89 08             	mov    %rcx,(%rax)
+  45fab0:	48 c7 44 24 30 03 00 	movq   $0x3,0x30(%rsp)
+  45fab7:	00 00 
+  45fab9:	48 89 5c 24 38       	mov    %rbx,0x38(%rsp)
+  45fabe:	48 c7 44 24 40 03 00 	movq   $0x3,0x40(%rsp)
+  45fac5:	00 00 
+  45fac7:	48 c7 44 24 48 0f 00 	movq   $0xf,0x48(%rsp)
+  45face:	00 00 
+  45fad0:	48 89 44 24 50       	mov    %rax,0x50(%rsp)
+  45fad5:	48 c7 44 24 58 0f 00 	movq   $0xf,0x58(%rsp)
+  45fadc:	00 00 
+  45fade:	48 8d bc 24 10 01 00 	lea    0x110(%rsp),%rdi
+  45fae5:	00 
+  45fae6:	48 8d b4 24 10 03 00 	lea    0x310(%rsp),%rsi
+  45faed:	00 
+  45faee:	48 8d 54 24 30       	lea    0x30(%rsp),%rdx
+  45faf3:	48 8d 8c 24 b0 04 00 	lea    0x4b0(%rsp),%rcx
+  45fafa:	00 
+  45fafb:	e8 70 eb f6 ff       	call   3ce670 <hashbrown::map::HashMap<K,V,S,A>::insert>
+  45fb00:	48 8d bc 24 48 05 00 	lea    0x548(%rsp),%rdi
+  45fb07:	00 
+  45fb08:	48 8b b4 24 98 01 00 	mov    0x198(%rsp),%rsi
+  45fb0f:	00 
+  45fb10:	ff 15 0a 28 51 01    	call   *0x151280a(%rip)        # 1972320 <_GLOBAL_OFFSET_TABLE_+0x72a0>
+  45fb16:	4b 8d 04 64          	lea    (%r12,%r12,2),%rax
+  45fb1a:	48 8b 8c 24 20 02 00 	mov    0x220(%rsp),%rcx
+  45fb21:	00 
+  45fb22:	48 8d 04 c1          	lea    (%rcx,%rax,8),%rax
+  45fb26:	48 89 84 24 c0 03 00 	mov    %rax,0x3c0(%rsp)
+  45fb2d:	00 
+  45fb2e:	48 b8 01 00 00 00 00 	movabs $0x8000000000000001,%rax
+  45fb35:	00 00 80 
+  45fb38:	48 8b 94 24 48 05 00 	mov    0x548(%rsp),%rdx
+  45fb3f:	00 
+  45fb40:	48 89 54 24 20       	mov    %rdx,0x20(%rsp)
+  45fb45:	48 8b 94 24 50 05 00 	mov    0x550(%rsp),%rdx
+  45fb4c:	00 
+  45fb4d:	48 89 94 24 90 01 00 	mov    %rdx,0x190(%rsp)
+  45fb54:	00 
+  45fb55:	48 8b 52 18          	mov    0x18(%rdx),%rdx
+  45fb59:	48 89 94 24 c8 03 00 	mov    %rdx,0x3c8(%rsp)
+  45fb60:	00 
+  45fb61:	48 8d 5c 24 30       	lea    0x30(%rsp),%rbx
+  45fb66:	48 ff c8             	dec    %rax
+  45fb69:	48 89 84 24 f0 00 00 	mov    %rax,0xf0(%rsp)
+  45fb70:	00 
+  45fb71:	48 89 8c 24 b8 00 00 	mov    %rcx,0xb8(%rsp)
+  45fb78:	00 
+  45fb79:	31 c0                	xor    %eax,%eax
+  45fb7b:	48 89 84 24 28 02 00 	mov    %rax,0x228(%rsp)
+  45fb82:	00 
+  45fb83:	eb 26                	jmp    45fbab <wasm_instance_new+0x65b>
+  45fb85:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  45fb8c:	00 00 00 00 
+  45fb90:	48 89 df             	mov    %rbx,%rdi
+  45fb93:	e8 88 bc fe ff       	call   44b820 <core::ptr::drop_in_place<wasmer_types::types::ImportType>>
+  45fb98:	4d 89 f7             	mov    %r14,%r15
+  45fb9b:	48 8b 84 24 f8 00 00 	mov    0xf8(%rsp),%rax
+  45fba2:	00 
+  45fba3:	48 89 84 24 c0 00 00 	mov    %rax,0xc0(%rsp)
+  45fbaa:	00 
+  45fbab:	48 89 df             	mov    %rbx,%rdi
+  45fbae:	48 8b 74 24 20       	mov    0x20(%rsp),%rsi
+  45fbb3:	ff 94 24 c8 03 00 00 	call   *0x3c8(%rsp)
+  45fbba:	48 8b 84 24 f0 00 00 	mov    0xf0(%rsp),%rax
+  45fbc1:	00 
+  45fbc2:	48 39 44 24 30       	cmp    %rax,0x30(%rsp)
+  45fbc7:	0f 84 ad 03 00 00    	je     45ff7a <wasm_instance_new+0xa2a>
+  45fbcd:	48 8b 5c 24 38       	mov    0x38(%rsp),%rbx
+  45fbd2:	4c 8b 64 24 40       	mov    0x40(%rsp),%r12
+  45fbd7:	48 8b 6c 24 50       	mov    0x50(%rsp),%rbp
+  45fbdc:	4c 8b 74 24 58       	mov    0x58(%rsp),%r14
+  45fbe1:	b8 01 00 00 00       	mov    $0x1,%eax
+  45fbe6:	48 89 84 24 f8 00 00 	mov    %rax,0xf8(%rsp)
+  45fbed:	00 
+  45fbee:	bf 01 00 00 00       	mov    $0x1,%edi
+  45fbf3:	4d 85 e4             	test   %r12,%r12
+  45fbf6:	74 2b                	je     45fc23 <wasm_instance_new+0x6d3>
+  45fbf8:	0f 88 d2 17 00 00    	js     4613d0 <wasm_instance_new+0x1e80>
+  45fbfe:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  45fc03:	41 bf 01 00 00 00    	mov    $0x1,%r15d
+  45fc09:	be 01 00 00 00       	mov    $0x1,%esi
+  45fc0e:	4c 89 e7             	mov    %r12,%rdi
+  45fc11:	ff 15 01 17 51 01    	call   *0x1511701(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45fc17:	48 85 c0             	test   %rax,%rax
+  45fc1a:	0f 84 b8 17 00 00    	je     4613d8 <wasm_instance_new+0x1e88>
+  45fc20:	48 89 c7             	mov    %rax,%rdi
+  45fc23:	48 89 7c 24 28       	mov    %rdi,0x28(%rsp)
+  45fc28:	48 89 de             	mov    %rbx,%rsi
+  45fc2b:	4c 89 e2             	mov    %r12,%rdx
+  45fc2e:	ff 15 0c ba 50 01    	call   *0x150ba0c(%rip)        # 196b640 <memcpy@GLIBC_2.14>
+  45fc34:	4d 85 f6             	test   %r14,%r14
+  45fc37:	74 2f                	je     45fc68 <wasm_instance_new+0x718>
+  45fc39:	0f 88 aa 17 00 00    	js     4613e9 <wasm_instance_new+0x1e99>
+  45fc3f:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  45fc44:	bb 01 00 00 00       	mov    $0x1,%ebx
+  45fc49:	be 01 00 00 00       	mov    $0x1,%esi
+  45fc4e:	4c 89 f7             	mov    %r14,%rdi
+  45fc51:	ff 15 c1 16 51 01    	call   *0x15116c1(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45fc57:	48 89 84 24 f8 00 00 	mov    %rax,0xf8(%rsp)
+  45fc5e:	00 
+  45fc5f:	48 85 c0             	test   %rax,%rax
+  45fc62:	0f 84 85 17 00 00    	je     4613ed <wasm_instance_new+0x1e9d>
+  45fc68:	48 8b 9c 24 f8 00 00 	mov    0xf8(%rsp),%rbx
+  45fc6f:	00 
+  45fc70:	48 89 df             	mov    %rbx,%rdi
+  45fc73:	48 89 ee             	mov    %rbp,%rsi
+  45fc76:	4c 89 f2             	mov    %r14,%rdx
+  45fc79:	ff 15 c1 b9 50 01    	call   *0x150b9c1(%rip)        # 196b640 <memcpy@GLIBC_2.14>
+  45fc7f:	4c 89 a4 24 10 01 00 	mov    %r12,0x110(%rsp)
+  45fc86:	00 
+  45fc87:	48 8b 44 24 28       	mov    0x28(%rsp),%rax
+  45fc8c:	48 89 84 24 18 01 00 	mov    %rax,0x118(%rsp)
+  45fc93:	00 
+  45fc94:	4c 89 a4 24 20 01 00 	mov    %r12,0x120(%rsp)
+  45fc9b:	00 
+  45fc9c:	4c 89 b4 24 28 01 00 	mov    %r14,0x128(%rsp)
+  45fca3:	00 
+  45fca4:	48 89 9c 24 30 01 00 	mov    %rbx,0x130(%rsp)
+  45fcab:	00 
+  45fcac:	4c 89 b4 24 38 01 00 	mov    %r14,0x138(%rsp)
+  45fcb3:	00 
+  45fcb4:	48 83 bc 24 28 03 00 	cmpq   $0x0,0x328(%rsp)
+  45fcbb:	00 00 
+  45fcbd:	0f 84 ad 01 00 00    	je     45fe70 <wasm_instance_new+0x920>
+  45fcc3:	48 8d bc 24 30 03 00 	lea    0x330(%rsp),%rdi
+  45fcca:	00 
+  45fccb:	48 8d b4 24 10 01 00 	lea    0x110(%rsp),%rsi
+  45fcd2:	00 
+  45fcd3:	e8 88 3b f9 ff       	call   3f3860 <core::hash::BuildHasher::hash_one>
+  45fcd8:	4c 8b bc 24 10 03 00 	mov    0x310(%rsp),%r15
+  45fcdf:	00 
+  45fce0:	48 8b ac 24 18 03 00 	mov    0x318(%rsp),%rbp
+  45fce7:	00 
+  45fce8:	49 89 ed             	mov    %rbp,%r13
+  45fceb:	49 21 c5             	and    %rax,%r13
+  45fcee:	48 c1 e8 39          	shr    $0x39,%rax
+  45fcf2:	66 0f 6e c0          	movd   %eax,%xmm0
+  45fcf6:	66 0f 60 c0          	punpcklbw %xmm0,%xmm0
+  45fcfa:	f2 0f 70 c0 00       	pshuflw $0x0,%xmm0,%xmm0
+  45fcff:	66 0f 70 c0 00       	pshufd $0x0,%xmm0,%xmm0
+  45fd04:	66 0f 7f 84 24 70 03 	movdqa %xmm0,0x370(%rsp)
+  45fd0b:	00 00 
+  45fd0d:	48 8b 84 24 18 01 00 	mov    0x118(%rsp),%rax
+  45fd14:	00 
+  45fd15:	48 89 84 24 c0 00 00 	mov    %rax,0xc0(%rsp)
+  45fd1c:	00 
+  45fd1d:	4c 8b b4 24 20 01 00 	mov    0x120(%rsp),%r14
+  45fd24:	00 
+  45fd25:	48 8b 84 24 30 01 00 	mov    0x130(%rsp),%rax
+  45fd2c:	00 
+  45fd2d:	48 89 84 24 00 01 00 	mov    %rax,0x100(%rsp)
+  45fd34:	00 
+  45fd35:	48 8b 84 24 38 01 00 	mov    0x138(%rsp),%rax
+  45fd3c:	00 
+  45fd3d:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+  45fd42:	31 c0                	xor    %eax,%eax
+  45fd44:	48 89 84 24 08 01 00 	mov    %rax,0x108(%rsp)
+  45fd4b:	00 
+  45fd4c:	0f 1f 40 00          	nopl   0x0(%rax)
+  45fd50:	f3 43 0f 6f 04 2f    	movdqu (%r15,%r13,1),%xmm0
+  45fd56:	66 0f 7f 84 24 00 02 	movdqa %xmm0,0x200(%rsp)
+  45fd5d:	00 00 
+  45fd5f:	66 0f 74 84 24 70 03 	pcmpeqb 0x370(%rsp),%xmm0
+  45fd66:	00 00 
+  45fd68:	66 0f d7 d8          	pmovmskb %xmm0,%ebx
+  45fd6c:	85 db                	test   %ebx,%ebx
+  45fd6e:	75 4a                	jne    45fdba <wasm_instance_new+0x86a>
+  45fd70:	66 0f 6f 84 24 00 02 	movdqa 0x200(%rsp),%xmm0
+  45fd77:	00 00 
+  45fd79:	66 0f 74 05 df 93 f4 	pcmpeqb 0xf493df(%rip),%xmm0        # 13a9160 <anon.099b9761fdd342048277791c2db80edd.12.llvm.7925050829545238201>
+  45fd80:	00 
+  45fd81:	66 0f d7 c0          	pmovmskb %xmm0,%eax
+  45fd85:	85 c0                	test   %eax,%eax
+  45fd87:	0f 85 e3 00 00 00    	jne    45fe70 <wasm_instance_new+0x920>
+  45fd8d:	48 8b 84 24 08 01 00 	mov    0x108(%rsp),%rax
+  45fd94:	00 
+  45fd95:	49 01 c5             	add    %rax,%r13
+  45fd98:	49 83 c5 10          	add    $0x10,%r13
+  45fd9c:	48 83 c0 10          	add    $0x10,%rax
+  45fda0:	48 89 84 24 08 01 00 	mov    %rax,0x108(%rsp)
+  45fda7:	00 
+  45fda8:	49 21 ed             	and    %rbp,%r13
+  45fdab:	eb a3                	jmp    45fd50 <wasm_instance_new+0x800>
+  45fdad:	0f 1f 00             	nopl   (%rax)
+  45fdb0:	8d 43 ff             	lea    -0x1(%rbx),%eax
+  45fdb3:	66 21 d8             	and    %bx,%ax
+  45fdb6:	89 c3                	mov    %eax,%ebx
+  45fdb8:	74 b6                	je     45fd70 <wasm_instance_new+0x820>
+  45fdba:	f3 0f bc c3          	tzcnt  %ebx,%eax
+  45fdbe:	4c 01 e8             	add    %r13,%rax
+  45fdc1:	48 21 e8             	and    %rbp,%rax
+  45fdc4:	48 f7 d8             	neg    %rax
+  45fdc7:	48 8d 04 c0          	lea    (%rax,%rax,8),%rax
+  45fdcb:	4d 3b 74 c7 c8       	cmp    -0x38(%r15,%rax,8),%r14
+  45fdd0:	75 de                	jne    45fdb0 <wasm_instance_new+0x860>
+  45fdd2:	4d 8d 24 c7          	lea    (%r15,%rax,8),%r12
+  45fdd6:	49 8b 74 24 c0       	mov    -0x40(%r12),%rsi
+  45fddb:	48 8b bc 24 c0 00 00 	mov    0xc0(%rsp),%rdi
+  45fde2:	00 
+  45fde3:	4c 89 f2             	mov    %r14,%rdx
+  45fde6:	ff 15 34 fb 50 01    	call   *0x150fb34(%rip)        # 196f920 <bcmp@GLIBC_2.2.5>
+  45fdec:	85 c0                	test   %eax,%eax
+  45fdee:	75 c0                	jne    45fdb0 <wasm_instance_new+0x860>
+  45fdf0:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  45fdf5:	49 3b 44 24 e0       	cmp    -0x20(%r12),%rax
+  45fdfa:	75 b4                	jne    45fdb0 <wasm_instance_new+0x860>
+  45fdfc:	49 8b 74 24 d8       	mov    -0x28(%r12),%rsi
+  45fe01:	48 8b bc 24 00 01 00 	mov    0x100(%rsp),%rdi
+  45fe08:	00 
+  45fe09:	48 8b 54 24 10       	mov    0x10(%rsp),%rdx
+  45fe0e:	ff 15 0c fb 50 01    	call   *0x150fb0c(%rip)        # 196f920 <bcmp@GLIBC_2.2.5>
+  45fe14:	85 c0                	test   %eax,%eax
+  45fe16:	75 98                	jne    45fdb0 <wasm_instance_new+0x860>
+  45fe18:	4d 8b 74 24 e8       	mov    -0x18(%r12),%r14
+  45fe1d:	f3 41 0f 6f 44 24 f0 	movdqu -0x10(%r12),%xmm0
+  45fe24:	66 0f 7f 84 24 c0 00 	movdqa %xmm0,0xc0(%rsp)
+  45fe2b:	00 00 
+  45fe2d:	48 8b 9c 24 e8 00 00 	mov    0xe8(%rsp),%rbx
+  45fe34:	00 
+  45fe35:	48 3b 9c 24 d8 00 00 	cmp    0xd8(%rsp),%rbx
+  45fe3c:	00 
+  45fe3d:	75 0d                	jne    45fe4c <wasm_instance_new+0x8fc>
+  45fe3f:	48 8d bc 24 d8 00 00 	lea    0xd8(%rsp),%rdi
+  45fe46:	00 
+  45fe47:	e8 14 a2 e6 ff       	call   2ca060 <alloc::raw_vec::RawVec<T,A>::grow_one>
+  45fe4c:	48 8b 8c 24 e0 00 00 	mov    0xe0(%rsp),%rcx
+  45fe53:	00 
+  45fe54:	48 8d 14 5b          	lea    (%rbx,%rbx,2),%rdx
+  45fe58:	48 8d 04 d1          	lea    (%rcx,%rdx,8),%rax
+  45fe5c:	4c 89 34 d1          	mov    %r14,(%rcx,%rdx,8)
+  45fe60:	b1 01                	mov    $0x1,%cl
+  45fe62:	48 89 8c 24 28 02 00 	mov    %rcx,0x228(%rsp)
+  45fe69:	00 
+  45fe6a:	eb 6e                	jmp    45feda <wasm_instance_new+0x98a>
+  45fe6c:	0f 1f 40 00          	nopl   0x0(%rax)
+  45fe70:	48 8b 84 24 c0 03 00 	mov    0x3c0(%rsp),%rax
+  45fe77:	00 
+  45fe78:	48 8b 8c 24 b8 00 00 	mov    0xb8(%rsp),%rcx
+  45fe7f:	00 
+  45fe80:	48 39 c1             	cmp    %rax,%rcx
+  45fe83:	74 7b                	je     45ff00 <wasm_instance_new+0x9b0>
+  45fe85:	4c 8d 71 18          	lea    0x18(%rcx),%r14
+  45fe89:	48 85 c9             	test   %rcx,%rcx
+  45fe8c:	74 7c                	je     45ff0a <wasm_instance_new+0x9ba>
+  45fe8e:	4c 8b 39             	mov    (%rcx),%r15
+  45fe91:	f3 0f 6f 41 08       	movdqu 0x8(%rcx),%xmm0
+  45fe96:	66 0f 7f 84 24 c0 00 	movdqa %xmm0,0xc0(%rsp)
+  45fe9d:	00 00 
+  45fe9f:	48 8b 9c 24 e8 00 00 	mov    0xe8(%rsp),%rbx
+  45fea6:	00 
+  45fea7:	48 3b 9c 24 d8 00 00 	cmp    0xd8(%rsp),%rbx
+  45feae:	00 
+  45feaf:	75 0d                	jne    45febe <wasm_instance_new+0x96e>
+  45feb1:	48 8d bc 24 d8 00 00 	lea    0xd8(%rsp),%rdi
+  45feb8:	00 
+  45feb9:	e8 a2 a1 e6 ff       	call   2ca060 <alloc::raw_vec::RawVec<T,A>::grow_one>
+  45febe:	48 8b 8c 24 e0 00 00 	mov    0xe0(%rsp),%rcx
+  45fec5:	00 
+  45fec6:	48 8d 14 5b          	lea    (%rbx,%rbx,2),%rdx
+  45feca:	48 8d 04 d1          	lea    (%rcx,%rdx,8),%rax
+  45fece:	4c 89 3c d1          	mov    %r15,(%rcx,%rdx,8)
+  45fed2:	4c 89 b4 24 b8 00 00 	mov    %r14,0xb8(%rsp)
+  45fed9:	00 
+  45feda:	66 0f 6f 84 24 c0 00 	movdqa 0xc0(%rsp),%xmm0
+  45fee1:	00 00 
+  45fee3:	f3 0f 7f 40 08       	movdqu %xmm0,0x8(%rax)
+  45fee8:	48 ff c3             	inc    %rbx
+  45feeb:	48 89 9c 24 e8 00 00 	mov    %rbx,0xe8(%rsp)
+  45fef2:	00 
+  45fef3:	eb 2b                	jmp    45ff20 <wasm_instance_new+0x9d0>
+  45fef5:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  45fefc:	00 00 00 00 
+  45ff00:	48 89 84 24 b8 00 00 	mov    %rax,0xb8(%rsp)
+  45ff07:	00 
+  45ff08:	eb 16                	jmp    45ff20 <wasm_instance_new+0x9d0>
+  45ff0a:	4c 89 b4 24 b8 00 00 	mov    %r14,0xb8(%rsp)
+  45ff11:	00 
+  45ff12:	66 66 66 66 66 2e 0f 	data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  45ff19:	1f 84 00 00 00 00 00 
+  45ff20:	48 8d 5c 24 30       	lea    0x30(%rsp),%rbx
+  45ff25:	4c 8b 74 24 28       	mov    0x28(%rsp),%r14
+  45ff2a:	48 8b b4 24 10 01 00 	mov    0x110(%rsp),%rsi
+  45ff31:	00 
+  45ff32:	48 85 f6             	test   %rsi,%rsi
+  45ff35:	4c 8d 2d 46 97 51 01 	lea    0x1519746(%rip),%r13        # 1979682 <__rust_no_alloc_shim_is_unstable>
+  45ff3c:	74 13                	je     45ff51 <wasm_instance_new+0xa01>
+  45ff3e:	48 8b bc 24 18 01 00 	mov    0x118(%rsp),%rdi
+  45ff45:	00 
+  45ff46:	ba 01 00 00 00       	mov    $0x1,%edx
+  45ff4b:	ff 15 9f 24 51 01    	call   *0x151249f(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  45ff51:	48 8b b4 24 28 01 00 	mov    0x128(%rsp),%rsi
+  45ff58:	00 
+  45ff59:	48 85 f6             	test   %rsi,%rsi
+  45ff5c:	0f 84 2e fc ff ff    	je     45fb90 <wasm_instance_new+0x640>
+  45ff62:	48 8b bc 24 30 01 00 	mov    0x130(%rsp),%rdi
+  45ff69:	00 
+  45ff6a:	ba 01 00 00 00       	mov    $0x1,%edx
+  45ff6f:	ff 15 7b 24 51 01    	call   *0x151247b(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  45ff75:	e9 16 fc ff ff       	jmp    45fb90 <wasm_instance_new+0x640>
+  45ff7a:	48 8b 9c 24 90 01 00 	mov    0x190(%rsp),%rbx
+  45ff81:	00 
+  45ff82:	48 8b 03             	mov    (%rbx),%rax
+  45ff85:	48 85 c0             	test   %rax,%rax
+  45ff88:	74 07                	je     45ff91 <wasm_instance_new+0xa41>
+  45ff8a:	48 8b 7c 24 20       	mov    0x20(%rsp),%rdi
+  45ff8f:	ff d0                	call   *%rax
+  45ff91:	48 8b 73 08          	mov    0x8(%rbx),%rsi
+  45ff95:	48 85 f6             	test   %rsi,%rsi
+  45ff98:	74 0f                	je     45ffa9 <wasm_instance_new+0xa59>
+  45ff9a:	48 8b 53 10          	mov    0x10(%rbx),%rdx
+  45ff9e:	48 8b 7c 24 20       	mov    0x20(%rsp),%rdi
+  45ffa3:	ff 15 47 24 51 01    	call   *0x1512447(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  45ffa9:	4c 8b ac 24 e8 00 00 	mov    0xe8(%rsp),%r13
+  45ffb0:	00 
+  45ffb1:	4d 85 ed             	test   %r13,%r13
+  45ffb4:	0f 84 ac 00 00 00    	je     460066 <wasm_instance_new+0xb16>
+  45ffba:	48 b8 55 55 55 55 55 	movabs $0x555555555555555,%rax
+  45ffc1:	55 55 05 
+  45ffc4:	49 39 c5             	cmp    %rax,%r13
+  45ffc7:	0f 87 a7 14 00 00    	ja     461474 <wasm_instance_new+0x1f24>
+  45ffcd:	48 8b 9c 24 e0 00 00 	mov    0xe0(%rsp),%rbx
+  45ffd4:	00 
+  45ffd5:	4e 8d 24 ed 00 00 00 	lea    0x0(,%r13,8),%r12
+  45ffdc:	00 
+  45ffdd:	4f 8d 34 64          	lea    (%r12,%r12,2),%r14
+  45ffe1:	48 8d 05 9a 96 51 01 	lea    0x151969a(%rip),%rax        # 1979682 <__rust_no_alloc_shim_is_unstable>
+  45ffe8:	0f b6 00             	movzbl (%rax),%eax
+  45ffeb:	41 bf 08 00 00 00    	mov    $0x8,%r15d
+  45fff1:	be 08 00 00 00       	mov    $0x8,%esi
+  45fff6:	4c 89 f7             	mov    %r14,%rdi
+  45fff9:	ff 15 19 13 51 01    	call   *0x1511319(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45ffff:	48 85 c0             	test   %rax,%rax
+  460002:	0f 84 6f 14 00 00    	je     461477 <wasm_instance_new+0x1f27>
+  460008:	48 89 c5             	mov    %rax,%rbp
+  46000b:	4b 8d 04 64          	lea    (%r12,%r12,2),%rax
+  46000f:	31 c9                	xor    %ecx,%ecx
+  460011:	4c 89 ea             	mov    %r13,%rdx
+  460014:	66 66 66 2e 0f 1f 84 	data16 data16 cs nopw 0x0(%rax,%rax,1)
+  46001b:	00 00 00 00 00 
+  460020:	48 39 c8             	cmp    %rcx,%rax
+  460023:	74 20                	je     460045 <wasm_instance_new+0xaf5>
+  460025:	48 8b 73 10          	mov    0x10(%rbx),%rsi
+  460029:	f3 0f 6f 03          	movdqu (%rbx),%xmm0
+  46002d:	48 83 c3 18          	add    $0x18,%rbx
+  460031:	f3 0f 7f 44 0d 00    	movdqu %xmm0,0x0(%rbp,%rcx,1)
+  460037:	48 89 74 0d 10       	mov    %rsi,0x10(%rbp,%rcx,1)
+  46003c:	48 83 c1 18          	add    $0x18,%rcx
+  460040:	48 ff ca             	dec    %rdx
+  460043:	75 db                	jne    460020 <wasm_instance_new+0xad0>
+  460045:	48 8b 84 24 98 01 00 	mov    0x198(%rsp),%rax
+  46004c:	00 
+  46004d:	48 8b 30             	mov    (%rax),%rsi
+  460050:	83 7e 10 02          	cmpl   $0x2,0x10(%rsi)
+  460054:	75 26                	jne    46007c <wasm_instance_new+0xb2c>
+  460056:	48 b8 01 00 00 00 00 	movabs $0x8000000000000001,%rax
+  46005d:	00 00 80 
+  460060:	4c 8d 70 04          	lea    0x4(%rax),%r14
+  460064:	eb 66                	jmp    4600cc <wasm_instance_new+0xb7c>
+  460066:	bd 08 00 00 00       	mov    $0x8,%ebp
+  46006b:	48 8b 84 24 98 01 00 	mov    0x198(%rsp),%rax
+  460072:	00 
+  460073:	48 8b 30             	mov    (%rax),%rsi
+  460076:	83 7e 10 02          	cmpl   $0x2,0x10(%rsi)
+  46007a:	74 da                	je     460056 <wasm_instance_new+0xb06>
+  46007c:	48 8d 5e 10          	lea    0x10(%rsi),%rbx
+  460080:	4a 8d 3c ed 00 00 00 	lea    0x0(,%r13,8),%rdi
+  460087:	00 
+  460088:	48 8d 04 7f          	lea    (%rdi,%rdi,2),%rax
+  46008c:	4c 8d 24 28          	lea    (%rax,%rbp,1),%r12
+  460090:	4c 8b 74 24 18       	mov    0x18(%rsp),%r14
+  460095:	48 89 e9             	mov    %rbp,%rcx
+  460098:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+  46009f:	00 
+  4600a0:	48 85 c0             	test   %rax,%rax
+  4600a3:	0f 84 c5 02 00 00    	je     46036e <wasm_instance_new+0xe1e>
+  4600a9:	48 8b 51 08          	mov    0x8(%rcx),%rdx
+  4600ad:	48 83 c1 18          	add    $0x18,%rcx
+  4600b1:	48 83 c0 e8          	add    $0xffffffffffffffe8,%rax
+  4600b5:	49 3b 96 d8 00 00 00 	cmp    0xd8(%r14),%rdx
+  4600bc:	74 e2                	je     4600a0 <wasm_instance_new+0xb50>
+  4600be:	48 b8 01 00 00 00 00 	movabs $0x8000000000000001,%rax
+  4600c5:	00 00 80 
+  4600c8:	4c 8d 70 03          	lea    0x3(%rax),%r14
+  4600cc:	48 8b 84 24 90 03 00 	mov    0x390(%rsp),%rax
+  4600d3:	00 
+  4600d4:	48 89 84 24 60 04 00 	mov    %rax,0x460(%rsp)
+  4600db:	00 
+  4600dc:	0f 28 84 24 80 03 00 	movaps 0x380(%rsp),%xmm0
+  4600e3:	00 
+  4600e4:	0f 29 84 24 50 04 00 	movaps %xmm0,0x450(%rsp)
+  4600eb:	00 
+  4600ec:	0f 28 84 24 d0 02 00 	movaps 0x2d0(%rsp),%xmm0
+  4600f3:	00 
+  4600f4:	0f 28 8c 24 e0 02 00 	movaps 0x2e0(%rsp),%xmm1
+  4600fb:	00 
+  4600fc:	0f 28 94 24 f0 02 00 	movaps 0x2f0(%rsp),%xmm2
+  460103:	00 
+  460104:	0f 29 84 24 c0 01 00 	movaps %xmm0,0x1c0(%rsp)
+  46010b:	00 
+  46010c:	0f 29 8c 24 d0 01 00 	movaps %xmm1,0x1d0(%rsp)
+  460113:	00 
+  460114:	0f 29 94 24 e0 01 00 	movaps %xmm2,0x1e0(%rsp)
+  46011b:	00 
+  46011c:	48 8b 84 24 00 03 00 	mov    0x300(%rsp),%rax
+  460123:	00 
+  460124:	48 89 84 24 f0 01 00 	mov    %rax,0x1f0(%rsp)
+  46012b:	00 
+  46012c:	0f 28 84 24 40 03 00 	movaps 0x340(%rsp),%xmm0
+  460133:	00 
+  460134:	0f 29 84 24 b0 01 00 	movaps %xmm0,0x1b0(%rsp)
+  46013b:	00 
+  46013c:	4d 85 ed             	test   %r13,%r13
+  46013f:	74 1d                	je     46015e <wasm_instance_new+0xc0e>
+  460141:	49 c1 e5 03          	shl    $0x3,%r13
+  460145:	4a 8d 34 6d 00 00 00 	lea    0x0(,%r13,2),%rsi
+  46014c:	00 
+  46014d:	4c 01 ee             	add    %r13,%rsi
+  460150:	ba 08 00 00 00       	mov    $0x8,%edx
+  460155:	48 89 ef             	mov    %rbp,%rdi
+  460158:	ff 15 92 22 51 01    	call   *0x1512292(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  46015e:	0f 28 84 24 50 04 00 	movaps 0x450(%rsp),%xmm0
+  460165:	00 
+  460166:	0f 29 84 24 50 02 00 	movaps %xmm0,0x250(%rsp)
+  46016d:	00 
+  46016e:	48 8b 84 24 60 04 00 	mov    0x460(%rsp),%rax
+  460175:	00 
+  460176:	48 89 84 24 60 02 00 	mov    %rax,0x260(%rsp)
+  46017d:	00 
+  46017e:	48 c1 e3 20          	shl    $0x20,%rbx
+  460182:	44 89 e0             	mov    %r12d,%eax
+  460185:	48 09 d8             	or     %rbx,%rax
+  460188:	66 0f 6f 84 24 b0 01 	movdqa 0x1b0(%rsp),%xmm0
+  46018f:	00 00 
+  460191:	0f 28 8c 24 c0 01 00 	movaps 0x1c0(%rsp),%xmm1
+  460198:	00 
+  460199:	0f 28 94 24 d0 01 00 	movaps 0x1d0(%rsp),%xmm2
+  4601a0:	00 
+  4601a1:	0f 28 9c 24 e0 01 00 	movaps 0x1e0(%rsp),%xmm3
+  4601a8:	00 
+  4601a9:	66 0f 7f 84 24 00 04 	movdqa %xmm0,0x400(%rsp)
+  4601b0:	00 00 
+  4601b2:	0f 29 8c 24 10 04 00 	movaps %xmm1,0x410(%rsp)
+  4601b9:	00 
+  4601ba:	0f 29 94 24 20 04 00 	movaps %xmm2,0x420(%rsp)
+  4601c1:	00 
+  4601c2:	0f 29 9c 24 30 04 00 	movaps %xmm3,0x430(%rsp)
+  4601c9:	00 
+  4601ca:	48 8b 8c 24 f0 01 00 	mov    0x1f0(%rsp),%rcx
+  4601d1:	00 
+  4601d2:	48 89 8c 24 40 04 00 	mov    %rcx,0x440(%rsp)
+  4601d9:	00 
+  4601da:	48 89 8c 24 c0 02 00 	mov    %rcx,0x2c0(%rsp)
+  4601e1:	00 
+  4601e2:	0f 29 9c 24 b0 02 00 	movaps %xmm3,0x2b0(%rsp)
+  4601e9:	00 
+  4601ea:	0f 29 94 24 a0 02 00 	movaps %xmm2,0x2a0(%rsp)
+  4601f1:	00 
+  4601f2:	0f 29 8c 24 90 02 00 	movaps %xmm1,0x290(%rsp)
+  4601f9:	00 
+  4601fa:	66 0f 7f 84 24 80 02 	movdqa %xmm0,0x280(%rsp)
+  460201:	00 00 
+  460203:	4c 89 b4 24 68 02 00 	mov    %r14,0x268(%rsp)
+  46020a:	00 
+  46020b:	48 89 84 24 70 02 00 	mov    %rax,0x270(%rsp)
+  460212:	00 
+  460213:	4c 89 bc 24 78 02 00 	mov    %r15,0x278(%rsp)
+  46021a:	00 
+  46021b:	48 8b 84 24 c0 00 00 	mov    0xc0(%rsp),%rax
+  460222:	00 
+  460223:	48 89 84 24 c8 02 00 	mov    %rax,0x2c8(%rsp)
+  46022a:	00 
+  46022b:	4c 8d 2d 50 94 51 01 	lea    0x1519450(%rip),%r13        # 1979682 <__rust_no_alloc_shim_is_unstable>
+  460232:	48 8d bc 24 10 03 00 	lea    0x310(%rsp),%rdi
+  460239:	00 
+  46023a:	e8 51 ad f6 ff       	call   3caf90 <<hashbrown::raw::RawTable<T,A> as core::ops::drop::Drop>::drop>
+  46023f:	48 8b 84 24 d8 00 00 	mov    0xd8(%rsp),%rax
+  460246:	00 
+  460247:	48 85 c0             	test   %rax,%rax
+  46024a:	74 1b                	je     460267 <wasm_instance_new+0xd17>
+  46024c:	48 8b bc 24 e0 00 00 	mov    0xe0(%rsp),%rdi
+  460253:	00 
+  460254:	48 c1 e0 03          	shl    $0x3,%rax
+  460258:	48 8d 34 40          	lea    (%rax,%rax,2),%rsi
+  46025c:	ba 08 00 00 00       	mov    $0x8,%edx
+  460261:	ff 15 89 21 51 01    	call   *0x1512189(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  460267:	48 ba 01 00 00 00 00 	movabs $0x8000000000000001,%rdx
+  46026e:	00 00 80 
+  460271:	4a 8d 04 32          	lea    (%rdx,%r14,1),%rax
+  460275:	48 83 c0 fd          	add    $0xfffffffffffffffd,%rax
+  460279:	31 c9                	xor    %ecx,%ecx
+  46027b:	48 83 f8 04          	cmp    $0x4,%rax
+  46027f:	4a 8d 44 32 fe       	lea    -0x2(%rdx,%r14,1),%rax
+  460284:	48 0f 42 c8          	cmovb  %rax,%rcx
+  460288:	48 8d 05 2d 04 f6 00 	lea    0xf6042d(%rip),%rax        # 13c06bc <anon.f83322d1fe61c325fc19ba0e8542c97f.75.llvm.11989437987861616448+0x67f>
+  46028f:	48 63 0c 88          	movslq (%rax,%rcx,4),%rcx
+  460293:	48 01 c1             	add    %rax,%rcx
+  460296:	ff e1                	jmp    *%rcx
+  460298:	0f 28 84 24 c0 02 00 	movaps 0x2c0(%rsp),%xmm0
+  46029f:	00 
+  4602a0:	0f 29 84 24 d0 05 00 	movaps %xmm0,0x5d0(%rsp)
+  4602a7:	00 
+  4602a8:	0f 28 84 24 b0 02 00 	movaps 0x2b0(%rsp),%xmm0
+  4602af:	00 
+  4602b0:	0f 29 84 24 c0 05 00 	movaps %xmm0,0x5c0(%rsp)
+  4602b7:	00 
+  4602b8:	0f 28 84 24 a0 02 00 	movaps 0x2a0(%rsp),%xmm0
+  4602bf:	00 
+  4602c0:	0f 29 84 24 b0 05 00 	movaps %xmm0,0x5b0(%rsp)
+  4602c7:	00 
+  4602c8:	0f 28 84 24 90 02 00 	movaps 0x290(%rsp),%xmm0
+  4602cf:	00 
+  4602d0:	0f 29 84 24 a0 05 00 	movaps %xmm0,0x5a0(%rsp)
+  4602d7:	00 
+  4602d8:	66 0f 6f 84 24 50 02 	movdqa 0x250(%rsp),%xmm0
+  4602df:	00 00 
+  4602e1:	0f 28 8c 24 60 02 00 	movaps 0x260(%rsp),%xmm1
+  4602e8:	00 
+  4602e9:	0f 28 94 24 70 02 00 	movaps 0x270(%rsp),%xmm2
+  4602f0:	00 
+  4602f1:	0f 28 9c 24 80 02 00 	movaps 0x280(%rsp),%xmm3
+  4602f8:	00 
+  4602f9:	0f 29 9c 24 90 05 00 	movaps %xmm3,0x590(%rsp)
+  460300:	00 
+  460301:	0f 29 94 24 80 05 00 	movaps %xmm2,0x580(%rsp)
+  460308:	00 
+  460309:	0f 29 8c 24 70 05 00 	movaps %xmm1,0x570(%rsp)
+  460310:	00 
+  460311:	66 0f 7f 84 24 60 05 	movdqa %xmm0,0x560(%rsp)
+  460318:	00 00 
+  46031a:	48 8d 3d 97 ad 50 01 	lea    0x150ad97(%rip),%rdi        # 196b0b8 <_GLOBAL_OFFSET_TABLE_+0x38>
+  460321:	e8 1a fd cf ff       	call   160040 <__tls_get_addr@plt>
+  460326:	48 89 c3             	mov    %rax,%rbx
+  460329:	0f b6 80 20 00 00 00 	movzbl 0x20(%rax),%eax
+  460330:	85 c0                	test   %eax,%eax
+  460332:	0f 84 02 04 00 00    	je     46073a <wasm_instance_new+0x11ea>
+  460338:	83 f8 01             	cmp    $0x1,%eax
+  46033b:	0f 84 17 04 00 00    	je     460758 <wasm_instance_new+0x1208>
+  460341:	48 8d 3d 52 05 f6 00 	lea    0xf60552(%rip),%rdi        # 13c089a <anon.54fbf388007cd38fe002bae626ab8104.32.llvm.49599001125987136>
+  460348:	48 8d 0d 49 8b 41 01 	lea    0x1418b49(%rip),%rcx        # 1878e98 <anon.54fbf388007cd38fe002bae626ab8104.144.llvm.49599001125987136>
+  46034f:	4c 8d 05 52 84 41 01 	lea    0x1418452(%rip),%r8        # 18787a8 <anon.54fbf388007cd38fe002bae626ab8104.34.llvm.49599001125987136>
+  460356:	48 8d 94 24 30 02 00 	lea    0x230(%rsp),%rdx
+  46035d:	00 
+  46035e:	be 46 00 00 00       	mov    $0x46,%esi
+  460363:	ff 15 07 da 50 01    	call   *0x150da07(%rip)        # 196dd70 <_GLOBAL_OFFSET_TABLE_+0x2cf0>
+  460369:	e9 1c 12 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  46036e:	48 89 7c 24 28       	mov    %rdi,0x28(%rsp)
+  460373:	48 89 b4 24 08 01 00 	mov    %rsi,0x108(%rsp)
+  46037a:	00 
+  46037b:	49 8b 86 30 01 00 00 	mov    0x130(%r14),%rax
+  460382:	48 89 c1             	mov    %rax,%rcx
+  460385:	48 89 84 24 00 01 00 	mov    %rax,0x100(%rsp)
+  46038c:	00 
+  46038d:	48 85 c0             	test   %rax,%rax
+  460390:	74 07                	je     460399 <wasm_instance_new+0xe49>
+  460392:	49 8b 8e 38 01 00 00 	mov    0x138(%r14),%rcx
+  460399:	48 89 8c 24 70 03 00 	mov    %rcx,0x370(%rsp)
+  4603a0:	00 
+  4603a1:	49 8b 86 08 01 00 00 	mov    0x108(%r14),%rax
+  4603a8:	49 8b 96 10 01 00 00 	mov    0x110(%r14),%rdx
+  4603af:	48 8b 4a 10          	mov    0x10(%rdx),%rcx
+  4603b3:	48 ff c9             	dec    %rcx
+  4603b6:	48 83 e1 f0          	and    $0xfffffffffffffff0,%rcx
+  4603ba:	48 8d 3c 08          	lea    (%rax,%rcx,1),%rdi
+  4603be:	48 83 c7 10          	add    $0x10,%rdi
+  4603c2:	48 89 7c 24 10       	mov    %rdi,0x10(%rsp)
+  4603c7:	48 89 94 24 c0 00 00 	mov    %rdx,0xc0(%rsp)
+  4603ce:	00 
+  4603cf:	ff 52 78             	call   *0x78(%rdx)
+  4603d2:	48 89 c6             	mov    %rax,%rsi
+  4603d5:	4c 89 a4 24 00 02 00 	mov    %r12,0x200(%rsp)
+  4603dc:	00 
+  4603dd:	49 29 ec             	sub    %rbp,%r12
+  4603e0:	48 b9 ab aa aa aa aa 	movabs $0xaaaaaaaaaaaaaaab,%rcx
+  4603e7:	aa aa aa 
+  4603ea:	4c 89 e0             	mov    %r12,%rax
+  4603ed:	48 f7 e1             	mul    %rcx
+  4603f0:	49 89 d7             	mov    %rdx,%r15
+  4603f3:	49 c1 ef 04          	shr    $0x4,%r15
+  4603f7:	4d 85 ed             	test   %r13,%r13
+  4603fa:	48 89 b4 24 f8 00 00 	mov    %rsi,0xf8(%rsp)
+  460401:	00 
+  460402:	0f 84 24 03 00 00    	je     46072c <wasm_instance_new+0x11dc>
+  460408:	48 89 9c 24 b8 00 00 	mov    %rbx,0xb8(%rsp)
+  46040f:	00 
+  460410:	4c 89 fb             	mov    %r15,%rbx
+  460413:	48 c1 e3 04          	shl    $0x4,%rbx
+  460417:	48 b8 e8 ff ff ff ff 	movabs $0xbfffffffffffffe8,%rax
+  46041e:	ff ff bf 
+  460421:	49 39 c4             	cmp    %rax,%r12
+  460424:	0f 87 dc 10 00 00    	ja     461506 <wasm_instance_new+0x1fb6>
+  46042a:	48 8d 05 51 92 51 01 	lea    0x1519251(%rip),%rax        # 1979682 <__rust_no_alloc_shim_is_unstable>
+  460431:	0f b6 00             	movzbl (%rax),%eax
+  460434:	b8 08 00 00 00       	mov    $0x8,%eax
+  460439:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
+  46043e:	be 08 00 00 00       	mov    $0x8,%esi
+  460443:	48 89 df             	mov    %rbx,%rdi
+  460446:	ff 15 cc 0e 51 01    	call   *0x1510ecc(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  46044c:	48 85 c0             	test   %rax,%rax
+  46044f:	0f 84 b8 10 00 00    	je     46150d <wasm_instance_new+0x1fbd>
+  460455:	49 89 c0             	mov    %rax,%r8
+  460458:	49 83 c4 e8          	add    $0xffffffffffffffe8,%r12
+  46045c:	49 83 fc 18          	cmp    $0x18,%r12
+  460460:	0f 83 16 04 00 00    	jae    46087c <wasm_instance_new+0x132c>
+  460466:	31 c0                	xor    %eax,%eax
+  460468:	48 8b 9c 24 b8 00 00 	mov    0xb8(%rsp),%rbx
+  46046f:	00 
+  460470:	e9 62 04 00 00       	jmp    4608d7 <wasm_instance_new+0x1387>
+  460475:	48 8d 9c 24 e8 06 00 	lea    0x6e8(%rsp),%rbx
+  46047c:	00 
+  46047d:	eb 12                	jmp    460491 <wasm_instance_new+0xf41>
+  46047f:	48 8d 9c 24 e8 05 00 	lea    0x5e8(%rsp),%rbx
+  460486:	00 
+  460487:	eb 08                	jmp    460491 <wasm_instance_new+0xf41>
+  460489:	48 8d 9c 24 68 06 00 	lea    0x668(%rsp),%rbx
+  460490:	00 
+  460491:	0f 28 84 24 c0 02 00 	movaps 0x2c0(%rsp),%xmm0
+  460498:	00 
+  460499:	0f 11 43 70          	movups %xmm0,0x70(%rbx)
+  46049d:	0f 28 84 24 b0 02 00 	movaps 0x2b0(%rsp),%xmm0
+  4604a4:	00 
+  4604a5:	0f 11 43 60          	movups %xmm0,0x60(%rbx)
+  4604a9:	0f 28 84 24 a0 02 00 	movaps 0x2a0(%rsp),%xmm0
+  4604b0:	00 
+  4604b1:	0f 11 43 50          	movups %xmm0,0x50(%rbx)
+  4604b5:	0f 28 84 24 90 02 00 	movaps 0x290(%rsp),%xmm0
+  4604bc:	00 
+  4604bd:	0f 11 43 40          	movups %xmm0,0x40(%rbx)
+  4604c1:	66 0f 6f 84 24 50 02 	movdqa 0x250(%rsp),%xmm0
+  4604c8:	00 00 
+  4604ca:	0f 28 8c 24 60 02 00 	movaps 0x260(%rsp),%xmm1
+  4604d1:	00 
+  4604d2:	0f 28 94 24 70 02 00 	movaps 0x270(%rsp),%xmm2
+  4604d9:	00 
+  4604da:	0f 28 9c 24 80 02 00 	movaps 0x280(%rsp),%xmm3
+  4604e1:	00 
+  4604e2:	0f 11 5b 30          	movups %xmm3,0x30(%rbx)
+  4604e6:	0f 11 53 20          	movups %xmm2,0x20(%rbx)
+  4604ea:	0f 11 4b 10          	movups %xmm1,0x10(%rbx)
+  4604ee:	f3 0f 7f 03          	movdqu %xmm0,(%rbx)
+  4604f2:	48 8d 3d bf ab 50 01 	lea    0x150abbf(%rip),%rdi        # 196b0b8 <_GLOBAL_OFFSET_TABLE_+0x38>
+  4604f9:	e8 42 fb cf ff       	call   160040 <__tls_get_addr@plt>
+  4604fe:	49 89 c6             	mov    %rax,%r14
+  460501:	0f b6 80 20 00 00 00 	movzbl 0x20(%rax),%eax
+  460508:	85 c0                	test   %eax,%eax
+  46050a:	49 bd 01 00 00 00 00 	movabs $0x8000000000000001,%r13
+  460511:	00 00 80 
+  460514:	74 32                	je     460548 <wasm_instance_new+0xff8>
+  460516:	83 f8 01             	cmp    $0x1,%eax
+  460519:	74 4c                	je     460567 <wasm_instance_new+0x1017>
+  46051b:	48 8d 3d 78 03 f6 00 	lea    0xf60378(%rip),%rdi        # 13c089a <anon.54fbf388007cd38fe002bae626ab8104.32.llvm.49599001125987136>
+  460522:	48 8d 0d 6f 89 41 01 	lea    0x141896f(%rip),%rcx        # 1878e98 <anon.54fbf388007cd38fe002bae626ab8104.144.llvm.49599001125987136>
+  460529:	4c 8d 05 78 82 41 01 	lea    0x1418278(%rip),%r8        # 18787a8 <anon.54fbf388007cd38fe002bae626ab8104.34.llvm.49599001125987136>
+  460530:	48 8d 94 24 30 02 00 	lea    0x230(%rsp),%rdx
+  460537:	00 
+  460538:	be 46 00 00 00       	mov    $0x46,%esi
+  46053d:	ff 15 2d d8 50 01    	call   *0x150d82d(%rip)        # 196dd70 <_GLOBAL_OFFSET_TABLE_+0x2cf0>
+  460543:	e9 42 10 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  460548:	49 8d be 00 00 00 00 	lea    0x0(%r14),%rdi
+  46054f:	48 8d 35 4a 9a fe ff 	lea    -0x165b6(%rip),%rsi        # 449fa0 <std::sys::thread_local::native::eager::destroy>
+  460556:	ff 15 ac f3 50 01    	call   *0x150f3ac(%rip)        # 196f908 <_GLOBAL_OFFSET_TABLE_+0x4888>
+  46055c:	4c 89 f0             	mov    %r14,%rax
+  46055f:	41 c6 86 20 00 00 00 	movb   $0x1,0x20(%r14)
+  460566:	01 
+  460567:	48 c7 84 24 10 01 00 	movq   $0x0,0x110(%rsp)
+  46056e:	00 00 00 00 00 
+  460573:	48 c7 84 24 18 01 00 	movq   $0x1,0x118(%rsp)
+  46057a:	00 01 00 00 00 
+  46057f:	48 c7 84 24 20 01 00 	movq   $0x0,0x120(%rsp)
+  460586:	00 00 00 00 00 
+  46058b:	48 c7 44 24 60 20 00 	movq   $0x20,0x60(%rsp)
+  460592:	00 00 
+  460594:	c6 44 24 68 03       	movb   $0x3,0x68(%rsp)
+  460599:	48 c7 44 24 30 00 00 	movq   $0x0,0x30(%rsp)
+  4605a0:	00 00 
+  4605a2:	48 c7 44 24 40 00 00 	movq   $0x0,0x40(%rsp)
+  4605a9:	00 00 
+  4605ab:	48 8d 84 24 10 01 00 	lea    0x110(%rsp),%rax
+  4605b2:	00 
+  4605b3:	48 89 44 24 50       	mov    %rax,0x50(%rsp)
+  4605b8:	48 8d 05 91 80 41 01 	lea    0x1418091(%rip),%rax        # 1878650 <anon.54fbf388007cd38fe002bae626ab8104.10.llvm.49599001125987136>
+  4605bf:	48 89 44 24 58       	mov    %rax,0x58(%rsp)
+  4605c4:	48 8d 74 24 30       	lea    0x30(%rsp),%rsi
+  4605c9:	48 89 df             	mov    %rbx,%rdi
+  4605cc:	ff 15 de e8 50 01    	call   *0x150e8de(%rip)        # 196eeb0 <_GLOBAL_OFFSET_TABLE_+0x3e30>
+  4605d2:	84 c0                	test   %al,%al
+  4605d4:	0f 85 ae 0e 00 00    	jne    461488 <wasm_instance_new+0x1f38>
+  4605da:	4c 8b bc 24 10 01 00 	mov    0x110(%rsp),%r15
+  4605e1:	00 
+  4605e2:	4c 8b a4 24 18 01 00 	mov    0x118(%rsp),%r12
+  4605e9:	00 
+  4605ea:	4c 89 f0             	mov    %r14,%rax
+  4605ed:	49 83 be 00 00 00 00 	cmpq   $0x0,0x0(%r14)
+  4605f4:	00 
+  4605f5:	0f 85 ba 0e 00 00    	jne    4614b5 <wasm_instance_new+0x1f65>
+  4605fb:	48 8b ac 24 20 01 00 	mov    0x120(%rsp),%rbp
+  460602:	00 
+  460603:	4c 89 f0             	mov    %r14,%rax
+  460606:	49 c7 86 00 00 00 00 	movq   $0xffffffffffffffff,0x0(%r14)
+  46060d:	ff ff ff ff 
+  460611:	49 8b b6 08 00 00 00 	mov    0x8(%r14),%rsi
+  460618:	48 3b b4 24 f0 00 00 	cmp    0xf0(%rsp),%rsi
+  46061f:	00 
+  460620:	74 33                	je     460655 <wasm_instance_new+0x1105>
+  460622:	48 85 f6             	test   %rsi,%rsi
+  460625:	74 2e                	je     460655 <wasm_instance_new+0x1105>
+  460627:	4c 89 f0             	mov    %r14,%rax
+  46062a:	49 89 c5             	mov    %rax,%r13
+  46062d:	48 8b b8 10 00 00 00 	mov    0x10(%rax),%rdi
+  460634:	ba 01 00 00 00       	mov    $0x1,%edx
+  460639:	ff 15 b1 1d 51 01    	call   *0x1511db1(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  46063f:	49 8b 8d 00 00 00 00 	mov    0x0(%r13),%rcx
+  460646:	49 bd 01 00 00 00 00 	movabs $0x8000000000000001,%r13
+  46064d:	00 00 80 
+  460650:	48 ff c1             	inc    %rcx
+  460653:	eb 02                	jmp    460657 <wasm_instance_new+0x1107>
+  460655:	31 c9                	xor    %ecx,%ecx
+  460657:	4c 89 f0             	mov    %r14,%rax
+  46065a:	4d 89 be 08 00 00 00 	mov    %r15,0x8(%r14)
+  460661:	4d 89 a6 10 00 00 00 	mov    %r12,0x10(%r14)
+  460668:	49 89 ae 18 00 00 00 	mov    %rbp,0x18(%r14)
+  46066f:	49 89 8e 00 00 00 00 	mov    %rcx,0x0(%r14)
+  460676:	48 8b 4b 18          	mov    0x18(%rbx),%rcx
+  46067a:	4a 8d 14 29          	lea    (%rcx,%r13,1),%rdx
+  46067e:	48 83 c2 fd          	add    $0xfffffffffffffffd,%rdx
+  460682:	31 c0                	xor    %eax,%eax
+  460684:	48 83 fa 04          	cmp    $0x4,%rdx
+  460688:	49 8d 4c 0d fe       	lea    -0x2(%r13,%rcx,1),%rcx
+  46068d:	48 0f 42 c1          	cmovb  %rcx,%rax
+  460691:	48 85 c0             	test   %rax,%rax
+  460694:	0f 84 35 05 00 00    	je     460bcf <wasm_instance_new+0x167f>
+  46069a:	48 83 f8 02          	cmp    $0x2,%rax
+  46069e:	74 7b                	je     46071b <wasm_instance_new+0x11cb>
+  4606a0:	48 83 f8 01          	cmp    $0x1,%rax
+  4606a4:	0f 85 b4 0c 00 00    	jne    46135e <wasm_instance_new+0x1e0e>
+  4606aa:	48 8b 03             	mov    (%rbx),%rax
+  4606ad:	f0 48 ff 08          	lock decq (%rax)
+  4606b1:	0f 84 79 0c 00 00    	je     461330 <wasm_instance_new+0x1de0>
+  4606b7:	e9 a2 0c 00 00       	jmp    46135e <wasm_instance_new+0x1e0e>
+  4606bc:	48 8b 9c 24 50 02 00 	mov    0x250(%rsp),%rbx
+  4606c3:	00 
+  4606c4:	48 89 9c 24 10 01 00 	mov    %rbx,0x110(%rsp)
+  4606cb:	00 
+  4606cc:	48 83 bc 24 18 02 00 	cmpq   $0x0,0x218(%rsp)
+  4606d3:	00 00 
+  4606d5:	0f 84 79 04 00 00    	je     460b54 <wasm_instance_new+0x1604>
+  4606db:	48 89 5c 24 30       	mov    %rbx,0x30(%rsp)
+  4606e0:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  4606e5:	bf 08 00 00 00       	mov    $0x8,%edi
+  4606ea:	be 08 00 00 00       	mov    $0x8,%esi
+  4606ef:	ff 15 23 0c 51 01    	call   *0x1510c23(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  4606f5:	48 85 c0             	test   %rax,%rax
+  4606f8:	0f 84 31 0e 00 00    	je     46152f <wasm_instance_new+0x1fdf>
+  4606fe:	48 89 18             	mov    %rbx,(%rax)
+  460701:	48 8b 8c 24 18 02 00 	mov    0x218(%rsp),%rcx
+  460708:	00 
+  460709:	48 89 01             	mov    %rax,(%rcx)
+  46070c:	48 bb 01 00 00 00 00 	movabs $0x8000000000000001,%rbx
+  460713:	00 00 80 
+  460716:	e9 56 04 00 00       	jmp    460b71 <wasm_instance_new+0x1621>
+  46071b:	48 8b 33             	mov    (%rbx),%rsi
+  46071e:	48 85 f6             	test   %rsi,%rsi
+  460721:	0f 85 28 0c 00 00    	jne    46134f <wasm_instance_new+0x1dff>
+  460727:	e9 32 0c 00 00       	jmp    46135e <wasm_instance_new+0x1e0e>
+  46072c:	45 31 c9             	xor    %r9d,%r9d
+  46072f:	41 b8 08 00 00 00    	mov    $0x8,%r8d
+  460735:	e9 cc 01 00 00       	jmp    460906 <wasm_instance_new+0x13b6>
+  46073a:	48 8d bb 00 00 00 00 	lea    0x0(%rbx),%rdi
+  460741:	48 8d 35 58 98 fe ff 	lea    -0x167a8(%rip),%rsi        # 449fa0 <std::sys::thread_local::native::eager::destroy>
+  460748:	ff 15 ba f1 50 01    	call   *0x150f1ba(%rip)        # 196f908 <_GLOBAL_OFFSET_TABLE_+0x4888>
+  46074e:	48 89 d8             	mov    %rbx,%rax
+  460751:	c6 83 20 00 00 00 01 	movb   $0x1,0x20(%rbx)
+  460758:	48 c7 84 24 10 01 00 	movq   $0x0,0x110(%rsp)
+  46075f:	00 00 00 00 00 
+  460764:	48 c7 84 24 18 01 00 	movq   $0x1,0x118(%rsp)
+  46076b:	00 01 00 00 00 
+  460770:	48 c7 84 24 20 01 00 	movq   $0x0,0x120(%rsp)
+  460777:	00 00 00 00 00 
+  46077c:	48 c7 44 24 60 20 00 	movq   $0x20,0x60(%rsp)
+  460783:	00 00 
+  460785:	c6 44 24 68 03       	movb   $0x3,0x68(%rsp)
+  46078a:	48 c7 44 24 30 00 00 	movq   $0x0,0x30(%rsp)
+  460791:	00 00 
+  460793:	48 c7 44 24 40 00 00 	movq   $0x0,0x40(%rsp)
+  46079a:	00 00 
+  46079c:	48 8d 84 24 10 01 00 	lea    0x110(%rsp),%rax
+  4607a3:	00 
+  4607a4:	48 89 44 24 50       	mov    %rax,0x50(%rsp)
+  4607a9:	48 8d 05 a0 7e 41 01 	lea    0x1417ea0(%rip),%rax        # 1878650 <anon.54fbf388007cd38fe002bae626ab8104.10.llvm.49599001125987136>
+  4607b0:	48 89 44 24 58       	mov    %rax,0x58(%rsp)
+  4607b5:	48 8d bc 24 60 05 00 	lea    0x560(%rsp),%rdi
+  4607bc:	00 
+  4607bd:	48 8d 74 24 30       	lea    0x30(%rsp),%rsi
+  4607c2:	ff 15 10 dd 50 01    	call   *0x150dd10(%rip)        # 196e4d8 <_GLOBAL_OFFSET_TABLE_+0x3458>
+  4607c8:	84 c0                	test   %al,%al
+  4607ca:	0f 85 f7 0c 00 00    	jne    4614c7 <wasm_instance_new+0x1f77>
+  4607d0:	4c 8b ac 24 10 01 00 	mov    0x110(%rsp),%r13
+  4607d7:	00 
+  4607d8:	4c 8b bc 24 18 01 00 	mov    0x118(%rsp),%r15
+  4607df:	00 
+  4607e0:	48 89 d8             	mov    %rbx,%rax
+  4607e3:	48 83 bb 00 00 00 00 	cmpq   $0x0,0x0(%rbx)
+  4607ea:	00 
+  4607eb:	0f 85 03 0d 00 00    	jne    4614f4 <wasm_instance_new+0x1fa4>
+  4607f1:	48 8b ac 24 20 01 00 	mov    0x120(%rsp),%rbp
+  4607f8:	00 
+  4607f9:	48 89 d8             	mov    %rbx,%rax
+  4607fc:	48 c7 83 00 00 00 00 	movq   $0xffffffffffffffff,0x0(%rbx)
+  460803:	ff ff ff ff 
+  460807:	48 8b b3 08 00 00 00 	mov    0x8(%rbx),%rsi
+  46080e:	48 3b b4 24 f0 00 00 	cmp    0xf0(%rsp),%rsi
+  460815:	00 
+  460816:	74 2a                	je     460842 <wasm_instance_new+0x12f2>
+  460818:	48 85 f6             	test   %rsi,%rsi
+  46081b:	74 25                	je     460842 <wasm_instance_new+0x12f2>
+  46081d:	48 89 d8             	mov    %rbx,%rax
+  460820:	49 89 c4             	mov    %rax,%r12
+  460823:	48 8b b8 10 00 00 00 	mov    0x10(%rax),%rdi
+  46082a:	ba 01 00 00 00       	mov    $0x1,%edx
+  46082f:	ff 15 bb 1b 51 01    	call   *0x1511bbb(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  460835:	49 8b 8c 24 00 00 00 	mov    0x0(%r12),%rcx
+  46083c:	00 
+  46083d:	48 ff c1             	inc    %rcx
+  460840:	eb 02                	jmp    460844 <wasm_instance_new+0x12f4>
+  460842:	31 c9                	xor    %ecx,%ecx
+  460844:	4c 89 ab 08 00 00 00 	mov    %r13,0x8(%rbx)
+  46084b:	4c 89 bb 10 00 00 00 	mov    %r15,0x10(%rbx)
+  460852:	48 89 ab 18 00 00 00 	mov    %rbp,0x18(%rbx)
+  460859:	48 89 8b 00 00 00 00 	mov    %rcx,0x0(%rbx)
+  460860:	48 8d bc 24 60 05 00 	lea    0x560(%rsp),%rdi
+  460867:	00 
+  460868:	e8 43 ab fe ff       	call   44b3b0 <core::ptr::drop_in_place<wasmer::error::LinkError>>
+  46086d:	48 bb 01 00 00 00 00 	movabs $0x8000000000000001,%rbx
+  460874:	00 00 80 
+  460877:	e9 0a 03 00 00       	jmp    460b86 <wasm_instance_new+0x1636>
+  46087c:	4c 89 f9             	mov    %r15,%rcx
+  46087f:	48 83 e1 fe          	and    $0xfffffffffffffffe,%rcx
+  460883:	48 8d 55 28          	lea    0x28(%rbp),%rdx
+  460887:	49 8d 70 18          	lea    0x18(%r8),%rsi
+  46088b:	31 c0                	xor    %eax,%eax
+  46088d:	48 8d 3d fc 0c f6 00 	lea    0xf60cfc(%rip),%rdi        # 13c1590 <anon.54fbf388007cd38fe002bae626ab8104.273.llvm.49599001125987136+0x1f>
+  460894:	48 8b 9c 24 b8 00 00 	mov    0xb8(%rsp),%rbx
+  46089b:	00 
+  46089c:	0f 1f 40 00          	nopl   0x0(%rax)
+  4608a0:	4c 8b 52 d8          	mov    -0x28(%rdx),%r10
+  4608a4:	4c 8b 4a e8          	mov    -0x18(%rdx),%r9
+  4608a8:	4e 8b 14 d7          	mov    (%rdi,%r10,8),%r10
+  4608ac:	4c 89 56 e8          	mov    %r10,-0x18(%rsi)
+  4608b0:	4c 89 4e f0          	mov    %r9,-0x10(%rsi)
+  4608b4:	4c 8b 52 f0          	mov    -0x10(%rdx),%r10
+  4608b8:	4c 8b 0a             	mov    (%rdx),%r9
+  4608bb:	4e 8b 14 d7          	mov    (%rdi,%r10,8),%r10
+  4608bf:	4c 89 56 f8          	mov    %r10,-0x8(%rsi)
+  4608c3:	4c 89 0e             	mov    %r9,(%rsi)
+  4608c6:	48 83 c0 02          	add    $0x2,%rax
+  4608ca:	48 83 c2 30          	add    $0x30,%rdx
+  4608ce:	48 83 c6 20          	add    $0x20,%rsi
+  4608d2:	48 39 c1             	cmp    %rax,%rcx
+  4608d5:	75 c9                	jne    4608a0 <wasm_instance_new+0x1350>
+  4608d7:	41 f6 c7 01          	test   $0x1,%r15b
+  4608db:	74 26                	je     460903 <wasm_instance_new+0x13b3>
+  4608dd:	48 8d 0c 40          	lea    (%rax,%rax,2),%rcx
+  4608e1:	48 8b 54 cd 00       	mov    0x0(%rbp,%rcx,8),%rdx
+  4608e6:	48 8b 4c cd 10       	mov    0x10(%rbp,%rcx,8),%rcx
+  4608eb:	48 8d 35 9e 0c f6 00 	lea    0xf60c9e(%rip),%rsi        # 13c1590 <anon.54fbf388007cd38fe002bae626ab8104.273.llvm.49599001125987136+0x1f>
+  4608f2:	48 8b 14 d6          	mov    (%rsi,%rdx,8),%rdx
+  4608f6:	48 c1 e0 04          	shl    $0x4,%rax
+  4608fa:	49 89 14 00          	mov    %rdx,(%r8,%rax,1)
+  4608fe:	49 89 4c 00 08       	mov    %rcx,0x8(%r8,%rax,1)
+  460903:	4d 89 f9             	mov    %r15,%r9
+  460906:	48 8b 8c 24 c0 00 00 	mov    0xc0(%rsp),%rcx
+  46090d:	00 
+  46090e:	48 8b 54 24 10       	mov    0x10(%rsp),%rdx
+  460913:	4c 89 34 24          	mov    %r14,(%rsp)
+  460917:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
+  46091c:	49 89 de             	mov    %rbx,%r14
+  46091f:	48 89 de             	mov    %rbx,%rsi
+  460922:	4c 89 44 24 10       	mov    %r8,0x10(%rsp)
+  460927:	ff 15 fb d3 50 01    	call   *0x150d3fb(%rip)        # 196dd28 <_GLOBAL_OFFSET_TABLE_+0x2ca8>
+  46092d:	48 8b 44 24 48       	mov    0x48(%rsp),%rax
+  460932:	48 b9 01 00 00 00 00 	movabs $0x8000000000000001,%rcx
+  460939:	00 00 80 
+  46093c:	48 8d 59 03          	lea    0x3(%rcx),%rbx
+  460940:	0f 10 44 24 30       	movups 0x30(%rsp),%xmm0
+  460945:	0f 29 84 24 a0 03 00 	movaps %xmm0,0x3a0(%rsp)
+  46094c:	00 
+  46094d:	48 8b 4c 24 40       	mov    0x40(%rsp),%rcx
+  460952:	48 89 8c 24 b0 03 00 	mov    %rcx,0x3b0(%rsp)
+  460959:	00 
+  46095a:	48 39 d8             	cmp    %rbx,%rax
+  46095d:	0f 85 9e 00 00 00    	jne    460a01 <wasm_instance_new+0x14b1>
+  460963:	66 0f 6f 84 24 a0 03 	movdqa 0x3a0(%rsp),%xmm0
+  46096a:	00 00 
+  46096c:	66 0f 7f 84 24 50 03 	movdqa %xmm0,0x350(%rsp)
+  460973:	00 00 
+  460975:	48 8b 84 24 b0 03 00 	mov    0x3b0(%rsp),%rax
+  46097c:	00 
+  46097d:	48 89 84 24 60 03 00 	mov    %rax,0x360(%rsp)
+  460984:	00 
+  460985:	48 3b ac 24 00 02 00 	cmp    0x200(%rsp),%rbp
+  46098c:	00 
+  46098d:	74 17                	je     4609a6 <wasm_instance_new+0x1456>
+  46098f:	49 c1 e7 04          	shl    $0x4,%r15
+  460993:	ba 08 00 00 00       	mov    $0x8,%edx
+  460998:	48 8b 7c 24 10       	mov    0x10(%rsp),%rdi
+  46099d:	4c 89 fe             	mov    %r15,%rsi
+  4609a0:	ff 15 4a 1a 51 01    	call   *0x1511a4a(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  4609a6:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
+  4609ab:	4c 8d 8c 24 50 03 00 	lea    0x350(%rsp),%r9
+  4609b2:	00 
+  4609b3:	4c 89 f6             	mov    %r14,%rsi
+  4609b6:	48 8b 94 24 f8 00 00 	mov    0xf8(%rsp),%rdx
+  4609bd:	00 
+  4609be:	48 8b 8c 24 00 01 00 	mov    0x100(%rsp),%rcx
+  4609c5:	00 
+  4609c6:	4c 8b 84 24 70 03 00 	mov    0x370(%rsp),%r8
+  4609cd:	00 
+  4609ce:	ff 15 b4 1c 51 01    	call   *0x1511cb4(%rip)        # 1972688 <_GLOBAL_OFFSET_TABLE_+0x7608>
+  4609d4:	48 39 5c 24 48       	cmp    %rbx,0x48(%rsp)
+  4609d9:	0f 85 fd 01 00 00    	jne    460bdc <wasm_instance_new+0x168c>
+  4609df:	4c 8b bc 24 50 03 00 	mov    0x350(%rsp),%r15
+  4609e6:	00 
+  4609e7:	f3 0f 6f 84 24 58 03 	movdqu 0x358(%rsp),%xmm0
+  4609ee:	00 00 
+  4609f0:	66 0f 7f 84 24 40 03 	movdqa %xmm0,0x340(%rsp)
+  4609f7:	00 00 
+  4609f9:	45 31 e4             	xor    %r12d,%r12d
+  4609fc:	e9 0f 03 00 00       	jmp    460d10 <wasm_instance_new+0x17c0>
+  460a01:	0f 10 84 24 a0 00 00 	movups 0xa0(%rsp),%xmm0
+  460a08:	00 
+  460a09:	0f 29 84 24 80 01 00 	movaps %xmm0,0x180(%rsp)
+  460a10:	00 
+  460a11:	0f 10 84 24 90 00 00 	movups 0x90(%rsp),%xmm0
+  460a18:	00 
+  460a19:	0f 29 84 24 70 01 00 	movaps %xmm0,0x170(%rsp)
+  460a20:	00 
+  460a21:	0f 10 44 24 50       	movups 0x50(%rsp),%xmm0
+  460a26:	0f 10 4c 24 60       	movups 0x60(%rsp),%xmm1
+  460a2b:	0f 10 54 24 70       	movups 0x70(%rsp),%xmm2
+  460a30:	0f 10 9c 24 80 00 00 	movups 0x80(%rsp),%xmm3
+  460a37:	00 
+  460a38:	0f 29 9c 24 60 01 00 	movaps %xmm3,0x160(%rsp)
+  460a3f:	00 
+  460a40:	0f 29 94 24 50 01 00 	movaps %xmm2,0x150(%rsp)
+  460a47:	00 
+  460a48:	0f 29 8c 24 40 01 00 	movaps %xmm1,0x140(%rsp)
+  460a4f:	00 
+  460a50:	0f 29 84 24 30 01 00 	movaps %xmm0,0x130(%rsp)
+  460a57:	00 
+  460a58:	66 0f 6f 84 24 a0 03 	movdqa 0x3a0(%rsp),%xmm0
+  460a5f:	00 00 
+  460a61:	66 0f 7f 84 24 10 01 	movdqa %xmm0,0x110(%rsp)
+  460a68:	00 00 
+  460a6a:	48 8b 8c 24 b0 03 00 	mov    0x3b0(%rsp),%rcx
+  460a71:	00 
+  460a72:	48 89 8c 24 20 01 00 	mov    %rcx,0x120(%rsp)
+  460a79:	00 
+  460a7a:	48 89 84 24 28 01 00 	mov    %rax,0x128(%rsp)
+  460a81:	00 
+  460a82:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
+  460a87:	48 8d b4 24 10 01 00 	lea    0x110(%rsp),%rsi
+  460a8e:	00 
+  460a8f:	ff 15 ab ca 50 01    	call   *0x150caab(%rip)        # 196d540 <_GLOBAL_OFFSET_TABLE_+0x24c0>
+  460a95:	48 8b 44 24 40       	mov    0x40(%rsp),%rax
+  460a9a:	48 89 84 24 90 03 00 	mov    %rax,0x390(%rsp)
+  460aa1:	00 
+  460aa2:	0f 10 44 24 30       	movups 0x30(%rsp),%xmm0
+  460aa7:	0f 29 84 24 80 03 00 	movaps %xmm0,0x380(%rsp)
+  460aae:	00 
+  460aaf:	4c 8b 74 24 48       	mov    0x48(%rsp),%r14
+  460ab4:	44 8b 64 24 50       	mov    0x50(%rsp),%r12d
+  460ab9:	8b 5c 24 54          	mov    0x54(%rsp),%ebx
+  460abd:	48 8b 44 24 58       	mov    0x58(%rsp),%rax
+  460ac2:	48 89 84 24 00 01 00 	mov    %rax,0x100(%rsp)
+  460ac9:	00 
+  460aca:	0f 10 44 24 60       	movups 0x60(%rsp),%xmm0
+  460acf:	0f 29 84 24 40 03 00 	movaps %xmm0,0x340(%rsp)
+  460ad6:	00 
+  460ad7:	0f 10 44 24 70       	movups 0x70(%rsp),%xmm0
+  460adc:	0f 29 84 24 d0 02 00 	movaps %xmm0,0x2d0(%rsp)
+  460ae3:	00 
+  460ae4:	0f 10 84 24 80 00 00 	movups 0x80(%rsp),%xmm0
+  460aeb:	00 
+  460aec:	0f 29 84 24 e0 02 00 	movaps %xmm0,0x2e0(%rsp)
+  460af3:	00 
+  460af4:	f3 0f 6f 84 24 90 00 	movdqu 0x90(%rsp),%xmm0
+  460afb:	00 00 
+  460afd:	66 0f 7f 84 24 f0 02 	movdqa %xmm0,0x2f0(%rsp)
+  460b04:	00 00 
+  460b06:	48 8b 84 24 a0 00 00 	mov    0xa0(%rsp),%rax
+  460b0d:	00 
+  460b0e:	48 89 84 24 00 03 00 	mov    %rax,0x300(%rsp)
+  460b15:	00 
+  460b16:	48 8b 84 24 a8 00 00 	mov    0xa8(%rsp),%rax
+  460b1d:	00 
+  460b1e:	48 89 84 24 c0 00 00 	mov    %rax,0xc0(%rsp)
+  460b25:	00 
+  460b26:	48 3b ac 24 00 02 00 	cmp    0x200(%rsp),%rbp
+  460b2d:	00 
+  460b2e:	74 17                	je     460b47 <wasm_instance_new+0x15f7>
+  460b30:	49 c1 e7 04          	shl    $0x4,%r15
+  460b34:	ba 08 00 00 00       	mov    $0x8,%edx
+  460b39:	48 8b 7c 24 10       	mov    0x10(%rsp),%rdi
+  460b3e:	4c 89 fe             	mov    %r15,%rsi
+  460b41:	ff 15 a9 18 51 01    	call   *0x15118a9(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  460b47:	4c 8b bc 24 00 01 00 	mov    0x100(%rsp),%r15
+  460b4e:	00 
+  460b4f:	e9 a5 01 00 00       	jmp    460cf9 <wasm_instance_new+0x17a9>
+  460b54:	f0 48 ff 0b          	lock decq (%rbx)
+  460b58:	48 bb 01 00 00 00 00 	movabs $0x8000000000000001,%rbx
+  460b5f:	00 00 80 
+  460b62:	75 0d                	jne    460b71 <wasm_instance_new+0x1621>
+  460b64:	48 8d bc 24 10 01 00 	lea    0x110(%rsp),%rdi
+  460b6b:	00 
+  460b6c:	e8 4f 74 e9 ff       	call   2f7fc0 <alloc::sync::Arc<T,A>::drop_slow>
+  460b71:	4c 8b b4 24 68 02 00 	mov    0x268(%rsp),%r14
+  460b78:	00 
+  460b79:	48 8d 43 05          	lea    0x5(%rbx),%rax
+  460b7d:	49 39 c6             	cmp    %rax,%r14
+  460b80:	0f 84 d8 07 00 00    	je     46135e <wasm_instance_new+0x1e0e>
+  460b86:	48 8d 43 02          	lea    0x2(%rbx),%rax
+  460b8a:	49 39 c6             	cmp    %rax,%r14
+  460b8d:	0f 82 cb 07 00 00    	jb     46135e <wasm_instance_new+0x1e0e>
+  460b93:	4a 8d 0c 33          	lea    (%rbx,%r14,1),%rcx
+  460b97:	48 83 c1 fd          	add    $0xfffffffffffffffd,%rcx
+  460b9b:	31 c0                	xor    %eax,%eax
+  460b9d:	48 83 f9 04          	cmp    $0x4,%rcx
+  460ba1:	4a 8d 4c 33 fe       	lea    -0x2(%rbx,%r14,1),%rcx
+  460ba6:	48 0f 42 c1          	cmovb  %rcx,%rax
+  460baa:	48 83 f8 02          	cmp    $0x2,%rax
+  460bae:	0f 84 86 07 00 00    	je     46133a <wasm_instance_new+0x1dea>
+  460bb4:	48 83 f8 01          	cmp    $0x1,%rax
+  460bb8:	0f 84 5c 07 00 00    	je     46131a <wasm_instance_new+0x1dca>
+  460bbe:	48 85 c0             	test   %rax,%rax
+  460bc1:	0f 85 97 07 00 00    	jne    46135e <wasm_instance_new+0x1e0e>
+  460bc7:	48 8d 9c 24 50 02 00 	lea    0x250(%rsp),%rbx
+  460bce:	00 
+  460bcf:	48 89 df             	mov    %rbx,%rdi
+  460bd2:	e8 d9 a7 fe ff       	call   44b3b0 <core::ptr::drop_in_place<wasmer::error::LinkError>>
+  460bd7:	e9 82 07 00 00       	jmp    46135e <wasm_instance_new+0x1e0e>
+  460bdc:	0f 10 84 24 a0 00 00 	movups 0xa0(%rsp),%xmm0
+  460be3:	00 
+  460be4:	0f 29 84 24 80 01 00 	movaps %xmm0,0x180(%rsp)
+  460beb:	00 
+  460bec:	0f 10 84 24 90 00 00 	movups 0x90(%rsp),%xmm0
+  460bf3:	00 
+  460bf4:	0f 29 84 24 70 01 00 	movaps %xmm0,0x170(%rsp)
+  460bfb:	00 
+  460bfc:	0f 10 84 24 80 00 00 	movups 0x80(%rsp),%xmm0
+  460c03:	00 
+  460c04:	0f 29 84 24 60 01 00 	movaps %xmm0,0x160(%rsp)
+  460c0b:	00 
+  460c0c:	0f 10 44 24 70       	movups 0x70(%rsp),%xmm0
+  460c11:	0f 29 84 24 50 01 00 	movaps %xmm0,0x150(%rsp)
+  460c18:	00 
+  460c19:	f3 0f 6f 44 24 30    	movdqu 0x30(%rsp),%xmm0
+  460c1f:	0f 10 4c 24 40       	movups 0x40(%rsp),%xmm1
+  460c24:	0f 10 54 24 50       	movups 0x50(%rsp),%xmm2
+  460c29:	0f 10 5c 24 60       	movups 0x60(%rsp),%xmm3
+  460c2e:	0f 29 9c 24 40 01 00 	movaps %xmm3,0x140(%rsp)
+  460c35:	00 
+  460c36:	0f 29 94 24 30 01 00 	movaps %xmm2,0x130(%rsp)
+  460c3d:	00 
+  460c3e:	0f 29 8c 24 20 01 00 	movaps %xmm1,0x120(%rsp)
+  460c45:	00 
+  460c46:	66 0f 7f 84 24 10 01 	movdqa %xmm0,0x110(%rsp)
+  460c4d:	00 00 
+  460c4f:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
+  460c54:	48 8d b4 24 10 01 00 	lea    0x110(%rsp),%rsi
+  460c5b:	00 
+  460c5c:	ff 15 de c8 50 01    	call   *0x150c8de(%rip)        # 196d540 <_GLOBAL_OFFSET_TABLE_+0x24c0>
+  460c62:	48 8b 44 24 40       	mov    0x40(%rsp),%rax
+  460c67:	48 89 84 24 90 03 00 	mov    %rax,0x390(%rsp)
+  460c6e:	00 
+  460c6f:	0f 10 44 24 30       	movups 0x30(%rsp),%xmm0
+  460c74:	0f 29 84 24 80 03 00 	movaps %xmm0,0x380(%rsp)
+  460c7b:	00 
+  460c7c:	4c 8b 74 24 48       	mov    0x48(%rsp),%r14
+  460c81:	44 8b 64 24 50       	mov    0x50(%rsp),%r12d
+  460c86:	8b 5c 24 54          	mov    0x54(%rsp),%ebx
+  460c8a:	4c 8b 7c 24 58       	mov    0x58(%rsp),%r15
+  460c8f:	0f 10 44 24 60       	movups 0x60(%rsp),%xmm0
+  460c94:	0f 29 84 24 40 03 00 	movaps %xmm0,0x340(%rsp)
+  460c9b:	00 
+  460c9c:	0f 10 44 24 70       	movups 0x70(%rsp),%xmm0
+  460ca1:	0f 29 84 24 d0 02 00 	movaps %xmm0,0x2d0(%rsp)
+  460ca8:	00 
+  460ca9:	0f 10 84 24 80 00 00 	movups 0x80(%rsp),%xmm0
+  460cb0:	00 
+  460cb1:	0f 29 84 24 e0 02 00 	movaps %xmm0,0x2e0(%rsp)
+  460cb8:	00 
+  460cb9:	f3 0f 6f 84 24 90 00 	movdqu 0x90(%rsp),%xmm0
+  460cc0:	00 00 
+  460cc2:	66 0f 7f 84 24 f0 02 	movdqa %xmm0,0x2f0(%rsp)
+  460cc9:	00 00 
+  460ccb:	48 8b 84 24 a0 00 00 	mov    0xa0(%rsp),%rax
+  460cd2:	00 
+  460cd3:	48 89 84 24 00 03 00 	mov    %rax,0x300(%rsp)
+  460cda:	00 
+  460cdb:	48 8b 84 24 a8 00 00 	mov    0xa8(%rsp),%rax
+  460ce2:	00 
+  460ce3:	48 89 84 24 c0 00 00 	mov    %rax,0xc0(%rsp)
+  460cea:	00 
+  460ceb:	48 8d bc 24 50 03 00 	lea    0x350(%rsp),%rdi
+  460cf2:	00 
+  460cf3:	ff 15 ef ab 50 01    	call   *0x150abef(%rip)        # 196b8e8 <_GLOBAL_OFFSET_TABLE_+0x868>
+  460cf9:	48 b8 01 00 00 00 00 	movabs $0x8000000000000001,%rax
+  460d00:	00 00 80 
+  460d03:	48 83 c0 05          	add    $0x5,%rax
+  460d07:	49 39 c6             	cmp    %rax,%r14
+  460d0a:	0f 85 bc f3 ff ff    	jne    4600cc <wasm_instance_new+0xb7c>
+  460d10:	89 9c 24 34 02 00 00 	mov    %ebx,0x234(%rsp)
+  460d17:	48 8d 9c 24 38 02 00 	lea    0x238(%rsp),%rbx
+  460d1e:	00 
+  460d1f:	4c 89 bc 24 38 02 00 	mov    %r15,0x238(%rsp)
+  460d26:	00 
+  460d27:	66 0f 6f 84 24 40 03 	movdqa 0x340(%rsp),%xmm0
+  460d2e:	00 00 
+  460d30:	f3 0f 7f 84 24 40 02 	movdqu %xmm0,0x240(%rsp)
+  460d37:	00 00 
+  460d39:	44 89 a4 24 30 02 00 	mov    %r12d,0x230(%rsp)
+  460d40:	00 
+  460d41:	48 8d bc 24 10 01 00 	lea    0x110(%rsp),%rdi
+  460d48:	00 
+  460d49:	48 8b b4 24 98 01 00 	mov    0x198(%rsp),%rsi
+  460d50:	00 
+  460d51:	ff 15 61 c8 50 01    	call   *0x150c861(%rip)        # 196d5b8 <_GLOBAL_OFFSET_TABLE_+0x2538>
+  460d57:	48 89 9c 24 28 01 00 	mov    %rbx,0x128(%rsp)
+  460d5e:	00 
+  460d5f:	48 8d 44 24 18       	lea    0x18(%rsp),%rax
+  460d64:	48 89 84 24 30 01 00 	mov    %rax,0x130(%rsp)
+  460d6b:	00 
+  460d6c:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
+  460d71:	48 8d b4 24 10 01 00 	lea    0x110(%rsp),%rsi
+  460d78:	00 
+  460d79:	e8 42 e1 f8 ff       	call   3eeec0 <<indexmap::map::IndexMap<K,V,S> as core::iter::traits::collect::FromIterator<(K,V)>>::from_iter>
+  460d7e:	48 8b 7c 24 18       	mov    0x18(%rsp),%rdi
+  460d83:	0f 10 84 24 30 02 00 	movups 0x230(%rsp),%xmm0
+  460d8a:	00 
+  460d8b:	0f 10 8c 24 40 02 00 	movups 0x240(%rsp),%xmm1
+  460d92:	00 
+  460d93:	0f 29 8c 24 20 01 00 	movaps %xmm1,0x120(%rsp)
+  460d9a:	00 
+  460d9b:	0f 29 84 24 10 01 00 	movaps %xmm0,0x110(%rsp)
+  460da2:	00 
+  460da3:	f3 0f 6f 84 24 18 01 	movdqu 0x118(%rsp),%xmm0
+  460daa:	00 00 
+  460dac:	66 0f 7f 84 24 d0 02 	movdqa %xmm0,0x2d0(%rsp)
+  460db3:	00 00 
+  460db5:	48 8b 84 24 28 01 00 	mov    0x128(%rsp),%rax
+  460dbc:	00 
+  460dbd:	48 89 84 24 e0 02 00 	mov    %rax,0x2e0(%rsp)
+  460dc4:	00 
+  460dc5:	4c 8b bf d8 00 00 00 	mov    0xd8(%rdi),%r15
+  460dcc:	48 8d b4 24 d0 02 00 	lea    0x2d0(%rsp),%rsi
+  460dd3:	00 
+  460dd4:	e8 b7 93 f8 ff       	call   3ea190 <wasmer_vm::store::InternalStoreHandle<T>::new>
+  460dd9:	4c 8b b4 24 08 01 00 	mov    0x108(%rsp),%r14
+  460de0:	00 
+  460de1:	48 89 c3             	mov    %rax,%rbx
+  460de4:	48 8b 44 24 70       	mov    0x70(%rsp),%rax
+  460de9:	48 89 84 24 f0 01 00 	mov    %rax,0x1f0(%rsp)
+  460df0:	00 
+  460df1:	0f 10 44 24 30       	movups 0x30(%rsp),%xmm0
+  460df6:	0f 10 4c 24 40       	movups 0x40(%rsp),%xmm1
+  460dfb:	0f 10 54 24 50       	movups 0x50(%rsp),%xmm2
+  460e00:	0f 10 5c 24 60       	movups 0x60(%rsp),%xmm3
+  460e05:	0f 29 84 24 b0 01 00 	movaps %xmm0,0x1b0(%rsp)
+  460e0c:	00 
+  460e0d:	0f 29 8c 24 c0 01 00 	movaps %xmm1,0x1c0(%rsp)
+  460e14:	00 
+  460e15:	0f 29 94 24 d0 01 00 	movaps %xmm2,0x1d0(%rsp)
+  460e1c:	00 
+  460e1d:	0f 29 9c 24 e0 01 00 	movaps %xmm3,0x1e0(%rsp)
+  460e24:	00 
+  460e25:	4d 85 ed             	test   %r13,%r13
+  460e28:	74 17                	je     460e41 <wasm_instance_new+0x18f1>
+  460e2a:	48 8b 44 24 28       	mov    0x28(%rsp),%rax
+  460e2f:	48 8d 34 40          	lea    (%rax,%rax,2),%rsi
+  460e33:	ba 08 00 00 00       	mov    $0x8,%edx
+  460e38:	48 89 ef             	mov    %rbp,%rdi
+  460e3b:	ff 15 af 15 51 01    	call   *0x15115af(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  460e41:	66 0f 6f 84 24 b0 01 	movdqa 0x1b0(%rsp),%xmm0
+  460e48:	00 00 
+  460e4a:	0f 28 8c 24 c0 01 00 	movaps 0x1c0(%rsp),%xmm1
+  460e51:	00 
+  460e52:	0f 28 94 24 d0 01 00 	movaps 0x1d0(%rsp),%xmm2
+  460e59:	00 
+  460e5a:	0f 28 9c 24 e0 01 00 	movaps 0x1e0(%rsp),%xmm3
+  460e61:	00 
+  460e62:	66 0f 7f 84 24 00 04 	movdqa %xmm0,0x400(%rsp)
+  460e69:	00 00 
+  460e6b:	0f 29 8c 24 10 04 00 	movaps %xmm1,0x410(%rsp)
+  460e72:	00 
+  460e73:	0f 29 94 24 20 04 00 	movaps %xmm2,0x420(%rsp)
+  460e7a:	00 
+  460e7b:	0f 29 9c 24 30 04 00 	movaps %xmm3,0x430(%rsp)
+  460e82:	00 
+  460e83:	48 8b 84 24 f0 01 00 	mov    0x1f0(%rsp),%rax
+  460e8a:	00 
+  460e8b:	48 89 84 24 40 04 00 	mov    %rax,0x440(%rsp)
+  460e92:	00 
+  460e93:	48 89 44 24 70       	mov    %rax,0x70(%rsp)
+  460e98:	0f 29 5c 24 60       	movaps %xmm3,0x60(%rsp)
+  460e9d:	0f 29 54 24 50       	movaps %xmm2,0x50(%rsp)
+  460ea2:	0f 29 4c 24 40       	movaps %xmm1,0x40(%rsp)
+  460ea7:	66 0f 7f 44 24 30    	movdqa %xmm0,0x30(%rsp)
+  460ead:	f6 84 24 28 02 00 00 	testb  $0x1,0x228(%rsp)
+  460eb4:	01 
+  460eb5:	4c 8d 2d c6 87 51 01 	lea    0x15187c6(%rip),%r13        # 1979682 <__rust_no_alloc_shim_is_unstable>
+  460ebc:	0f 84 97 00 00 00    	je     460f59 <wasm_instance_new+0x1a09>
+  460ec2:	48 8d 15 f7 03 f6 00 	lea    0xf603f7(%rip),%rdx        # 13c12c0 <anon.54fbf388007cd38fe002bae626ab8104.200.llvm.49599001125987136+0xf8>
+  460ec9:	48 8d bc 24 d0 02 00 	lea    0x2d0(%rsp),%rdi
+  460ed0:	00 
+  460ed1:	48 8d 74 24 30       	lea    0x30(%rsp),%rsi
+  460ed6:	b9 06 00 00 00       	mov    $0x6,%ecx
+  460edb:	ff 15 b7 0c 51 01    	call   *0x1510cb7(%rip)        # 1971b98 <_GLOBAL_OFFSET_TABLE_+0x6b18>
+  460ee1:	48 b8 01 00 00 00 00 	movabs $0x8000000000000001,%rax
+  460ee8:	00 00 80 
+  460eeb:	48 39 84 24 d0 02 00 	cmp    %rax,0x2d0(%rsp)
+  460ef2:	00 
+  460ef3:	0f 85 98 02 00 00    	jne    461191 <wasm_instance_new+0x1c41>
+  460ef9:	4c 8b a4 24 d8 02 00 	mov    0x2d8(%rsp),%r12
+  460f00:	00 
+  460f01:	48 8b 74 24 18       	mov    0x18(%rsp),%rsi
+  460f06:	48 8d bc 24 a0 01 00 	lea    0x1a0(%rsp),%rdi
+  460f0d:	00 
+  460f0e:	e8 ed 91 f8 ff       	call   3ea100 <wasmer_vm::store::StoreHandle<T>::get_mut>
+  460f13:	4c 8b 30             	mov    (%rax),%r14
+  460f16:	48 8b 40 08          	mov    0x8(%rax),%rax
+  460f1a:	4c 89 f7             	mov    %r14,%rdi
+  460f1d:	ff 50 18             	call   *0x18(%rax)
+  460f20:	48 b9 2d 79 46 d6 7c 	movabs $0x5df7b7cd646792d,%rcx
+  460f27:	7b df 05 
+  460f2a:	48 39 c8             	cmp    %rcx,%rax
+  460f2d:	0f 85 0e 06 00 00    	jne    461541 <wasm_instance_new+0x1ff1>
+  460f33:	48 b8 95 38 a8 30 46 	movabs $0x50f2af4630a83895,%rax
+  460f3a:	af f2 50 
+  460f3d:	48 39 c2             	cmp    %rax,%rdx
+  460f40:	0f 85 fb 05 00 00    	jne    461541 <wasm_instance_new+0x1ff1>
+  460f46:	f3 41 0f 6f 04 24    	movdqu (%r12),%xmm0
+  460f4c:	f3 41 0f 7f 06       	movdqu %xmm0,(%r14)
+  460f51:	4c 8b b4 24 08 01 00 	mov    0x108(%rsp),%r14
+  460f58:	00 
+  460f59:	f0 49 ff 06          	lock incq (%r14)
+  460f5d:	0f 8e 27 06 00 00    	jle    46158a <wasm_instance_new+0x203a>
+  460f63:	48 8b 44 24 70       	mov    0x70(%rsp),%rax
+  460f68:	48 89 84 24 b0 02 00 	mov    %rax,0x2b0(%rsp)
+  460f6f:	00 
+  460f70:	66 0f 6f 44 24 30    	movdqa 0x30(%rsp),%xmm0
+  460f76:	0f 28 4c 24 40       	movaps 0x40(%rsp),%xmm1
+  460f7b:	0f 28 54 24 50       	movaps 0x50(%rsp),%xmm2
+  460f80:	0f 28 5c 24 60       	movaps 0x60(%rsp),%xmm3
+  460f85:	0f 11 9c 24 a0 02 00 	movups %xmm3,0x2a0(%rsp)
+  460f8c:	00 
+  460f8d:	0f 11 94 24 90 02 00 	movups %xmm2,0x290(%rsp)
+  460f94:	00 
+  460f95:	0f 11 8c 24 80 02 00 	movups %xmm1,0x280(%rsp)
+  460f9c:	00 
+  460f9d:	f3 0f 7f 84 24 70 02 	movdqu %xmm0,0x270(%rsp)
+  460fa4:	00 00 
+  460fa6:	4c 89 bc 24 b8 02 00 	mov    %r15,0x2b8(%rsp)
+  460fad:	00 
+  460fae:	48 89 9c 24 c0 02 00 	mov    %rbx,0x2c0(%rsp)
+  460fb5:	00 
+  460fb6:	4c 89 b4 24 c8 02 00 	mov    %r14,0x2c8(%rsp)
+  460fbd:	00 
+  460fbe:	48 b8 01 00 00 00 00 	movabs $0x8000000000000001,%rax
+  460fc5:	00 00 80 
+  460fc8:	48 83 c0 05          	add    $0x5,%rax
+  460fcc:	48 89 84 24 68 02 00 	mov    %rax,0x268(%rsp)
+  460fd3:	00 
+  460fd4:	48 8d bc 24 10 03 00 	lea    0x310(%rsp),%rdi
+  460fdb:	00 
+  460fdc:	e8 af 9f f6 ff       	call   3caf90 <<hashbrown::raw::RawTable<T,A> as core::ops::drop::Drop>::drop>
+  460fe1:	4c 8b b4 24 b8 03 00 	mov    0x3b8(%rsp),%r14
+  460fe8:	00 
+  460fe9:	48 8d 9c 24 70 02 00 	lea    0x270(%rsp),%rbx
+  460ff0:	00 
+  460ff1:	48 8b 84 24 d8 00 00 	mov    0xd8(%rsp),%rax
+  460ff8:	00 
+  460ff9:	48 85 c0             	test   %rax,%rax
+  460ffc:	74 1b                	je     461019 <wasm_instance_new+0x1ac9>
+  460ffe:	48 8b bc 24 e0 00 00 	mov    0xe0(%rsp),%rdi
+  461005:	00 
+  461006:	48 c1 e0 03          	shl    $0x3,%rax
+  46100a:	48 8d 34 40          	lea    (%rax,%rax,2),%rsi
+  46100e:	ba 08 00 00 00       	mov    $0x8,%edx
+  461013:	ff 15 d7 13 51 01    	call   *0x15113d7(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  461019:	0f 10 03             	movups (%rbx),%xmm0
+  46101c:	0f 10 4b 10          	movups 0x10(%rbx),%xmm1
+  461020:	0f 10 53 20          	movups 0x20(%rbx),%xmm2
+  461024:	0f 10 5b 30          	movups 0x30(%rbx),%xmm3
+  461028:	0f 29 84 24 e0 04 00 	movaps %xmm0,0x4e0(%rsp)
+  46102f:	00 
+  461030:	0f 29 8c 24 f0 04 00 	movaps %xmm1,0x4f0(%rsp)
+  461037:	00 
+  461038:	0f 29 94 24 00 05 00 	movaps %xmm2,0x500(%rsp)
+  46103f:	00 
+  461040:	0f 29 9c 24 10 05 00 	movaps %xmm3,0x510(%rsp)
+  461047:	00 
+  461048:	0f 10 43 40          	movups 0x40(%rbx),%xmm0
+  46104c:	0f 29 84 24 20 05 00 	movaps %xmm0,0x520(%rsp)
+  461053:	00 
+  461054:	f3 0f 6f 43 50       	movdqu 0x50(%rbx),%xmm0
+  461059:	66 0f 7f 84 24 30 05 	movdqa %xmm0,0x530(%rsp)
+  461060:	00 00 
+  461062:	49 ff 06             	incq   (%r14)
+  461065:	0f 84 1f 05 00 00    	je     46158a <wasm_instance_new+0x203a>
+  46106b:	4c 89 b4 24 90 00 00 	mov    %r14,0x90(%rsp)
+  461072:	00 
+  461073:	0f 28 84 24 e0 04 00 	movaps 0x4e0(%rsp),%xmm0
+  46107a:	00 
+  46107b:	0f 28 8c 24 f0 04 00 	movaps 0x4f0(%rsp),%xmm1
+  461082:	00 
+  461083:	0f 28 94 24 00 05 00 	movaps 0x500(%rsp),%xmm2
+  46108a:	00 
+  46108b:	0f 28 9c 24 10 05 00 	movaps 0x510(%rsp),%xmm3
+  461092:	00 
+  461093:	0f 29 44 24 30       	movaps %xmm0,0x30(%rsp)
+  461098:	0f 29 4c 24 40       	movaps %xmm1,0x40(%rsp)
+  46109d:	0f 29 54 24 50       	movaps %xmm2,0x50(%rsp)
+  4610a2:	0f 29 5c 24 60       	movaps %xmm3,0x60(%rsp)
+  4610a7:	0f 28 84 24 20 05 00 	movaps 0x520(%rsp),%xmm0
+  4610ae:	00 
+  4610af:	0f 29 44 24 70       	movaps %xmm0,0x70(%rsp)
+  4610b4:	66 0f 6f 84 24 30 05 	movdqa 0x530(%rsp),%xmm0
+  4610bb:	00 00 
+  4610bd:	66 0f 7f 84 24 80 00 	movdqa %xmm0,0x80(%rsp)
+  4610c4:	00 00 
+  4610c6:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  4610cb:	bf 68 00 00 00       	mov    $0x68,%edi
+  4610d0:	be 08 00 00 00       	mov    $0x8,%esi
+  4610d5:	ff 15 3d 02 51 01    	call   *0x151023d(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  4610db:	48 85 c0             	test   %rax,%rax
+  4610de:	0f 84 39 04 00 00    	je     46151d <wasm_instance_new+0x1fcd>
+  4610e4:	48 89 c3             	mov    %rax,%rbx
+  4610e7:	48 8b 84 24 90 00 00 	mov    0x90(%rsp),%rax
+  4610ee:	00 
+  4610ef:	48 89 43 60          	mov    %rax,0x60(%rbx)
+  4610f3:	0f 28 84 24 80 00 00 	movaps 0x80(%rsp),%xmm0
+  4610fa:	00 
+  4610fb:	0f 11 43 50          	movups %xmm0,0x50(%rbx)
+  4610ff:	0f 28 44 24 70       	movaps 0x70(%rsp),%xmm0
+  461104:	0f 11 43 40          	movups %xmm0,0x40(%rbx)
+  461108:	66 0f 6f 44 24 30    	movdqa 0x30(%rsp),%xmm0
+  46110e:	0f 28 4c 24 40       	movaps 0x40(%rsp),%xmm1
+  461113:	0f 28 54 24 50       	movaps 0x50(%rsp),%xmm2
+  461118:	0f 28 5c 24 60       	movaps 0x60(%rsp),%xmm3
+  46111d:	0f 11 5b 30          	movups %xmm3,0x30(%rbx)
+  461121:	0f 11 53 20          	movups %xmm2,0x20(%rbx)
+  461125:	0f 11 4b 10          	movups %xmm1,0x10(%rbx)
+  461129:	f3 0f 7f 03          	movdqu %xmm0,(%rbx)
+  46112d:	48 8b 84 24 e8 03 00 	mov    0x3e8(%rsp),%rax
+  461134:	00 
+  461135:	48 85 c0             	test   %rax,%rax
+  461138:	74 1b                	je     461155 <wasm_instance_new+0x1c05>
+  46113a:	48 c1 e0 03          	shl    $0x3,%rax
+  46113e:	48 8d 34 40          	lea    (%rax,%rax,2),%rsi
+  461142:	ba 08 00 00 00       	mov    $0x8,%edx
+  461147:	48 8b bc 24 20 02 00 	mov    0x220(%rsp),%rdi
+  46114e:	00 
+  46114f:	ff 15 9b 12 51 01    	call   *0x151129b(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  461155:	4c 8b b4 24 d0 03 00 	mov    0x3d0(%rsp),%r14
+  46115c:	00 
+  46115d:	4c 8b bc 24 d8 03 00 	mov    0x3d8(%rsp),%r15
+  461164:	00 
+  461165:	49 8b 07             	mov    (%r15),%rax
+  461168:	48 85 c0             	test   %rax,%rax
+  46116b:	74 05                	je     461172 <wasm_instance_new+0x1c22>
+  46116d:	4c 89 f7             	mov    %r14,%rdi
+  461170:	ff d0                	call   *%rax
+  461172:	49 8b 77 08          	mov    0x8(%r15),%rsi
+  461176:	48 85 f6             	test   %rsi,%rsi
+  461179:	0f 84 3c 02 00 00    	je     4613bb <wasm_instance_new+0x1e6b>
+  46117f:	49 8b 57 10          	mov    0x10(%r15),%rdx
+  461183:	4c 89 f7             	mov    %r14,%rdi
+  461186:	ff 15 64 12 51 01    	call   *0x1511264(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  46118c:	e9 2a 02 00 00       	jmp    4613bb <wasm_instance_new+0x1e6b>
+  461191:	48 8b 84 24 e0 02 00 	mov    0x2e0(%rsp),%rax
+  461198:	00 
+  461199:	48 89 84 24 10 04 00 	mov    %rax,0x410(%rsp)
+  4611a0:	00 
+  4611a1:	f3 0f 6f 84 24 d0 02 	movdqu 0x2d0(%rsp),%xmm0
+  4611a8:	00 00 
+  4611aa:	66 0f 7f 84 24 00 04 	movdqa %xmm0,0x400(%rsp)
+  4611b1:	00 00 
+  4611b3:	48 c7 84 24 b0 01 00 	movq   $0x0,0x1b0(%rsp)
+  4611ba:	00 00 00 00 00 
+  4611bf:	48 c7 84 24 b8 01 00 	movq   $0x1,0x1b8(%rsp)
+  4611c6:	00 01 00 00 00 
+  4611cb:	48 c7 84 24 c0 01 00 	movq   $0x0,0x1c0(%rsp)
+  4611d2:	00 00 00 00 00 
+  4611d7:	48 c7 84 24 40 01 00 	movq   $0x20,0x140(%rsp)
+  4611de:	00 20 00 00 00 
+  4611e3:	c6 84 24 48 01 00 00 	movb   $0x3,0x148(%rsp)
+  4611ea:	03 
+  4611eb:	48 c7 84 24 10 01 00 	movq   $0x0,0x110(%rsp)
+  4611f2:	00 00 00 00 00 
+  4611f7:	48 c7 84 24 20 01 00 	movq   $0x0,0x120(%rsp)
+  4611fe:	00 00 00 00 00 
+  461203:	48 8d 84 24 b0 01 00 	lea    0x1b0(%rsp),%rax
+  46120a:	00 
+  46120b:	48 89 84 24 30 01 00 	mov    %rax,0x130(%rsp)
+  461212:	00 
+  461213:	48 8d 05 36 74 41 01 	lea    0x1417436(%rip),%rax        # 1878650 <anon.54fbf388007cd38fe002bae626ab8104.10.llvm.49599001125987136>
+  46121a:	48 89 84 24 38 01 00 	mov    %rax,0x138(%rsp)
+  461221:	00 
+  461222:	48 8d bc 24 00 04 00 	lea    0x400(%rsp),%rdi
+  461229:	00 
+  46122a:	48 8d b4 24 10 01 00 	lea    0x110(%rsp),%rsi
+  461231:	00 
+  461232:	ff 15 f0 c8 50 01    	call   *0x150c8f0(%rip)        # 196db28 <_GLOBAL_OFFSET_TABLE_+0x2aa8>
+  461238:	84 c0                	test   %al,%al
+  46123a:	0f 85 10 03 00 00    	jne    461550 <wasm_instance_new+0x2000>
+  461240:	48 8b 9c 24 b0 01 00 	mov    0x1b0(%rsp),%rbx
+  461247:	00 
+  461248:	4c 8b b4 24 b8 01 00 	mov    0x1b8(%rsp),%r14
+  46124f:	00 
+  461250:	4c 8b bc 24 c0 01 00 	mov    0x1c0(%rsp),%r15
+  461257:	00 
+  461258:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+  46125d:	bf 18 00 00 00       	mov    $0x18,%edi
+  461262:	be 08 00 00 00       	mov    $0x8,%esi
+  461267:	ff 15 ab 00 51 01    	call   *0x15100ab(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  46126d:	48 85 c0             	test   %rax,%rax
+  461270:	0f 84 04 03 00 00    	je     46157a <wasm_instance_new+0x202a>
+  461276:	48 89 18             	mov    %rbx,(%rax)
+  461279:	4c 89 70 08          	mov    %r14,0x8(%rax)
+  46127d:	4c 89 78 10          	mov    %r15,0x10(%rax)
+  461281:	48 8d 35 b0 7f 41 01 	lea    0x1417fb0(%rip),%rsi        # 1879238 <anon.54fbf388007cd38fe002bae626ab8104.194.llvm.49599001125987136>
+  461288:	48 89 c7             	mov    %rax,%rdi
+  46128b:	ff 15 77 d7 50 01    	call   *0x150d777(%rip)        # 196ea08 <_GLOBAL_OFFSET_TABLE_+0x3988>
+  461291:	48 8b b4 24 00 04 00 	mov    0x400(%rsp),%rsi
+  461298:	00 
+  461299:	48 3b b4 24 f0 00 00 	cmp    0xf0(%rsp),%rsi
+  4612a0:	00 
+  4612a1:	74 1e                	je     4612c1 <wasm_instance_new+0x1d71>
+  4612a3:	48 85 f6             	test   %rsi,%rsi
+  4612a6:	74 19                	je     4612c1 <wasm_instance_new+0x1d71>
+  4612a8:	48 8b bc 24 08 04 00 	mov    0x408(%rsp),%rdi
+  4612af:	00 
+  4612b0:	ba 01 00 00 00       	mov    $0x1,%edx
+  4612b5:	48 89 c3             	mov    %rax,%rbx
+  4612b8:	ff 15 32 11 51 01    	call   *0x1511132(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  4612be:	48 89 d8             	mov    %rbx,%rax
+  4612c1:	48 89 84 24 50 02 00 	mov    %rax,0x250(%rsp)
+  4612c8:	00 
+  4612c9:	48 b8 01 00 00 00 00 	movabs $0x8000000000000001,%rax
+  4612d0:	00 00 80 
+  4612d3:	4c 8d 70 01          	lea    0x1(%rax),%r14
+  4612d7:	4c 89 b4 24 68 02 00 	mov    %r14,0x268(%rsp)
+  4612de:	00 
+  4612df:	48 8d 7c 24 48       	lea    0x48(%rsp),%rdi
+  4612e4:	e8 97 a9 f6 ff       	call   3cbc80 <<hashbrown::raw::RawTable<T,A> as core::ops::drop::Drop>::drop>
+  4612e9:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
+  4612ee:	e8 dd 4a f8 ff       	call   3e5dd0 <<alloc::vec::Vec<T,A> as core::ops::drop::Drop>::drop>
+  4612f3:	48 8b 44 24 30       	mov    0x30(%rsp),%rax
+  4612f8:	48 85 c0             	test   %rax,%rax
+  4612fb:	0f 84 31 ef ff ff    	je     460232 <wasm_instance_new+0xce2>
+  461301:	48 8b 7c 24 38       	mov    0x38(%rsp),%rdi
+  461306:	48 6b f0 38          	imul   $0x38,%rax,%rsi
+  46130a:	ba 08 00 00 00       	mov    $0x8,%edx
+  46130f:	ff 15 db 10 51 01    	call   *0x15110db(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  461315:	e9 18 ef ff ff       	jmp    460232 <wasm_instance_new+0xce2>
+  46131a:	48 8b 84 24 50 02 00 	mov    0x250(%rsp),%rax
+  461321:	00 
+  461322:	f0 48 ff 08          	lock decq (%rax)
+  461326:	75 36                	jne    46135e <wasm_instance_new+0x1e0e>
+  461328:	48 8d 9c 24 50 02 00 	lea    0x250(%rsp),%rbx
+  46132f:	00 
+  461330:	48 89 df             	mov    %rbx,%rdi
+  461333:	e8 88 6c e9 ff       	call   2f7fc0 <alloc::sync::Arc<T,A>::drop_slow>
+  461338:	eb 24                	jmp    46135e <wasm_instance_new+0x1e0e>
+  46133a:	48 8b b4 24 50 02 00 	mov    0x250(%rsp),%rsi
+  461341:	00 
+  461342:	48 85 f6             	test   %rsi,%rsi
+  461345:	74 17                	je     46135e <wasm_instance_new+0x1e0e>
+  461347:	48 8d 9c 24 50 02 00 	lea    0x250(%rsp),%rbx
+  46134e:	00 
+  46134f:	48 8b 7b 08          	mov    0x8(%rbx),%rdi
+  461353:	ba 01 00 00 00       	mov    $0x1,%edx
+  461358:	ff 15 92 10 51 01    	call   *0x1511092(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  46135e:	48 8b 84 24 e8 03 00 	mov    0x3e8(%rsp),%rax
+  461365:	00 
+  461366:	48 85 c0             	test   %rax,%rax
+  461369:	74 1b                	je     461386 <wasm_instance_new+0x1e36>
+  46136b:	48 8b bc 24 f0 03 00 	mov    0x3f0(%rsp),%rdi
+  461372:	00 
+  461373:	48 c1 e0 03          	shl    $0x3,%rax
+  461377:	48 8d 34 40          	lea    (%rax,%rax,2),%rsi
+  46137b:	ba 08 00 00 00       	mov    $0x8,%edx
+  461380:	ff 15 6a 10 51 01    	call   *0x151106a(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  461386:	48 8b 9c 24 d0 03 00 	mov    0x3d0(%rsp),%rbx
+  46138d:	00 
+  46138e:	4c 8b b4 24 d8 03 00 	mov    0x3d8(%rsp),%r14
+  461395:	00 
+  461396:	49 8b 06             	mov    (%r14),%rax
+  461399:	48 85 c0             	test   %rax,%rax
+  46139c:	74 05                	je     4613a3 <wasm_instance_new+0x1e53>
+  46139e:	48 89 df             	mov    %rbx,%rdi
+  4613a1:	ff d0                	call   *%rax
+  4613a3:	49 8b 76 08          	mov    0x8(%r14),%rsi
+  4613a7:	48 85 f6             	test   %rsi,%rsi
+  4613aa:	74 0d                	je     4613b9 <wasm_instance_new+0x1e69>
+  4613ac:	49 8b 56 10          	mov    0x10(%r14),%rdx
+  4613b0:	48 89 df             	mov    %rbx,%rdi
+  4613b3:	ff 15 37 10 51 01    	call   *0x1511037(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  4613b9:	31 db                	xor    %ebx,%ebx
+  4613bb:	48 89 d8             	mov    %rbx,%rax
+  4613be:	48 81 c4 68 07 00 00 	add    $0x768,%rsp
+  4613c5:	5b                   	pop    %rbx
+  4613c6:	41 5c                	pop    %r12
+  4613c8:	41 5d                	pop    %r13
+  4613ca:	41 5e                	pop    %r14
+  4613cc:	41 5f                	pop    %r15
+  4613ce:	5d                   	pop    %rbp
+  4613cf:	c3                   	ret
+  4613d0:	4c 89 fe             	mov    %r15,%rsi
+  4613d3:	45 31 ff             	xor    %r15d,%r15d
+  4613d6:	eb 03                	jmp    4613db <wasm_instance_new+0x1e8b>
+  4613d8:	4c 89 e6             	mov    %r12,%rsi
+  4613db:	4c 89 ff             	mov    %r15,%rdi
+  4613de:	ff 15 fc e2 50 01    	call   *0x150e2fc(%rip)        # 196f6e0 <_GLOBAL_OFFSET_TABLE_+0x4660>
+  4613e4:	e9 a1 01 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  4613e9:	31 db                	xor    %ebx,%ebx
+  4613eb:	eb 08                	jmp    4613f5 <wasm_instance_new+0x1ea5>
+  4613ed:	4c 89 b4 24 c0 00 00 	mov    %r14,0xc0(%rsp)
+  4613f4:	00 
+  4613f5:	48 89 df             	mov    %rbx,%rdi
+  4613f8:	48 8b b4 24 c0 00 00 	mov    0xc0(%rsp),%rsi
+  4613ff:	00 
+  461400:	ff 15 da e2 50 01    	call   *0x150e2da(%rip)        # 196f6e0 <_GLOBAL_OFFSET_TABLE_+0x4660>
+  461406:	e9 7f 01 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  46140b:	bf 08 00 00 00       	mov    $0x8,%edi
+  461410:	be 30 00 00 00       	mov    $0x30,%esi
+  461415:	ff 15 cd c2 50 01    	call   *0x150c2cd(%rip)        # 196d6e8 <_GLOBAL_OFFSET_TABLE_+0x2668>
+  46141b:	e9 6a 01 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  461420:	bf 01 00 00 00       	mov    $0x1,%edi
+  461425:	be 0a 00 00 00       	mov    $0xa,%esi
+  46142a:	ff 15 b0 e2 50 01    	call   *0x150e2b0(%rip)        # 196f6e0 <_GLOBAL_OFFSET_TABLE_+0x4660>
+  461430:	e9 55 01 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  461435:	bf 01 00 00 00       	mov    $0x1,%edi
+  46143a:	be 10 00 00 00       	mov    $0x10,%esi
+  46143f:	ff 15 9b e2 50 01    	call   *0x150e29b(%rip)        # 196f6e0 <_GLOBAL_OFFSET_TABLE_+0x4660>
+  461445:	e9 40 01 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  46144a:	bf 01 00 00 00       	mov    $0x1,%edi
+  46144f:	be 0e 00 00 00       	mov    $0xe,%esi
+  461454:	ff 15 86 e2 50 01    	call   *0x150e286(%rip)        # 196f6e0 <_GLOBAL_OFFSET_TABLE_+0x4660>
+  46145a:	e9 2b 01 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  46145f:	bf 01 00 00 00       	mov    $0x1,%edi
+  461464:	be 0f 00 00 00       	mov    $0xf,%esi
+  461469:	ff 15 71 e2 50 01    	call   *0x150e271(%rip)        # 196f6e0 <_GLOBAL_OFFSET_TABLE_+0x4660>
+  46146f:	e9 16 01 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  461474:	45 31 ff             	xor    %r15d,%r15d
+  461477:	4c 89 ff             	mov    %r15,%rdi
+  46147a:	4c 89 f6             	mov    %r14,%rsi
+  46147d:	ff 15 5d e2 50 01    	call   *0x150e25d(%rip)        # 196f6e0 <_GLOBAL_OFFSET_TABLE_+0x4660>
+  461483:	e9 02 01 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  461488:	48 8d 3d 4c fb f5 00 	lea    0xf5fb4c(%rip),%rdi        # 13c0fdb <anon.54fbf388007cd38fe002bae626ab8104.140.llvm.49599001125987136>
+  46148f:	48 8d 0d 62 7a 41 01 	lea    0x1417a62(%rip),%rcx        # 1878ef8 <anon.54fbf388007cd38fe002bae626ab8104.147.llvm.49599001125987136>
+  461496:	4c 8d 05 c3 79 41 01 	lea    0x14179c3(%rip),%r8        # 1878e60 <anon.54fbf388007cd38fe002bae626ab8104.142.llvm.49599001125987136>
+  46149d:	48 8d 94 24 30 02 00 	lea    0x230(%rsp),%rdx
+  4614a4:	00 
+  4614a5:	be 37 00 00 00       	mov    $0x37,%esi
+  4614aa:	ff 15 c0 c8 50 01    	call   *0x150c8c0(%rip)        # 196dd70 <_GLOBAL_OFFSET_TABLE_+0x2cf0>
+  4614b0:	e9 d5 00 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  4614b5:	48 8d 3d 2c 80 41 01 	lea    0x141802c(%rip),%rdi        # 18794e8 <anon.54fbf388007cd38fe002bae626ab8104.248.llvm.49599001125987136>
+  4614bc:	ff 15 76 c7 50 01    	call   *0x150c776(%rip)        # 196dc38 <_GLOBAL_OFFSET_TABLE_+0x2bb8>
+  4614c2:	e9 c3 00 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  4614c7:	48 8d 3d 0d fb f5 00 	lea    0xf5fb0d(%rip),%rdi        # 13c0fdb <anon.54fbf388007cd38fe002bae626ab8104.140.llvm.49599001125987136>
+  4614ce:	48 8d 0d 23 7a 41 01 	lea    0x1417a23(%rip),%rcx        # 1878ef8 <anon.54fbf388007cd38fe002bae626ab8104.147.llvm.49599001125987136>
+  4614d5:	4c 8d 05 84 79 41 01 	lea    0x1417984(%rip),%r8        # 1878e60 <anon.54fbf388007cd38fe002bae626ab8104.142.llvm.49599001125987136>
+  4614dc:	48 8d 94 24 30 02 00 	lea    0x230(%rsp),%rdx
+  4614e3:	00 
+  4614e4:	be 37 00 00 00       	mov    $0x37,%esi
+  4614e9:	ff 15 81 c8 50 01    	call   *0x150c881(%rip)        # 196dd70 <_GLOBAL_OFFSET_TABLE_+0x2cf0>
+  4614ef:	e9 96 00 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  4614f4:	48 8d 3d ed 7f 41 01 	lea    0x1417fed(%rip),%rdi        # 18794e8 <anon.54fbf388007cd38fe002bae626ab8104.248.llvm.49599001125987136>
+  4614fb:	ff 15 37 c7 50 01    	call   *0x150c737(%rip)        # 196dc38 <_GLOBAL_OFFSET_TABLE_+0x2bb8>
+  461501:	e9 84 00 00 00       	jmp    46158a <wasm_instance_new+0x203a>
+  461506:	31 c0                	xor    %eax,%eax
+  461508:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
+  46150d:	48 8b 7c 24 20       	mov    0x20(%rsp),%rdi
+  461512:	48 89 de             	mov    %rbx,%rsi
+  461515:	ff 15 c5 e1 50 01    	call   *0x150e1c5(%rip)        # 196f6e0 <_GLOBAL_OFFSET_TABLE_+0x4660>
+  46151b:	eb 6d                	jmp    46158a <wasm_instance_new+0x203a>
+  46151d:	bf 08 00 00 00       	mov    $0x8,%edi
+  461522:	be 68 00 00 00       	mov    $0x68,%esi
+  461527:	ff 15 bb c1 50 01    	call   *0x150c1bb(%rip)        # 196d6e8 <_GLOBAL_OFFSET_TABLE_+0x2668>
+  46152d:	eb 5b                	jmp    46158a <wasm_instance_new+0x203a>
+  46152f:	bf 08 00 00 00       	mov    $0x8,%edi
+  461534:	be 08 00 00 00       	mov    $0x8,%esi
+  461539:	ff 15 a9 c1 50 01    	call   *0x150c1a9(%rip)        # 196d6e8 <_GLOBAL_OFFSET_TABLE_+0x2668>
+  46153f:	eb 49                	jmp    46158a <wasm_instance_new+0x203a>
+  461541:	48 8d 3d e0 7d 41 01 	lea    0x1417de0(%rip),%rdi        # 1879328 <anon.54fbf388007cd38fe002bae626ab8104.201.llvm.49599001125987136>
+  461548:	ff 15 d2 de 50 01    	call   *0x150ded2(%rip)        # 196f420 <_GLOBAL_OFFSET_TABLE_+0x43a0>
+  46154e:	eb 3a                	jmp    46158a <wasm_instance_new+0x203a>
+  461550:	48 8d 3d 84 fa f5 00 	lea    0xf5fa84(%rip),%rdi        # 13c0fdb <anon.54fbf388007cd38fe002bae626ab8104.140.llvm.49599001125987136>
+  461557:	48 8d 0d 9a 79 41 01 	lea    0x141799a(%rip),%rcx        # 1878ef8 <anon.54fbf388007cd38fe002bae626ab8104.147.llvm.49599001125987136>
+  46155e:	4c 8d 05 fb 78 41 01 	lea    0x14178fb(%rip),%r8        # 1878e60 <anon.54fbf388007cd38fe002bae626ab8104.142.llvm.49599001125987136>
+  461565:	48 8d 94 24 30 02 00 	lea    0x230(%rsp),%rdx
+  46156c:	00 
+  46156d:	be 37 00 00 00       	mov    $0x37,%esi
+  461572:	ff 15 f8 c7 50 01    	call   *0x150c7f8(%rip)        # 196dd70 <_GLOBAL_OFFSET_TABLE_+0x2cf0>
+  461578:	eb 10                	jmp    46158a <wasm_instance_new+0x203a>
+  46157a:	bf 08 00 00 00       	mov    $0x8,%edi
+  46157f:	be 18 00 00 00       	mov    $0x18,%esi
+  461584:	ff 15 5e c1 50 01    	call   *0x150c15e(%rip)        # 196d6e8 <_GLOBAL_OFFSET_TABLE_+0x2668>
+  46158a:	0f 0b                	ud2
+  46158c:	48 85 db             	test   %rbx,%rbx
+  46158f:	74 76                	je     461607 <wasm_instance_new+0x20b7>
+  461591:	ba 01 00 00 00       	mov    $0x1,%edx
+  461596:	4c 89 f7             	mov    %r14,%rdi
+  461599:	48 89 de             	mov    %rbx,%rsi
+  46159c:	eb 63                	jmp    461601 <wasm_instance_new+0x20b1>
+  46159e:	48 8b 44 24 30       	mov    0x30(%rsp),%rax
+  4615a3:	48 85 c0             	test   %rax,%rax
+  4615a6:	0f 84 d0 02 00 00    	je     46187c <wasm_instance_new+0x232c>
+  4615ac:	48 8b 7c 24 38       	mov    0x38(%rsp),%rdi
+  4615b1:	48 6b f0 38          	imul   $0x38,%rax,%rsi
+  4615b5:	ba 08 00 00 00       	mov    $0x8,%edx
+  4615ba:	ff 15 30 0e 51 01    	call   *0x1510e30(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  4615c0:	e9 b7 02 00 00       	jmp    46187c <wasm_instance_new+0x232c>
+  4615c5:	eb 40                	jmp    461607 <wasm_instance_new+0x20b7>
+  4615c7:	49 8b 77 08          	mov    0x8(%r15),%rsi
+  4615cb:	48 85 f6             	test   %rsi,%rsi
+  4615ce:	0f 84 59 02 00 00    	je     46182d <wasm_instance_new+0x22dd>
+  4615d4:	49 8b 57 10          	mov    0x10(%r15),%rdx
+  4615d8:	4c 89 f7             	mov    %r14,%rdi
+  4615db:	ff 15 0f 0e 51 01    	call   *0x1510e0f(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  4615e1:	ff 15 d9 df 50 01    	call   *0x150dfd9(%rip)        # 196f5c0 <_GLOBAL_OFFSET_TABLE_+0x4540>
+  4615e7:	48 8b b4 24 b0 01 00 	mov    0x1b0(%rsp),%rsi
+  4615ee:	00 
+  4615ef:	48 85 f6             	test   %rsi,%rsi
+  4615f2:	74 13                	je     461607 <wasm_instance_new+0x20b7>
+  4615f4:	48 8b bc 24 b8 01 00 	mov    0x1b8(%rsp),%rdi
+  4615fb:	00 
+  4615fc:	ba 01 00 00 00       	mov    $0x1,%edx
+  461601:	ff 15 e9 0d 51 01    	call   *0x1510de9(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  461607:	48 8b b4 24 00 04 00 	mov    0x400(%rsp),%rsi
+  46160e:	00 
+  46160f:	48 3b b4 24 f0 00 00 	cmp    0xf0(%rsp),%rsi
+  461616:	00 
+  461617:	0f 84 96 00 00 00    	je     4616b3 <wasm_instance_new+0x2163>
+  46161d:	48 85 f6             	test   %rsi,%rsi
+  461620:	0f 84 8d 00 00 00    	je     4616b3 <wasm_instance_new+0x2163>
+  461626:	48 8b bc 24 08 04 00 	mov    0x408(%rsp),%rdi
+  46162d:	00 
+  46162e:	ba 01 00 00 00       	mov    $0x1,%edx
+  461633:	ff 15 b7 0d 51 01    	call   *0x1510db7(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  461639:	eb 78                	jmp    4616b3 <wasm_instance_new+0x2163>
+  46163b:	f0 48 ff 0b          	lock decq (%rbx)
+  46163f:	0f 85 e8 01 00 00    	jne    46182d <wasm_instance_new+0x22dd>
+  461645:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
+  46164a:	e8 71 69 e9 ff       	call   2f7fc0 <alloc::sync::Arc<T,A>::drop_slow>
+  46164f:	e9 d9 01 00 00       	jmp    46182d <wasm_instance_new+0x22dd>
+  461654:	ff 15 0e 9d 50 01    	call   *0x1509d0e(%rip)        # 196b368 <_GLOBAL_OFFSET_TABLE_+0x2e8>
+  46165a:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
+  46165f:	e8 8c bb fe ff       	call   44d1f0 <core::ptr::drop_in_place<wasmer::wasm_c_api::instance::wasm_instance_t>>
+  461664:	e9 c4 01 00 00       	jmp    46182d <wasm_instance_new+0x22dd>
+  461669:	ff 15 f9 9c 50 01    	call   *0x1509cf9(%rip)        # 196b368 <_GLOBAL_OFFSET_TABLE_+0x2e8>
+  46166f:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
+  461674:	e8 37 a8 fe ff       	call   44beb0 <core::ptr::drop_in_place<wasmer::entities::exports::Exports>>
+  461679:	e9 b2 00 00 00       	jmp    461730 <wasm_instance_new+0x21e0>
+  46167e:	4a 8d 04 6d 00 00 00 	lea    0x0(,%r13,2),%rax
+  461685:	00 
+  461686:	48 85 c0             	test   %rax,%rax
+  461689:	74 6c                	je     4616f7 <wasm_instance_new+0x21a7>
+  46168b:	ba 01 00 00 00       	mov    $0x1,%edx
+  461690:	4c 89 ff             	mov    %r15,%rdi
+  461693:	4c 89 ee             	mov    %r13,%rsi
+  461696:	eb 59                	jmp    4616f1 <wasm_instance_new+0x21a1>
+  461698:	eb 5d                	jmp    4616f7 <wasm_instance_new+0x21a7>
+  46169a:	48 8d bc 24 50 03 00 	lea    0x350(%rsp),%rdi
+  4616a1:	00 
+  4616a2:	ff 15 40 a2 50 01    	call   *0x150a240(%rip)        # 196b8e8 <_GLOBAL_OFFSET_TABLE_+0x868>
+  4616a8:	e9 83 00 00 00       	jmp    461730 <wasm_instance_new+0x21e0>
+  4616ad:	ff 15 b5 9c 50 01    	call   *0x1509cb5(%rip)        # 196b368 <_GLOBAL_OFFSET_TABLE_+0x2e8>
+  4616b3:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
+  4616b8:	e8 f3 a7 fe ff       	call   44beb0 <core::ptr::drop_in_place<wasmer::entities::exports::Exports>>
+  4616bd:	e9 ba 01 00 00       	jmp    46187c <wasm_instance_new+0x232c>
+  4616c2:	48 89 df             	mov    %rbx,%rdi
+  4616c5:	ff 15 1d a2 50 01    	call   *0x150a21d(%rip)        # 196b8e8 <_GLOBAL_OFFSET_TABLE_+0x868>
+  4616cb:	eb 63                	jmp    461730 <wasm_instance_new+0x21e0>
+  4616cd:	ff 15 95 9c 50 01    	call   *0x1509c95(%rip)        # 196b368 <_GLOBAL_OFFSET_TABLE_+0x2e8>
+  4616d3:	eb 64                	jmp    461739 <wasm_instance_new+0x21e9>
+  4616d5:	eb 59                	jmp    461730 <wasm_instance_new+0x21e0>
+  4616d7:	48 8b b4 24 10 01 00 	mov    0x110(%rsp),%rsi
+  4616de:	00 
+  4616df:	48 85 f6             	test   %rsi,%rsi
+  4616e2:	74 13                	je     4616f7 <wasm_instance_new+0x21a7>
+  4616e4:	48 8b bc 24 18 01 00 	mov    0x118(%rsp),%rdi
+  4616eb:	00 
+  4616ec:	ba 01 00 00 00       	mov    $0x1,%edx
+  4616f1:	ff 15 f9 0c 51 01    	call   *0x1510cf9(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  4616f7:	48 8d bc 24 60 05 00 	lea    0x560(%rsp),%rdi
+  4616fe:	00 
+  4616ff:	e8 ac 9c fe ff       	call   44b3b0 <core::ptr::drop_in_place<wasmer::error::LinkError>>
+  461704:	e9 24 01 00 00       	jmp    46182d <wasm_instance_new+0x22dd>
+  461709:	ff 15 59 9c 50 01    	call   *0x1509c59(%rip)        # 196b368 <_GLOBAL_OFFSET_TABLE_+0x2e8>
+  46170f:	48 3b ac 24 00 02 00 	cmp    0x200(%rsp),%rbp
+  461716:	00 
+  461717:	74 17                	je     461730 <wasm_instance_new+0x21e0>
+  461719:	49 c1 e7 04          	shl    $0x4,%r15
+  46171d:	ba 08 00 00 00       	mov    $0x8,%edx
+  461722:	48 8b 7c 24 10       	mov    0x10(%rsp),%rdi
+  461727:	4c 89 fe             	mov    %r15,%rsi
+  46172a:	ff 15 c0 0c 51 01    	call   *0x1510cc0(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  461730:	4d 85 ed             	test   %r13,%r13
+  461733:	0f 84 43 01 00 00    	je     46187c <wasm_instance_new+0x232c>
+  461739:	48 8b 44 24 28       	mov    0x28(%rsp),%rax
+  46173e:	48 8d 34 40          	lea    (%rax,%rax,2),%rsi
+  461742:	ba 08 00 00 00       	mov    $0x8,%edx
+  461747:	48 89 ef             	mov    %rbp,%rdi
+  46174a:	ff 15 a0 0c 51 01    	call   *0x1510ca0(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  461750:	e9 27 01 00 00       	jmp    46187c <wasm_instance_new+0x232c>
+  461755:	4a 8d 04 7d 00 00 00 	lea    0x0(,%r15,2),%rax
+  46175c:	00 
+  46175d:	48 85 c0             	test   %rax,%rax
+  461760:	0f 84 9c 00 00 00    	je     461802 <wasm_instance_new+0x22b2>
+  461766:	ba 01 00 00 00       	mov    $0x1,%edx
+  46176b:	4c 89 e7             	mov    %r12,%rdi
+  46176e:	4c 89 fe             	mov    %r15,%rsi
+  461771:	e9 86 00 00 00       	jmp    4617fc <wasm_instance_new+0x22ac>
+  461776:	e9 87 00 00 00       	jmp    461802 <wasm_instance_new+0x22b2>
+  46177b:	49 8b 76 08          	mov    0x8(%r14),%rsi
+  46177f:	48 85 f6             	test   %rsi,%rsi
+  461782:	0f 84 a5 00 00 00    	je     46182d <wasm_instance_new+0x22dd>
+  461788:	49 8b 56 10          	mov    0x10(%r14),%rdx
+  46178c:	48 89 df             	mov    %rbx,%rdi
+  46178f:	ff 15 5b 0c 51 01    	call   *0x1510c5b(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  461795:	ff 15 25 de 50 01    	call   *0x150de25(%rip)        # 196f5c0 <_GLOBAL_OFFSET_TABLE_+0x4540>
+  46179b:	48 8b 73 08          	mov    0x8(%rbx),%rsi
+  46179f:	48 85 f6             	test   %rsi,%rsi
+  4617a2:	0f 84 d4 00 00 00    	je     46187c <wasm_instance_new+0x232c>
+  4617a8:	48 8b 84 24 90 01 00 	mov    0x190(%rsp),%rax
+  4617af:	00 
+  4617b0:	48 8b 50 10          	mov    0x10(%rax),%rdx
+  4617b4:	48 8b 7c 24 20       	mov    0x20(%rsp),%rdi
+  4617b9:	ff 15 31 0c 51 01    	call   *0x1510c31(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  4617bf:	e9 b8 00 00 00       	jmp    46187c <wasm_instance_new+0x232c>
+  4617c4:	eb 04                	jmp    4617ca <wasm_instance_new+0x227a>
+  4617c6:	eb 02                	jmp    4617ca <wasm_instance_new+0x227a>
+  4617c8:	eb 00                	jmp    4617ca <wasm_instance_new+0x227a>
+  4617ca:	be 03 00 00 00       	mov    $0x3,%esi
+  4617cf:	ba 01 00 00 00       	mov    $0x1,%edx
+  4617d4:	48 89 df             	mov    %rbx,%rdi
+  4617d7:	ff 15 13 0c 51 01    	call   *0x1510c13(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  4617dd:	e9 9a 00 00 00       	jmp    46187c <wasm_instance_new+0x232c>
+  4617e2:	48 8b b4 24 10 01 00 	mov    0x110(%rsp),%rsi
+  4617e9:	00 
+  4617ea:	48 85 f6             	test   %rsi,%rsi
+  4617ed:	74 13                	je     461802 <wasm_instance_new+0x22b2>
+  4617ef:	48 8b bc 24 18 01 00 	mov    0x118(%rsp),%rdi
+  4617f6:	00 
+  4617f7:	ba 01 00 00 00       	mov    $0x1,%edx
+  4617fc:	ff 15 ee 0b 51 01    	call   *0x1510bee(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  461802:	48 89 df             	mov    %rbx,%rdi
+  461805:	e8 a6 a1 fe ff       	call   44b9b0 <core::ptr::drop_in_place<wasmer::error::InstantiationError>>
+  46180a:	eb 21                	jmp    46182d <wasm_instance_new+0x22dd>
+  46180c:	ff 15 56 9b 50 01    	call   *0x1509b56(%rip)        # 196b368 <_GLOBAL_OFFSET_TABLE_+0x2e8>
+  461812:	48 8b bc 24 d8 00 00 	mov    0xd8(%rsp),%rdi
+  461819:	00 
+  46181a:	48 8b b4 24 e0 00 00 	mov    0xe0(%rsp),%rsi
+  461821:	00 
+  461822:	e8 29 c0 fe ff       	call   44d850 <core::ptr::drop_in_place<alloc::vec::Vec<wasmer::entities::external::Extern>>>
+  461827:	ff 15 93 dd 50 01    	call   *0x150dd93(%rip)        # 196f5c0 <_GLOBAL_OFFSET_TABLE_+0x4540>
+  46182d:	ff 15 8d dd 50 01    	call   *0x150dd8d(%rip)        # 196f5c0 <_GLOBAL_OFFSET_TABLE_+0x4540>
+  461833:	eb 47                	jmp    46187c <wasm_instance_new+0x232c>
+  461835:	48 8d bc 24 10 01 00 	lea    0x110(%rsp),%rdi
+  46183c:	00 
+  46183d:	e8 ce bf fe ff       	call   44d810 <core::ptr::drop_in_place<(alloc::string::String,alloc::vec::Vec<u8>)>>
+  461842:	eb 1c                	jmp    461860 <wasm_instance_new+0x2310>
+  461844:	eb 24                	jmp    46186a <wasm_instance_new+0x231a>
+  461846:	4d 85 e4             	test   %r12,%r12
+  461849:	74 15                	je     461860 <wasm_instance_new+0x2310>
+  46184b:	ba 01 00 00 00       	mov    $0x1,%edx
+  461850:	48 8b 7c 24 28       	mov    0x28(%rsp),%rdi
+  461855:	4c 89 e6             	mov    %r12,%rsi
+  461858:	ff 15 92 0b 51 01    	call   *0x1510b92(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  46185e:	eb 00                	jmp    461860 <wasm_instance_new+0x2310>
+  461860:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
+  461865:	e8 b6 9f fe ff       	call   44b820 <core::ptr::drop_in_place<wasmer_types::types::ImportType>>
+  46186a:	48 8b 7c 24 20       	mov    0x20(%rsp),%rdi
+  46186f:	48 8b b4 24 90 01 00 	mov    0x190(%rsp),%rsi
+  461876:	00 
+  461877:	e8 94 93 fe ff       	call   44ac10 <core::ptr::drop_in_place<wasmer_types::module::ImportsIterator<alloc::boxed::Box<dyn core::iter::traits::iterator::Iterator+Item = wasmer_types::types::ImportType>>>>
+  46187c:	48 8d bc 24 10 03 00 	lea    0x310(%rsp),%rdi
+  461883:	00 
+  461884:	e8 07 97 f6 ff       	call   3caf90 <<hashbrown::raw::RawTable<T,A> as core::ops::drop::Drop>::drop>
+  461889:	48 8b bc 24 d8 00 00 	mov    0xd8(%rsp),%rdi
+  461890:	00 
+  461891:	48 8b b4 24 e0 00 00 	mov    0xe0(%rsp),%rsi
+  461898:	00 
+  461899:	e8 b2 bf fe ff       	call   44d850 <core::ptr::drop_in_place<alloc::vec::Vec<wasmer::entities::external::Extern>>>
+  46189e:	ff 15 1c dd 50 01    	call   *0x150dd1c(%rip)        # 196f5c0 <_GLOBAL_OFFSET_TABLE_+0x4540>
+  4618a4:	ff 15 be 9a 50 01    	call   *0x1509abe(%rip)        # 196b368 <_GLOBAL_OFFSET_TABLE_+0x2e8>
+
+Disassembly of section .fini:

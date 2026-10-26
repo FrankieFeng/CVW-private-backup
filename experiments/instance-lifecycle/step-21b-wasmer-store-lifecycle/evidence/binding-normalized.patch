@@ -1,0 +1,3788 @@
+--- local-official/cgo_with_custom_wasmer_runtime.go
++++ current/cgo_with_custom_wasmer_runtime.go
+@@ -1,3 +1,4 @@
++//go:build custom_wasmer_runtime
+ // +build custom_wasmer_runtime
+ 
+ package wasmer
+--- local-official/config.go
++++ current/config.go
+@@ -1,13 +1,19 @@
++//go:build !custom_wasmer_runtime
++// +build !custom_wasmer_runtime
++
+ package wasmer
+ 
+ // #include <wasmer.h>
++// extern uint64_t metering_delegate(enum wasmer_parser_operator_t op);
++// extern uint64_t fn_metering_delegate(char * func_name);
+ import "C"
+ import (
+-	"chainmaker.org/chainmaker/protocol/v2"
++	"strings"
++	"unsafe"
+ )
+ 
+ // CompilerKind represents the possible compiler types.
+-type CompilerKind C.wasmer_compiler_t
++type CompilerKind C.wasmer_backend_t
+ 
+ const (
+ 	// Represents the Cranelift compiler.
+@@ -20,10 +26,10 @@
+ 	SINGLEPASS = CompilerKind(C.SINGLEPASS)
+ )
+ 
+-// Strings returns the CompilerKind as a string.
+-//
+-//   CRANELIFT.String() // "cranelift"
+-//   LLVM.String() // "llvm"
++// String returns the CompilerKind as a string.
++//
++//	CRANELIFT.String() // "cranelift"
++//	LLVM.String() // "llvm"
+ func (self CompilerKind) String() string {
+ 	switch self {
+ 	case CRANELIFT:
+@@ -41,9 +47,9 @@
+ // IsCompilerAvailable checks that the given compiler is available
+ // in this current version of `wasmer-go`.
+ //
+-//   IsCompilerAvailable(CRANELIFT)
++//	IsCompilerAvailable(CRANELIFT)
+ func IsCompilerAvailable(compiler CompilerKind) bool {
+-	return bool(C.wasmer_is_compiler_available(uint32(C.wasmer_compiler_t(compiler))))
++	return bool(C.wasmer_is_backend_available(uint32(C.wasmer_backend_t(compiler))))
+ }
+ 
+ // EngineKind represents the possible engine types.
+@@ -63,10 +69,10 @@
+ 	NATIVE = DYLIB
+ )
+ 
+-// Strings returns the EngineKind as a string.
+-//
+-//   JIT.String() // "jit"
+-//   NATIVE.String() // "native"
++// String returns the EngineKind as a string.
++//
++//	JIT.String() // "jit"
++//	NATIVE.String() // "native"
+ func (self EngineKind) String() string {
+ 	switch self {
+ 	case UNIVERSAL:
+@@ -81,9 +87,11 @@
+ // IsEngineAvailable checks that the given engine is available in this
+ // current version of `wasmer-go`.
+ //
+-//   IsEngineAvailable(UNIVERSAL)
++//	IsEngineAvailable(UNIVERSAL)
+ func IsEngineAvailable(engine EngineKind) bool {
+-	return bool(C.wasmer_is_engine_available(uint32(C.wasmer_engine_t(engine))))
++	//注意wasmer在6.0.1版本取消了wasmer_engine_t，universal和dylib合并成一个都是AOT形式，没有JIT，见https://github.com/wasmerio/wasmer/issues/3014
++	//return bool(C.wasmer_is_engine_available(uint32(C.wasmer_engine_t(engine))))
++	return true
+ }
+ 
+ // Config holds the compiler and the Engine used by the Store.
+@@ -93,9 +101,9 @@
+ 
+ // NewConfig instantiates and returns a new Config.
+ //
+-//   config := NewConfig()
++//	config := NewConfig()
+ func NewConfig() *Config {
+-	config := C.wasm_config_new(protocol.GasLimit)
++	config := C.wasm_config_new()
+ 
+ 	return &Config{
+ 		_inner: config,
+@@ -106,10 +114,10 @@
+ 	return self._inner
+ }
+ 
+-// UseNativeEngine sets the engine to Universal in the configuration.
+-//
+-//   config := NewConfig()
+-//   config.UseUniversalEngine()
++// UseUniversalEngine sets the engine to Universal in the configuration.
++//
++//	config := NewConfig()
++//	config.UseUniversalEngine()
+ //
+ // This method might fail if the Universal engine isn't
+ // available. Check `IsEngineAvailable` to learn more.
+@@ -117,16 +125,16 @@
+ 	if !IsEngineAvailable(UNIVERSAL) {
+ 		panic("This `wasmer-go` version doesn't include the Universal engine; use `IsEngineAvailable(UNIVERSAL)` to avoid this panic")
+ 	}
+-
+-	C.wasm_config_set_engine(self.inner(), uint32(C.wasmer_engine_t(UNIVERSAL)))
++	//注意wasmer在6.0.1版本取消了wasmer_engine_t，universal和dylib合并成一个都是AOT形式，没有JIT，见https://github.com/wasmerio/wasmer/issues/3014
++	//C.wasm_config_set_engine(self.inner(), uint32(C.wasmer_engine_t(UNIVERSAL)))
+ 
+ 	return self
+ }
+ 
+ // UseDylibEngine sets the engine to Dylib in the configuration.
+ //
+-//   config := NewConfig()
+-//   config.UseDylibEngine()
++//	config := NewConfig()
++//	config.UseDylibEngine()
+ //
+ // This method might fail if the Dylib engine isn't available. Check
+ // `IsEngineAvailable` to learn more.
+@@ -134,8 +142,9 @@
+ 	if !IsEngineAvailable(DYLIB) {
+ 		panic("This `wasmer-go` version doesn't include the DYLIB engine; use `IsEngineAvailable(DYLIB)` to avoid this panic")
+ 	}
+-
+-	C.wasm_config_set_engine(self.inner(), uint32(C.wasmer_engine_t(DYLIB)))
++	//注意wasmer在6.0.1版本取消了wasmer_engine_t，universal和dylib合并成一个都是AOT形式，没有JIT，见https://github.com/wasmerio/wasmer/issues/3014
++
++	//C.wasm_config_set_engine(self.inner(), uint32(C.wasmer_engine_t(DYLIB)))
+ 
+ 	return self
+ }
+@@ -154,8 +163,8 @@
+ 
+ // UseCraneliftCompiler sets the compiler to Cranelift in the configuration.
+ //
+-//   config := NewConfig()
+-//   config.UseCraneliftCompiler()
++//	config := NewConfig()
++//	config.UseCraneliftCompiler()
+ //
+ // This method might fail if the Cranelift compiler isn't
+ // available. Check `IsCompilerAvailable` to learn more.
+@@ -164,15 +173,674 @@
+ 		panic("This `wasmer-go` version doesn't include the Cranelift compiler; use `IsCompilerAvailable(CRANELIFT)` to avoid this panic")
+ 	}
+ 
+-	C.wasm_config_set_compiler(self.inner(), uint32(C.wasmer_compiler_t(CRANELIFT)))
++	C.wasm_config_set_backend(self.inner(), uint32(C.wasmer_backend_t(CRANELIFT)))
+ 
+ 	return self
+ }
+ 
++// MODIFIED 移动到此
++func getPlatformLong(v uint64) C.ulong {
++	return C.ulong(v)
++}
++
++type Opcode C.wasmer_parser_operator_t
++
++const (
++	Unreachable        Opcode = 0
++	Nop                       = 1
++	Block                     = 2
++	Loop                      = 3
++	If                        = 4
++	Else                      = 5
++	Try                       = 6
++	Catch                     = 7
++	CatchAll                  = 8
++	Delegate                  = 9
++	Throw                     = 10
++	Rethrow                   = 11
++	Unwind                    = 12
++	End                       = 13
++	Br                        = 14
++	BrIf                      = 15
++	BrTable                   = 16
++	Return                    = 17
++	Call                      = 18
++	CallIndirect              = 19
++	ReturnCall                = 20
++	ReturnCallIndirect        = 21
++	Drop                      = 22
++	Select                    = 23
++	TypedSelect               = 24
++	LocalGet                  = 25
++	LocalSet                  = 26
++	LocalTee                  = 27
++	GlobalGet                 = 28
++	GlobalSet                 = 29
++	I32Load                   = 30
++	I64Load                   = 31
++	F32Load                   = 32
++	F64Load                   = 33
++	I32Load8S                 = 34
++	I32Load8U                 = 35
++	I32Load16S                = 36
++	I32Load16U                = 37
++	I64Load8S                 = 38
++	I64Load8U                 = 39
++	I64Load16S                = 40
++	I64Load16U                = 41
++	I64Load32S                = 42
++	I64Load32U                = 43
++	I32Store                  = 44
++	I64Store                  = 45
++	F32Store                  = 46
++	F64Store                  = 47
++	I32Store8                 = 48
++	I32Store16                = 49
++	I64Store8                 = 50
++	I64Store16                = 51
++	I64Store32                = 52
++	MemorySize                = 53
++	MemoryGrow                = 54
++	I32Const                  = 55
++	I64Const                  = 56
++	F32Const                  = 57
++	F64Const                  = 58
++	RefNull                   = 59
++	RefIsNull                 = 60
++	RefFunc                   = 61
++	I32Eqz                    = 62
++	I32Eq                     = 63
++	I32Ne                     = 64
++	I32LtS                    = 65
++	I32LtU                    = 66
++	I32GtS                    = 67
++	I32GtU                    = 68
++	I32LeS                    = 69
++	I32LeU                    = 70
++	I32GeS                    = 71
++	I32GeU                    = 72
++	I64Eqz                    = 73
++	I64Eq                     = 74
++	I64Ne                     = 75
++	I64LtS                    = 76
++	I64LtU                    = 77
++	I64GtS                    = 78
++	I64GtU                    = 79
++	I64LeS                    = 80
++	I64LeU                    = 81
++	I64GeS                    = 82
++	I64GeU                    = 83
++	F32Eq                     = 84
++	F32Ne                     = 85
++	F32Lt                     = 86
++	F32Gt                     = 87
++	F32Le                     = 88
++	F32Ge                     = 89
++	F64Eq                     = 90
++	F64Ne                     = 91
++	F64Lt                     = 92
++	F64Gt                     = 93
++	F64Le                     = 94
++	F64Ge                     = 95
++	I32Clz                    = 96
++	I32Ctz                    = 97
++	I32Popcnt                 = 98
++	I32Add                    = 99
++	I32Sub                    = 100
++	I32Mul                    = 101
++	I32DivS                   = 102
++	I32DivU                   = 103
++	I32RemS                   = 104
++	I32RemU                   = 105
++	I32And                    = 106
++	I32Or                     = 107
++	I32Xor                    = 108
++	I32Shl                    = 109
++	I32ShrS                   = 110
++	I32ShrU                   = 111
++	I32Rotl                   = 112
++	I32Rotr                   = 113
++	I64Clz                    = 114
++	I64Ctz                    = 115
++	I64Popcnt                 = 116
++	I64Add                    = 117
++	I64Sub                    = 118
++	I64Mul                    = 119
++	I64DivS                   = 120
++	I64DivU                   = 121
++	I64RemS                   = 122
++	I64RemU                   = 123
++	I64And                    = 124
++	I64Or                     = 125
++	I64Xor                    = 126
++	I64Shl                    = 127
++	I64ShrS                   = 128
++	I64ShrU                   = 129
++	I64Rotl                   = 130
++	I64Rotr                   = 131
++	F32Abs                    = 132
++	F32Neg                    = 133
++	F32Ceil                   = 134
++	F32Floor                  = 135
++	F32Trunc                  = 136
++	F32Nearest                = 137
++	F32Sqrt                   = 138
++	F32Add                    = 139
++	F32Sub                    = 140
++	F32Mul                    = 141
++	F32Div                    = 142
++	F32Min                    = 143
++	F32Max                    = 144
++	F32Copysign               = 145
++	F64Abs                    = 146
++	F64Neg                    = 147
++	F64Ceil                   = 148
++	F64Floor                  = 149
++	F64Trunc                  = 150
++	F64Nearest                = 151
++	F64Sqrt                   = 152
++	F64Add                    = 153
++	F64Sub                    = 154
++	F64Mul                    = 155
++	F64Div                    = 156
++	F64Min                    = 157
++	F64Max                    = 158
++	F64Copysign               = 159
++	I32WrapI64                = 160
++	I32TruncF32S              = 161
++	I32TruncF32U              = 162
++	I32TruncF64S              = 163
++	I32TruncF64U              = 164
++	I64ExtendI32S             = 165
++	I64ExtendI32U             = 166
++	I64TruncF32S              = 167
++	I64TruncF32U              = 168
++	I64TruncF64S              = 169
++	I64TruncF64U              = 170
++	F32ConvertI32S            = 171
++	F32ConvertI32U            = 172
++	F32ConvertI64S            = 173
++	F32ConvertI64U            = 174
++	F32DemoteF64              = 175
++	F64ConvertI32S            = 176
++	F64ConvertI32U            = 177
++	F64ConvertI64S            = 178
++	F64ConvertI64U            = 179
++	F64PromoteF32             = 180
++	I32ReinterpretF32         = 181
++	I64ReinterpretF64         = 182
++	F32ReinterpretI32         = 183
++	F64ReinterpretI64         = 184
++	I32Extend8S               = 185
++	I32Extend16S              = 186
++	I64Extend8S               = 187
++	I64Extend16S              = 188
++	I64Extend32S              = 189
++	I32TruncSatF32S           = 190
++	I32TruncSatF32U           = 191
++	I32TruncSatF64S           = 192
++	I32TruncSatF64U           = 193
++	I64TruncSatF32S           = 194
++	I64TruncSatF32U           = 195
++	I64TruncSatF64S           = 196
++	I64TruncSatF64U           = 197
++	MemoryInit                = 198
++	DataDrop                  = 199
++	MemoryCopy                = 200
++	MemoryFill                = 201
++	TableInit                 = 202
++	ElemDrop                  = 203
++	TableCopy                 = 204
++	TableFill                 = 205
++	TableGet                  = 206
++	TableSet                  = 207
++	TableGrow                 = 208
++	// REVIEW
++	OpTableSize               = 209
++	MemoryAtomicNotify        = 210
++	MemoryAtomicWait32        = 211
++	MemoryAtomicWait64        = 212
++	AtomicFence               = 213
++	I32AtomicLoad             = 214
++	I64AtomicLoad             = 215
++	I32AtomicLoad8U           = 216
++	I32AtomicLoad16U          = 217
++	I64AtomicLoad8U           = 218
++	I64AtomicLoad16U          = 219
++	I64AtomicLoad32U          = 220
++	I32AtomicStore            = 221
++	I64AtomicStore            = 222
++	I32AtomicStore8           = 223
++	I32AtomicStore16          = 224
++	I64AtomicStore8           = 225
++	I64AtomicStore16          = 226
++	I64AtomicStore32          = 227
++	I32AtomicRmwAdd           = 228
++	I64AtomicRmwAdd           = 229
++	I32AtomicRmw8AddU         = 230
++	I32AtomicRmw16AddU        = 231
++	I64AtomicRmw8AddU         = 232
++	I64AtomicRmw16AddU        = 233
++	I64AtomicRmw32AddU        = 234
++	I32AtomicRmwSub           = 235
++	I64AtomicRmwSub           = 236
++	I32AtomicRmw8SubU         = 237
++	I32AtomicRmw16SubU        = 238
++	I64AtomicRmw8SubU         = 239
++	I64AtomicRmw16SubU        = 240
++	I64AtomicRmw32SubU        = 241
++	I32AtomicRmwAnd           = 242
++	I64AtomicRmwAnd           = 243
++	I32AtomicRmw8AndU         = 244
++	I32AtomicRmw16AndU        = 245
++	I64AtomicRmw8AndU         = 246
++	I64AtomicRmw16AndU        = 247
++	I64AtomicRmw32AndU        = 248
++	I32AtomicRmwOr            = 249
++	I64AtomicRmwOr            = 250
++	I32AtomicRmw8OrU          = 251
++	I32AtomicRmw16OrU         = 252
++	I64AtomicRmw8OrU          = 253
++	I64AtomicRmw16OrU         = 254
++	I64AtomicRmw32OrU         = 255
++	I32AtomicRmwXor           = 256
++	I64AtomicRmwXor           = 257
++	I32AtomicRmw8XorU         = 258
++	I32AtomicRmw16XorU        = 259
++	I64AtomicRmw8XorU         = 260
++	I64AtomicRmw16XorU        = 261
++	I64AtomicRmw32XorU        = 262
++	I32AtomicRmwXchg          = 263
++	I64AtomicRmwXchg          = 264
++	I32AtomicRmw8XchgU        = 265
++	I32AtomicRmw16XchgU       = 266
++	I64AtomicRmw8XchgU        = 267
++	I64AtomicRmw16XchgU       = 268
++	I64AtomicRmw32XchgU       = 269
++	I32AtomicRmwCmpxchg       = 270
++	I64AtomicRmwCmpxchg       = 271
++	I32AtomicRmw8CmpxchgU     = 272
++	I32AtomicRmw16CmpxchgU    = 273
++	I64AtomicRmw8CmpxchgU     = 274
++	I64AtomicRmw16CmpxchgU    = 275
++	I64AtomicRmw32CmpxchgU    = 276
++	V128Load                  = 277
++	V128Store                 = 278
++	V128Const                 = 279
++	I8x16Splat                = 280
++	I8x16ExtractLaneS         = 281
++	I8x16ExtractLaneU         = 282
++	I8x16ReplaceLane          = 283
++	I16x8Splat                = 284
++	I16x8ExtractLaneS         = 285
++	I16x8ExtractLaneU         = 286
++	I16x8ReplaceLane          = 287
++	I32x4Splat                = 288
++	I32x4ExtractLane          = 289
++	I32x4ReplaceLane          = 290
++	I64x2Splat                = 291
++	I64x2ExtractLane          = 292
++	I64x2ReplaceLane          = 293
++	F32x4Splat                = 294
++	F32x4ExtractLane          = 295
++	F32x4ReplaceLane          = 296
++	F64x2Splat                = 297
++	F64x2ExtractLane          = 298
++	F64x2ReplaceLane          = 299
++	I8x16Eq                   = 300
++	I8x16Ne                   = 301
++	I8x16LtS                  = 302
++	I8x16LtU                  = 303
++	I8x16GtS                  = 304
++	I8x16GtU                  = 305
++	I8x16LeS                  = 306
++	I8x16LeU                  = 307
++	I8x16GeS                  = 308
++	I8x16GeU                  = 309
++	I16x8Eq                   = 310
++	I16x8Ne                   = 311
++	I16x8LtS                  = 312
++	I16x8LtU                  = 313
++	I16x8GtS                  = 314
++	I16x8GtU                  = 315
++	I16x8LeS                  = 316
++	I16x8LeU                  = 317
++	I16x8GeS                  = 318
++	I16x8GeU                  = 319
++	I32x4Eq                   = 320
++	I32x4Ne                   = 321
++	I32x4LtS                  = 322
++	I32x4LtU                  = 323
++	I32x4GtS                  = 324
++	I32x4GtU                  = 325
++	I32x4LeS                  = 326
++	I32x4LeU                  = 327
++	I32x4GeS                  = 328
++	I32x4GeU                  = 329
++	I64x2Eq                   = 330
++	I64x2Ne                   = 331
++	I64x2LtS                  = 332
++	I64x2GtS                  = 333
++	I64x2LeS                  = 334
++	I64x2GeS                  = 335
++	F32x4Eq                   = 336
++	F32x4Ne                   = 337
++	F32x4Lt                   = 338
++	F32x4Gt                   = 339
++	F32x4Le                   = 340
++	F32x4Ge                   = 341
++	F64x2Eq                   = 342
++	F64x2Ne                   = 343
++	F64x2Lt                   = 344
++	F64x2Gt                   = 345
++	F64x2Le                   = 346
++	F64x2Ge                   = 347
++	V128Not                   = 348
++	V128And                   = 349
++	V128AndNot                = 350
++	V128Or                    = 351
++	V128Xor                   = 352
++	V128Bitselect             = 353
++	V128AnyTrue               = 354
++	I8x16Abs                  = 355
++	I8x16Neg                  = 356
++	I8x16AllTrue              = 357
++	I8x16Bitmask              = 358
++	I8x16Shl                  = 359
++	I8x16ShrS                 = 360
++	I8x16ShrU                 = 361
++	I8x16Add                  = 362
++	I8x16AddSatS              = 363
++	I8x16AddSatU              = 364
++	I8x16Sub                  = 365
++	I8x16SubSatS              = 366
++	I8x16SubSatU              = 367
++	I8x16MinS                 = 368
++	I8x16MinU                 = 369
++	I8x16MaxS                 = 370
++	I8x16MaxU                 = 371
++	I8x16Popcnt               = 372
++	I16x8Abs                  = 373
++	I16x8Neg                  = 374
++	I16x8AllTrue              = 375
++	I16x8Bitmask              = 376
++	I16x8Shl                  = 377
++	I16x8ShrS                 = 378
++	I16x8ShrU                 = 379
++	I16x8Add                  = 380
++	I16x8AddSatS              = 381
++	I16x8AddSatU              = 382
++	I16x8Sub                  = 383
++	I16x8SubSatS              = 384
++	I16x8SubSatU              = 385
++	I16x8Mul                  = 386
++	I16x8MinS                 = 387
++	I16x8MinU                 = 388
++	I16x8MaxS                 = 389
++	I16x8MaxU                 = 390
++	I16x8ExtAddPairwiseI8x16S = 391
++	I16x8ExtAddPairwiseI8x16U = 392
++	I32x4Abs                  = 393
++	I32x4Neg                  = 394
++	I32x4AllTrue              = 395
++	I32x4Bitmask              = 396
++	I32x4Shl                  = 397
++	I32x4ShrS                 = 398
++	I32x4ShrU                 = 399
++	I32x4Add                  = 400
++	I32x4Sub                  = 401
++	I32x4Mul                  = 402
++	I32x4MinS                 = 403
++	I32x4MinU                 = 404
++	I32x4MaxS                 = 405
++	I32x4MaxU                 = 406
++	I32x4DotI16x8S            = 407
++	I32x4ExtAddPairwiseI16x8S = 408
++	I32x4ExtAddPairwiseI16x8U = 409
++	I64x2Abs                  = 410
++	I64x2Neg                  = 411
++	I64x2AllTrue              = 412
++	I64x2Bitmask              = 413
++	I64x2Shl                  = 414
++	I64x2ShrS                 = 415
++	I64x2ShrU                 = 416
++	I64x2Add                  = 417
++	I64x2Sub                  = 418
++	I64x2Mul                  = 419
++	F32x4Ceil                 = 420
++	F32x4Floor                = 421
++	F32x4Trunc                = 422
++	F32x4Nearest              = 423
++	F64x2Ceil                 = 424
++	F64x2Floor                = 425
++	F64x2Trunc                = 426
++	F64x2Nearest              = 427
++	F32x4Abs                  = 428
++	F32x4Neg                  = 429
++	F32x4Sqrt                 = 430
++	F32x4Add                  = 431
++	F32x4Sub                  = 432
++	F32x4Mul                  = 433
++	F32x4Div                  = 434
++	F32x4Min                  = 435
++	F32x4Max                  = 436
++	F32x4PMin                 = 437
++	F32x4PMax                 = 438
++	F64x2Abs                  = 439
++	F64x2Neg                  = 440
++	F64x2Sqrt                 = 441
++	F64x2Add                  = 442
++	F64x2Sub                  = 443
++	F64x2Mul                  = 444
++	F64x2Div                  = 445
++	F64x2Min                  = 446
++	F64x2Max                  = 447
++	F64x2PMin                 = 448
++	F64x2PMax                 = 449
++	I32x4TruncSatF32x4S       = 450
++	I32x4TruncSatF32x4U       = 451
++	F32x4ConvertI32x4S        = 452
++	F32x4ConvertI32x4U        = 453
++	I8x16Swizzle              = 454
++	I8x16Shuffle              = 455
++	V128Load8Splat            = 456
++	V128Load16Splat           = 457
++	V128Load32Splat           = 458
++	V128Load32Zero            = 459
++	V128Load64Splat           = 460
++	V128Load64Zero            = 461
++	I8x16NarrowI16x8S         = 462
++	I8x16NarrowI16x8U         = 463
++	I16x8NarrowI32x4S         = 464
++	I16x8NarrowI32x4U         = 465
++	I16x8ExtendLowI8x16S      = 466
++	I16x8ExtendHighI8x16S     = 467
++	I16x8ExtendLowI8x16U      = 468
++	I16x8ExtendHighI8x16U     = 469
++	I32x4ExtendLowI16x8S      = 470
++	I32x4ExtendHighI16x8S     = 471
++	I32x4ExtendLowI16x8U      = 472
++	I32x4ExtendHighI16x8U     = 473
++	I64x2ExtendLowI32x4S      = 474
++	I64x2ExtendHighI32x4S     = 475
++	I64x2ExtendLowI32x4U      = 476
++	I64x2ExtendHighI32x4U     = 477
++	I16x8ExtMulLowI8x16S      = 478
++	I16x8ExtMulHighI8x16S     = 479
++	I16x8ExtMulLowI8x16U      = 480
++	I16x8ExtMulHighI8x16U     = 481
++	I32x4ExtMulLowI16x8S      = 482
++	I32x4ExtMulHighI16x8S     = 483
++	I32x4ExtMulLowI16x8U      = 484
++	I32x4ExtMulHighI16x8U     = 485
++	I64x2ExtMulLowI32x4S      = 486
++	I64x2ExtMulHighI32x4S     = 487
++	I64x2ExtMulLowI32x4U      = 488
++	I64x2ExtMulHighI32x4U     = 489
++	V128Load8x8S              = 490
++	V128Load8x8U              = 491
++	V128Load16x4S             = 492
++	V128Load16x4U             = 493
++	V128Load32x2S             = 494
++	V128Load32x2U             = 495
++	V128Load8Lane             = 496
++	V128Load16Lane            = 497
++	V128Load32Lane            = 498
++	V128Load64Lane            = 499
++	V128Store8Lane            = 500
++	V128Store16Lane           = 501
++	V128Store32Lane           = 502
++	V128Store64Lane           = 503
++	I8x16RoundingAverageU     = 504
++	I16x8RoundingAverageU     = 505
++	I16x8Q15MulrSatS          = 506
++	F32x4DemoteF64x2Zero      = 507
++	F64x2PromoteLowF32x4      = 508
++	F64x2ConvertLowI32x4S     = 509
++	F64x2ConvertLowI32x4U     = 510
++	I32x4TruncSatF64x2SZero   = 511
++	I32x4TruncSatF64x2UZero   = 512
++)
++
++var opCodeMap map[Opcode]uint32 = nil
++
++// 函数预订价
++var functionMap map[string]uint32 = nil
++
++//export metering_delegate
++func metering_delegate(op C.wasmer_parser_operator_t) C.uint64_t {
++	// a simple alogorithm for now just map from opcode to cost directly
++	// all the responsibility is placed on the caller of PushMeteringMiddleware
++	v, b := opCodeMap[Opcode(op)]
++	if !b {
++		return 0 // no value means no cost
++	}
++	return C.uint64_t(v)
++}
++
++//export fn_metering_delegate
++func fn_metering_delegate(cStr *C.char) C.uint64_t {
++	goStr := C.GoString(cStr)
++
++	//cost, exists := functionMap[goStr]
++	//if !exists {
++	//	return 0
++	//}
++	//return C.uint64_t(cost)
++
++	// 遍历 functionMap，寻找匹配的 key
++	for key, cost := range functionMap {
++		if strings.Contains(key, ".") {
++			// 完全匹配（如 "fmt.Sprintf" 必须完全等于 key）
++			if goStr == key {
++				return C.uint64_t(cost)
++			}
++		} else {
++			// 前缀匹配（如 "fmt" 匹配 "fmt.Errorf"）
++			if strings.HasPrefix(goStr, key) {
++				return C.uint64_t(cost)
++			}
++		}
++	}
++
++	return 0 // 无匹配项
++}
++
++// PushMeteringMiddleware allows the middleware metering to be engaged on a map of opcode to cost
++//
++//	  config := NewConfig()
++//		 opmap := map[uint32]uint32{
++//			End: 		1,
++//			LocalGet: 	1,
++//			I32Add: 	4,
++//		 }
++//	  config.PushMeteringMiddleware(7865444, opmap)
++func (self *Config) PushMeteringMiddleware(maxGasUsageAllowed uint64, opMap map[Opcode]uint32, fnMap map[string]uint32, function_match string) *Config {
++	if opCodeMap == nil {
++		// REVIEW only allowing this to be set once
++		opCodeMap = opMap
++	}
++	if functionMap == nil {
++		functionMap = fnMap
++	}
++	cfunction_match := C.CString(function_match)
++	defer C.free(unsafe.Pointer(cfunction_match))
++	C.wasm_config_push_middleware(
++		self.inner(),
++		C.wasmer_metering_as_middleware(C.wasmer_metering_new(
++			getPlatformLong(maxGasUsageAllowed),
++			(*[0]byte)(C.metering_delegate),
++			(*[0]byte)(C.fn_metering_delegate),
++			cfunction_match,
++		)),
++	)
++	//C.wasm_config_push_middleware(self.inner(),
++	//	C.wasmer_metering_as_middleware(
++	//		C.wasmer_metering_new(getPlatformLong(maxGasUsageAllowed), (*[0]byte)(C.metering_delegate), cfunction_match)))
++	return self
++}
++
++// MaxPagesLimit限制实例内存上限，默认256页，每页64KB，即16MB
++// 如果设置上限太小，小于异常会报Failed to create memory: A user-defined error occurred: Minimum exceeds the allowed memory limit的错误
++// 下限无法设置，由编译器和wasmer决定
++func (self *Config) MaxPagesLimit(maxPagesLimited uint32) *Config {
++	C.wasm_config_set_max_pages(self.inner(), C.uint32_t(maxPagesLimited))
++	return self
++}
++
++// PushMeteringMiddlewarePtr allows the middleware metering to be engaged on an unsafe.Pointer
++// this pointer must be a to C based function with a signature of:
++//
++//	extern uint64_t cost_delegate_func(enum wasmer_parser_operator_t op);
++//
++// package main
++//
++// #include <wasmer.h>
++// extern uint64_t metering_delegate_alt(enum wasmer_parser_operator_t op);
++// import "C"
++// import "unsafe"
++//
++//	func getInternalCPointer() unsafe.Pointer {
++//		  return unsafe.Pointer(C.metering_delegate_alt)
++//	}
++//
++// //export metering_delegate_alt
++//
++//	func metering_delegate_alt(op C.wasmer_parser_operator_t) C.uint64_t {
++//		v, b := opCodeMap[Opcode(op)]
++//	  if !b {
++//		   return 0 // no value means no cost
++//	  }
++//	  return C.uint64_t(v)
++//	}
++//
++//	void main(){
++//	   config := NewConfig()
++//	   config.PushMeteringMiddlewarePtr(800000000, getInternalCPointer())
++//	}
++func (self *Config) PushMeteringMiddlewarePtr(maxGasUsageAllowed uint64, p unsafe.Pointer, function_match string) *Config {
++	cfunction_match := C.CString(function_match)
++	defer C.free(unsafe.Pointer(cfunction_match))
++	//C.wasm_config_push_middleware(self.inner(), C.wasmer_metering_as_middleware(C.wasmer_metering_new(getPlatformLong(maxGasUsageAllowed), (*[0]byte)(p), cfunction_match)))
++	C.wasm_config_push_middleware(
++		self.inner(),
++		C.wasmer_metering_as_middleware(
++			C.wasmer_metering_new(
++				getPlatformLong(maxGasUsageAllowed),
++				(*[0]byte)(p),                      // 操作码计费函数
++				(*[0]byte)(C.fn_metering_delegate), // 新增：函数名计费函数
++				cfunction_match,                    // 函数匹配模式
++			),
++		),
++	)
++	return self
++
++}
++
+ // UseLLVMCompiler sets the compiler to LLVM in the configuration.
+ //
+-//   config := NewConfig()
+-//   config.UseLLVMCompiler()
++//	config := NewConfig()
++//	config.UseLLVMCompiler()
+ //
+ // This method might fail if the LLVM compiler isn't available. Check
+ // `IsCompilerAvailable` to learn more.
+@@ -181,7 +849,7 @@
+ 		panic("This `wasmer-go` version doesn't include the LLVM compiler; use `IsCompilerAvailable(LLVM)` to avoid this panic")
+ 	}
+ 
+-	C.wasm_config_set_compiler(self.inner(), uint32(C.wasmer_compiler_t(LLVM)))
++	C.wasm_config_set_backend(self.inner(), uint32(C.wasmer_backend_t(LLVM)))
+ 
+ 	return self
+ }
+@@ -189,8 +857,8 @@
+ // UseSinglepassCompiler sets the compiler to Singlepass in the
+ // configuration.
+ //
+-//   config := NewConfig()
+-//   config.UseSinglepassCompiler()
++//	config := NewConfig()
++//	config.UseSinglepassCompiler()
+ //
+ // This method might fail if the Singlepass compiler isn't
+ // available. Check `IsCompilerAvailable` to learn more.
+@@ -199,19 +867,19 @@
+ 		panic("This `wasmer-go` version doesn't include the Singlepass compiler; use `IsCompilerAvailable(SINGLEPASS)` to avoid this panic")
+ 	}
+ 
+-	C.wasm_config_set_compiler(self.inner(), uint32(C.wasmer_compiler_t(SINGLEPASS)))
++	C.wasm_config_set_backend(self.inner(), uint32(C.wasmer_backend_t(SINGLEPASS)))
+ 
+ 	return self
+ }
+ 
+-// Use a specific target for doing cross-compilation.
+-//
+-//   triple, _ := NewTriple("aarch64-unknown-linux-gnu")
+-//   cpuFeatures := NewCpuFeatures()
+-//   target := NewTarget(triple, cpuFeatures)
+-//
+-//   config := NewConfig()
+-//   config.UseTarget(target)
++// UseTarget for doing cross-compilation.
++//
++//	triple, _ := NewTriple("aarch64-unknown-linux-gnu")
++//	cpuFeatures := NewCpuFeatures()
++//	target := NewTarget(triple, cpuFeatures)
++//
++//	config := NewConfig()
++//	config.UseTarget(target)
+ func (self *Config) UseTarget(target *Target) *Config {
+ 	C.wasm_config_set_target(self.inner(), target.inner())
+ 
+--- local-official/engine.go
++++ current/engine.go
+@@ -2,9 +2,7 @@
+ 
+ // #include <wasmer.h>
+ import "C"
+-import (
+-	"runtime"
+-)
++import "runtime"
+ 
+ // Engine is used by the Store to drive the compilation and the
+ // execution of a WebAssembly module.
+@@ -26,25 +24,22 @@
+ 
+ // NewEngine instantiates and returns a new Engine with the default configuration.
+ //
+-//   engine := NewEngine()
+-//
++//	engine := NewEngine()
+ func NewEngine() *Engine {
+ 	return newEngine(C.wasm_engine_new())
+ }
+ 
+ // NewEngineWithConfig instantiates and returns a new Engine with the given configuration.
+ //
+-//   config := NewConfig()
+-//   engine := NewEngineWithConfig(config)
+-//
++//	config := NewConfig()
++//	engine := NewEngineWithConfig(config)
+ func NewEngineWithConfig(config *Config) *Engine {
+ 	return newEngine(C.wasm_engine_new_with_config(config.inner()))
+ }
+ 
+ // NewUniversalEngine instantiates and returns a new Universal engine.
+ //
+-//   engine := NewUniversalEngine()
+-//
++//	engine := NewUniversalEngine()
+ func NewUniversalEngine() *Engine {
+ 	config := NewConfig()
+ 	config.UseUniversalEngine()
+@@ -54,8 +49,7 @@
+ 
+ // NewDylibEngine instantiates and returns a new Dylib engine.
+ //
+-//   engine := NewDylibEngine()
+-//
++//	engine := NewDylibEngine()
+ func NewDylibEngine() *Engine {
+ 	config := NewConfig()
+ 	config.UseDylibEngine()
+--- local-official/error.go
++++ current/error.go
+@@ -2,6 +2,7 @@
+ 
+ // #include <wasmer.h>
+ import "C"
++
+ import (
+ 	"runtime"
+ 	"unsafe"
+@@ -19,16 +20,16 @@
+ }
+ 
+ func _newErrorFromWasmer() *Error {
+-	var errorLength = C.wasmer_last_error_length()
++	errorLength := C.wasmer_last_error_length()
+ 
+ 	if errorLength == 0 {
+ 		return newErrorWith("(no error from Wasmer)")
+ 	}
+ 
+-	var errorMessage = make([]C.char, errorLength)
+-	var errorMessagePointer = (*C.char)(unsafe.Pointer(&errorMessage[0]))
++	errorMessage := make([]C.char, errorLength)
++	errorMessagePointer := (*C.char)(unsafe.Pointer(&errorMessage[0]))
+ 
+-	var errorResult = C.wasmer_last_error_message(errorMessagePointer, errorLength)
++	errorResult := C.wasmer_last_error_message(errorMessagePointer, errorLength)
+ 
+ 	if errorResult == -1 {
+ 		return newErrorWith("(failed to read last error from Wasmer)")
+@@ -55,7 +56,7 @@
+ 
+ // TrapError represents a trap produced during Wasm execution.
+ //
+-// See also
++// # See also
+ //
+ // Specification: https://webassembly.github.io/spec/core/intro/overview.html#trap
+ type TrapError struct {
+@@ -65,8 +66,12 @@
+ }
+ 
+ func newErrorFromTrap(pointer *C.wasm_trap_t) *TrapError {
+-	trap := newTrap(pointer, nil)
+-
++	trap := newTrapFromPointer(pointer, nil)
++	//fmt.Println("hihihihi newErrorFromTrap")
++	//fmt.Println(trap.Message())
++	//fmt.Println("end newErrorFromTrap")
++	//fmt.Printf("trap.Trace().frames %+v\n", trap.Trace().frames)
++	//fmt.Printf("trap.Origin() %+v\n", trap.Origin())
+ 	return &TrapError{
+ 		message: trap.Message(),
+ 		origin:  trap.Origin(),
+--- local-official/exports.go
++++ current/exports.go
+@@ -2,6 +2,7 @@
+ 
+ // #include <wasmer.h>
+ import "C"
++
+ import (
+ 	"fmt"
+ 	"runtime"
+@@ -54,13 +55,12 @@
+ // Note: If the name does not refer to an existing export, Get will
+ // return an Error.
+ //
+-//   instance, _ := NewInstance(module, NewImportObject())
+-//   extern, error := instance.Exports.Get("an_export")
+-//
++//	instance, _ := NewInstance(module, NewImportObject())
++//	extern, error := instance.Exports.Get("an_export")
+ func (self *Exports) Get(name string) (*Extern, error) {
+ 	export, exists := self.exports[name]
+ 
+-	if exists == false {
++	if !exists {
+ 		return nil, newErrorWith(fmt.Sprintf("Export `%s` does not exist", name))
+ 	}
+ 
+@@ -75,16 +75,14 @@
+ // Note: If the export is not a function, GetRawFunction will return
+ // nil as its result.
+ //
+-//   instance, _ := NewInstance(module, NewImportObject())
+-//   exportedFunc, error := instance.Exports.GetRawFunction("an_exported_function")
+-//
+-//   if error != nil && exportedFunc != nil {
+-//       exportedFunc.Call()
+-//   }
+-//
++//	instance, _ := NewInstance(module, NewImportObject())
++//	exportedFunc, error := instance.Exports.GetRawFunction("an_exported_function")
++//
++//	if error != nil && exportedFunc != nil {
++//	    exportedFunc.Call()
++//	}
+ func (self *Exports) GetRawFunction(name string) (*Function, error) {
+ 	exports, err := self.Get(name)
+-
+ 	if err != nil {
+ 		return nil, err
+ 	}
+@@ -104,16 +102,14 @@
+ // Note: If the export is not a function, GetFunction will return nil
+ // as its result.
+ //
+-//   instance, _ := NewInstance(module, NewImportObject())
+-//   exportedFunc, error := instance.Exports.GetFunction("an_exported_function")
+-//
+-//   if error != nil && exportedFunc != nil {
+-//       exportedFunc()
+-//   }
+-//
++//	instance, _ := NewInstance(module, NewImportObject())
++//	exportedFunc, error := instance.Exports.GetFunction("an_exported_function")
++//
++//	if error != nil && exportedFunc != nil {
++//	    exportedFunc()
++//	}
+ func (self *Exports) GetFunction(name string) (NativeFunction, error) {
+ 	function, err := self.GetRawFunction(name)
+-
+ 	if err != nil {
+ 		return nil, err
+ 	}
+@@ -129,12 +125,10 @@
+ // Note: If the export is not a global, GetGlobal will return nil as a
+ // result.
+ //
+-//   instance, _ := NewInstance(module, NewImportObject())
+-//   exportedGlobal, error := instance.Exports.GetGlobal("an_exported_global")
+-//
++//	instance, _ := NewInstance(module, NewImportObject())
++//	exportedGlobal, error := instance.Exports.GetGlobal("an_exported_global")
+ func (self *Exports) GetGlobal(name string) (*Global, error) {
+ 	exports, err := self.Get(name)
+-
+ 	if err != nil {
+ 		return nil, err
+ 	}
+@@ -150,12 +144,10 @@
+ // Note: If the export is not a table, GetTable will return nil as a
+ // result.
+ //
+-//   instance, _ := NewInstance(module, NewImportObject())
+-//   exportedTable, error := instance.Exports.GetTable("an_exported_table")
+-//
++//	instance, _ := NewInstance(module, NewImportObject())
++//	exportedTable, error := instance.Exports.GetTable("an_exported_table")
+ func (self *Exports) GetTable(name string) (*Table, error) {
+ 	exports, err := self.Get(name)
+-
+ 	if err != nil {
+ 		return nil, err
+ 	}
+@@ -171,12 +163,10 @@
+ // Note: If the export is not a memory, GetMemory will return nil as a
+ // result.
+ //
+-//   instance, _ := NewInstance(module, NewImportObject())
+-//   exportedMemory, error := instance.Exports.GetMemory("an_exported_memory")
+-//
++//	instance, _ := NewInstance(module, NewImportObject())
++//	exportedMemory, error := instance.Exports.GetMemory("an_exported_memory")
+ func (self *Exports) GetMemory(name string) (*Memory, error) {
+ 	exports, err := self.Get(name)
+-
+ 	if err != nil {
+ 		return nil, err
+ 	}
+@@ -196,7 +186,17 @@
+ 	return newFunction(start, nil, nil).Native(), nil
+ }
+ 
+-// Force to close the Exports.
++func (self *Exports) GetWasiStartRawFunction() (*Function, error) {
++	start := C.wasi_get_start_function(self.instance)
++
++	if start == nil {
++		return nil, newErrorWith("WASI start function was not found")
++	}
++
++	return newFunction(start, nil, nil), nil
++}
++
++// Close the Exports
+ //
+ // A runtime finalizer is registered on the Exports, but it is
+ // possible to force the destruction of the Exports by calling Close
+--- local-official/exporttype.go
++++ current/exporttype.go
+@@ -2,6 +2,7 @@
+ 
+ // #include <wasmer.h>
+ import "C"
++
+ import (
+ 	"runtime"
+ 	"unsafe"
+@@ -69,9 +70,9 @@
+ //
+ // Note: An extern type is anything implementing IntoExternType: FunctionType, GlobalType, MemoryType, TableType.
+ //
+-//   valueType := NewValueType(I32)
+-//   globalType := NewGlobalType(valueType, CONST)
+-//   exportType := NewExportType("a_global", globalType)
++//	valueType := NewValueType(I32)
++//	globalType := NewGlobalType(valueType, CONST)
++//	exportType := NewExportType("a_global", globalType)
+ func NewExportType(name string, ty IntoExternType) *ExportType {
+ 	nameName := newName(name)
+ 	externType := ty.IntoExternType().inner()
+@@ -98,8 +99,8 @@
+ 
+ // Name returns the name of the export type.
+ //
+-//   exportType := NewExportType("a_global", globalType)
+-//   exportType.Name() // "global"
++//	exportType := NewExportType("a_global", globalType)
++//	exportType.Name() // "global"
+ func (self *ExportType) Name() string {
+ 	byteVec := C.wasm_exporttype_name(self.inner())
+ 	name := C.GoStringN(byteVec.data, C.int(byteVec.size))
+@@ -111,8 +112,8 @@
+ 
+ // Type returns the type of the export type.
+ //
+-//   exportType := NewExportType("a_global", globalType)
+-//   exportType.Type() // ExternType
++//	exportType := NewExportType("a_global", globalType)
++//	exportType.Type() // ExternType
+ func (self *ExportType) Type() *ExternType {
+ 	ty := C.wasm_exporttype_type(self.inner())
+ 
+@@ -121,7 +122,7 @@
+ 	return newExternType(ty, self.ownedBy())
+ }
+ 
+-// Force to close the ExportType.
++// Close the ExportType
+ //
+ // A runtime finalizer is registered on the ExportType, but it is
+ // possible to force the destruction of the ExportType by calling
+--- local-official/extern.go
++++ current/extern.go
+@@ -47,8 +47,8 @@
+ 
+ // Kind returns the Extern's ExternKind.
+ //
+-//   global, _ := instance.Exports.GetGlobal("exported_global")
+-//   _ = global.IntoExtern().Kind()
++//	global, _ := instance.Exports.GetGlobal("exported_global")
++//	_ = global.IntoExtern().Kind()
+ func (self *Extern) Kind() ExternKind {
+ 	kind := ExternKind(C.wasm_extern_kind(self.inner()))
+ 
+@@ -59,8 +59,8 @@
+ 
+ // Type returns the Extern's ExternType.
+ //
+-//   global, _ := instance.Exports.GetGlobal("exported_global")
+-//   _ = global.IntoExtern().Type()
++//	global, _ := instance.Exports.GetGlobal("exported_global")
++//	_ = global.IntoExtern().Type()
+ func (self *Extern) Type() *ExternType {
+ 	ty := C.wasm_extern_type(self.inner())
+ 
+@@ -74,9 +74,9 @@
+ // Note:️ If the Extern is not a Function, IntoFunction will return nil
+ // as its result.
+ //
+-//   function, _ := instance.Exports.GetFunction("exported_function")
+-//   extern = function.IntoExtern()
+-//   _ := extern.IntoFunction()
++//	function, _ := instance.Exports.GetFunction("exported_function")
++//	extern = function.IntoExtern()
++//	_ := extern.IntoFunction()
+ func (self *Extern) IntoFunction() *Function {
+ 	pointer := C.wasm_extern_as_func(self.inner())
+ 
+@@ -92,9 +92,9 @@
+ // Note:️ If the Extern is not a Global, IntoGlobal will return nil as
+ // its result.
+ //
+-//   global, _ := instance.Exports.GetGlobal("exported_global")
+-//   extern = global.IntoExtern()
+-//   _ := extern.IntoGlobal()
++//	global, _ := instance.Exports.GetGlobal("exported_global")
++//	extern = global.IntoExtern()
++//	_ := extern.IntoGlobal()
+ func (self *Extern) IntoGlobal() *Global {
+ 	pointer := C.wasm_extern_as_global(self.inner())
+ 
+@@ -110,9 +110,9 @@
+ // Note:️ If the Extern is not a Table, IntoTable will return nil as
+ // its result.
+ //
+-//   table, _ := instance.Exports.GetTable("exported_table")
+-//   extern = table.IntoExtern()
+-//   _ := extern.IntoTable()
++//	table, _ := instance.Exports.GetTable("exported_table")
++//	extern = table.IntoExtern()
++//	_ := extern.IntoTable()
+ func (self *Extern) IntoTable() *Table {
+ 	pointer := C.wasm_extern_as_table(self.inner())
+ 
+@@ -128,9 +128,9 @@
+ // Note:️ If the Extern is not a Memory, IntoMemory will return nil as
+ // its result.
+ //
+-//   memory, _ := instance.Exports.GetMemory("exported_memory")
+-//   extern = memory.IntoExtern()
+-//   _ := extern.IntoMemory()
++//	memory, _ := instance.Exports.GetMemory("exported_memory")
++//	extern = memory.IntoExtern()
++//	_ := extern.IntoMemory()
+ func (self *Extern) IntoMemory() *Memory {
+ 	pointer := C.wasm_extern_as_memory(self.inner())
+ 
+--- local-official/externtype.go
++++ current/externtype.go
+@@ -4,7 +4,7 @@
+ import "C"
+ import "runtime"
+ 
+-// Represents the kind of an Extern.
++// ExternKind representation
+ type ExternKind C.wasm_externkind_t
+ 
+ const (
+@@ -23,10 +23,10 @@
+ 
+ // String returns the ExternKind as a string.
+ //
+-//   FUNCTION.String() // "func"
+-//   GLOBAL.String()   // "global"
+-//   TABLE.String()    // "table"
+-//   MEMORY.String()   // "memory"
++//	FUNCTION.String() // "func"
++//	GLOBAL.String()   // "global"
++//	TABLE.String()    // "table"
++//	MEMORY.String()   // "memory"
+ func (self ExternKind) String() string {
+ 	switch self {
+ 	case FUNCTION:
+@@ -43,7 +43,7 @@
+ 
+ // ExternType classifies imports and external values with their respective types.
+ //
+-// See also
++// # See also
+ //
+ // Specification: https://webassembly.github.io/spec/core/syntax/types.html#external-types
+ type ExternType struct {
+@@ -81,9 +81,9 @@
+ 
+ // Kind returns the ExternType's ExternKind
+ //
+-//   global, _ := instance.Exports.GetGlobal("exported_global")
+-//   extern = global.IntoExtern()
+-//   _ = extern.Kind()
++//	global, _ := instance.Exports.GetGlobal("exported_global")
++//	extern = global.IntoExtern()
++//	_ = extern.Kind()
+ func (self *ExternType) Kind() ExternKind {
+ 	kind := ExternKind(C.wasm_externtype_kind(self.inner()))
+ 
+@@ -97,9 +97,9 @@
+ // Note:️ If the ExternType is not a FunctionType, IntoFunctionType
+ // will return nil as its result.
+ //
+-//   function, _ := instance.Exports.GetFunction("exported_function")
+-//   externType = function.IntoExtern().Type()
+-//   _ := externType.IntoFunctionType()
++//	function, _ := instance.Exports.GetFunction("exported_function")
++//	externType = function.IntoExtern().Type()
++//	_ := externType.IntoFunctionType()
+ func (self *ExternType) IntoFunctionType() *FunctionType {
+ 	pointer := C.wasm_externtype_as_functype_const(self.inner())
+ 
+@@ -115,10 +115,9 @@
+ // Note:️ If the ExternType is not a GlobalType, IntoGlobalType will
+ // return nil as its result.
+ //
+-//   global, _ := instance.Exports.GetGlobal("exported_global")
+-//   externType = global.IntoExtern().Type()
+-//   _ := externType.IntoGlobalType()
+-//
++//	global, _ := instance.Exports.GetGlobal("exported_global")
++//	externType = global.IntoExtern().Type()
++//	_ := externType.IntoGlobalType()
+ func (self *ExternType) IntoGlobalType() *GlobalType {
+ 	pointer := C.wasm_externtype_as_globaltype_const(self.inner())
+ 
+@@ -134,9 +133,9 @@
+ // Note:️ If the ExternType is not a TableType, IntoTableType will
+ // return nil as its result.
+ //
+-//   table, _ := instance.Exports.GetTable("exported_table")
+-//   externType = table.IntoExtern().Type()
+-//   _ := externType.IntoTableType()
++//	table, _ := instance.Exports.GetTable("exported_table")
++//	externType = table.IntoExtern().Type()
++//	_ := externType.IntoTableType()
+ func (self *ExternType) IntoTableType() *TableType {
+ 	pointer := C.wasm_externtype_as_tabletype_const(self.inner())
+ 
+@@ -152,10 +151,9 @@
+ // Note:️ If the ExternType is not a MemoryType, IntoMemoryType will
+ // return nil as its result.
+ //
+-//   memory, _ := instance.Exports.GetMemory("exported_memory")
+-//   externType = memory.IntoExtern().Type()
+-//   _ := externType.IntoMemoryType()
+-//
++//	memory, _ := instance.Exports.GetMemory("exported_memory")
++//	externType = memory.IntoExtern().Type()
++//	_ := externType.IntoMemoryType()
+ func (self *ExternType) IntoMemoryType() *MemoryType {
+ 	pointer := C.wasm_externtype_as_memorytype_const(self.inner())
+ 
+--- local-official/function.go
++++ current/function.go
+@@ -18,6 +18,7 @@
+ //
+ // extern void function_environment_finalizer(void *environment);
+ import "C"
++
+ import (
+ 	"fmt"
+ 	"runtime"
+@@ -72,17 +73,16 @@
+ // argument) it must receive a Value array as its single argument. At
+ // runtime, this array will be empty.  The same applies to the result.
+ //
+-//   hostFunction := wasmer.NewFunction(
+-//   	store,
+-//   	wasmer.NewFunctionType(
+-//   		wasmer.NewValueTypes(), // zero argument
+-//   		wasmer.NewValueTypes(wasmer.I32), // one i32 result
+-//   	),
+-//   	func(args []wasmer.Value) ([]wasmer.Value, error) {
+-//   		return []wasmer.Value{wasmer.NewI32(42)}, nil
+-//   	},
+-//   )
+-//
++//	hostFunction := wasmer.NewFunction(
++//		store,
++//		wasmer.NewFunctionType(
++//			wasmer.NewValueTypes(), // zero argument
++//			wasmer.NewValueTypes(wasmer.I32), // one i32 result
++//		),
++//		func(args []wasmer.Value) ([]wasmer.Value, error) {
++//			return []wasmer.Value{wasmer.NewI32(42)}, nil
++//		},
++//	)
+ func NewFunction(store *Store, ty *FunctionType, function func([]Value) ([]Value, error)) *Function {
+ 	hostFunction := &hostFunction{
+ 		store:    store,
+@@ -92,7 +92,7 @@
+ 		hostFunctionStoreIndex: hostFunctionStore.store(hostFunction),
+ 	}
+ 	pointer := C.wasm_func_new_with_env(
+-		store.inner(),
++		store.Inner(),
+ 		ty.inner(),
+ 		(C.wasm_func_callback_t)(C.function_trampoline),
+ 		unsafe.Pointer(environment),
+@@ -108,7 +108,6 @@
+ func function_trampoline(env unsafe.Pointer, args *C.wasm_val_vec_t, res *C.wasm_val_vec_t) *C.wasm_trap_t {
+ 	environment := (*functionEnvironment)(env)
+ 	hostFunction, err := hostFunctionStore.load(environment.hostFunctionStoreIndex)
+-
+ 	if err != nil {
+ 		panic(err)
+ 	}
+@@ -116,13 +115,9 @@
+ 	arguments := toValueList(args)
+ 	function := (hostFunction.function).(func([]Value) ([]Value, error))
+ 	results, err := (function)(arguments)
+-
+ 	if err != nil {
+-		trap := NewTrap(hostFunction.store, err.Error())
+-
+-		runtime.KeepAlive(trap)
+-
+-		return trap.inner()
++		pointer := newWasmTrap(hostFunction.store, err.Error())
++		return pointer
+ 	}
+ 
+ 	toValueVec(results, res)
+@@ -135,27 +130,27 @@
+ // parameter which is an environment. This environment can be
+ // anything. It is typed as interface{}.
+ //
+-//   type MyEnvironment struct {
+-//   	foo int32
+-//   }
+-//
+-//   environment := &MyEnvironment {
+-//   	foo: 42,
+-//   }
+-//
+-//   hostFunction := wasmer.NewFunction(
+-//   	store,
+-//   	wasmer.NewFunctionType(
+-//   		wasmer.NewValueTypes(), // zero argument
+-//   		wasmer.NewValueTypes(wasmer.I32), // one i32 result
+-//   	),
+-//   	environment,
+-//   	func(environment interface{}, args []wasmer.Value) ([]wasmer.Value, error) {
+-//   		_ := environment.(*MyEnvironment)
+-//
+-//   		return []wasmer.Value{wasmer.NewI32(42)}, nil
+-//   	},
+-//   )
++//	type MyEnvironment struct {
++//		foo int32
++//	}
++//
++//	environment := &MyEnvironment {
++//		foo: 42,
++//	}
++//
++//	hostFunction := wasmer.NewFunction(
++//		store,
++//		wasmer.NewFunctionType(
++//			wasmer.NewValueTypes(), // zero argument
++//			wasmer.NewValueTypes(wasmer.I32), // one i32 result
++//		),
++//		environment,
++//		func(environment interface{}, args []wasmer.Value) ([]wasmer.Value, error) {
++//			_ := environment.(*MyEnvironment)
++//
++//			return []wasmer.Value{wasmer.NewI32(42)}, nil
++//		},
++//	)
+ func NewFunctionWithEnvironment(store *Store, ty *FunctionType, userEnvironment interface{}, functionWithEnv func(interface{}, []Value) ([]Value, error)) *Function {
+ 	hostFunction := &hostFunction{
+ 		store:           store,
+@@ -166,7 +161,7 @@
+ 		hostFunctionStoreIndex: hostFunctionStore.store(hostFunction),
+ 	}
+ 	pointer := C.wasm_func_new_with_env(
+-		store.inner(),
++		store.Inner(),
+ 		ty.inner(),
+ 		(C.wasm_func_callback_t)(C.function_with_environment_trampoline),
+ 		unsafe.Pointer(environment),
+@@ -182,7 +177,6 @@
+ func function_with_environment_trampoline(env unsafe.Pointer, args *C.wasm_val_vec_t, res *C.wasm_val_vec_t) *C.wasm_trap_t {
+ 	environment := (*functionEnvironment)(env)
+ 	hostFunction, err := hostFunctionStore.load(environment.hostFunctionStoreIndex)
+-
+ 	if err != nil {
+ 		panic(err)
+ 	}
+@@ -190,13 +184,9 @@
+ 	arguments := toValueList(args)
+ 	function := (hostFunction.function).(func(interface{}, []Value) ([]Value, error))
+ 	results, err := (function)(hostFunction.userEnvironment, arguments)
+-
+ 	if err != nil {
+-		trap := NewTrap(hostFunction.store, err.Error())
+-
+-		runtime.KeepAlive(trap)
+-
+-		return trap.inner()
++		pointer := newWasmTrap(hostFunction.store, err.Error())
++		return pointer
+ 	}
+ 
+ 	toValueVec(results, res)
+@@ -218,9 +208,8 @@
+ 
+ // IntoExtern converts the Function into an Extern.
+ //
+-//   function, _ := instance.Exports.GetFunction("exported_function")
+-//   extern := function.IntoExtern()
+-//
++//	function, _ := instance.Exports.GetFunction("exported_function")
++//	extern := function.IntoExtern()
+ func (self *Function) IntoExtern() *Extern {
+ 	pointer := C.wasm_func_as_extern(self.inner())
+ 
+@@ -229,9 +218,8 @@
+ 
+ // Type returns the Function's FunctionType.
+ //
+-//   function, _ := instance.Exports.GetFunction("exported_function")
+-//   ty := function.Type()
+-//
++//	function, _ := instance.Exports.GetFunction("exported_function")
++//	ty := function.Type()
+ func (self *Function) Type() *FunctionType {
+ 	if self.funcType != nil {
+ 		return self.funcType
+@@ -246,37 +234,33 @@
+ 
+ // ParameterArity returns the number of arguments the Function expects as per its definition.
+ //
+-//   function, _ := instance.Exports.GetFunction("exported_function")
+-//   arity := function.ParameterArity()
+-//
++//	function, _ := instance.Exports.GetFunction("exported_function")
++//	arity := function.ParameterArity()
+ func (self *Function) ParameterArity() uint {
+ 	return uint(C.wasm_func_param_arity(self.inner()))
+ }
+ 
+-// ParameterArity returns the number of results the Function will return.
+-//
+-//   function, _ := instance.Exports.GetFunction("exported_function")
+-//   arity := function.ResultArity()
+-//
++// ResultArity returns the number of results the Function will return.
++//
++//	function, _ := instance.Exports.GetFunction("exported_function")
++//	arity := function.ResultArity()
+ func (self *Function) ResultArity() uint {
+ 	return uint(C.wasm_func_result_arity(self.inner()))
+ }
+ 
+ // Call will call the Function and return its results as native Go values.
+ //
+-//   function, _ := instance.Exports.GetFunction("exported_function")
+-//   _ = function.Call(1, 2, 3)
+-//
++//	function, _ := instance.Exports.GetFunction("exported_function")
++//	_ = function.Call(1, 2, 3)
+ func (self *Function) Call(parameters ...interface{}) (interface{}, error) {
+ 	return self.Native()(parameters...)
+ }
+ 
+ // Native will turn the Function into a native Go function that can be then called.
+ //
+-//   function, _ := instance.Exports.GetFunction("exported_function")
+-//   nativeFunction = function.Native()
+-//   _ = nativeFunction(1, 2, 3)
+-//
++//	function, _ := instance.Exports.GetFunction("exported_function")
++//	nativeFunction = function.Native()
++//	_ = nativeFunction(1, 2, 3)
+ func (self *Function) Native() NativeFunction {
+ 	if self.lazyNative != nil {
+ 		return self.lazyNative
+--- local-official/functiontype.go
++++ current/functiontype.go
+@@ -8,7 +8,7 @@
+ // vector of parameters to a vector of results. They are also used to
+ // classify the inputs and outputs of instructions.
+ //
+-// See also
++// # See also
+ //
+ // Specification: https://webassembly.github.io/spec/core/syntax/types.html#function-types
+ type FunctionType struct {
+@@ -31,10 +31,9 @@
+ // NewFunctionType instantiates a new FunctionType from two ValueType
+ // arrays: the parameters and the results.
+ //
+-//   params := wasmer.NewValueTypes()
+-//   results := wasmer.NewValueTypes(wasmer.I32)
+-//   functionType := wasmer.NewFunctionType(params, results)
+-//
++//	params := wasmer.NewValueTypes()
++//	results := wasmer.NewValueTypes(wasmer.I32)
++//	functionType := wasmer.NewFunctionType(params, results)
+ func NewFunctionType(params []*ValueType, results []*ValueType) *FunctionType {
+ 	paramsAsValueTypeVec := toValueTypeVec(params)
+ 	resultsAsValueTypeVec := toValueTypeVec(results)
+@@ -43,7 +42,6 @@
+ 	if pointer == nil {
+ 		return nil
+ 	}
+-
+ 	return newFunctionType(pointer, nil)
+ }
+ 
+@@ -62,11 +60,10 @@
+ // Params returns the parameters definitions from the FunctionType as
+ // a ValueType array
+ //
+-//   params := wasmer.NewValueTypes()
+-//   results := wasmer.NewValueTypes(wasmer.I32)
+-//   functionType := wasmer.NewFunctionType(params, results)
+-//   paramsValueTypes = functionType.Params()
+-//
++//	params := wasmer.NewValueTypes()
++//	results := wasmer.NewValueTypes(wasmer.I32)
++//	functionType := wasmer.NewFunctionType(params, results)
++//	paramsValueTypes = functionType.Params()
+ func (self *FunctionType) Params() []*ValueType {
+ 	return toValueTypeList(C.wasm_functype_params(self.inner()), self.ownedBy())
+ }
+@@ -74,27 +71,26 @@
+ // Results returns the results definitions from the FunctionType as a
+ // ValueType array
+ //
+-//   params := wasmer.NewValueTypes()
+-//   results := wasmer.NewValueTypes(wasmer.I32)
+-//   functionType := wasmer.NewFunctionType(params, results)
+-//   resultsValueTypes = functionType.Results()
+-//
++//	params := wasmer.NewValueTypes()
++//	results := wasmer.NewValueTypes(wasmer.I32)
++//	functionType := wasmer.NewFunctionType(params, results)
++//	resultsValueTypes = functionType.Results()
+ func (self *FunctionType) Results() []*ValueType {
+ 	return toValueTypeList(C.wasm_functype_results(self.inner()), self.ownedBy())
+ }
+ 
+ // IntoExternType converts the FunctionType into an ExternType.
+ //
+-//   function, _ := instance.Exports.GetFunction("exported_function")
+-//   functionType := function.Type()
+-//   externType = functionType.IntoExternType()
+-//
++//	function, _ := instance.Exports.GetFunction("exported_function")
++//	functionType := function.Type()
++//	externType = functionType.IntoExternType()
+ func (self *FunctionType) IntoExternType() *ExternType {
+ 	pointer := C.wasm_functype_as_externtype_const(self.inner())
+ 
+ 	return newExternType(pointer, self.ownedBy())
+ }
+ 
++// MODIFIED
+ func (self *FunctionType) Close() {
+ 	C.wasm_functype_delete(self._inner)
+ }
+--- local-official/global.go
++++ current/global.go
+@@ -2,16 +2,16 @@
+ 
+ // #include <wasmer.h>
+ import "C"
++
+ import (
+ 	"runtime"
+ )
+ 
+ // Global stores a single value of the given GlobalType.
+ //
+-// See also
++// # See also
+ //
+ // https://webassembly.github.io/spec/core/syntax/modules.html#globals
+-//
+ type Global struct {
+ 	_inner   *C.wasm_global_t
+ 	_ownedBy interface{}
+@@ -33,13 +33,12 @@
+ //
+ // It takes three arguments, the Store, the GlobalType and the Value for the Global.
+ //
+-//   valueType := NewValueType(I32)
+-//   globalType := NewGlobalType(valueType, CONST)
+-//   global := NewGlobal(store, globalType, NewValue(42, I32))
+-//
++//	valueType := NewValueType(I32)
++//	globalType := NewGlobalType(valueType, CONST)
++//	global := NewGlobal(store, globalType, NewValue(42, I32))
+ func NewGlobal(store *Store, ty *GlobalType, value Value) *Global {
+ 	pointer := C.wasm_global_new(
+-		store.inner(),
++		store.Inner(),
+ 		ty.inner(),
+ 		value.inner(),
+ 	)
+@@ -61,9 +60,8 @@
+ 
+ // IntoExtern converts the Global into an Extern.
+ //
+-//   global, _ := instance.Exports.GetGlobal("exported_global")
+-//   extern := global.IntoExtern()
+-//
++//	global, _ := instance.Exports.GetGlobal("exported_global")
++//	extern := global.IntoExtern()
+ func (self *Global) IntoExtern() *Extern {
+ 	pointer := C.wasm_global_as_extern(self.inner())
+ 
+@@ -72,9 +70,8 @@
+ 
+ // Type returns the Global's GlobalType.
+ //
+-//   global, _ := instance.Exports.GetGlobal("exported_global")
+-//   ty := global.Type()
+-//
++//	global, _ := instance.Exports.GetGlobal("exported_global")
++//	ty := global.Type()
+ func (self *Global) Type() *GlobalType {
+ 	ty := C.wasm_global_type(self.inner())
+ 
+@@ -87,9 +84,10 @@
+ //
+ // It takes two arguments, the Global's value as a native Go value and the value's ValueKind.
+ //
+-//   global, _ := instance.Exports.GetGlobal("exported_global")
+-//   _ = global.Set(1, I32)
++//	global, _ := instance.Exports.GetGlobal("exported_global")
++//	_ = global.Set(1, I32)
+ //
++// MODIFIED
+ func (self *Global) Set(value interface{}, kind ValueKind) error {
+ 	ty := self.Type()
+ 	defer ty.Close()
+@@ -99,9 +97,8 @@
+ 	}
+ 
+ 	result, err := fromGoValue(value, kind)
+-
+ 	if err != nil {
+-		//TODO: Make this error explicit
++		// TODO: Make this error explicit
+ 		panic(err.Error())
+ 	}
+ 
+@@ -112,9 +109,8 @@
+ 
+ // Get returns the Global's value as a native Go value.
+ //
+-//   global, _ := instance.Exports.GetGlobal("exported_global")
+-//   value, _ := global.Get()
+-//
++//	global, _ := instance.Exports.GetGlobal("exported_global")
++//	value, _ := global.Get()
+ func (self *Global) Get() (interface{}, error) {
+ 	var value C.wasm_val_t
+ 
+--- local-official/globaltype.go
++++ current/globaltype.go
+@@ -16,9 +16,8 @@
+ 
+ // String returns the GlobalMutability as a string.
+ //
+-//   IMMUTABLE.String() // "const"
+-//   MUTABLE.String()   // "var"
+-//
++//	IMMUTABLE.String() // "const"
++//	MUTABLE.String()   // "var"
+ func (self GlobalMutability) String() string {
+ 	switch self {
+ 	case IMMUTABLE:
+@@ -31,10 +30,9 @@
+ 
+ // GlobalType classifies global variables, which hold a value and can either be mutable or immutable.
+ //
+-// See also
++// # See also
+ //
+ // Specification: https://webassembly.github.io/spec/core/syntax/types.html#global-types
+-//
+ type GlobalType struct {
+ 	_inner   *C.wasm_globaltype_t
+ 	_ownedBy interface{}
+@@ -54,9 +52,8 @@
+ 
+ // NewGlobalType instantiates a new GlobalType from a ValueType and a GlobalMutability
+ //
+-//   valueType := NewValueType(I32)
+-//   globalType := NewGlobalType(valueType, IMMUTABLE)
+-//
++//	valueType := NewValueType(I32)
++//	globalType := NewGlobalType(valueType, IMMUTABLE)
+ func NewGlobalType(valueType *ValueType, mutability GlobalMutability) *GlobalType {
+ 	pointer := C.wasm_globaltype_new(valueType.inner(), C.wasm_mutability_t(mutability))
+ 
+@@ -75,16 +72,16 @@
+ 	return self._ownedBy
+ }
+ 
++// MODIFIED
+ func (self *GlobalType) Close() {
+ 	C.wasm_globaltype_delete(self._inner)
+ }
+ 
+ // ValueType returns the GlobalType's ValueType
+ //
+-//   valueType := NewValueType(I32)
+-//   globalType := NewGlobalType(valueType, IMMUTABLE)
+-//   globalType.ValueType().Kind().String() // "i32"
+-//
++//	valueType := NewValueType(I32)
++//	globalType := NewGlobalType(valueType, IMMUTABLE)
++//	globalType.ValueType().Kind().String() // "i32"
+ func (self *GlobalType) ValueType() *ValueType {
+ 	pointer := C.wasm_globaltype_content(self.inner())
+ 
+@@ -95,10 +92,9 @@
+ 
+ // Mutability returns the GlobalType's GlobalMutability
+ //
+-//   valueType := NewValueType(I32)
+-//   globalType := NewGlobalType(valueType, IMMUTABLE)
+-//   globalType.Mutability().String() // "const"
+-//
++//	valueType := NewValueType(I32)
++//	globalType := NewGlobalType(valueType, IMMUTABLE)
++//	globalType.Mutability().String() // "const"
+ func (self *GlobalType) Mutability() GlobalMutability {
+ 	mutability := GlobalMutability(C.wasm_globaltype_mutability(self.inner()))
+ 
+@@ -109,10 +105,9 @@
+ 
+ // IntoExternType converts the GlobalType into an ExternType.
+ //
+-//   valueType := NewValueType(I32)
+-//   globalType := NewGlobalType(valueType, IMMUTABLE)
+-//   externType = globalType.IntoExternType()
+-//
++//	valueType := NewValueType(I32)
++//	globalType := NewGlobalType(valueType, IMMUTABLE)
++//	externType = globalType.IntoExternType()
+ func (self *GlobalType) IntoExternType() *ExternType {
+ 	pointer := C.wasm_globaltype_as_externtype_const(self.inner())
+ 
+--- local-official/import_object.go
++++ current/import_object.go
+@@ -2,8 +2,8 @@
+ 
+ // #include <wasmer.h>
+ import "C"
++
+ import (
+-	"fmt"
+ 	"unsafe"
+ )
+ 
+@@ -16,8 +16,7 @@
+ 
+ // NewImportObject instantiates a new empty ImportObject.
+ //
+-//   imports := NewImportObject()
+-//
++//	imports := NewImportObject()
+ func NewImportObject() *ImportObject {
+ 	return &ImportObject{
+ 		externs: make(map[string]map[string]IntoExtern),
+@@ -33,30 +32,32 @@
+ 	for _, importType := range module.Imports() {
+ 		namespace := importType.Module()
+ 		name := importType.Name()
+-
++		//fmt.Println(namespace, name)
+ 		if self.externs[namespace][name] == nil {
+-			return nil, &Error{
+-				message: fmt.Sprintf("Missing import: `%s`.`%s`", namespace, name),
+-			}
++			//return nil, &Error{
++			//	message: fmt.Sprintf("Missing import: `%s`.`%s`", namespace, name),
++			//}
++		} else {
++			//temp := self.externs[namespace][name]
++			//temp2 := temp.IntoExtern()
++			//_ = temp2
++			externs = append(externs, self.externs[namespace][name].IntoExtern().inner())
++			numberOfExterns++
+ 		}
+ 
+-		externs = append(externs, self.externs[namespace][name].IntoExtern().inner())
+-		numberOfExterns++
+ 	}
+ 
+ 	if numberOfExterns > 0 {
+ 		C.wasm_extern_vec_new(cExterns, C.size_t(numberOfExterns), (**C.wasm_extern_t)(unsafe.Pointer(&externs[0])))
+ 	}
+ 	self._inner = cExterns
+-
+ 	return cExterns, nil
+ }
+ 
+ // ContainsNamespace returns true if the ImportObject contains the given namespace (or module name)
+ //
+-//   imports := NewImportObject()
+-//   _ = imports.ContainsNamespace("env") // false
+-//
++//	imports := NewImportObject()
++//	_ = imports.ContainsNamespace("env") // false
+ func (self *ImportObject) ContainsNamespace(name string) bool {
+ 	_, exists := self.externs[name]
+ 
+@@ -69,30 +70,29 @@
+ //
+ // Note:️ An extern is anything implementing IntoExtern: Function, Global, Memory, Table.
+ //
+-//   imports := NewImportObject()
+-//   importObject.Register(
+-//   	"env",
+-//   	map[string]wasmer.IntoExtern{
+-//   		"host_function": hostFunction,
+-//   		"host_global": hostGlobal,
+-//   	},
+-//  )
++//	 imports := NewImportObject()
++//	 importObject.Register(
++//	 	"env",
++//	 	map[string]wasmer.IntoExtern{
++//	 		"host_function": hostFunction,
++//	 		"host_global": hostGlobal,
++//	 	},
++//	)
+ //
+ // Note:️ The namespace (or module name) may be empty:
+ //
+-//   imports := NewImportObject()
+-//   importObject.Register(
+-//   	"",
+-//   	map[string]wasmer.IntoExtern{
+-//    		"host_function": hostFunction,
+-//   		"host_global": hostGlobal,
+-//   	},
+-//   )
+-//
++//	imports := NewImportObject()
++//	importObject.Register(
++//		"",
++//		map[string]wasmer.IntoExtern{
++//	 		"host_function": hostFunction,
++//			"host_global": hostGlobal,
++//		},
++//	)
+ func (self *ImportObject) Register(namespaceName string, namespace map[string]IntoExtern) {
+ 	_, exists := self.externs[namespaceName]
+ 
+-	if exists == false {
++	if !exists {
+ 		self.externs[namespaceName] = namespace
+ 	} else {
+ 		for key, value := range namespace {
+@@ -101,6 +101,7 @@
+ 	}
+ }
+ 
++// MODIFIED
+ func (self *ImportObject) Close() {
+ 	for _, namespace := range self.externs {
+ 		for name, _ := range namespace {
+--- local-official/importtype.go
++++ current/importtype.go
+@@ -2,6 +2,7 @@
+ 
+ // #include <wasmer.h>
+ import "C"
++
+ import (
+ 	"runtime"
+ 	"unsafe"
+@@ -72,10 +73,9 @@
+ // Note:️ An extern type is anything implementing IntoExternType:
+ // FunctionType, GlobalType, MemoryType, TableType.
+ //
+-//   valueType := NewValueType(I32)
+-//   globalType := NewGlobalType(valueType, CONST)
+-//   importType := NewImportType("ns", "host_global", globalType)
+-//
++//	valueType := NewValueType(I32)
++//	globalType := NewGlobalType(valueType, CONST)
++//	importType := NewImportType("ns", "host_global", globalType)
+ func NewImportType(module string, name string, ty IntoExternType) *ImportType {
+ 	moduleName := newName(module)
+ 	nameName := newName(name)
+@@ -103,11 +103,10 @@
+ 
+ // Module returns the ImportType's module name (or namespace).
+ //
+-//   valueType := NewValueType(I32)
+-//   globalType := NewGlobalType(valueType, CONST)
+-//   importType := NewImportType("ns", "host_global", globalType)
+-//   _ = importType.Module()
+-//
++//	valueType := NewValueType(I32)
++//	globalType := NewGlobalType(valueType, CONST)
++//	importType := NewImportType("ns", "host_global", globalType)
++//	_ = importType.Module()
+ func (self *ImportType) Module() string {
+ 	byteVec := C.wasm_importtype_module(self.inner())
+ 	module := C.GoStringN(byteVec.data, C.int(byteVec.size))
+@@ -119,11 +118,10 @@
+ 
+ // Name returns the ImportType's name.
+ //
+-//   valueType := NewValueType(I32)
+-//   globalType := NewGlobalType(valueType, CONST)
+-//   importType := NewImportType("ns", "host_global", globalType)
+-//   _ = importType.Name()
+-//
++//	valueType := NewValueType(I32)
++//	globalType := NewGlobalType(valueType, CONST)
++//	importType := NewImportType("ns", "host_global", globalType)
++//	_ = importType.Name()
+ func (self *ImportType) Name() string {
+ 	byteVec := C.wasm_importtype_name(self.inner())
+ 	name := C.GoStringN(byteVec.data, C.int(byteVec.size))
+@@ -135,11 +133,10 @@
+ 
+ // Type returns the ImportType's type as an ExternType.
+ //
+-//   valueType := NewValueType(I32)
+-//   globalType := NewGlobalType(valueType, CONST)
+-//   importType := NewImportType("ns", "host_global", globalType)
+-//   _ = importType.Type()
+-//
++//	valueType := NewValueType(I32)
++//	globalType := NewGlobalType(valueType, CONST)
++//	importType := NewImportType("ns", "host_global", globalType)
++//	_ = importType.Type()
+ func (self *ImportType) Type() *ExternType {
+ 	ty := C.wasm_importtype_type(self.inner())
+ 
+@@ -148,7 +145,7 @@
+ 	return newExternType(ty, self.ownedBy())
+ }
+ 
+-// Force to close the ImportType.
++// Close the ImportType
+ //
+ // A runtime finalizer is registered on the ImportType, but it is
+ // possible to force the destruction of the ImportType by calling
+--- local-official/instance.go
++++ current/instance.go
+@@ -2,10 +2,7 @@
+ 
+ // #include <wasmer.h>
+ import "C"
+-import (
+-	"fmt"
+-	"runtime"
+-)
++import "runtime"
+ 
+ type Instance struct {
+ 	_inner  *C.wasm_instance_t
+@@ -22,13 +19,12 @@
+ // Note:️ Instantiating a module may return TrapError if the module's
+ // start function traps.
+ //
+-//   wasmBytes := []byte(`...`)
+-//   engine := wasmer.NewEngine()
+-//   store := wasmer.NewStore(engine)
+-//   module, err := wasmer.NewModule(store, wasmBytes)
+-//   importObject := wasmer.NewImportObject()
+-//   instance, err := wasmer.NewInstance(module, importObject)
+-//
++//	wasmBytes := []byte(`...`)
++//	engine := wasmer.NewEngine()
++//	store := wasmer.NewStore(engine)
++//	module, err := wasmer.NewModule(store, wasmBytes)
++//	importObject := wasmer.NewImportObject()
++//	instance, err := wasmer.NewInstance(module, importObject)
+ func NewInstance(module *Module, imports *ImportObject) (*Instance, error) {
+ 	var traps *C.wasm_trap_t
+ 	externs, err := imports.intoInner(module)
+@@ -40,7 +36,7 @@
+ 
+ 	err2 := maybeNewErrorFromWasmer(func() bool {
+ 		instance = C.wasm_instance_new(
+-			module.store.inner(),
++			module.store.Inner(),
+ 			module.inner(),
+ 			externs,
+ 			&traps,
+@@ -74,7 +70,66 @@
+ 	return self._inner
+ }
+ 
+-// Force to close the Instance.
++// GetRemainingPoints exposes wasm meterings remaining gas or points
++func (self *Instance) GetGasRemaining() uint64 {
++	return uint64(C.wasmer_metering_get_remaining_points(self._inner))
++}
++
++// MeteringPointsExhausted is a bool which determines if the engine has been shutdown from meter exhaustion
++func (self *Instance) MeteringPointsExhausted() bool {
++	return bool(C.wasmer_metering_points_are_exhausted(self._inner))
++}
++
++// SetRemainingPoints imposes a new gas limit on the wasm engine
++func (self *Instance) SetGasLimit(newLimit uint64) {
++	C.wasmer_metering_set_remaining_points(self._inner, C.uint64_t(newLimit))
++}
++
++// ReleaseFn is a function to release resources
++// This function is parameterized to make sure that the correct
++// argument is passed to the function.
++
++//TODO check go1.16版本用不来泛型 但是实际上GetFunctionSafe、ReleaseFn、keepAlive 没用到
++//type ReleaseFn[T any] func(T)
++
++//func keepAlive[T any](value T) {
++//	runtime.KeepAlive(value)
++//}
++
++// GetFunctionSafe performs the same job as instance.Exports.GetFunction
++// but it returns a ReleaseFn to release the resources.
++//
++// The reason for this is that the following code *IS NOT SAFE*:
++//
++//	instance, err := NewInstance(module, NewImportObject())
++//	fn, err := instance.Exports.GetFunction("function_name")
++//	// No further usages of instance after this line.
++//	fn()
++//
++// The problem is that when fn() is called, it will issue CGo call to the
++// function.  When that happens, the instance may be garbage collected
++// because there are no longer any uses of instance.  The returned function
++// however *does* depended on the instance; we must ensure that instance
++// remains live as long long as the calls to *any* instance functions may happen.
++// One way to do that is to add the following line *immediately* after the
++// instance intialization:
++//
++//	defer runtime.KeepAlive(instance)
++//
++// Another mechanism is to use GetFunctionSafe which returns a ReleaseFn
++// which should be called if this function returns non-error value.
++// This usage is preferred because it is less error-prone (i.e. it
++// returns 3 values that should all be handled appropriately).
++
++//func (self *Instance) GetFunctionSafe(name string) (NativeFunction, ReleaseFn[*Instance], error) {
++//	fn, err := self.Exports.GetFunction(name)
++//	if err != nil {
++//		return nil, nil, err
++//	}
++//	return fn, keepAlive, nil
++//}
++
++// Close the instance
+ //
+ // A runtime finalizer is registered on the Instance, but it is
+ // possible to force the destruction of the Instance by calling Close
+@@ -90,30 +145,3 @@
+ 	C.wasm_instance_delete(self.inner())
+ 	self.Exports.Close()
+ }
+-
+-func (self *Instance) GetGasRemaining() uint64 {
+-	gasRemainingGlobal, err := self.Exports.GetGlobal("wasmer_metering_remaining_points")
+-	if err != nil {
+-		panic(fmt.Sprintf("can't find 'wasmer_metering_remaining_points' global variable: %v", err))
+-	}
+-	//fmt.Sprintf("%v", gasRemainingGlobal)
+-
+-	gasRemaining, err := gasRemainingGlobal.Get()
+-	if err != nil {
+-		panic("can't get data from 'wasmer_metering_remaining_points' global variable.")
+-	}
+-
+-	return uint64(gasRemaining.(int64))
+-}
+-
+-func (self *Instance) SetGasLimit(gas uint64) {
+-	gasRemainingGlobal, err := self.Exports.GetGlobal("wasmer_metering_remaining_points")
+-	if err != nil {
+-		panic(fmt.Sprintf("can't find 'wasmer_metering_remaining_points' global variable: %v", err))
+-	}
+-
+-	if gasRemainingGlobal.Set(int64(gas), I64) != nil {
+-		panic("can't get data from 'wasmer_metering_remaining_points' global variable.")
+-	}
+-	//fmt.Sprintf("%v", gasRemainingGlobal)
+-}
+--- local-official/limits.go
++++ current/limits.go
+@@ -17,7 +17,7 @@
+ // Limits classify the size range of resizeable storage associated
+ // with memory types and table types.
+ //
+-// See also
++// # See also
+ //
+ // Specification: https://webassembly.github.io/spec/core/syntax/types.html#limits
+ type Limits struct {
+@@ -26,7 +26,6 @@
+ 
+ func newLimits(pointer *C.wasm_limits_t, ownedBy interface{}) *Limits {
+ 	limits, err := NewLimits(uint32(pointer.min), uint32(pointer.max))
+-
+ 	if err != nil {
+ 		return nil
+ 	}
+--- local-official/memory.go
++++ current/memory.go
+@@ -2,6 +2,7 @@
+ 
+ // #include <wasmer.h>
+ import "C"
++
+ import (
+ 	"reflect"
+ 	"runtime"
+@@ -10,7 +11,7 @@
+ 
+ // Memory is a vector of raw uninterpreted bytes.
+ //
+-// See also
++// # See also
+ //
+ // Specification: https://webassembly.github.io/spec/core/syntax/modules.html#memories
+ type Memory struct {
+@@ -34,13 +35,12 @@
+ //
+ // It takes two arguments, the Store and the MemoryType for the Memory.
+ //
+-//   memory := wasmer.NewMemory(
+-//       store,
+-//       wasmer.NewMemoryType(wasmer.NewLimits(1, 4)),
+-//   )
+-//
++//	memory := wasmer.NewMemory(
++//	    store,
++//	    wasmer.NewMemoryType(wasmer.NewLimits(1, 4)),
++//	)
+ func NewMemory(store *Store, ty *MemoryType) *Memory {
+-	pointer := C.wasm_memory_new(store.inner(), ty.inner())
++	pointer := C.wasm_memory_new(store.Inner(), ty.inner())
+ 
+ 	runtime.KeepAlive(store)
+ 	runtime.KeepAlive(ty)
+@@ -62,9 +62,8 @@
+ 
+ // Type returns the Memory's MemoryType.
+ //
+-//   memory, _ := instance.Exports.GetMemory("exported_memory")
+-//   ty := memory.Type()
+-//
++//	memory, _ := instance.Exports.GetMemory("exported_memory")
++//	ty := memory.Type()
+ func (self *Memory) Type() *MemoryType {
+ 	ty := C.wasm_memory_type(self.inner())
+ 
+@@ -75,59 +74,62 @@
+ 
+ // Size returns the Memory's size as Pages.
+ //
+-//   memory, _ := instance.Exports.GetMemory("exported_memory")
+-//   size := memory.Size()
+-//
++//	memory, _ := instance.Exports.GetMemory("exported_memory")
++//	size := memory.Size()
+ func (self *Memory) Size() Pages {
+ 	return Pages(C.wasm_memory_size(self.inner()))
+ }
+ 
+-// Size returns the Memory's size as a number of bytes.
++// DataSize as a number of bytes.
+ //
+-//   memory, _ := instance.Exports.GetMemory("exported_memory")
+-//   size := memory.DataSize()
+-//
++//	memory, _ := instance.Exports.GetMemory("exported_memory")
++//	size := memory.DataSize()
+ func (self *Memory) DataSize() uint {
+ 	return uint(C.wasm_memory_data_size(self.inner()))
+ }
+ 
+ // Data returns the Memory's contents as an byte array.
+ //
+-//   memory, _ := instance.Exports.GetMemory("exported_memory")
+-//   data := memory.Data()
+-//
++//	memory, _ := instance.Exports.GetMemory("exported_memory")
++//	data := memory.Data()
+ func (self *Memory) Data() []byte {
+ 	length := int(self.DataSize())
+ 	data := (*C.byte_t)(C.wasm_memory_data(self.inner()))
+ 
+ 	runtime.KeepAlive(self)
+ 
+-	var header reflect.SliceHeader
+-	header = *(*reflect.SliceHeader)(unsafe.Pointer(&header))
++	var byteSlice []byte
++	header := (*reflect.SliceHeader)(unsafe.Pointer(&byteSlice))
+ 
+ 	header.Data = uintptr(unsafe.Pointer(data))
+ 	header.Len = length
+ 	header.Cap = length
+ 
+-	return *(*[]byte)(unsafe.Pointer(&header))
++	return byteSlice
+ }
+ 
+ // Grow grows the Memory's size by a given number of Pages (the delta).
+ //
+-//   memory, _ := instance.Exports.GetMemory("exported_memory")
+-//   grown := memory.Grow(2)
+-//
++//	memory, _ := instance.Exports.GetMemory("exported_memory")
++//	grown := memory.Grow(2)
+ func (self *Memory) Grow(delta Pages) bool {
++	if self.Size() > 100 {
++		return false
++	}
+ 	return bool(C.wasm_memory_grow(self.inner(), C.wasm_memory_pages_t(delta)))
+ }
+ 
+ // IntoExtern converts the Memory into an Extern.
+ //
+-//   memory, _ := instance.Exports.GetMemory("exported_memory")
+-//   extern := memory.IntoExtern()
+-//
++//	memory, _ := instance.Exports.GetMemory("exported_memory")
++//	extern := memory.IntoExtern()
+ func (self *Memory) IntoExtern() *Extern {
+ 	pointer := C.wasm_memory_as_extern(self.inner())
+ 
+ 	return newExtern(pointer, self.ownedBy())
+ }
++
++// chenhang wasmer实例内存Reset
++func (self *Memory) Reset() bool {
++	return bool(C.wasm_memory_reset(self.inner()))
++}
+--- local-official/memorytype.go
++++ current/memorytype.go
+@@ -6,10 +6,9 @@
+ 
+ // MemoryType classifies linear memories and their size range.
+ //
+-// See also
++// # See also
+ //
+ // Specification: https://webassembly.github.io/spec/core/syntax/types.html#memory-types
+-//
+ type MemoryType struct {
+ 	_inner   *C.wasm_memorytype_t
+ 	_ownedBy interface{}
+@@ -29,9 +28,8 @@
+ 
+ // NewMemoryType instantiates a new MemoryType given some Limits.
+ //
+-//   limits := NewLimits(1, 4)
+-//   memoryType := NewMemoryType(limits)
+-//
++//	limits := NewLimits(1, 4)
++//	memoryType := NewMemoryType(limits)
+ func NewMemoryType(limits *Limits) *MemoryType {
+ 	pointer := C.wasm_memorytype_new(limits.inner())
+ 
+@@ -52,10 +50,9 @@
+ 
+ // Limits returns the MemoryType's Limits.
+ //
+-//   limits := NewLimits(1, 4)
+-//   memoryType := NewMemoryType(limits)
+-//   _ = memoryType.Limits()
+-//
++//	limits := NewLimits(1, 4)
++//	memoryType := NewMemoryType(limits)
++//	_ = memoryType.Limits()
+ func (self *MemoryType) Limits() *Limits {
+ 	limits := newLimits(C.wasm_memorytype_limits(self.inner()), self.ownedBy())
+ 
+@@ -66,10 +63,9 @@
+ 
+ // IntoExternType converts the MemoryType into an ExternType.
+ //
+-//   limits := NewLimits(1, 4)
+-//   memoryType := NewMemoryType(limits)
+-//   externType = memoryType.IntoExternType()
+-//
++//	limits := NewLimits(1, 4)
++//	memoryType := NewMemoryType(limits)
++//	externType = memoryType.IntoExternType()
+ func (self *MemoryType) IntoExternType() *ExternType {
+ 	pointer := C.wasm_memorytype_as_externtype_const(self.inner())
+ 
+--- local-official/module.go
++++ current/module.go
+@@ -32,6 +32,7 @@
+ //     return wasm_module_deserialize(store, &serialized_bytes);
+ // }
+ import "C"
++
+ import (
+ 	"chainmaker.org/chainmaker/logger/v2"
+ 	"runtime"
+@@ -49,7 +50,7 @@
+ // initialization logic in the form of data and element segments or a
+ // start function.
+ //
+-// See also
++// # See also
+ //
+ // Specification: https://webassembly.github.io/spec/core/syntax/modules.html#modules
+ type Module struct {
+@@ -68,14 +69,19 @@
+ // It takes two arguments, the Store and the Wasm module as a byte
+ // array of WAT code.
+ //
+-//   wasmBytes := []byte(`...`)
+-//   engine := wasmer.NewEngine()
+-//   store := wasmer.NewStore(engine)
+-//   module, err := wasmer.NewModule(store, wasmBytes)
++//	wasmBytes := []byte(`...`)
++//	engine := wasmer.NewEngine()
++//	store := wasmer.NewStore(engine)
++//	module, err := wasmer.NewModule(store, wasmBytes)
+ func NewModule(store *Store, bytes []byte, log *logger.CMLogger) (*Module, error) {
+ 	lock.Lock()
+ 	defer lock.Unlock()
+-
++	//dir, err := os.Getwd()
++	//if err != nil {
++	//	fmt.Println("获取当前路径失败:", err)
++	//	return nil, err
++	//}
++	//fmt.Println("当前工作目录是:", dir)
+ 	wasmBytes, err := Wat2Wasm(string(bytes))
+ 
+ 	if err != nil {
+@@ -93,11 +99,11 @@
+ 
+ 	err2 := maybeNewErrorFromWasmer(func() bool {
+ 		if log != nil {
+-			log.Infof("store.inner() => %v ", store.inner())
++			log.Infof("store.inner() => %v ", store.Inner())
+ 			log.Infof("wasmBytesPtr => %v ", wasmBytesPtr)
+ 			log.Infof("wasmBytesLength => %v ", wasmBytesLength)
+ 		}
+-		inner := C.to_wasm_module_new(store.inner(), wasmBytesPtr, C.size_t(wasmBytesLength))
++		inner := C.to_wasm_module_new(store.Inner(), wasmBytesPtr, C.size_t(wasmBytesLength))
+ 		self = &Module{
+ 			_inner: inner,
+ 			store:  store,
+@@ -123,15 +129,14 @@
+ // byte array. The function returns an error describing why the bytes
+ // are invalid, otherwise it returns nil.
+ //
+-//   wasmBytes := []byte(`...`)
+-//   engine := wasmer.NewEngine()
+-//   store := wasmer.NewStore(engine)
+-//   err := wasmer.ValidateModule(store, wasmBytes)
+-//
+-//   isValid := err != nil
++//	wasmBytes := []byte(`...`)
++//	engine := wasmer.NewEngine()
++//	store := wasmer.NewStore(engine)
++//	err := wasmer.ValidateModule(store, wasmBytes)
++//
++//	isValid := err != nil
+ func ValidateModule(store *Store, bytes []byte) error {
+ 	wasmBytes, err := Wat2Wasm(string(bytes))
+-
+ 	if err != nil {
+ 		return err
+ 	}
+@@ -144,7 +149,8 @@
+ 	}
+ 
+ 	err2 := maybeNewErrorFromWasmer(func() bool {
+-		return false == C.to_wasm_module_validate(store.inner(), wasmBytesPtr, C.size_t(wasmBytesLength))
++		//lint:ignore S1002 simplifying this expression breaks compilation
++		return false == C.to_wasm_module_validate(store.Inner(), wasmBytesPtr, C.size_t(wasmBytesLength))
+ 	})
+ 
+ 	if err2 != nil {
+@@ -165,11 +171,11 @@
+ //
+ // Note:️ This is not part of the standard Wasm C API. It is Wasmer specific.
+ //
+-//   wasmBytes := []byte(`(module $moduleName)`)
+-//   engine := wasmer.NewEngine()
+-//   store := wasmer.NewStore(engine)
+-//   module, _ := wasmer.NewModule(store, wasmBytes)
+-//   name := module.Name()
++//	wasmBytes := []byte(`(module $moduleName)`)
++//	engine := wasmer.NewEngine()
++//	store := wasmer.NewStore(engine)
++//	module, _ := wasmer.NewModule(store, wasmBytes)
++//	name := module.Name()
+ func (self *Module) Name() string {
+ 	var name C.wasm_name_t
+ 
+@@ -184,11 +190,11 @@
+ 
+ // Imports returns the Module's imports as an ImportType array.
+ //
+-//   wasmBytes := []byte(`...`)
+-//   engine := wasmer.NewEngine()
+-//   store := wasmer.NewStore(engine)
+-//   module, _ := wasmer.NewModule(store, wasmBytes)
+-//   imports := module.Imports()
++//	wasmBytes := []byte(`...`)
++//	engine := wasmer.NewEngine()
++//	store := wasmer.NewStore(engine)
++//	module, _ := wasmer.NewModule(store, wasmBytes)
++//	imports := module.Imports()
+ func (self *Module) Imports() []*ImportType {
+ 	if nil == self.importTypes {
+ 		self.importTypes = newImportTypes(self)
+@@ -199,11 +205,11 @@
+ 
+ // Exports returns the Module's exports as an ExportType array.
+ //
+-//   wasmBytes := []byte(`...`)
+-//   engine := wasmer.NewEngine()
+-//   store := wasmer.NewStore(engine)
+-//   module, _ := wasmer.NewModule(store, wasmBytes)
+-//   exports := module.Exports()
++//	wasmBytes := []byte(`...`)
++//	engine := wasmer.NewEngine()
++//	store := wasmer.NewStore(engine)
++//	module, _ := wasmer.NewModule(store, wasmBytes)
++//	exports := module.Exports()
+ func (self *Module) Exports() []*ExportType {
+ 	if nil == self.exportTypes {
+ 		self.exportTypes = newExportTypes(self)
+@@ -214,11 +220,11 @@
+ 
+ // Serialize serializes the module and returns the Wasm code as an byte array.
+ //
+-//   wasmBytes := []byte(`...`)
+-//   engine := wasmer.NewEngine()
+-//   store := wasmer.NewStore(engine)
+-//   module, _ := wasmer.NewModule(store, wasmBytes)
+-//   bytes := module.Serialize()
++//	wasmBytes := []byte(`...`)
++//	engine := wasmer.NewEngine()
++//	store := wasmer.NewStore(engine)
++//	module, _ := wasmer.NewModule(store, wasmBytes)
++//	bytes, err := module.Serialize()
+ func (self *Module) Serialize() ([]byte, error) {
+ 	var bytes C.wasm_byte_vec_t
+ 
+@@ -227,7 +233,6 @@
+ 
+ 		return bytes.data == nil
+ 	})
+-
+ 	if err != nil {
+ 		return nil, err
+ 	}
+@@ -240,13 +245,13 @@
+ 
+ // DeserializeModule deserializes an byte array to a Module.
+ //
+-//   wasmBytes := []byte(`...`)
+-//   engine := wasmer.NewEngine()
+-//   store := wasmer.NewStore(engine)
+-//   module, _ := wasmer.NewModule(store, wasmBytes)
+-//   bytes := module.Serialize()
+-//   //...
+-//   deserializedModule := wasmer.DeserializeModule(store, bytes)
++//	wasmBytes := []byte(`...`)
++//	engine := wasmer.NewEngine()
++//	store := wasmer.NewStore(engine)
++//	module, _ := wasmer.NewModule(store, wasmBytes)
++//	bytes, err := module.Serialize()
++//	//...
++//	deserializedModule, err := wasmer.DeserializeModule(store, bytes)
+ func DeserializeModule(store *Store, bytes []byte) (*Module, error) {
+ 	var bytesPtr *C.uint8_t
+ 	bytesLength := len(bytes)
+@@ -259,13 +264,12 @@
+ 
+ 	err := maybeNewErrorFromWasmer(func() bool {
+ 		self = &Module{
+-			_inner: C.to_wasm_module_deserialize(store.inner(), bytesPtr, C.size_t(bytesLength)),
++			_inner: C.to_wasm_module_deserialize(store.Inner(), bytesPtr, C.size_t(bytesLength)),
+ 			store:  store,
+ 		}
+ 
+ 		return self._inner == nil
+ 	})
+-
+ 	if err != nil {
+ 		return nil, err
+ 	}
+@@ -277,7 +281,7 @@
+ 	return self, nil
+ }
+ 
+-// Force to close the Module.
++// Close the module forcefully
+ //
+ // A runtime finalizer is registered on the Module, but it is possible
+ // to force the destruction of the Module by calling Close manually.
+--- local-official/name.go
++++ current/name.go
+@@ -2,6 +2,7 @@
+ 
+ // #include <wasmer.h>
+ import "C"
++
+ import (
+ 	"runtime"
+ )
+--- local-official/pages.go
++++ current/pages.go
+@@ -3,32 +3,30 @@
+ // #include <wasmer.h>
+ import "C"
+ 
+-// Units of WebAssembly pages (as specified to be 65,536 bytes).
++// Pages are units of WebAssembly pages (as specified to be 65,536 bytes).
+ type Pages C.wasm_memory_pages_t
+ 
+-// Represents a memory page size.
++// WasmPageSize represents a memory page size.
+ const WasmPageSize = uint(0x10000)
+ 
+-// Represents the maximum number of pages.
++// WasmMaxPages represents the maximum number of pages.
+ const WasmMaxPages = uint(0x10000)
+ 
+-// Represents the minimum number of pages.
++// WasmMinPages represents the minimum number of pages.
+ const WasmMinPages = uint(0x100)
+ 
+ // ToUint32 converts a Pages to a native Go uint32 which is the Pages' size.
+ //
+-//   memory, _ := instance.Exports.GetMemory("exported_memory")
+-//   size := memory.Size().ToUint32()
+-//
++//	memory, _ := instance.Exports.GetMemory("exported_memory")
++//	size := memory.Size().ToUint32()
+ func (self *Pages) ToUint32() uint32 {
+ 	return uint32(C.wasm_memory_pages_t(*self))
+ }
+ 
+ // ToBytes converts a Pages to a native Go uint which is the Pages' size in bytes.
+ //
+-//   memory, _ := instance.Exports.GetMemory("exported_memory")
+-//   size := memory.Size().ToBytes()
+-//
++//	memory, _ := instance.Exports.GetMemory("exported_memory")
++//	size := memory.Size().ToBytes()
+ func (self *Pages) ToBytes() uint {
+ 	return uint(self.ToUint32()) * WasmPageSize
+ }
+--- local-official/store.go
++++ current/store.go
+@@ -12,7 +12,7 @@
+ // The Store holds the Engine (that is — amongst many things — used to
+ // compile the Wasm bytes into a valid module artifact).
+ //
+-// See also
++// # See also
+ //
+ // Specification: https://webassembly.github.io/spec/core/exec/runtime.html#store
+ type Store struct {
+@@ -22,8 +22,8 @@
+ 
+ // NewStore instantiates a new Store with an Engine.
+ //
+-//   engine := NewEngine()
+-//   store := NewStore(engine)
++//	engine := NewEngine()
++//	store := NewStore(engine)
+ func NewStore(engine *Engine) *Store {
+ 	self := &Store{
+ 		_inner: C.wasm_store_new(engine.inner()),
+@@ -41,11 +41,15 @@
+ 	return self._inner
+ }
+ 
+-// Force to close the Store.
++func (self *Store) Inner() *C.wasm_store_t {
++	return self._inner
++}
++
++// Close the store forcingly
+ //
+ // A runtime finalizer is registered on the Store, but it is possible
+ // to force the destruction of the Store by calling Close manually.
+ func (self *Store) Close() {
+ 	runtime.SetFinalizer(self, nil)
+-	C.wasm_store_delete(self.inner())
++	C.wasm_store_delete(self.Inner())
+ }
+--- local-official/table.go
++++ current/table.go
+@@ -9,17 +9,17 @@
+ 
+ // ToUint32 converts a TableSize to a native Go uint32.
+ //
+-//   table, _ := instance.Exports.GetTable("exported_table")
+-//   size := table.Size().ToUint32()
++//	table, _ := instance.Exports.GetTable("exported_table")
++//	size := table.Size().ToUint32()
+ func (self *TableSize) ToUint32() uint32 {
+ 	return uint32(C.wasm_table_size_t(*self))
+ }
+ 
+-// A table instance is the runtime representation of a table. It holds
++// Table is the runtime representation of a table. It holds
+ // a vector of function elements and an optional maximum size, if one
+ // was specified in the table type at the table’s definition site.
+ //
+-// See also
++// # See also
+ //
+ // Specification: https://webassembly.github.io/spec/core/exec/runtime.html#table-instances
+ type Table struct {
+@@ -53,18 +53,16 @@
+ 
+ // Size returns the Table's size.
+ //
+-//   table, _ := instance.Exports.GetTable("exported_table")
+-//   size := table.Size()
+-//
++//	table, _ := instance.Exports.GetTable("exported_table")
++//	size := table.Size()
+ func (self *Table) Size() TableSize {
+ 	return TableSize(C.wasm_table_size(self.inner()))
+ }
+ 
+ // IntoExtern converts the Table into an Extern.
+ //
+-//   table, _ := instance.Exports.GetTable("exported_table")
+-//   extern := table.IntoExtern()
+-//
++//	table, _ := instance.Exports.GetTable("exported_table")
++//	extern := table.IntoExtern()
+ func (self *Table) IntoExtern() *Extern {
+ 	pointer := C.wasm_table_as_extern(self.inner())
+ 
+--- local-official/tabletype.go
++++ current/tabletype.go
+@@ -6,10 +6,9 @@
+ 
+ // TableType classifies tables over elements of element types within a size range.
+ //
+-// See also
++// # See also
+ //
+ // Specification: https://webassembly.github.io/spec/core/syntax/types.html#table-types
+-//
+ type TableType struct {
+ 	_inner   *C.wasm_tabletype_t
+ 	_ownedBy interface{}
+@@ -29,11 +28,10 @@
+ 
+ // NewTableType instantiates a new TableType given a ValueType and some Limits.
+ //
+-//   valueType := NewValueType(I32)
+-//   limits := NewLimits(1, 4)
+-//   tableType := NewTableType(valueType, limits)
+-//   _ = tableType.IntoExternType()
+-//
++//	valueType := NewValueType(I32)
++//	limits := NewLimits(1, 4)
++//	tableType := NewTableType(valueType, limits)
++//	_ = tableType.IntoExternType()
+ func NewTableType(valueType *ValueType, limits *Limits) *TableType {
+ 	pointer := C.wasm_tabletype_new(valueType.inner(), limits.inner())
+ 
+@@ -54,11 +52,10 @@
+ 
+ // ValueType returns the TableType's ValueType.
+ //
+-//   valueType := NewValueType(I32)
+-//   limits := NewLimits(1, 4)
+-//   tableType := NewTableType(valueType, limits)
+-//   _ = tableType.ValueType()
+-//
++//	valueType := NewValueType(I32)
++//	limits := NewLimits(1, 4)
++//	tableType := NewTableType(valueType, limits)
++//	_ = tableType.ValueType()
+ func (self *TableType) ValueType() *ValueType {
+ 	pointer := C.wasm_tabletype_element(self.inner())
+ 
+@@ -69,11 +66,10 @@
+ 
+ // Limits returns the TableType's Limits.
+ //
+-//   valueType := NewValueType(I32)
+-//   limits := NewLimits(1, 4)
+-//   tableType := NewTableType(valueType, limits)
+-//   _ = tableType.Limits()
+-//
++//	valueType := NewValueType(I32)
++//	limits := NewLimits(1, 4)
++//	tableType := NewTableType(valueType, limits)
++//	_ = tableType.Limits()
+ func (self *TableType) Limits() *Limits {
+ 	limits := newLimits(C.wasm_tabletype_limits(self.inner()), self.ownedBy())
+ 
+@@ -84,11 +80,10 @@
+ 
+ // IntoExternType converts the TableType into an ExternType.
+ //
+-//   valueType := NewValueType(I32)
+-//   limits := NewLimits(1, 4)
+-//   tableType := NewTableType(valueType, limits)
+-//   _ = tableType.IntoExternType()
+-//
++//	valueType := NewValueType(I32)
++//	limits := NewLimits(1, 4)
++//	tableType := NewTableType(valueType, limits)
++//	_ = tableType.IntoExternType()
+ func (self *TableType) IntoExternType() *ExternType {
+ 	pointer := C.wasm_tabletype_as_externtype_const(self.inner())
+ 
+--- local-official/target.go
++++ current/target.go
+@@ -23,9 +23,9 @@
+ 
+ // NewTarget creates a new target.
+ //
+-//  triple, err := NewTriple("aarch64-unknown-linux-gnu")
+-//  cpuFeatures := NewCpuFeatures()
+-//  target := NewTarget(triple, cpuFeatures)
++//	triple, err := NewTriple("aarch64-unknown-linux-gnu")
++//	cpuFeatures := NewCpuFeatures()
++//	target := NewTarget(triple, cpuFeatures)
+ func NewTarget(triple *Triple, cpuFeatures *CpuFeatures) *Target {
+ 	return newTarget(C.wasmer_target_new(triple.inner(), cpuFeatures.inner()))
+ }
+@@ -34,7 +34,7 @@
+ 	return self._inner
+ }
+ 
+-// Triple; historically such things had three fields, though they have
++// Triple with historically such things had three fields, though they have
+ // added additional fields over time.
+ type Triple struct {
+ 	_inner *C.wasmer_triple_t
+@@ -55,7 +55,7 @@
+ // NewTriple creates a new triple, otherwise it returns an error
+ // specifying why the provided triple isn't valid.
+ //
+-//   triple, err := NewTriple("aarch64-unknown-linux-gnu")
++//	triple, err := NewTriple("aarch64-unknown-linux-gnu")
+ func NewTriple(triple string) (*Triple, error) {
+ 	cTripleName := newName(triple)
+ 	defer C.wasm_name_delete(&cTripleName)
+@@ -67,7 +67,6 @@
+ 
+ 		return cTriple == nil
+ 	})
+-
+ 	if err != nil {
+ 		return nil, err
+ 	}
+@@ -149,9 +148,9 @@
+ 	defer C.wasm_name_delete(&cFeature)
+ 
+ 	err := maybeNewErrorFromWasmer(func() bool {
++		//lint:ignore S1002 simplifying this expression breaks compilation
+ 		return false == C.wasmer_cpu_features_add(self.inner(), &cFeature)
+ 	})
+-
+ 	if err != nil {
+ 		return err
+ 	}
+--- local-official/trap.go
++++ current/trap.go
+@@ -13,6 +13,7 @@
+ //     return wasm_trap_new(store, &message);
+ // }
+ import "C"
++
+ import (
+ 	"runtime"
+ 	"unsafe"
+@@ -24,12 +25,34 @@
+ 	_ownedBy interface{}
+ }
+ 
+-func newTrap(pointer *C.wasm_trap_t, ownedBy interface{}) *Trap {
++// newWasmTrap creates C wasm_trap structure and returns it's pointer
++func newWasmTrap(store *Store, message string) *C.wasm_trap_t {
++	messageBytes := []byte(message)
++	var bytesPointer *C.uint8_t
++	bytesLength := len(messageBytes)
++
++	if bytesLength > 0 {
++		bytesPointer = (*C.uint8_t)(unsafe.Pointer(&messageBytes[0]))
++	}
++
++	runtime.KeepAlive(store)
++	runtime.KeepAlive(message)
++
++	return C.to_wasm_trap_new(store.Inner(), bytesPointer, C.size_t(bytesLength))
++}
++
++// newTrapFromPonter creates Trap from C.wasm_trap structure and attaches GC finalizer for it
++func newTrapFromPointer(pointer *C.wasm_trap_t, ownedBy interface{}) *Trap {
+ 	trap := &Trap{
+ 		_inner:   pointer,
+ 		_ownedBy: ownedBy,
+ 	}
+ 
++	return trapWithFinalizer(trap, ownedBy)
++}
++
++// trapWithFinalizer attaches GC finalizer to the trap
++func trapWithFinalizer(trap *Trap, ownedBy interface{}) *Trap {
+ 	if ownedBy == nil {
+ 		runtime.SetFinalizer(trap, func(trap *Trap) {
+ 			inner := trap.inner()
+@@ -43,26 +66,15 @@
+ 	return trap
+ }
+ 
+-// Creates a new trap with a message.
+-//
+-//   engine := wasmer.NewEngine()
+-//   store := wasmer.NewStore(engine)
+-//   trap := NewTrap(store, "oops")
++// NewTrap with a message.
++//
++//	engine := wasmer.NewEngine()
++//	store := wasmer.NewStore(engine)
++//	trap := NewTrap(store, "oops")
+ func NewTrap(store *Store, message string) *Trap {
+-	messageBytes := []byte(message)
+-	var bytesPointer *C.uint8_t
+-	bytesLength := len(messageBytes)
+-
+-	if bytesLength > 0 {
+-		bytesPointer = (*C.uint8_t)(unsafe.Pointer(&messageBytes[0]))
+-	}
+-
+-	trap := C.to_wasm_trap_new(store.inner(), bytesPointer, C.size_t(bytesLength))
+-
+-	runtime.KeepAlive(store)
+-	runtime.KeepAlive(message)
+-
+-	return newTrap(trap, nil)
++	pointer := newWasmTrap(store, message)
++	trap := &Trap{_inner: pointer}
++	return trapWithFinalizer(trap, nil)
+ }
+ 
+ func (self *Trap) inner() *C.wasm_trap_t {
+@@ -93,7 +105,7 @@
+ // Origin returns the top frame of WebAssembly stack responsible for
+ // this trap.
+ //
+-//     frame := trap.Origin()
++//	frame := trap.Origin()
+ func (self *Trap) Origin() *Frame {
+ 	frame := C.wasm_trap_origin(self.inner())
+ 
+@@ -166,7 +178,7 @@
+ }
+ 
+ func (self *Frame) Instance() {
+-	//TODO: See https://github.com/wasmerio/wasmer/blob/6fbc903ea32774c830fd9ee86140d1406ac5d745/lib/c-api/src/wasm_c_api/types/frame.rs#L31-L34
++	// TODO: See https://github.com/wasmerio/wasmer/blob/6fbc903ea32774c830fd9ee86140d1406ac5d745/lib/c-api/src/wasm_c_api/types/frame.rs#L31-L34
+ 	panic("to do!")
+ }
+ 
+@@ -187,7 +199,7 @@
+ }
+ 
+ func newTrace(trap *Trap) *Trace {
+-	var self = &Trace{}
++	self := &Trace{}
+ 	C.wasm_trap_trace(trap.inner(), self.inner())
+ 
+ 	runtime.KeepAlive(trap)
+--- local-official/value.go
++++ current/value.go
+@@ -22,12 +22,13 @@
+ //     return value->of.ref;
+ // }
+ import "C"
++
+ import (
+ 	"fmt"
+ 	"unsafe"
+ )
+ 
+-// Value; WebAssembly computations manipulate values of basic value types:
++// Value with WebAssembly computations manipulate values of basic value types:
+ //
+ // • Integer (32 or 64 bit width),
+ //
+@@ -35,7 +36,7 @@
+ //
+ // • Vectors (128 bits, with 32 or 64 bit lanes).
+ //
+-// See Also
++// # See Also
+ //
+ // Specification: https://webassembly.github.io/spec/core/exec/runtime.html#values
+ type Value struct {
+@@ -51,10 +52,9 @@
+ //
+ // Note: If a Wasm value cannot be created from the given value,
+ //
+-//   value := NewValue(42, I32)
++//	value := NewValue(42, I32)
+ func NewValue(value interface{}, kind ValueKind) Value {
+ 	output, err := fromGoValue(value, kind)
+-
+ 	if err != nil {
+ 		panic(fmt.Sprintf("Cannot create a Wasm `%s` value from `%T`", err, value))
+ 	}
+@@ -67,7 +67,7 @@
+ // Note: If a Wasm value cannot be created from the given value,
+ // NewI32 will panic.
+ //
+-//   value := NewI32(42)
++//	value := NewI32(42)
+ func NewI32(value interface{}) Value {
+ 	return NewValue(value, I32)
+ }
+@@ -77,7 +77,7 @@
+ // Note: If a Wasm value cannot be created from the given value,
+ // NewI64 will panic.
+ //
+-//   value := NewI64(42)
++//	value := NewI64(42)
+ func NewI64(value interface{}) Value {
+ 	return NewValue(value, I64)
+ }
+@@ -87,7 +87,7 @@
+ // Note: If a Wasm value cannot be created from the given value,
+ // NewF32 will panic.
+ //
+-//   value := NewF32(4.2)
++//	value := NewF32(4.2)
+ func NewF32(value interface{}) Value {
+ 	return NewValue(value, F32)
+ }
+@@ -97,7 +97,7 @@
+ // Note: If a Wasm value cannot be created from the given value,
+ // NewF64 will panic.
+ //
+-//   value := NewF64(4.2)
++//	value := NewF64(4.2)
+ func NewF64(value interface{}) Value {
+ 	return NewValue(value, F64)
+ }
+@@ -108,16 +108,16 @@
+ 
+ // Kind returns the Value's ValueKind.
+ //
+-//   value := NewF64(4.2)
+-//   _ = value.Kind()
++//	value := NewF64(4.2)
++//	_ = value.Kind()
+ func (self *Value) Kind() ValueKind {
+ 	return ValueKind(self.inner().kind)
+ }
+ 
+ // Unwrap returns the Value's value as a native Go value.
+ //
+-//   value := NewF64(4.2)
+-//   _ = value.Unwrap()
++//	value := NewF64(4.2)
++//	_ = value.Unwrap()
+ func (self *Value) Unwrap() interface{} {
+ 	return toGoValue(self.inner())
+ }
+@@ -126,8 +126,8 @@
+ //
+ // Note: It panics if the value is not of type I32.
+ //
+-//   value := NewI32(42)
+-//   _ = value.I32()
++//	value := NewI32(42)
++//	_ = value.I32()
+ func (self *Value) I32() int32 {
+ 	pointer := self.inner()
+ 
+@@ -142,9 +142,8 @@
+ //
+ // Note: It panics if the value is not of type I64.
+ //
+-//   value := NewI64(42)
+-//   _ = value.I64()
+-//
++//	value := NewI64(42)
++//	_ = value.I64()
+ func (self *Value) I64() int64 {
+ 	pointer := self.inner()
+ 
+@@ -159,9 +158,8 @@
+ //
+ // Note: It panics if the value is not of type F32.
+ //
+-//   value := NewF32(4.2)
+-//   _ = value.F32()
+-//
++//	value := NewF32(4.2)
++//	_ = value.F32()
+ func (self *Value) F32() float32 {
+ 	pointer := self.inner()
+ 
+@@ -176,9 +174,8 @@
+ //
+ // Note: It panics if the value is not of type F64.
+ //
+-//   value := NewF64(4.2)
+-//   _ = value.F64()
+-//
++//	value := NewF64(4.2)
++//	_ = value.F64()
+ func (self *Value) F64() float64 {
+ 	pointer := self.inner()
+ 
+@@ -211,74 +208,74 @@
+ 	case I32:
+ 		output.kind = kind.inner()
+ 
+-		var of = (*int32)(unsafe.Pointer(&output.of))
+-
+-		switch value.(type) {
++		of := (*int32)(unsafe.Pointer(&output.of))
++
++		switch typed := value.(type) {
+ 		case int8:
+-			*of = int32(value.(int8))
++			*of = int32(typed)
+ 		case uint8:
+-			*of = int32(value.(uint8))
++			*of = int32(typed)
+ 		case int16:
+-			*of = int32(value.(int16))
++			*of = int32(typed)
+ 		case uint16:
+-			*of = int32(value.(uint16))
++			*of = int32(typed)
+ 		case int32:
+-			*of = value.(int32)
++			*of = typed
+ 		case int:
+-			*of = int32(value.(int))
++			*of = int32(typed)
+ 		case uint:
+-			*of = int32(value.(uint))
++			*of = int32(typed)
+ 		default:
+ 			return output, newErrorWith("i32")
+ 		}
+ 	case I64:
+ 		output.kind = kind.inner()
+ 
+-		var of = (*int64)(unsafe.Pointer(&output.of))
+-
+-		switch value.(type) {
++		of := (*int64)(unsafe.Pointer(&output.of))
++
++		switch typed := value.(type) {
+ 		case int8:
+-			*of = int64(value.(int8))
++			*of = int64(typed)
+ 		case uint8:
+-			*of = int64(value.(uint8))
++			*of = int64(typed)
+ 		case int16:
+-			*of = int64(value.(int16))
++			*of = int64(typed)
+ 		case uint16:
+-			*of = int64(value.(uint16))
++			*of = int64(typed)
+ 		case int32:
+-			*of = int64(value.(int32))
++			*of = int64(typed)
+ 		case uint32:
+-			*of = int64(value.(int64))
++			*of = int64(typed)
+ 		case int64:
+-			*of = value.(int64)
++			*of = typed
+ 		case int:
+-			*of = int64(value.(int))
++			*of = int64(typed)
+ 		case uint:
+-			*of = int64(value.(uint))
++			*of = int64(typed)
+ 		default:
+ 			return output, newErrorWith("i64")
+ 		}
+ 	case F32:
+ 		output.kind = kind.inner()
+ 
+-		var of = (*float32)(unsafe.Pointer(&output.of))
+-
+-		switch value.(type) {
++		of := (*float32)(unsafe.Pointer(&output.of))
++
++		switch typed := value.(type) {
+ 		case float32:
+-			*of = value.(float32)
++			*of = typed
+ 		default:
+ 			return output, newErrorWith("f32")
+ 		}
+ 	case F64:
+ 		output.kind = kind.inner()
+ 
+-		var of = (*float64)(unsafe.Pointer(&output.of))
+-
+-		switch value.(type) {
++		of := (*float64)(unsafe.Pointer(&output.of))
++
++		switch typed := value.(type) {
+ 		case float32:
+-			*of = float64(value.(float32))
++			*of = float64(typed)
+ 		case float64:
+-			*of = value.(float64)
++			*of = typed
+ 		default:
+ 			return output, newErrorWith("f64")
+ 		}
+@@ -325,7 +322,7 @@
+ }
+ 
+ func ToValueVec(list []Value) *C.wasm_val_vec_t {
+-	vec := C.wasm_val_vec_t {
++	vec := C.wasm_val_vec_t{
+ 		data: (*C.wasm_val_t)(unsafe.Pointer(nil)),
+ 		size: 0,
+ 	}
+@@ -336,4 +333,4 @@
+ 
+ func DeleteValueVec(vec *C.wasm_val_vec_t) {
+ 	C.wasm_val_vec_delete(vec)
+-}+}
+--- local-official/valuetype.go
++++ current/valuetype.go
+@@ -2,6 +2,7 @@
+ 
+ // #include <wasmer.h>
+ import "C"
++
+ import (
+ 	"runtime"
+ 	"unsafe"
+@@ -35,12 +36,12 @@
+ 
+ // String returns the ValueKind as a string.
+ //
+-//   I32.String()     // "i32"
+-//   I64.String()     // "i64"
+-//   F32.String()     // "f32"
+-//   F64.String()     // "f64"
+-//   AnyRef.String()  // "anyref"
+-//   FuncRef.String() // "funcref"
++//	I32.String()     // "i32"
++//	I64.String()     // "i64"
++//	F32.String()     // "f32"
++//	F64.String()     // "f64"
++//	AnyRef.String()  // "anyref"
++//	FuncRef.String() // "funcref"
+ func (self ValueKind) String() string {
+ 	switch self {
+ 	case I32:
+@@ -61,24 +62,24 @@
+ 
+ // IsNumber returns true if the ValueKind is a number type.
+ //
+-//   I32.IsNumber()     // true
+-//   I64.IsNumber()     // true
+-//   F32.IsNumber()     // true
+-//   F64.IsNumber()     // true
+-//   AnyRef.IsNumber()  // false
+-//   FuncRef.IsNumber() // false
++//	I32.IsNumber()     // true
++//	I64.IsNumber()     // true
++//	F32.IsNumber()     // true
++//	F64.IsNumber()     // true
++//	AnyRef.IsNumber()  // false
++//	FuncRef.IsNumber() // false
+ func (self ValueKind) IsNumber() bool {
+ 	return bool(C.wasm_valkind_is_num(C.wasm_valkind_t(self)))
+ }
+ 
+ // IsReference returns true if the ValueKind is a reference.
+ //
+-//   I32.IsReference()     // false
+-//   I64.IsReference()     // false
+-//   F32.IsReference()     // false
+-//   F64.IsReference()     // false
+-//   AnyRef.IsReference()  // true
+-//   FuncRef.IsReference() // true
++//	I32.IsReference()     // false
++//	I64.IsReference()     // false
++//	F32.IsReference()     // false
++//	F64.IsReference()     // false
++//	AnyRef.IsReference()  // true
++//	FuncRef.IsReference() // true
+ func (self ValueKind) IsReference() bool {
+ 	return bool(C.wasm_valkind_is_ref(C.wasm_valkind_t(self)))
+ }
+@@ -96,7 +97,7 @@
+ 
+ // NewValueType instantiates a new ValueType given a ValueKind.
+ //
+-//   valueType := NewValueType(I32)
++//	valueType := NewValueType(I32)
+ func NewValueType(kind ValueKind) *ValueType {
+ 	pointer := C.wasm_valtype_new(C.wasm_valkind_t(kind))
+ 
+@@ -121,8 +122,8 @@
+ 
+ // Kind returns the ValueType's ValueKind
+ //
+-//   valueType := NewValueType(I32)
+-//   _ = valueType.Kind()
++//	valueType := NewValueType(I32)
++//	_ = valueType.Kind()
+ func (self *ValueType) Kind() ValueKind {
+ 	kind := ValueKind(C.wasm_valtype_kind(self.inner()))
+ 
+@@ -132,17 +133,17 @@
+ }
+ 
+ // NewValueTypes instantiates a new ValueType array from a list of
+-// ValueKind. Not that the list may be empty.
++// ValueKind. Note that this list may be empty.
+ //
+-//   valueTypes := NewValueTypes(I32, I64, F32)
++//	valueTypes := NewValueTypes(I32, I64, F32)
+ //
+ // Note:️ NewValueTypes is specifically designed to help you declare
+ // function types, e.g. with NewFunctionType:
+ //
+-//   functionType := NewFunctionType(
+-//   	NewValueTypes(), // arguments
+-//   	NewValueTypes(I32), // results
+-//   )
++//	functionType := NewFunctionType(
++//		NewValueTypes(), // arguments
++//		NewValueTypes(I32), // results
++//	)
+ func NewValueTypes(kinds ...ValueKind) []*ValueType {
+ 	valueTypes := make([]*ValueType, len(kinds))
+ 
+--- local-official/wasi.go
++++ current/wasi.go
+@@ -15,44 +15,45 @@
+ //     uintptr_t buffer_len
+ // );
+ //
+-// // // Common function to read a WASI environment captured stream.
+-// // size_t to_wasi_env_read_inner(wasi_env_t *wasi_env, char** buffer, wasi_env_reader reader) {
+-// //     FILE *memory_stream;
+-// //     size_t buffer_size = 0;
+-// //
+-// //     memory_stream = open_memstream(buffer, &buffer_size);
+-// //
+-// //     if (NULL == memory_stream) {
+-// //         return 0;
+-// //     }
+-// //
+-// //     char temp_buffer[WASI_ENV_READER_BUFFER_SIZE] = { 0 };
+-// //     size_t data_read_size = WASI_ENV_READER_BUFFER_SIZE;
+-// //
+-// //     do {
+-// //         data_read_size = reader(wasi_env, temp_buffer, WASI_ENV_READER_BUFFER_SIZE);
+-// //
+-// //         if (data_read_size > 0) {
+-// //             buffer_size += data_read_size;
+-// //             fwrite(temp_buffer, sizeof(char), data_read_size, memory_stream);
+-// //         }
+-// //     } while (WASI_ENV_READER_BUFFER_SIZE == data_read_size);
+-// //
+-// //     fclose(memory_stream);
+-// //
+-// //     return buffer_size;
+-// // }
+-// //
+-// // // Read the captured `stdout`.
+-// // size_t to_wasi_env_read_stdout(wasi_env_t *wasi_env, char** buffer) {
+-// //     return to_wasi_env_read_inner(wasi_env, buffer, wasi_env_read_stdout);
+-// // }
+-// //
+-// // // Read the captured `stderr`.
+-// // size_t to_wasi_env_read_stderr(wasi_env_t *wasi_env, char** buffer) {
+-// //     return to_wasi_env_read_inner(wasi_env, buffer, wasi_env_read_stderr);
+-// // }
++// // Common function to read a WASI environment captured stream.
++// size_t to_wasi_env_read_inner(wasi_env_t *wasi_env, char** buffer, wasi_env_reader reader) {
++//     FILE *memory_stream;
++//     size_t buffer_size = 0;
++//
++//     memory_stream = open_memstream(buffer, &buffer_size);
++//
++//     if (NULL == memory_stream) {
++//         return 0;
++//     }
++//
++//     char temp_buffer[WASI_ENV_READER_BUFFER_SIZE] = { 0 };
++//     size_t data_read_size = WASI_ENV_READER_BUFFER_SIZE;
++//
++//     do {
++//         data_read_size = reader(wasi_env, temp_buffer, WASI_ENV_READER_BUFFER_SIZE);
++//
++//         if (data_read_size > 0) {
++//             buffer_size += data_read_size;
++//             fwrite(temp_buffer, sizeof(char), data_read_size, memory_stream);
++//         }
++//     } while (WASI_ENV_READER_BUFFER_SIZE == data_read_size);
++//
++//     fclose(memory_stream);
++//
++//     return buffer_size;
++// }
++//
++// // Read the captured `stdout`.
++// size_t to_wasi_env_read_stdout(wasi_env_t *wasi_env, char** buffer) {
++//     return to_wasi_env_read_inner(wasi_env, buffer, wasi_env_read_stdout);
++// }
++//
++// // Read the captured `stderr`.
++// size_t to_wasi_env_read_stderr(wasi_env_t *wasi_env, char** buffer) {
++//     return to_wasi_env_read_inner(wasi_env, buffer, wasi_env_read_stderr);
++// }
+ import "C"
++
+ import (
+ 	"reflect"
+ 	"runtime"
+@@ -82,8 +83,8 @@
+ 
+ // String returns the WasiVersion as a string.
+ //
+-//   WASI_VERSION_SNAPSHOT0.String() //  "wasi_unstable"
+-//   WASI_VERSION_SNAPSHOT1.String() // "wasi_snapshot_preview1"
++//	WASI_VERSION_SNAPSHOT0.String() //  "wasi_unstable"
++//	WASI_VERSION_SNAPSHOT1.String() // "wasi_snapshot_preview1"
+ func (self WasiVersion) String() string {
+ 	switch self {
+ 	case WASI_VERSION_LATEST:
+@@ -101,7 +102,7 @@
+ // GetWasiVersion returns the WASI version of the given Module if any,
+ // WASI_VERSION_INVALID otherwise.
+ //
+-//     wasiVersion := GetWasiVersion(module)
++//	wasiVersion := GetWasiVersion(module)
+ func GetWasiVersion(module *Module) WasiVersion {
+ 	return WasiVersion(C.wasi_get_wasi_version(module.inner()))
+ }
+@@ -114,7 +115,7 @@
+ // NewWasiStateBuilder creates a new WASI state builder, starting by
+ // configuring the WASI program name.
+ //
+-//   wasiStateBuilder := NewWasiStateBuilder("test-program")
++//	wasiStateBuilder := NewWasiStateBuilder("test-program")
+ func NewWasiStateBuilder(programName string) *WasiStateBuilder {
+ 	cProgramName := C.CString(programName)
+ 	defer C.free(unsafe.Pointer(cProgramName))
+@@ -129,8 +130,8 @@
+ 
+ // Argument configures a new argument to the WASI module.
+ //
+-//    wasiStateBuilder := NewWasiStateBuilder("test-program").
+-//    	Argument("--foo")
++//	wasiStateBuilder := NewWasiStateBuilder("test-program").
++//		Argument("--foo")
+ func (self *WasiStateBuilder) Argument(argument string) *WasiStateBuilder {
+ 	cArgument := C.CString(argument)
+ 	defer C.free(unsafe.Pointer(cArgument))
+@@ -141,9 +142,9 @@
+ 
+ // Environment configures a new environment variable for the WASI module.
+ //
+-//    wasiStateBuilder := NewWasiStateBuilder("test-program").
+-//    	Argument("--foo").
+-//    	Environment("KEY", "VALUE")
++//	wasiStateBuilder := NewWasiStateBuilder("test-program").
++//		Argument("--foo").
++//		Environment("KEY", "VALUE")
+ func (self *WasiStateBuilder) Environment(key string, value string) *WasiStateBuilder {
+ 	cKey := C.CString(key)
+ 	defer C.free(unsafe.Pointer(cKey))
+@@ -161,10 +162,10 @@
+ // This opens the given directory at the virtual root /, and allows
+ // the WASI module to read and write to the given directory.
+ //
+-//    wasiStateBuilder := NewWasiStateBuilder("test-program").
+-//    	Argument("--foo").
+-//    	Environment("KEY", "VALUE").
+-//    	PreopenDirectory("bar")
++//	wasiStateBuilder := NewWasiStateBuilder("test-program").
++//		Argument("--foo").
++//		Environment("KEY", "VALUE").
++//		PreopenDirectory("bar")
+ func (self *WasiStateBuilder) PreopenDirectory(preopenDirectory string) *WasiStateBuilder {
+ 	cPreopenDirectory := C.CString(preopenDirectory)
+ 	defer C.free(unsafe.Pointer(cPreopenDirectory))
+@@ -177,10 +178,10 @@
+ // MapDirectory configures a new directory to pre-open with a
+ // different name exposed to the WASI module.
+ //
+-//    wasiStateBuilder := NewWasiStateBuilder("test-program").
+-//    	Argument("--foo").
+-//    	Environment("KEY", "VALUE").
+-//    	MapDirectory("the_host_current_directory", ".")
++//	wasiStateBuilder := NewWasiStateBuilder("test-program").
++//		Argument("--foo").
++//		Environment("KEY", "VALUE").
++//		MapDirectory("the_host_current_directory", ".")
+ func (self *WasiStateBuilder) MapDirectory(alias string, directory string) *WasiStateBuilder {
+ 	cAlias := C.CString(alias)
+ 	defer C.free(unsafe.Pointer(cAlias))
+@@ -203,11 +204,11 @@
+ 
+ // CaptureStdout configures the WASI module to capture its stdout.
+ //
+-//    wasiStateBuilder := NewWasiStateBuilder("test-program").
+-//    	Argument("--foo").
+-//    	Environment("KEY", "VALUE").
+-//    	MapDirectory("the_host_current_directory", ".")
+-//    	CaptureStdout()
++//	wasiStateBuilder := NewWasiStateBuilder("test-program").
++//		Argument("--foo").
++//		Environment("KEY", "VALUE").
++//		MapDirectory("the_host_current_directory", ".")
++//		CaptureStdout()
+ func (self *WasiStateBuilder) CaptureStdout() *WasiStateBuilder {
+ 	C.wasi_config_capture_stdout(self.inner())
+ 
+@@ -243,14 +244,14 @@
+ // It can return an error if the state builder contains invalid
+ // configuration.
+ //
+-//    wasiEnvironment, err := NewWasiStateBuilder("test-program").
+-//    	Argument("--foo").
+-//    	Environment("KEY", "VALUE").
+-//    	MapDirectory("the_host_current_directory", ".")
+-//    	CaptureStdout().
+-//      Finalize()
+-func (self *WasiStateBuilder) Finalize() (*WasiEnvironment, error) {
+-	return newWasiEnvironment(self)
++//	wasiEnvironment, err := NewWasiStateBuilder("test-program").
++//		Argument("--foo").
++//		Environment("KEY", "VALUE").
++//		MapDirectory("the_host_current_directory", ".")
++//		CaptureStdout().
++//	  Finalize()
++func (self *WasiStateBuilder) Finalize(store *C.wasm_store_t) (*WasiEnvironment, error) {
++	return newWasiEnvironment(self, store)
+ }
+ 
+ func (self *WasiStateBuilder) inner() *C.wasi_config_t {
+@@ -265,15 +266,14 @@
+ 	_inner *C.wasi_env_t
+ }
+ 
+-func newWasiEnvironment(stateBuilder *WasiStateBuilder) (*WasiEnvironment, error) {
++func newWasiEnvironment(stateBuilder *WasiStateBuilder, store *C.wasm_store_t) (*WasiEnvironment, error) {
+ 	var environment *C.wasi_env_t
+ 
+ 	err := maybeNewErrorFromWasmer(func() bool {
+-		environment = C.wasi_env_new(stateBuilder.inner())
++		environment = C.wasi_env_new(store, stateBuilder.inner())
+ 
+ 		return environment == nil
+ 	})
+-
+ 	if err != nil {
+ 		return nil, err
+ 	}
+@@ -293,35 +293,47 @@
+ 	return self._inner
+ }
+ 
++func (self *WasiEnvironment) Initialize(store *Store, instance *Instance) error {
++
++	err := maybeNewErrorFromWasmer(func() bool {
++		//lint:ignore S1002 simplifying this expression breaks compilation
++		return false == C.wasi_env_initialize_instance(self.inner(), store.inner(), instance.inner())
++	})
++	if err != nil {
++		return err
++	}
++	return nil
++}
++
+ func buildByteSliceFromCBuffer(buffer *C.char, length int) []byte {
+-	var header reflect.SliceHeader
+-	header = *(*reflect.SliceHeader)(unsafe.Pointer(&header))
++	var byteSlice []byte
++	header := (*reflect.SliceHeader)(unsafe.Pointer(&byteSlice))
+ 
+ 	header.Data = uintptr(unsafe.Pointer(buffer))
+ 	header.Len = length
+ 	header.Cap = length
+ 
+-	return *(*[]byte)(unsafe.Pointer(&header))
++	return byteSlice
+ }
+ 
+ // ReadStdout reads the WASI module stdout if captured with
+ // WasiStateBuilder.CaptureStdout
+ //
+-//  wasiEnv, _ := NewWasiStateBuilder("test-program").
+-//  	Argument("--foo").
+-//  	Environment("ABC", "DEF").
+-//  	Environment("X", "ZY").
+-//  	MapDirectory("the_host_current_directory", ".").
+-//  	CaptureStdout().
+-//  	Finalize()
+-//
+-//  importObject, _ := wasiEnv.GenerateImportObject(store, module)
+-//  instance, _ := NewInstance(module, importObject)
+-//  start, _ := instance.Exports.GetWasiStartFunction()
+-//
+-//  start()
+-//
+-//  stdout := string(wasiEnv.ReadStdout())
++//	wasiEnv, _ := NewWasiStateBuilder("test-program").
++//		Argument("--foo").
++//		Environment("ABC", "DEF").
++//		Environment("X", "ZY").
++//		MapDirectory("the_host_current_directory", ".").
++//		CaptureStdout().
++//		Finalize()
++//
++//	importObject, _ := wasiEnv.GenerateImportObject(store, module)
++//	instance, _ := NewInstance(module, importObject)
++//	start, _ := instance.Exports.GetWasiStartFunction()
++//
++//	start()
++//
++//	stdout := string(wasiEnv.ReadStdout())
+ //func (self *WasiEnvironment) ReadStdout() []byte {
+ //	var buffer *C.char
+ //	length := int(C.to_wasi_env_read_stdout(self.inner(), &buffer))
+@@ -341,26 +353,26 @@
+ // GenerateImportObject generates an import object, that can be
+ // extended and passed to NewInstance.
+ //
+-//  wasiEnv, _ := NewWasiStateBuilder("test-program").
+-//  	Argument("--foo").
+-//  	Environment("ABC", "DEF").
+-//  	Environment("X", "ZY").
+-//  	MapDirectory("the_host_current_directory", ".").
+-//  	Finalize()
+-//
+-//  importObject, _ := wasiEnv.GenerateImportObject(store, module)
+-//  instance, _ := NewInstance(module, importObject)
+-//  start, _ := instance.Exports.GetWasiStartFunction()
+-//
+-//  start()
++//	wasiEnv, _ := NewWasiStateBuilder("test-program").
++//		Argument("--foo").
++//		Environment("ABC", "DEF").
++//		Environment("X", "ZY").
++//		MapDirectory("the_host_current_directory", ".").
++//		Finalize()
++//
++//	importObject, _ := wasiEnv.GenerateImportObject(store, module)
++//	instance, _ := NewInstance(module, importObject)
++//	start, _ := instance.Exports.GetWasiStartFunction()
++//
++//	start()
+ func (self *WasiEnvironment) GenerateImportObject(store *Store, module *Module) (*ImportObject, error) {
+ 	var wasiNamedExterns C.wasmer_named_extern_vec_t
+ 	C.wasmer_named_extern_vec_new_empty(&wasiNamedExterns)
+ 
+ 	err := maybeNewErrorFromWasmer(func() bool {
+-		return false == C.wasi_get_unordered_imports(store.inner(), module.inner(), self.inner(), &wasiNamedExterns)
++		//lint:ignore S1002 simplifying this expression breaks compilation
++		return false == C.wasi_get_unordered_imports(self.inner(), module.inner(), &wasiNamedExterns)
+ 	})
+-
+ 	if err != nil {
+ 		return nil, err
+ 	}
+@@ -381,7 +393,7 @@
+ 
+ 		_, exists := importObject.externs[module]
+ 
+-		if exists == false {
++		if !exists {
+ 			importObject.externs[module] = make(map[string]IntoExtern)
+ 		}
+ 
+--- local-official/wasmer.go
++++ current/wasmer.go
+@@ -1,7 +1,7 @@
+ // Package wasmer is a complete and mature WebAssembly runtime for Go
+ // based on Wasmer (https://github.com/wasmerio/wasmer).
+ //
+-// Features
++// # Features
+ //
+ // • Easy to use: The wasmer API mimics the standard WebAssembly API,
+ //
+@@ -9,7 +9,7 @@
+ //
+ // • Safe: All calls to WebAssembly will be fast, but more importantly, complete safe and sandboxed.
+ //
+-// Quick Introduction
++// # Quick Introduction
+ //
+ // The wasmer Go package brings the required API to execute WebAssembly
+ // modules. In a nutshell, wasmer compiles the WebAssembly module into
+@@ -42,7 +42,7 @@
+ // • LLVM: Slow compilation times, very fast execution times (close to
+ // native). Ideal for production.
+ //
+-// WebAssembly C API standard
++// # WebAssembly C API standard
+ //
+ // Wasmer —the runtime— is written in Rust; C and C++ bindings
+ // exist. This Go package relies on the so-called wasm_c_api,
+@@ -56,7 +56,7 @@
+ // package commits to keep a semantic versioning over the API,
+ // regardless what happens with the C API.
+ //
+-// Examples
++// # Examples
+ //
+ // The very basic example is the following
+ //
+--- local-official/wat.go
++++ current/wat.go
+@@ -2,6 +2,7 @@
+ 
+ // #include <wasmer.h>
+ import "C"
++
+ import (
+ 	"unsafe"
+ )
+@@ -12,14 +13,14 @@
+ //
+ // Note: This is not part of the standard Wasm C API. It is Wasmer specific.
+ //
+-//   wat := "(module)"
+-//   wasm, _ := Wat2Wasm(wat)
+-//   engine := wasmer.NewEngine()
+-//   store := wasmer.NewStore(engine)
+-//   module, _ := wasmer.NewModule(store, wasmBytes)
++//	wat := "(module)"
++//	wasm, _ := Wat2Wasm(wat)
++//	engine := wasmer.NewEngine()
++//	store := wasmer.NewStore(engine)
++//	module, _ := wasmer.NewModule(store, wasmBytes)
+ func Wat2Wasm(wat string) ([]byte, error) {
+ 	var watBytes C.wasm_byte_vec_t
+-	var watLength = len(wat)
++	watLength := len(wat)
+ 
+ 	C.wasm_byte_vec_new(&watBytes, C.size_t(watLength), C.CString(wat))
+ 	defer C.wasm_byte_vec_delete(&watBytes)
+@@ -31,7 +32,6 @@
+ 
+ 		return wasm.data == nil
+ 	})
+-
+ 	if err != nil {
+ 		return nil, err
+ 	}

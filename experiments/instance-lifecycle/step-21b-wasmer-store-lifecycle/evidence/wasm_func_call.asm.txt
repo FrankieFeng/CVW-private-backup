@@ -1,0 +1,240 @@
+
+CVW/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/wasmer-go/packaged/lib/linux-amd64/libwasmer.so:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000045ddc0 <wasm_func_call>:
+  45ddc0:	55                   	push   %rbp
+  45ddc1:	41 57                	push   %r15
+  45ddc3:	41 56                	push   %r14
+  45ddc5:	41 55                	push   %r13
+  45ddc7:	41 54                	push   %r12
+  45ddc9:	53                   	push   %rbx
+  45ddca:	48 83 ec 78          	sub    $0x78,%rsp
+  45ddce:	45 31 ff             	xor    %r15d,%r15d
+  45ddd1:	48 85 ff             	test   %rdi,%rdi
+  45ddd4:	0f 84 67 02 00 00    	je     45e041 <wasm_func_call+0x281>
+  45ddda:	48 85 f6             	test   %rsi,%rsi
+  45dddd:	0f 84 5e 02 00 00    	je     45e041 <wasm_func_call+0x281>
+  45dde3:	48 89 fd             	mov    %rdi,%rbp
+  45dde6:	48 8b 5f 18          	mov    0x18(%rdi),%rbx
+  45ddea:	48 ff 03             	incq   (%rbx)
+  45dded:	0f 84 43 03 00 00    	je     45e136 <wasm_func_call+0x376>
+  45ddf3:	49 89 d5             	mov    %rdx,%r13
+  45ddf6:	48 8b 43 10          	mov    0x10(%rbx),%rax
+  45ddfa:	48 89 44 24 70       	mov    %rax,0x70(%rsp)
+  45ddff:	48 8b 06             	mov    (%rsi),%rax
+  45de02:	48 85 c0             	test   %rax,%rax
+  45de05:	74 0e                	je     45de15 <wasm_func_call+0x55>
+  45de07:	48 8b 4e 08          	mov    0x8(%rsi),%rcx
+  45de0b:	48 85 c9             	test   %rcx,%rcx
+  45de0e:	75 0a                	jne    45de1a <wasm_func_call+0x5a>
+  45de10:	e9 a3 02 00 00       	jmp    45e0b8 <wasm_func_call+0x2f8>
+  45de15:	b9 08 00 00 00       	mov    $0x8,%ecx
+  45de1a:	48 c1 e0 04          	shl    $0x4,%rax
+  45de1e:	48 01 c8             	add    %rcx,%rax
+  45de21:	48 c7 44 24 10 00 00 	movq   $0x0,0x10(%rsp)
+  45de28:	00 00 
+  45de2a:	48 89 4c 24 38       	mov    %rcx,0x38(%rsp)
+  45de2f:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
+  45de34:	48 8d 44 24 10       	lea    0x10(%rsp),%rax
+  45de39:	48 89 44 24 48       	mov    %rax,0x48(%rsp)
+  45de3e:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  45de43:	48 8d 74 24 38       	lea    0x38(%rsp),%rsi
+  45de48:	48 89 74 24 68       	mov    %rsi,0x68(%rsp)
+  45de4d:	e8 4e bf f8 ff       	call   3e9da0 <<alloc::vec::Vec<T> as alloc::vec::spec_from_iter::SpecFromIter<T,I>>::from_iter>
+  45de52:	4c 8b 74 24 10       	mov    0x10(%rsp),%r14
+  45de57:	4d 85 f6             	test   %r14,%r14
+  45de5a:	0f 85 73 02 00 00    	jne    45e0d3 <wasm_func_call+0x313>
+  45de60:	4c 8b 64 24 20       	mov    0x20(%rsp),%r12
+  45de65:	4c 8b 74 24 28       	mov    0x28(%rsp),%r14
+  45de6a:	4c 8b 7c 24 30       	mov    0x30(%rsp),%r15
+  45de6f:	48 b8 00 00 00 00 00 	movabs $0x8000000000000000,%rax
+  45de76:	00 00 80 
+  45de79:	49 39 c4             	cmp    %rax,%r12
+  45de7c:	0f 84 74 02 00 00    	je     45e0f6 <wasm_func_call+0x336>
+  45de82:	0f 10 45 08          	movups 0x8(%rbp),%xmm0
+  45de86:	0f 29 44 24 20       	movaps %xmm0,0x20(%rsp)
+  45de8b:	48 8d 7c 24 10       	lea    0x10(%rsp),%rdi
+  45de90:	48 8d 74 24 20       	lea    0x20(%rsp),%rsi
+  45de95:	48 8d 54 24 70       	lea    0x70(%rsp),%rdx
+  45de9a:	4c 89 f1             	mov    %r14,%rcx
+  45de9d:	4d 89 f8             	mov    %r15,%r8
+  45dea0:	e8 7b a0 fc ff       	call   427f20 <wasmer::backend::sys::entities::function::Function::call>
+  45dea5:	48 8b 7c 24 10       	mov    0x10(%rsp),%rdi
+  45deaa:	48 85 ff             	test   %rdi,%rdi
+  45dead:	74 2c                	je     45dedb <wasm_func_call+0x11b>
+  45deaf:	48 8b 74 24 18       	mov    0x18(%rsp),%rsi
+  45deb4:	49 8b 45 00          	mov    0x0(%r13),%rax
+  45deb8:	48 85 c0             	test   %rax,%rax
+  45debb:	74 5f                	je     45df1c <wasm_func_call+0x15c>
+  45debd:	49 8b 4d 08          	mov    0x8(%r13),%rcx
+  45dec1:	48 85 c9             	test   %rcx,%rcx
+  45dec4:	0f 84 ee 01 00 00    	je     45e0b8 <wasm_func_call+0x2f8>
+  45deca:	48 39 f0             	cmp    %rsi,%rax
+  45decd:	48 0f 43 c6          	cmovae %rsi,%rax
+  45ded1:	48 85 c0             	test   %rax,%rax
+  45ded4:	75 5b                	jne    45df31 <wasm_func_call+0x171>
+  45ded6:	e9 f8 00 00 00       	jmp    45dfd3 <wasm_func_call+0x213>
+  45dedb:	4c 8b 6c 24 18       	mov    0x18(%rsp),%r13
+  45dee0:	4c 89 6c 24 38       	mov    %r13,0x38(%rsp)
+  45dee5:	48 8d 05 96 b7 51 01 	lea    0x151b796(%rip),%rax        # 1979682 <__rust_no_alloc_shim_is_unstable>
+  45deec:	0f b6 00             	movzbl (%rax),%eax
+  45deef:	bf 08 00 00 00       	mov    $0x8,%edi
+  45def4:	be 08 00 00 00       	mov    $0x8,%esi
+  45def9:	ff 15 19 34 51 01    	call   *0x1513419(%rip)        # 1971318 <_GLOBAL_OFFSET_TABLE_+0x6298>
+  45deff:	48 85 c0             	test   %rax,%rax
+  45df02:	0f 84 1e 02 00 00    	je     45e126 <wasm_func_call+0x366>
+  45df08:	49 89 c7             	mov    %rax,%r15
+  45df0b:	4c 89 28             	mov    %r13,(%rax)
+  45df0e:	4d 85 e4             	test   %r12,%r12
+  45df11:	0f 85 d8 00 00 00    	jne    45dfef <wasm_func_call+0x22f>
+  45df17:	e9 e8 00 00 00       	jmp    45e004 <wasm_func_call+0x244>
+  45df1c:	b9 08 00 00 00       	mov    $0x8,%ecx
+  45df21:	48 39 f0             	cmp    %rsi,%rax
+  45df24:	48 0f 43 c6          	cmovae %rsi,%rax
+  45df28:	48 85 c0             	test   %rax,%rax
+  45df2b:	0f 84 a2 00 00 00    	je     45dfd3 <wasm_func_call+0x213>
+  45df31:	48 ba 00 00 00 00 ff 	movabs $0xffffffff00000000,%rdx
+  45df38:	ff ff ff 
+  45df3b:	45 31 c0             	xor    %r8d,%r8d
+  45df3e:	4c 8d 0d 23 27 f6 00 	lea    0xf62723(%rip),%r9        # 13c0668 <anon.f83322d1fe61c325fc19ba0e8542c97f.75.llvm.11989437987861616448+0x62b>
+  45df45:	eb 2f                	jmp    45df76 <wasm_func_call+0x1b6>
+  45df47:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  45df4e:	00 00 
+  45df50:	46 8b 54 47 04       	mov    0x4(%rdi,%r8,2),%r10d
+  45df55:	41 bf 02 00 00 00    	mov    $0x2,%r15d
+  45df5b:	45 31 db             	xor    %r11d,%r11d
+  45df5e:	45 89 d2             	mov    %r10d,%r10d
+  45df61:	4d 09 da             	or     %r11,%r10
+  45df64:	4e 89 3c 01          	mov    %r15,(%rcx,%r8,1)
+  45df68:	4e 89 54 01 08       	mov    %r10,0x8(%rcx,%r8,1)
+  45df6d:	49 83 c0 10          	add    $0x10,%r8
+  45df71:	48 ff c8             	dec    %rax
+  45df74:	74 5d                	je     45dfd3 <wasm_func_call+0x213>
+  45df76:	46 8b 14 47          	mov    (%rdi,%r8,2),%r10d
+  45df7a:	49 83 fa 04          	cmp    $0x4,%r10
+  45df7e:	0f 87 f9 00 00 00    	ja     45e07d <wasm_func_call+0x2bd>
+  45df84:	4f 63 14 91          	movslq (%r9,%r10,4),%r10
+  45df88:	4d 01 ca             	add    %r9,%r10
+  45df8b:	41 ff e2             	jmp    *%r10
+  45df8e:	46 8b 54 47 04       	mov    0x4(%rdi,%r8,2),%r10d
+  45df93:	45 31 db             	xor    %r11d,%r11d
+  45df96:	45 31 ff             	xor    %r15d,%r15d
+  45df99:	eb c3                	jmp    45df5e <wasm_func_call+0x19e>
+  45df9b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+  45dfa0:	4e 8b 54 47 08       	mov    0x8(%rdi,%r8,2),%r10
+  45dfa5:	4d 89 d3             	mov    %r10,%r11
+  45dfa8:	49 21 d3             	and    %rdx,%r11
+  45dfab:	41 bf 03 00 00 00    	mov    $0x3,%r15d
+  45dfb1:	eb ab                	jmp    45df5e <wasm_func_call+0x19e>
+  45dfb3:	66 66 66 66 2e 0f 1f 	data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  45dfba:	84 00 00 00 00 00 
+  45dfc0:	4e 8b 54 47 08       	mov    0x8(%rdi,%r8,2),%r10
+  45dfc5:	4d 89 d3             	mov    %r10,%r11
+  45dfc8:	49 21 d3             	and    %rdx,%r11
+  45dfcb:	41 bf 01 00 00 00    	mov    $0x1,%r15d
+  45dfd1:	eb 8b                	jmp    45df5e <wasm_func_call+0x19e>
+  45dfd3:	48 85 f6             	test   %rsi,%rsi
+  45dfd6:	74 0f                	je     45dfe7 <wasm_func_call+0x227>
+  45dfd8:	48 c1 e6 05          	shl    $0x5,%rsi
+  45dfdc:	ba 10 00 00 00       	mov    $0x10,%edx
+  45dfe1:	ff 15 09 44 51 01    	call   *0x1514409(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  45dfe7:	45 31 ff             	xor    %r15d,%r15d
+  45dfea:	4d 85 e4             	test   %r12,%r12
+  45dfed:	74 15                	je     45e004 <wasm_func_call+0x244>
+  45dfef:	49 c1 e4 05          	shl    $0x5,%r12
+  45dff3:	ba 10 00 00 00       	mov    $0x10,%edx
+  45dff8:	4c 89 f7             	mov    %r14,%rdi
+  45dffb:	4c 89 e6             	mov    %r12,%rsi
+  45dffe:	ff 15 ec 43 51 01    	call   *0x15143ec(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  45e004:	48 ff 0b             	decq   (%rbx)
+  45e007:	75 38                	jne    45e041 <wasm_func_call+0x281>
+  45e009:	4c 8b 73 10          	mov    0x10(%rbx),%r14
+  45e00d:	4c 89 f7             	mov    %r14,%rdi
+  45e010:	e8 2b 97 e6 ff       	call   2c7740 <core::ptr::drop_in_place<wasmer::entities::store::inner::StoreInner>>
+  45e015:	be 50 01 00 00       	mov    $0x150,%esi
+  45e01a:	ba 08 00 00 00       	mov    $0x8,%edx
+  45e01f:	4c 89 f7             	mov    %r14,%rdi
+  45e022:	ff 15 c8 43 51 01    	call   *0x15143c8(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  45e028:	48 ff 4b 08          	decq   0x8(%rbx)
+  45e02c:	75 13                	jne    45e041 <wasm_func_call+0x281>
+  45e02e:	be 18 00 00 00       	mov    $0x18,%esi
+  45e033:	ba 08 00 00 00       	mov    $0x8,%edx
+  45e038:	48 89 df             	mov    %rbx,%rdi
+  45e03b:	ff 15 af 43 51 01    	call   *0x15143af(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  45e041:	4c 89 f8             	mov    %r15,%rax
+  45e044:	48 83 c4 78          	add    $0x78,%rsp
+  45e048:	5b                   	pop    %rbx
+  45e049:	41 5c                	pop    %r12
+  45e04b:	41 5d                	pop    %r13
+  45e04d:	41 5e                	pop    %r14
+  45e04f:	41 5f                	pop    %r15
+  45e051:	5d                   	pop    %rbp
+  45e052:	c3                   	ret
+  45e053:	48 8d 05 eb 61 f5 00 	lea    0xf561eb(%rip),%rax        # 13b4245 <anon.27f1c702aec3f11af42bb4a7cab29209.51.llvm.9865062258748441782>
+  45e05a:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
+  45e05f:	4c 8d 05 e2 b4 41 01 	lea    0x141b4e2(%rip),%r8        # 1879548 <anon.54fbf388007cd38fe002bae626ab8104.248.llvm.49599001125987136+0x60>
+  45e066:	be 19 00 00 00       	mov    $0x19,%esi
+  45e06b:	48 8d 3d 6b 33 f6 00 	lea    0xf6336b(%rip),%rdi        # 13c13dd <anon.54fbf388007cd38fe002bae626ab8104.247.llvm.49599001125987136+0x8d>
+  45e072:	41 bf 31 00 00 00    	mov    $0x31,%r15d
+  45e078:	e9 91 00 00 00       	jmp    45e10e <wasm_func_call+0x34e>
+  45e07d:	48 8d 05 54 18 41 01 	lea    0x1411854(%rip),%rax        # 186f8d8 <anon.27f1c702aec3f11af42bb4a7cab29209.53.llvm.9865062258748441782>
+  45e084:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
+  45e089:	48 c7 44 24 40 01 00 	movq   $0x1,0x40(%rsp)
+  45e090:	00 00 
+  45e092:	48 8d 44 24 08       	lea    0x8(%rsp),%rax
+  45e097:	48 89 44 24 48       	mov    %rax,0x48(%rsp)
+  45e09c:	0f 57 c0             	xorps  %xmm0,%xmm0
+  45e09f:	0f 11 44 24 50       	movups %xmm0,0x50(%rsp)
+  45e0a4:	48 8d 35 3d 18 41 01 	lea    0x141183d(%rip),%rsi        # 186f8e8 <anon.27f1c702aec3f11af42bb4a7cab29209.55.llvm.9865062258748441782>
+  45e0ab:	48 8d 7c 24 38       	lea    0x38(%rsp),%rdi
+  45e0b0:	ff 15 22 f1 50 01    	call   *0x150f122(%rip)        # 196d1d8 <_GLOBAL_OFFSET_TABLE_+0x2158>
+  45e0b6:	eb 7e                	jmp    45e136 <wasm_func_call+0x376>
+  45e0b8:	48 8d 3d 21 62 f5 00 	lea    0xf56221(%rip),%rdi        # 13b42e0 <anon.27f1c702aec3f11af42bb4a7cab29209.56.llvm.9865062258748441782>
+  45e0bf:	48 8d 15 3a 18 41 01 	lea    0x141183a(%rip),%rdx        # 186f900 <anon.27f1c702aec3f11af42bb4a7cab29209.57.llvm.9865062258748441782>
+  45e0c6:	be 26 00 00 00       	mov    $0x26,%esi
+  45e0cb:	ff 15 5f d8 50 01    	call   *0x150d85f(%rip)        # 196b930 <_GLOBAL_OFFSET_TABLE_+0x8b0>
+  45e0d1:	eb 63                	jmp    45e136 <wasm_func_call+0x376>
+  45e0d3:	4c 8b 7c 24 18       	mov    0x18(%rsp),%r15
+  45e0d8:	48 8b 74 24 20       	mov    0x20(%rsp),%rsi
+  45e0dd:	48 85 f6             	test   %rsi,%rsi
+  45e0e0:	74 14                	je     45e0f6 <wasm_func_call+0x336>
+  45e0e2:	48 8b 7c 24 28       	mov    0x28(%rsp),%rdi
+  45e0e7:	48 c1 e6 05          	shl    $0x5,%rsi
+  45e0eb:	ba 10 00 00 00       	mov    $0x10,%edx
+  45e0f0:	ff 15 fa 42 51 01    	call   *0x15142fa(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  45e0f6:	4c 89 74 24 38       	mov    %r14,0x38(%rsp)
+  45e0fb:	4c 8d 05 2e b4 41 01 	lea    0x141b42e(%rip),%r8        # 1879530 <anon.54fbf388007cd38fe002bae626ab8104.248.llvm.49599001125987136+0x48>
+  45e102:	be 1b 00 00 00       	mov    $0x1b,%esi
+  45e107:	48 8d 3d 86 32 f6 00 	lea    0xf63286(%rip),%rdi        # 13c1394 <anon.54fbf388007cd38fe002bae626ab8104.247.llvm.49599001125987136+0x44>
+  45e10e:	48 8b 54 24 68       	mov    0x68(%rsp),%rdx
+  45e113:	4c 89 7a 08          	mov    %r15,0x8(%rdx)
+  45e117:	48 8d 0d 5a ad 41 01 	lea    0x141ad5a(%rip),%rcx        # 1878e78 <anon.54fbf388007cd38fe002bae626ab8104.143.llvm.49599001125987136>
+  45e11e:	ff 15 4c fc 50 01    	call   *0x150fc4c(%rip)        # 196dd70 <_GLOBAL_OFFSET_TABLE_+0x2cf0>
+  45e124:	eb 10                	jmp    45e136 <wasm_func_call+0x376>
+  45e126:	bf 08 00 00 00       	mov    $0x8,%edi
+  45e12b:	be 08 00 00 00       	mov    $0x8,%esi
+  45e130:	ff 15 b2 f5 50 01    	call   *0x150f5b2(%rip)        # 196d6e8 <_GLOBAL_OFFSET_TABLE_+0x2668>
+  45e136:	0f 0b                	ud2
+  45e138:	be 50 01 00 00       	mov    $0x150,%esi
+  45e13d:	ba 08 00 00 00       	mov    $0x8,%edx
+  45e142:	4c 89 f7             	mov    %r14,%rdi
+  45e145:	ff 15 a5 42 51 01    	call   *0x15142a5(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  45e14b:	ff 15 6f 14 51 01    	call   *0x151146f(%rip)        # 196f5c0 <_GLOBAL_OFFSET_TABLE_+0x4540>
+  45e151:	f0 49 ff 4d 00       	lock decq 0x0(%r13)
+  45e156:	75 12                	jne    45e16a <wasm_func_call+0x3aa>
+  45e158:	48 8d 7c 24 38       	lea    0x38(%rsp),%rdi
+  45e15d:	e8 5e 9e e9 ff       	call   2f7fc0 <alloc::sync::Arc<T,A>::drop_slow>
+  45e162:	eb 06                	jmp    45e16a <wasm_func_call+0x3aa>
+  45e164:	ff 15 fe d1 50 01    	call   *0x150d1fe(%rip)        # 196b368 <_GLOBAL_OFFSET_TABLE_+0x2e8>
+  45e16a:	ff 15 50 14 51 01    	call   *0x1511450(%rip)        # 196f5c0 <_GLOBAL_OFFSET_TABLE_+0x4540>
+
+Disassembly of section .fini:
