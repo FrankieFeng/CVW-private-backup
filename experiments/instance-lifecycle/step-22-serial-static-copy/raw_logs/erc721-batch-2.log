@@ -1,0 +1,247 @@
+=== RUN   TestStep22Serial
+STEP22 {"data":{"contract":"erc721","image_bytes":3342336,"image_sha":"55db1168124d55ce5dd981fcd5e4789bc663be4998ca9281880c6764cb2693c7","key":"b6a7a8134cbe642ef0b18a042d06d7b0aa5f62b5a52ce95316f38999ee8df286","nodata_sha":"6d07a395a3cd94d14a46daf931180aaf7bcd6cbd8385bee2a462a1c46ae1e868","prepare_ns":15620271,"ranges":52954,"source_sha":"9b6eb47d4ca79f975a9214cc0459d47637ae7d4f1bdc45aa4fd91a0e24c1be1d"},"event":"template"}
+opmap length 216 
+2026-10-26 21:30:51.130	[INFO]	step22-prepare	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 21:30:51.131	[INFO]	step22-prepare	wasmer-go/module.go:103	wasmBytesPtr => 0xc002d9c000 
+2026-10-26 21:30:51.131	[INFO]	step22-prepare	wasmer-go/module.go:104	wasmBytesLength => 5176627 
+Total function bodies: 3015
+2026-10-26 21:30:51.735	[DEBUG]	step22-prepare	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+STEP22 {"data":{"cache_key":"b6a7a8134cbe642ef0b18a042d06d7b0aa5f62b5a52ce95316f38999ee8df286/A0","contract":"erc721","managed":5,"module_prepare_ns":661696458,"module_wasm_sha":"9b6eb47d4ca79f975a9214cc0459d47637ae7d4f1bdc45aa4fd91a0e24c1be1d","variant":"A0"},"event":"module"}
+opmap length 216 
+2026-10-26 21:30:51.764	[INFO]	step22-prepare	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 21:30:51.764	[INFO]	step22-prepare	wasmer-go/module.go:103	wasmBytesPtr => 0xc00195c000 
+2026-10-26 21:30:51.764	[INFO]	step22-prepare	wasmer-go/module.go:104	wasmBytesLength => 3507386 
+Total function bodies: 3015
+2026-10-26 21:30:52.367	[DEBUG]	step22-prepare	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+STEP22 {"data":{"cache_key":"b6a7a8134cbe642ef0b18a042d06d7b0aa5f62b5a52ce95316f38999ee8df286/A1","contract":"erc721","managed":10,"module_prepare_ns":631125675,"module_wasm_sha":"6d07a395a3cd94d14a46daf931180aaf7bcd6cbd8385bee2a462a1c46ae1e868","variant":"A1"},"event":"module"}
+STEP22 {"data":{"contract":"erc721","prepare_total_ns":1311103891},"event":"preparation_total"}
+2026-10-26 21:30:52.369	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step22-init-erc721, runtime:WASMER, method:init_contract
+2026-10-26 21:30:52.369	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-init-erc721, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:5176627, params:12
+2026-10-26 21:30:52.370	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+2026-10-26 21:30:52.381	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 21:30:52.381	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = init_contract
+2026-10-26 21:30:52.381	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 669
+2026-10-26 21:30:52.381	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = name, value = huanletoken 
+
+2026-10-26 21:30:52.381	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = symbol, value = hlt 
+
+2026-10-26 21:30:52.381	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = tokenURI, value = https://chainmaker.org.cn 
+
+2026-10-26 21:30:52.381	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = admin, value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-10-26 21:30:52.381	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"erc721","variant":"A0","method":"init_contract","tx_id":"step22-init-erc721","instance_id":1,"depth":0,"newinstance_ns":3445830,"copy_ns":0,"copy_bytes":0,"copy_ranges":0,"wasi_imports_ns":979838,"to_s1_ns":4428270,"to_s2_ns":6150575,"to_s3_ns":12101185,"start_ns":1692711,"wasi_initialize_ns":25238,"callmethod_ns":570223,"close_ns":74053,"invoke_ns":12177362,"gas":410,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"erc721","method":"init_contract","tx_id":"step22-init-erc721","begin_ns":1793021452369870793,"end_ns":1793021452382048155,"invoke_seconds_inclusive":0.012177362,"callmethod_seconds_nested":0.000570223,"gas_used_actual":410,"code":0,"result":"Init contract success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-init-erc721 contract=erc721 method=init_contract begin_ns=1793021452369869996 end_ns=1793021452382137637 code=0 gas=410 depth=0
+2026-10-26 21:30:52.382	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-init-erc721, contractName:erc721, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793021452369869996, endTime:1793021452382137637, executionTime:0.012268 s
+2026-10-26 21:30:52.382	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-init-erc721] access db spend time:0
+2026-10-26 21:30:52.382	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step22-erc721-000, runtime:WASMER, method:mint
+2026-10-26 21:30:52.383	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-erc721-000, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5176627, params:12
+2026-10-26 21:30:52.387	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 21:30:52.387	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = mint
+2026-10-26 21:30:52.387	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 694
+2026-10-26 21:30:52.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-10-26 21:30:52.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-26 21:30:52.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-10-26 21:30:52.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-10-26 21:30:52.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+2026-10-26 21:30:52.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+2026-10-26 21:30:52.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step22-erc721-000","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-10-26 21:30:52.387	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"erc721","variant":"A1","method":"mint","tx_id":"step22-erc721-000","instance_id":2,"depth":0,"newinstance_ns":75666,"copy_ns":1293444,"copy_bytes":1273888,"copy_ranges":52954,"wasi_imports_ns":1100098,"to_s1_ns":2578919,"to_s2_ns":4092580,"to_s3_ns":4689013,"start_ns":1491352,"wasi_initialize_ns":18762,"callmethod_ns":581021,"close_ns":38718,"invoke_ns":4728888,"gas":15449,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"erc721","method":"mint","tx_id":"step22-erc721-000","begin_ns":1793021452383015040,"end_ns":1793021452387743924,"invoke_seconds_inclusive":0.004728888,"callmethod_seconds_nested":0.000581021,"gas_used_actual":15449,"code":0,"result":"mint success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-erc721-000 contract=erc721 method=mint begin_ns=1793021452383014566 end_ns=1793021452387759564 code=0 gas=15449 depth=0
+2026-10-26 21:30:52.387	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-erc721-000, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793021452383014566, endTime:1793021452387759564, executionTime:0.004745 s
+2026-10-26 21:30:52.387	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-erc721-000] access db spend time:0
+STEP21C {"Threads":40,"VmRSS":385664,"contract":"erc721","event":"boundary","managed_objects":10,"monotonic_ns":1342422647,"owner_tid":665296,"pair":0,"variant":"A1","wall_unix_ns":1793021452387845162}
+2026-10-26 21:30:52.388	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step22-erc721-000, runtime:WASMER, method:mint
+2026-10-26 21:30:52.388	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-erc721-000, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5176627, params:12
+2026-10-26 21:30:52.393	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 21:30:52.393	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = mint
+2026-10-26 21:30:52.393	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 694
+2026-10-26 21:30:52.393	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-10-26 21:30:52.393	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.393	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-26 21:30:52.393	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-10-26 21:30:52.393	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.393	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.393	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-10-26 21:30:52.393	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.393	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+2026-10-26 21:30:52.393	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+2026-10-26 21:30:52.393	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step22-erc721-000","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-10-26 21:30:52.393	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"erc721","variant":"A0","method":"mint","tx_id":"step22-erc721-000","instance_id":3,"depth":0,"newinstance_ns":2204424,"copy_ns":0,"copy_bytes":0,"copy_ranges":0,"wasi_imports_ns":1197064,"to_s1_ns":3403255,"to_s2_ns":4949398,"to_s3_ns":5622571,"start_ns":1532043,"wasi_initialize_ns":12034,"callmethod_ns":652370,"close_ns":40643,"invoke_ns":5664451,"gas":15449,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"erc721","method":"mint","tx_id":"step22-erc721-000","begin_ns":1793021452388372056,"end_ns":1793021452394036499,"invoke_seconds_inclusive":0.005664451,"callmethod_seconds_nested":0.00065237,"gas_used_actual":15449,"code":0,"result":"mint success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-erc721-000 contract=erc721 method=mint begin_ns=1793021452388371576 end_ns=1793021452394095442 code=0 gas=15449 depth=0
+2026-10-26 21:30:52.394	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-erc721-000, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793021452388371576, endTime:1793021452394095442, executionTime:0.005724 s
+2026-10-26 21:30:52.394	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-erc721-000] access db spend time:0
+STEP21C {"Threads":57,"VmRSS":390756,"contract":"erc721","event":"boundary","managed_objects":10,"monotonic_ns":1348809000,"owner_tid":665296,"pair":0,"variant":"A0","wall_unix_ns":1793021452394231424}
+2026-10-26 21:30:52.395	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step22-erc721-001, runtime:WASMER, method:mint
+2026-10-26 21:30:52.395	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-erc721-001, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5176627, params:12
+2026-10-26 21:30:52.400	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 21:30:52.400	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = mint
+2026-10-26 21:30:52.400	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 694
+2026-10-26 21:30:52.400	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 2 
+
+2026-10-26 21:30:52.400	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.400	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-26 21:30:52.400	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-10-26 21:30:52.400	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.400	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.400	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-10-26 21:30:52.400	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 2, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.400	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_2, value = 1 
+
+2026-10-26 21:30:52.400	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 2_metadata, value = http://chainmaker.org.cn/ 
+
+2026-10-26 21:30:52.400	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 2_latestTxInfo, value = {"TxId":"step22-erc721-001","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-10-26 21:30:52.400	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"erc721","variant":"A1","method":"mint","tx_id":"step22-erc721-001","instance_id":4,"depth":0,"newinstance_ns":100008,"copy_ns":1451948,"copy_bytes":1273888,"copy_ranges":52954,"wasi_imports_ns":1171514,"to_s1_ns":2835024,"to_s2_ns":4607479,"to_s3_ns":5189991,"start_ns":1745222,"wasi_initialize_ns":21770,"callmethod_ns":562004,"close_ns":40858,"invoke_ns":5232454,"gas":15449,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"erc721","method":"mint","tx_id":"step22-erc721-001","begin_ns":1793021452395410360,"end_ns":1793021452400642815,"invoke_seconds_inclusive":0.005232454,"callmethod_seconds_nested":0.000562004,"gas_used_actual":15449,"code":0,"result":"mint success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-erc721-001 contract=erc721 method=mint begin_ns=1793021452395409930 end_ns=1793021452400667626 code=0 gas=15449 depth=0
+2026-10-26 21:30:52.400	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-erc721-001, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793021452395409930, endTime:1793021452400667626, executionTime:0.005258 s
+2026-10-26 21:30:52.400	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-erc721-001] access db spend time:0
+STEP21C {"Threads":75,"VmRSS":389292,"contract":"erc721","event":"boundary","managed_objects":10,"monotonic_ns":1355420486,"owner_tid":665296,"pair":1,"variant":"A1","wall_unix_ns":1793021452400843072}
+2026-10-26 21:30:52.401	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step22-erc721-001, runtime:WASMER, method:mint
+2026-10-26 21:30:52.401	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-erc721-001, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5176627, params:12
+2026-10-26 21:30:52.406	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 21:30:52.406	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = mint
+2026-10-26 21:30:52.406	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 694
+2026-10-26 21:30:52.406	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 2 
+
+2026-10-26 21:30:52.407	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.407	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-26 21:30:52.407	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-10-26 21:30:52.407	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.407	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.407	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-10-26 21:30:52.407	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 2, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.407	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_2, value = 1 
+
+2026-10-26 21:30:52.407	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 2_metadata, value = http://chainmaker.org.cn/ 
+
+2026-10-26 21:30:52.407	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 2_latestTxInfo, value = {"TxId":"step22-erc721-001","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-10-26 21:30:52.407	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"erc721","variant":"A0","method":"mint","tx_id":"step22-erc721-001","instance_id":5,"depth":0,"newinstance_ns":2289635,"copy_ns":0,"copy_bytes":0,"copy_ranges":0,"wasi_imports_ns":1391028,"to_s1_ns":3682859,"to_s2_ns":5222641,"to_s3_ns":6010976,"start_ns":1523882,"wasi_initialize_ns":12996,"callmethod_ns":768719,"close_ns":49704,"invoke_ns":6061914,"gas":15449,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"erc721","method":"mint","tx_id":"step22-erc721-001","begin_ns":1793021452401488401,"end_ns":1793021452407550315,"invoke_seconds_inclusive":0.006061914,"callmethod_seconds_nested":0.000768719,"gas_used_actual":15449,"code":0,"result":"mint success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-erc721-001 contract=erc721 method=mint begin_ns=1793021452401487885 end_ns=1793021452407568199 code=0 gas=15449 depth=0
+2026-10-26 21:30:52.407	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-erc721-001, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793021452401487885, endTime:1793021452407568199, executionTime:0.006080 s
+2026-10-26 21:30:52.407	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-erc721-001] access db spend time:0
+STEP21C {"Threads":92,"VmRSS":394424,"contract":"erc721","event":"boundary","managed_objects":10,"monotonic_ns":1362274955,"owner_tid":665296,"pair":1,"variant":"A0","wall_unix_ns":1793021452407697461}
+2026-10-26 21:30:52.409	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step22-erc721-002, runtime:WASMER, method:mint
+2026-10-26 21:30:52.409	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-erc721-002, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5176627, params:12
+2026-10-26 21:30:52.413	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 21:30:52.413	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = mint
+2026-10-26 21:30:52.413	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 694
+2026-10-26 21:30:52.413	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 3 
+
+2026-10-26 21:30:52.413	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.413	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-26 21:30:52.413	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-10-26 21:30:52.413	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.414	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.414	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-10-26 21:30:52.414	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 3, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.414	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_3, value = 1 
+
+2026-10-26 21:30:52.414	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 3_metadata, value = http://chainmaker.org.cn/ 
+
+2026-10-26 21:30:52.414	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 3_latestTxInfo, value = {"TxId":"step22-erc721-002","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-10-26 21:30:52.414	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"erc721","variant":"A0","method":"mint","tx_id":"step22-erc721-002","instance_id":6,"depth":0,"newinstance_ns":2021513,"copy_ns":0,"copy_bytes":0,"copy_ranges":0,"wasi_imports_ns":1131535,"to_s1_ns":3154831,"to_s2_ns":4671192,"to_s3_ns":5264221,"start_ns":1502676,"wasi_initialize_ns":11850,"callmethod_ns":572365,"close_ns":39470,"invoke_ns":5305016,"gas":15449,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"erc721","method":"mint","tx_id":"step22-erc721-002","begin_ns":1793021452409057022,"end_ns":1793021452414362038,"invoke_seconds_inclusive":0.005305016,"callmethod_seconds_nested":0.000572365,"gas_used_actual":15449,"code":0,"result":"mint success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-erc721-002 contract=erc721 method=mint begin_ns=1793021452409056604 end_ns=1793021452414376106 code=0 gas=15449 depth=0
+2026-10-26 21:30:52.414	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-erc721-002, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793021452409056604, endTime:1793021452414376106, executionTime:0.005320 s
+2026-10-26 21:30:52.414	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-erc721-002] access db spend time:0
+STEP21C {"Threads":109,"VmRSS":400408,"contract":"erc721","event":"boundary","managed_objects":10,"monotonic_ns":1369066027,"owner_tid":665296,"pair":2,"variant":"A0","wall_unix_ns":1793021452414488488}
+2026-10-26 21:30:52.415	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step22-erc721-002, runtime:WASMER, method:mint
+2026-10-26 21:30:52.415	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-erc721-002, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5176627, params:12
+2026-10-26 21:30:52.420	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 21:30:52.420	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = mint
+2026-10-26 21:30:52.420	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 694
+2026-10-26 21:30:52.420	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 3 
+
+2026-10-26 21:30:52.420	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.420	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-26 21:30:52.420	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-10-26 21:30:52.420	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.420	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 21:30:52.420	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-10-26 21:30:52.420	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 3, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 21:30:52.420	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_3, value = 1 
+
+2026-10-26 21:30:52.420	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 3_metadata, value = http://chainmaker.org.cn/ 
+
+2026-10-26 21:30:52.420	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 3_latestTxInfo, value = {"TxId":"step22-erc721-002","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-10-26 21:30:52.420	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"erc721","variant":"A1","method":"mint","tx_id":"step22-erc721-002","instance_id":7,"depth":0,"newinstance_ns":69972,"copy_ns":1248413,"copy_bytes":1273888,"copy_ranges":52954,"wasi_imports_ns":1925923,"to_s1_ns":3359898,"to_s2_ns":4868176,"to_s3_ns":5433613,"start_ns":1485700,"wasi_initialize_ns":18520,"callmethod_ns":548712,"close_ns":40179,"invoke_ns":5474888,"gas":15449,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"erc721","method":"mint","tx_id":"step22-erc721-002","begin_ns":1793021452415198957,"end_ns":1793021452420673839,"invoke_seconds_inclusive":0.005474888,"callmethod_seconds_nested":0.000548712,"gas_used_actual":15449,"code":0,"result":"mint success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-erc721-002 contract=erc721 method=mint begin_ns=1793021452415198491 end_ns=1793021452420688979 code=0 gas=15449 depth=0
+2026-10-26 21:30:52.420	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-erc721-002, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793021452415198491, endTime:1793021452420688979, executionTime:0.005490 s
+2026-10-26 21:30:52.420	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-erc721-002] access db spend time:0
+STEP21C {"Threads":126,"VmRSS":404744,"contract":"erc721","event":"boundary","managed_objects":10,"monotonic_ns":1375383604,"owner_tid":665296,"pair":2,"variant":"A1","wall_unix_ns":1793021452420805963}
+STEP22 {"data":{"S1_memory_checked":false,"fresh_instances_only":true,"observed_pair_slots":3,"phase":"formal","single_variant":"","table_function_identity":"not_tested"},"event":"correctness"}
+STEP22 {"data":{"close_ns":7611255,"managed_remaining":0},"event":"cache_closed"}
+STEP21C {"Threads":14,"VmRSS":320984,"closed":7,"created":7,"event":"manager_closed","in_flight":0,"managed_objects":0,"monotonic_ns":1383088131,"owner_tid":665296,"wall_unix_ns":1793021452428510664}
+STEP21C {"Threads":14,"VmRSS":321024,"event":"owner_closed","managed_objects":0,"managed_pending":0,"monotonic_ns":1384111145,"owner_tid":665296,"wall_unix_ns":1793021452429532673}
+--- PASS: TestStep22Serial (1.38s)
+PASS

@@ -1,0 +1,155 @@
+=== RUN   TestStep22Serial
+STEP22 {"data":{"contract":"fact","image_bytes":3276800,"image_sha":"1cb6c87578c8ccd8bf7b287b6453b2ca82ba91024c4529d2c17cb0b9c12c05e5","key":"cc370cb2fb7e460cdd4536b150fb9d520e53b8cd61a582f57b0584c6d46fa15c","nodata_sha":"66667c5dbc9c4ae68b1ecd0b010349359cf4976c161eedcd6994252b5564d594","prepare_ns":12801924,"ranges":50467,"source_sha":"02d64cbced7c34b02b0d90ba78668458bdfc97d0db6068750d81077357b28dcd"},"event":"template"}
+opmap length 216 
+2026-10-26 15:37:30.806	[INFO]	step22-prepare	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 15:37:30.806	[INFO]	step22-prepare	wasmer-go/module.go:103	wasmBytesPtr => 0xc002b92000 
+2026-10-26 15:37:30.806	[INFO]	step22-prepare	wasmer-go/module.go:104	wasmBytesLength => 4871418 
+Total function bodies: 2868
+2026-10-26 15:37:31.373	[DEBUG]	step22-prepare	vm/step21d_compile.go:266	[fact_1.0.0], new module success
+STEP22 {"data":{"cache_key":"cc370cb2fb7e460cdd4536b150fb9d520e53b8cd61a582f57b0584c6d46fa15c/A0","contract":"fact","managed":5,"module_prepare_ns":613584629,"module_wasm_sha":"02d64cbced7c34b02b0d90ba78668458bdfc97d0db6068750d81077357b28dcd","variant":"A0"},"event":"module"}
+opmap length 216 
+2026-10-26 15:37:31.399	[INFO]	step22-prepare	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 15:37:31.399	[INFO]	step22-prepare	wasmer-go/module.go:103	wasmBytesPtr => 0xc001844000 
+2026-10-26 15:37:31.399	[INFO]	step22-prepare	wasmer-go/module.go:104	wasmBytesLength => 3287523 
+Total function bodies: 2868
+2026-10-26 15:37:31.954	[DEBUG]	step22-prepare	vm/step21d_compile.go:266	[fact_1.0.0], new module success
+STEP22 {"data":{"cache_key":"cc370cb2fb7e460cdd4536b150fb9d520e53b8cd61a582f57b0584c6d46fa15c/A1","contract":"fact","managed":10,"module_prepare_ns":580256773,"module_wasm_sha":"66667c5dbc9c4ae68b1ecd0b010349359cf4976c161eedcd6994252b5564d594","variant":"A1"},"event":"module"}
+STEP22 {"data":{"contract":"fact","prepare_total_ns":1208852674},"event":"preparation_total"}
+2026-10-26 15:37:31.956	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[fact], tx id:step22-init-fact, runtime:WASMER, method:init_contract
+2026-10-26 15:37:31.956	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-init-fact, tx type:INVOKE_CONTRACT, contractId:name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4871418, params:9
+2026-10-26 15:37:31.957	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+2026-10-26 15:37:31.975	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 15:37:31.975	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = init_contract
+2026-10-26 15:37:31.975	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 562
+2026-10-26 15:37:31.975	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"fact","variant":"A0","method":"init_contract","tx_id":"step22-init-fact","instance_id":1,"depth":0,"newinstance_ns":3391093,"copy_ns":0,"copy_bytes":0,"copy_ranges":0,"wasi_imports_ns":767756,"to_s1_ns":4161757,"to_s2_ns":5859454,"to_s3_ns":18838611,"start_ns":1674032,"wasi_initialize_ns":20340,"callmethod_ns":348531,"close_ns":69459,"invoke_ns":18909832,"gas":0,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"fact","method":"init_contract","tx_id":"step22-init-fact","begin_ns":1793000251956789245,"end_ns":1793000251975699076,"invoke_seconds_inclusive":0.018909832,"callmethod_seconds_nested":0.000348531,"gas_used_actual":0,"code":0,"result":"","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-init-fact contract=fact method=init_contract begin_ns=1793000251956788686 end_ns=1793000251975772392 code=0 gas=0 depth=0
+2026-10-26 15:37:31.975	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-init-fact, contractName:fact, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793000251956788686, endTime:1793000251975772392, executionTime:0.018984 s
+2026-10-26 15:37:31.975	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-init-fact] access db spend time:0
+2026-10-26 15:37:31.976	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[fact], tx id:step22-fact-000, runtime:WASMER, method:saveAndFindByFileHash
+2026-10-26 15:37:31.976	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-fact-000, tx type:INVOKE_CONTRACT, contractId:name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:saveAndFindByFileHash, runtime type:WASMER, byte code len:4871418, params:12
+2026-10-26 15:37:31.981	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 15:37:31.981	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = saveAndFindByFileHash
+2026-10-26 15:37:31.981	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 692
+2026-10-26 15:37:31.981	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :005521f27d745a04999c6d09f559764f9c44376a
+2026-10-26 15:37:31.981	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :aoteman.jpg
+2026-10-26 15:37:31.981	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a, value = {} 
+
+2026-10-26 15:37:31.981	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a 
+
+2026-10-26 15:37:31.981	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = {} 
+
+2026-10-26 15:37:31.981	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"fact","variant":"A1","method":"saveAndFindByFileHash","tx_id":"step22-fact-000","instance_id":2,"depth":0,"newinstance_ns":62634,"copy_ns":1572639,"copy_bytes":1209635,"copy_ranges":50467,"wasi_imports_ns":1263631,"to_s1_ns":2999770,"to_s2_ns":4593045,"to_s3_ns":5261767,"start_ns":1570716,"wasi_initialize_ns":18281,"callmethod_ns":650579,"close_ns":43026,"invoke_ns":5306196,"gas":1585,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"fact","method":"saveAndFindByFileHash","tx_id":"step22-fact-000","begin_ns":1793000251976587824,"end_ns":1793000251981894022,"invoke_seconds_inclusive":0.005306196,"callmethod_seconds_nested":0.000650579,"gas_used_actual":1585,"code":0,"result":"{\"fileHash\":\"005521f27d745a04999c6d09f559764f9c44376a\",\"fileName\":\"aoteman.jpg\",\"time\":1792827547}","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-fact-000 contract=fact method=saveAndFindByFileHash begin_ns=1793000251976587381 end_ns=1793000251981918151 code=0 gas=1585 depth=0
+2026-10-26 15:37:31.981	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-fact-000, contractName:fact, contractMethod:saveAndFindByFileHash, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793000251976587381, endTime:1793000251981918151, executionTime:0.005331 s
+2026-10-26 15:37:31.981	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-fact-000] access db spend time:0
+STEP21C {"Threads":40,"VmRSS":388740,"contract":"fact","event":"boundary","managed_objects":10,"monotonic_ns":1245235676,"owner_tid":595043,"pair":0,"variant":"A1","wall_unix_ns":1793000251982023758}
+2026-10-26 15:37:31.982	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[fact], tx id:step22-fact-000, runtime:WASMER, method:saveAndFindByFileHash
+2026-10-26 15:37:31.982	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-fact-000, tx type:INVOKE_CONTRACT, contractId:name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:saveAndFindByFileHash, runtime type:WASMER, byte code len:4871418, params:12
+2026-10-26 15:37:31.987	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 15:37:31.987	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = saveAndFindByFileHash
+2026-10-26 15:37:31.987	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 692
+2026-10-26 15:37:31.987	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :005521f27d745a04999c6d09f559764f9c44376a
+2026-10-26 15:37:31.987	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :aoteman.jpg
+2026-10-26 15:37:31.987	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a, value = {} 
+
+2026-10-26 15:37:31.987	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a 
+
+2026-10-26 15:37:31.988	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = {} 
+
+2026-10-26 15:37:31.988	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"fact","variant":"A0","method":"saveAndFindByFileHash","tx_id":"step22-fact-000","instance_id":3,"depth":0,"newinstance_ns":2122527,"copy_ns":0,"copy_bytes":0,"copy_ranges":0,"wasi_imports_ns":1131056,"to_s1_ns":3255607,"to_s2_ns":5090447,"to_s3_ns":5566747,"start_ns":1821666,"wasi_initialize_ns":10552,"callmethod_ns":459636,"close_ns":39090,"invoke_ns":5607153,"gas":1585,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"fact","method":"saveAndFindByFileHash","tx_id":"step22-fact-000","begin_ns":1793000251982543071,"end_ns":1793000251988150224,"invoke_seconds_inclusive":0.005607153,"callmethod_seconds_nested":0.000459636,"gas_used_actual":1585,"code":0,"result":"{\"fileHash\":\"005521f27d745a04999c6d09f559764f9c44376a\",\"fileName\":\"aoteman.jpg\",\"time\":1792827547}","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-fact-000 contract=fact method=saveAndFindByFileHash begin_ns=1793000251982542768 end_ns=1793000251988168472 code=0 gas=1585 depth=0
+2026-10-26 15:37:31.988	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-fact-000, contractName:fact, contractMethod:saveAndFindByFileHash, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793000251982542768, endTime:1793000251988168472, executionTime:0.005626 s
+2026-10-26 15:37:31.988	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-fact-000] access db spend time:0
+STEP21C {"Threads":57,"VmRSS":393716,"contract":"fact","event":"boundary","managed_objects":10,"monotonic_ns":1251496894,"owner_tid":595043,"pair":0,"variant":"A0","wall_unix_ns":1793000251988285106}
+2026-10-26 15:37:31.988	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[fact], tx id:step22-fact-001, runtime:WASMER, method:saveAndFindByFileHash
+2026-10-26 15:37:31.988	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-fact-001, tx type:INVOKE_CONTRACT, contractId:name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:saveAndFindByFileHash, runtime type:WASMER, byte code len:4871418, params:12
+2026-10-26 15:37:31.993	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 15:37:31.993	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = saveAndFindByFileHash
+2026-10-26 15:37:31.993	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 692
+2026-10-26 15:37:31.993	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :005521f27d745a04999c6d09f559764f9c44376a
+2026-10-26 15:37:31.993	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :aoteman.jpg
+2026-10-26 15:37:31.993	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a, value = {} 
+
+2026-10-26 15:37:31.993	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a 
+
+2026-10-26 15:37:31.993	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = {} 
+
+2026-10-26 15:37:31.993	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"fact","variant":"A1","method":"saveAndFindByFileHash","tx_id":"step22-fact-001","instance_id":4,"depth":0,"newinstance_ns":98076,"copy_ns":1179487,"copy_bytes":1209635,"copy_ranges":50467,"wasi_imports_ns":1381459,"to_s1_ns":2758350,"to_s2_ns":4131007,"to_s3_ns":4472122,"start_ns":1355167,"wasi_initialize_ns":14391,"callmethod_ns":328457,"close_ns":33713,"invoke_ns":4506791,"gas":1585,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"fact","method":"saveAndFindByFileHash","tx_id":"step22-fact-001","begin_ns":1793000251988892500,"end_ns":1793000251993399291,"invoke_seconds_inclusive":0.004506791,"callmethod_seconds_nested":0.000328457,"gas_used_actual":1585,"code":0,"result":"{\"fileHash\":\"005521f27d745a04999c6d09f559764f9c44376a\",\"fileName\":\"aoteman.jpg\",\"time\":1792827547}","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-fact-001 contract=fact method=saveAndFindByFileHash begin_ns=1793000251988892215 end_ns=1793000251993414808 code=0 gas=1585 depth=0
+2026-10-26 15:37:31.993	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-fact-001, contractName:fact, contractMethod:saveAndFindByFileHash, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793000251988892215, endTime:1793000251993414808, executionTime:0.004523 s
+2026-10-26 15:37:31.993	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-fact-001] access db spend time:0
+STEP21C {"Threads":74,"VmRSS":387856,"contract":"fact","event":"boundary","managed_objects":10,"monotonic_ns":1256704211,"owner_tid":595043,"pair":1,"variant":"A1","wall_unix_ns":1793000251993492408}
+2026-10-26 15:37:31.993	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[fact], tx id:step22-fact-001, runtime:WASMER, method:saveAndFindByFileHash
+2026-10-26 15:37:31.993	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-fact-001, tx type:INVOKE_CONTRACT, contractId:name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:saveAndFindByFileHash, runtime type:WASMER, byte code len:4871418, params:12
+2026-10-26 15:37:31.998	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 15:37:31.998	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = saveAndFindByFileHash
+2026-10-26 15:37:31.998	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 692
+2026-10-26 15:37:31.998	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :005521f27d745a04999c6d09f559764f9c44376a
+2026-10-26 15:37:31.998	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :aoteman.jpg
+2026-10-26 15:37:31.999	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a, value = {} 
+
+2026-10-26 15:37:31.999	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a 
+
+2026-10-26 15:37:31.999	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = {} 
+
+2026-10-26 15:37:31.999	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"fact","variant":"A0","method":"saveAndFindByFileHash","tx_id":"step22-fact-001","instance_id":5,"depth":0,"newinstance_ns":2114028,"copy_ns":0,"copy_bytes":0,"copy_ranges":0,"wasi_imports_ns":1046355,"to_s1_ns":3162244,"to_s2_ns":4737034,"to_s3_ns":5414115,"start_ns":1558142,"wasi_initialize_ns":12456,"callmethod_ns":661121,"close_ns":38586,"invoke_ns":5454114,"gas":1585,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"fact","method":"saveAndFindByFileHash","tx_id":"step22-fact-001","begin_ns":1793000251993951561,"end_ns":1793000251999405675,"invoke_seconds_inclusive":0.005454114,"callmethod_seconds_nested":0.000661121,"gas_used_actual":1585,"code":0,"result":"{\"fileHash\":\"005521f27d745a04999c6d09f559764f9c44376a\",\"fileName\":\"aoteman.jpg\",\"time\":1792827547}","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-fact-001 contract=fact method=saveAndFindByFileHash begin_ns=1793000251993951200 end_ns=1793000251999426619 code=0 gas=1585 depth=0
+2026-10-26 15:37:31.999	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-fact-001, contractName:fact, contractMethod:saveAndFindByFileHash, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793000251993951200, endTime:1793000251999426619, executionTime:0.005475 s
+2026-10-26 15:37:31.999	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-fact-001] access db spend time:0
+STEP21C {"Threads":91,"VmRSS":392852,"contract":"fact","event":"boundary","managed_objects":10,"monotonic_ns":1262736717,"owner_tid":595043,"pair":1,"variant":"A0","wall_unix_ns":1793000251999524830}
+2026-10-26 15:37:32.001	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[fact], tx id:step22-fact-002, runtime:WASMER, method:saveAndFindByFileHash
+2026-10-26 15:37:32.001	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-fact-002, tx type:INVOKE_CONTRACT, contractId:name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:saveAndFindByFileHash, runtime type:WASMER, byte code len:4871418, params:12
+2026-10-26 15:37:32.006	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 15:37:32.006	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = saveAndFindByFileHash
+2026-10-26 15:37:32.006	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 692
+2026-10-26 15:37:32.006	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :005521f27d745a04999c6d09f559764f9c44376a
+2026-10-26 15:37:32.006	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :aoteman.jpg
+2026-10-26 15:37:32.006	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a, value = {} 
+
+2026-10-26 15:37:32.006	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a 
+
+2026-10-26 15:37:32.006	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = {} 
+
+2026-10-26 15:37:32.007	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"fact","variant":"A1","method":"saveAndFindByFileHash","tx_id":"step22-fact-002","instance_id":6,"depth":0,"newinstance_ns":76161,"copy_ns":1257298,"copy_bytes":1209635,"copy_ranges":50467,"wasi_imports_ns":1862754,"to_s1_ns":3309720,"to_s2_ns":5010755,"to_s3_ns":5569722,"start_ns":1681307,"wasi_initialize_ns":15478,"callmethod_ns":532687,"close_ns":39505,"invoke_ns":5610325,"gas":1585,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"fact","method":"saveAndFindByFileHash","tx_id":"step22-fact-002","begin_ns":1793000252001477518,"end_ns":1793000252007087842,"invoke_seconds_inclusive":0.005610325,"callmethod_seconds_nested":0.000532687,"gas_used_actual":1585,"code":0,"result":"{\"fileHash\":\"005521f27d745a04999c6d09f559764f9c44376a\",\"fileName\":\"aoteman.jpg\",\"time\":1792827547}","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-fact-002 contract=fact method=saveAndFindByFileHash begin_ns=1793000252001477092 end_ns=1793000252007107155 code=0 gas=1585 depth=0
+2026-10-26 15:37:32.007	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-fact-002, contractName:fact, contractMethod:saveAndFindByFileHash, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793000252001477092, endTime:1793000252007107155, executionTime:0.005630 s
+2026-10-26 15:37:32.007	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-fact-002] access db spend time:0
+STEP21C {"Threads":108,"VmRSS":399592,"contract":"fact","event":"boundary","managed_objects":10,"monotonic_ns":1270431780,"owner_tid":595043,"pair":2,"variant":"A1","wall_unix_ns":1793000252007219882}
+2026-10-26 15:37:32.007	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[fact], tx id:step22-fact-002, runtime:WASMER, method:saveAndFindByFileHash
+2026-10-26 15:37:32.007	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step22-fact-002, tx type:INVOKE_CONTRACT, contractId:name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:saveAndFindByFileHash, runtime type:WASMER, byte code len:4871418, params:12
+2026-10-26 15:37:32.012	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 15:37:32.012	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = saveAndFindByFileHash
+2026-10-26 15:37:32.012	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 692
+2026-10-26 15:37:32.013	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :005521f27d745a04999c6d09f559764f9c44376a
+2026-10-26 15:37:32.013	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :aoteman.jpg
+2026-10-26 15:37:32.013	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a, value = {} 
+
+2026-10-26 15:37:32.013	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a 
+
+2026-10-26 15:37:32.013	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = {} 
+
+2026-10-26 15:37:32.013	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP22 {"data":{"call_error_observed":"\u003cnil\u003e","contract":"fact","variant":"A0","method":"saveAndFindByFileHash","tx_id":"step22-fact-002","instance_id":7,"depth":0,"newinstance_ns":2387909,"copy_ns":0,"copy_bytes":0,"copy_ranges":0,"wasi_imports_ns":998842,"to_s1_ns":3398763,"to_s2_ns":4921774,"to_s3_ns":5697331,"start_ns":1509438,"wasi_initialize_ns":10842,"callmethod_ns":758153,"close_ns":40118,"invoke_ns":5738738,"gas":1585,"code":0,"managed_before":10,"managed_after":10},"event":"sample"}
+STEP21C {"call":{"id":0,"depth":0,"contract":"fact","method":"saveAndFindByFileHash","tx_id":"step22-fact-002","begin_ns":1793000252007699268,"end_ns":1793000252013438005,"invoke_seconds_inclusive":0.005738738,"callmethod_seconds_nested":0.000758153,"gas_used_actual":1585,"code":0,"result":"{\"fileHash\":\"005521f27d745a04999c6d09f559764f9c44376a\",\"fileName\":\"aoteman.jpg\",\"time\":1792827547}","message":""},"event":"invoke_return"}
+REUSE_VM tx=step22-fact-002 contract=fact method=saveAndFindByFileHash begin_ns=1793000252007698614 end_ns=1793000252013462446 code=0 gas=1585 depth=0
+2026-10-26 15:37:32.013	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step22-fact-002, contractName:fact, contractMethod:saveAndFindByFileHash, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793000252007698614, endTime:1793000252013462446, executionTime:0.005764 s
+2026-10-26 15:37:32.013	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step22-fact-002] access db spend time:0
+STEP21C {"Threads":125,"VmRSS":404664,"contract":"fact","event":"boundary","managed_objects":10,"monotonic_ns":1276774498,"owner_tid":595043,"pair":2,"variant":"A0","wall_unix_ns":1793000252013562597}
+STEP22 {"data":{"S1_memory_checked":false,"fresh_instances_only":true,"observed_pair_slots":3,"phase":"formal","single_variant":"","table_function_identity":"not_tested"},"event":"correctness"}
+STEP22 {"data":{"close_ns":10507230,"managed_remaining":0},"event":"cache_closed"}
+STEP21C {"Threads":13,"VmRSS":316348,"closed":7,"created":7,"event":"manager_closed","in_flight":0,"managed_objects":0,"monotonic_ns":1287356680,"owner_tid":595043,"wall_unix_ns":1793000252024144684}
+STEP21C {"Threads":13,"VmRSS":314100,"event":"owner_closed","managed_objects":0,"managed_pending":0,"monotonic_ns":1288510905,"owner_tid":595043,"wall_unix_ns":1793000252025298796}
+--- PASS: TestStep22Serial (1.29s)
+PASS
