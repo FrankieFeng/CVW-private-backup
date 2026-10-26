@@ -1,0 +1,21 @@
+=== RUN   TestStep21DOwnerFailure
+STEP21C {"Threads":6,"VmRSS":45636,"contract":"invalid","event":"create_begin","instance_id":1,"managed_objects":0,"monotonic_ns":302487,"owner_tid":533181,"wall_unix_ns":1792986807222946764}
+opmap length 216 
+STEP21C {"Threads":6,"VmRSS":47948,"error":"[invalid_1], byte code validation failed, err = unexpected character '\\u{1}'\n     --\u003e \u003canon\u003e:1:1\n      |\n    1 | \u0001\u0002\u0003\n      | ^","event":"create_failed","managed_objects":0,"monotonic_ns":4926263,"owner_tid":533181,"wall_unix_ns":1792986807227571151}
+STEP21C {"Threads":6,"VmRSS":47956,"error":"[invalid_1], byte code validation failed, err = unexpected character '\\u{1}'\n     --\u003e \u003canon\u003e:1:1\n      |\n    1 | \u0001\u0002\u0003\n      | ^","event":"creation_failure_handled","managed_objects":0,"monotonic_ns":4972546,"owner_tid":533181,"pending":0,"wall_unix_ns":1792986807227617683}
+STEP21C {"Threads":6,"VmRSS":47964,"contract":"no-deallocator","event":"create_begin","instance_id":2,"managed_objects":0,"monotonic_ns":4991206,"owner_tid":533181,"wall_unix_ns":1792986807227636348}
+opmap length 216 
+2026-10-26 11:53:27.227	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 11:53:27.227	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc00020a0c0 
+2026-10-26 11:53:27.227	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 92 
+Total function bodies: 1
+2026-10-26 11:53:27.229	[DEBUG]	step21d	vm/step21d_compile.go:266	[no-deallocator_1], new module success
+2026-10-26 11:53:27.230	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+STEP21C {"Threads":23,"VmRSS":57368,"compile_ns":2204399,"contract":"no-deallocator","create_ns":3155706,"event":"create_done","instance_id":2,"managed_objects":108,"monotonic_ns":8147201,"owner_tid":533181,"wall_unix_ns":1792986807230792188}
+STEP21C {"Threads":23,"VmRSS":57380,"contract":"no-deallocator","event":"close_begin","instance_id":2,"managed_objects":108,"monotonic_ns":8176626,"owner_tid":533181,"wall_unix_ns":1792986807230821787}
+STEP21C {"Threads":9,"VmRSS":57656,"close_ns":393180,"contract":"no-deallocator","error":"Export `deallocate` does not exist","event":"close_done","instance_id":2,"managed_objects":0,"monotonic_ns":8572393,"owner_tid":533181,"wall_unix_ns":1792986807231217431}
+STEP21C {"Threads":8,"VmRSS":57676,"error":"Export `deallocate` does not exist","event":"close_failure_handled","managed_objects":0,"monotonic_ns":8635001,"owner_tid":533181,"pending":0,"wall_unix_ns":1792986807231280005}
+STEP21C {"Threads":8,"VmRSS":57696,"closed":1,"created":1,"event":"manager_closed","in_flight":0,"managed_objects":0,"monotonic_ns":8659835,"owner_tid":533181,"wall_unix_ns":1792986807231304984}
+STEP21C {"Threads":7,"VmRSS":57988,"event":"owner_closed","managed_objects":0,"managed_pending":0,"monotonic_ns":10423448,"owner_tid":533181,"wall_unix_ns":1792986807233068180}
+--- PASS: TestStep21DOwnerFailure (0.01s)
+PASS

@@ -1,0 +1,1856 @@
+--- step21c/step21d_checks_test.go
++++ step21d/source/vm/step21d_checks_test.go
+@@ -0,0 +1,117 @@
++package wasmer
++
++import (
++	common "chainmaker.org/chainmaker/pb-go/v2/common"
++	w "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
++	"fmt"
++	"os"
++	"runtime"
++	"strconv"
++	"testing"
++	"time"
++)
++
++func dN(t *testing.T) int {
++	n, e := strconv.Atoi(os.Getenv("D_N"))
++	if e != nil || n < 1 || n > 3 {
++		t.Fatal("unreviewed invocation budget; allowed 1..3")
++	}
++	return n
++}
++func dOwner(t *testing.T) func() {
++	runtime.LockOSThread()
++	w.ManagedBeginOwner()
++	root := w.ManagedOpen("process")
++	return func() {
++		if e := root.Close(); e != nil {
++			t.Error(e)
++		}
++		if w.ManagedCount() != 0 {
++			t.Error("pending native wrappers")
++		}
++		if os.Getenv("D_FORCE_GC") == "1" {
++			runtime.GC()
++		}
++		runtime.GC()
++		dEvent("owner_closed", map[string]interface{}{"managed_pending": w.ManagedCount()})
++		w.ManagedEndOwner()
++		runtime.UnlockOSThread()
++	}
++}
++func TestStep21DOwnerFailure(t *testing.T) {
++	defer dOwner(t)()
++	m := newDManager("R1")
++	rejected := make(chan bool, 1)
++	go func() { defer func() { rejected <- recover() != nil }(); w.ManagedAssert() }()
++	select {
++	case ok := <-rejected:
++		if !ok {
++			t.Fatal("non-owner accepted")
++		}
++	case <-time.After(time.Second):
++		t.Fatal("ownership rejection blocked")
++	}
++	base := w.ManagedCount()
++	_, e := m.makeBundle(&common.Contract{Name: "invalid", Version: "1"}, []byte{1, 2, 3})
++	if e == nil {
++		t.Fatal("malformed module accepted")
++	}
++	if w.ManagedCount() != base {
++		t.Fatal("failed create leaked wrapper registry")
++	}
++	dEvent("creation_failure_handled", map[string]interface{}{"error": e.Error(), "pending": w.ManagedCount()})
++	b, e := m.makeBundle(&common.Contract{Name: "no-deallocator", Version: "1"}, []byte(`(module (import "wasi_snapshot_preview1" "proc_exit" (func (param i32))) (memory (export "memory") 1) (func (export "_start")))`))
++	if e != nil {
++		t.Fatal(e)
++	}
++	if e = m.closeBundle(b); e == nil {
++		t.Fatal("missing guest deallocator was not reported")
++	}
++	if w.ManagedCount() != base {
++		t.Fatal("close failure left tracked native objects")
++	}
++	dEvent("close_failure_handled", map[string]interface{}{"error": e.Error(), "pending": w.ManagedCount()})
++
++	if e = m.Close(); e != nil {
++		t.Fatal(e)
++	}
++	m.closing = true
++	if _, e = m.NewRuntimeInstance(nil, "", "", "", &common.Contract{}, nil, nil); e == nil {
++		t.Fatal("accepted after close")
++	}
++}
++func TestStep21DCompute(t *testing.T) {
++	defer dOwner(t)()
++	n := dN(t)
++	method := os.Getenv("D_METHOD")
++	if method != "bigNumCal" && method != "normalCal" {
++		t.Fatal("method not registered")
++	}
++	f := s21cPrepare(t, os.Getenv("D_MANIFEST"), os.Getenv("D_OUTPUT"))
++	defer f.close()
++	expected := "success bigNumCal: 607723520"
++	gas := uint64(105920)
++	if method == "normalCal" {
++		expected = "success normalCal: 666"
++		gas = 100000072
++	}
++	for i := 0; i < n; i++ {
++		r := f.run(fmt.Sprintf("compute-%03d", i), "compute", method, fmt.Sprintf("step21d-%03d", i), map[string]string{})
++		if r.Result.Code != 0 || r.Status != common.TxStatusCode_SUCCESS || string(r.Result.Result) != expected || r.Result.GasUsed != gas {
++			t.Fatalf("business/gas mismatch: %+v expected=%q gas=%d", r.Result, expected, gas)
++		}
++		if len(r.Calls) != 1 {
++			t.Fatal("unexpected downstream call")
++		}
++		if os.Getenv("D_FORCE_GC") == "1" {
++			runtime.GC()
++		}
++	}
++}
++func TestStep21DExchange(t *testing.T) {
++	defer dOwner(t)()
++	if dN(t) != 1 {
++		t.Fatal("exchange resource gate limits this stage to one root")
++	}
++	s21cPreparedScenario(t, os.Getenv("D_MANIFEST"), os.Getenv("D_OUTPUT"))
++}
+--- step21c/step21d_compile.go
++++ step21d/source/vm/step21d_compile.go
+@@ -0,0 +1,269 @@
++package wasmer
++
++import (
++	"chainmaker.org/chainmaker/logger/v2"
++	commonPb "chainmaker.org/chainmaker/pb-go/v2/common"
++	wasmergo "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
++	"fmt"
++	"time"
++)
++
++func dCompile(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLogger) (*wasmergo.Store, *wasmergo.Module, error) {
++	opmap := map[wasmergo.Opcode]uint32{
++		//LocalGet:            1,
++		Block:               0,
++		Br:                  0,
++		Call:                2,
++		Catch:               1000,
++		DataDrop:            1000,
++		Drop:                3,
++		ElemDrop:            1000,
++		Else:                2,
++		End:                 0,
++		F32Abs:              1000,
++		F32Add:              1000,
++		F32Ceil:             1000,
++		F32Const:            0,
++		F32Copysign:         1000,
++		F32DemoteF64:        1000,
++		F32Div:              1000,
++		F32Eq:               1000,
++		F32Floor:            1000,
++		F32Ge:               1000,
++		F32Gt:               1000,
++		F32Le:               1000,
++		F32Load:             1000,
++		F32Lt:               1000,
++		F32Max:              1000,
++		F32Min:              1000,
++		F32Mul:              1000,
++		F32Ne:               1000,
++		F32Nearest:          1000,
++		F32Neg:              1000,
++		F32ReinterpretI32:   1000,
++		F32Sqrt:             1000,
++		F32Store:            1000,
++		F32Sub:              1000,
++		F32Trunc:            1000,
++		F32x4Abs:            1000,
++		F32x4Add:            1000,
++		F32x4Div:            1000,
++		F32x4Eq:             1000,
++		F32x4Ge:             1000,
++		F32x4Gt:             1000,
++		F32x4Le:             1000,
++		F32x4Lt:             1000,
++		F32x4Max:            1000,
++		F32x4Min:            1000,
++		F32x4Mul:            1000,
++		F32x4Ne:             1000,
++		F32x4Neg:            1000,
++		F32x4Splat:          1000,
++		F32x4Sqrt:           1000,
++		F32x4Sub:            1000,
++		F64Abs:              1000,
++		F64Add:              1000,
++		F64Ceil:             1000,
++		F64Const:            0,
++		F64Copysign:         1000,
++		F64Div:              1000,
++		F64Eq:               1000,
++		F64Floor:            1000,
++		F64Ge:               1000,
++		F64Gt:               1000,
++		F64Le:               1000,
++		F64Load:             1000,
++		F64Lt:               1000,
++		F64Max:              1000,
++		F64Min:              1000,
++		F64Mul:              1000,
++		F64Ne:               1000,
++		F64Nearest:          1000,
++		F64Neg:              1000,
++		F64PromoteF32:       1000,
++		F64ReinterpretI64:   1000,
++		F64Sqrt:             1000,
++		F64Store:            1000,
++		F64Sub:              1000,
++		F64Trunc:            1000,
++		F64x2Abs:            1000,
++		F64x2Add:            1000,
++		F64x2Div:            1000,
++		F64x2Eq:             1000,
++		F64x2Ge:             1000,
++		F64x2Gt:             1000,
++		F64x2Le:             1000,
++		F64x2Lt:             1000,
++		F64x2Max:            1000,
++		F64x2Min:            1000,
++		F64x2Mul:            1000,
++		F64x2Ne:             1000,
++		F64x2Neg:            1000,
++		F64x2Splat:          1000,
++		F64x2Sqrt:           1000,
++		F64x2Sub:            1000,
++		I16x8Add:            1000,
++		I16x8Eq:             1000,
++		I16x8Mul:            1000,
++		I16x8Ne:             1000,
++		I16x8Neg:            1000,
++		I16x8Shl:            1000,
++		I16x8Splat:          1000,
++		I16x8Sub:            1000,
++		I32Add:              1,
++		I32And:              1,
++		I32AtomicLoad:       1000,
++		I32AtomicRmwAdd:     1000,
++		I32AtomicRmwAnd:     1000,
++		I32AtomicRmwCmpxchg: 1000,
++		I32AtomicRmwOr:      1000,
++		I32AtomicRmwSub:     1000,
++		I32AtomicRmwXchg:    1000,
++		I32AtomicRmwXor:     1000,
++		I32AtomicStore:      1000,
++		I32AtomicStore16:    1000,
++		I32AtomicStore8:     1000,
++		I32Clz:              105,
++		I32Const:            0,
++		I32Ctz:              105,
++		I32Eq:               1,
++		I32Eqz:              1,
++		I32Load:             3,
++		I32Mul:              3,
++		I32Ne:               1,
++		I32Or:               1,
++		I32Popcnt:           3,
++		I32ReinterpretF32:   3,
++		I32Rotl:             2,
++		I32Rotr:             2,
++		I32Shl:              2,
++		I32Store:            3,
++		I32Store16:          3,
++		I32Store8:           3,
++		I32Sub:              1,
++		I32WrapI64:          1,
++		I32Xor:              1,
++		I32x4Add:            1000,
++		I32x4Eq:             1000,
++		I32x4Mul:            1000,
++		I32x4Ne:             1000,
++		I32x4Neg:            1000,
++		I32x4Shl:            1000,
++		I32x4Splat:          1000,
++		I32x4Sub:            1000,
++		I64Add:              1,
++		I64And:              1,
++		I64AtomicLoad:       1000,
++		I64AtomicRmwAdd:     1000,
++		I64AtomicRmwAnd:     1000,
++		I64AtomicRmwCmpxchg: 1000,
++		I64AtomicRmwOr:      1000,
++		I64AtomicRmwSub:     1000,
++		I64AtomicRmwXchg:    1000,
++		I64AtomicRmwXor:     1000,
++		I64AtomicStore:      1000,
++		I64AtomicStore16:    1000,
++		I64AtomicStore32:    1000,
++		I64AtomicStore8:     1000,
++		I64Clz:              105,
++		I64Const:            0,
++		I64Ctz:              105,
++		I64Eq:               1,
++		I64Eqz:              1,
++		I64Load:             3,
++		I64Mul:              3,
++		I64Ne:               1,
++		I64Or:               1,
++		I64Popcnt:           1,
++		I64ReinterpretF64:   3,
++		I64Rotl:             2,
++		I64Rotr:             2,
++		I64Shl:              2,
++		I64Store:            3,
++		I64Store16:          3,
++		I64Store32:          3,
++		I64Store8:           3,
++		I64Sub:              1,
++		I64Xor:              1,
++		I64x2Add:            1000,
++		I64x2Neg:            1000,
++		I64x2Shl:            1000,
++		I64x2Splat:          1000,
++		I64x2Sub:            1000,
++		I8x16Add:            1000,
++		I8x16Eq:             1000,
++		I8x16Ne:             1000,
++		I8x16Neg:            1000,
++		I8x16Shl:            1000,
++		I8x16Splat:          1000,
++		I8x16Sub:            1000,
++		If:                  0,
++		Loop:                0,
++		MemoryCopy:          1000,
++		MemoryFill:          1000,
++		MemoryGrow:          1000,
++		MemoryInit:          1000,
++		MemorySize:          1000,
++		Nop:                 0,
++		RefFunc:             1000,
++		RefNull:             1000,
++		Rethrow:             1000,
++		Return:              2,
++		Select:              3,
++		TableCopy:           1000,
++		TableFill:           1000,
++		TableGet:            1000,
++		TableGrow:           1000,
++		TableInit:           1000,
++		TableSet:            1000,
++		Throw:               1000,
++		Try:                 1000,
++		Unreachable:         0,
++		V128And:             1000,
++		V128Bitselect:       1000,
++		V128Const:           0,
++		V128Load:            1000,
++		V128Not:             1000,
++		V128Or:              1000,
++		V128Store:           1000,
++		V128Xor:             1000,
++	}
++
++	fnmap := map[string]uint32{
++		"math":                  1000,
++		"crypto":                1000,
++		"fmt.Errorf":            1000,
++		"fmt.Sprintf":           1000,
++		"strconv.ParseInt":      1000,
++		"strconv.FormatInt":     1000,
++		"strings.Join":          1000,
++		"strings.TrimRightFunc": 1000,
++		"strings.TrimFunc":      1000,
++		"strings.TrimSpace":     1000,
++		"strings.lastIndexFunc": 1000,
++	}
++	config := wasmergo.NewConfig()
++	fmt.Printf("opmap length %d \n", len(opmap))
++
++	config.PushMeteringMiddleware(1e19, opmap, fnmap, "")
++
++	//如果不设置默认上限为256页
++	config.MaxPagesLimit(512)
++
++	engine := wasmergo.NewEngineWithConfig(config)
++	store := wasmergo.NewStore(engine)
++	if err := wasmergo.ValidateModule(store, byteCode); err != nil {
++		return nil, nil, fmt.Errorf("[%s_%s], byte code validation failed, err = %v", contractId.Name, contractId.Version, err)
++	}
++
++	startTime := time.Now().UnixNano()
++	module, err := wasmergo.NewModule(store, byteCode, log)
++	endTime := time.Now().UnixNano()
++	compileTime = float64(endTime-startTime) / 1e9
++	if err != nil {
++		return nil, nil, fmt.Errorf("[%s_%s], byte code compile failed", contractId.Name, contractId.Version)
++	}
++	log.Debugf("[%s_%s], new module success", contractId.Name, contractId.Version)
++
++	return store, module, nil
++}
+--- step21c/step21d_context_test.go
++++ step21d/source/vm/step21d_context_test.go
+@@ -0,0 +1,12 @@
++package wasmer
++
++import "chainmaker.org/chainmaker/protocol/v2"
++
++const ChainId = "chain02"
++const BlockVersion = uint32(1)
++
++type SnapshotMock struct{ protocol.Snapshot }
++
++
++// Empty serial snapshot has no other already-executed transactions in its block.
++func (SnapshotMock) GetSnapshotSize() int { return 0 }
+--- step21c/step21d_fixture_test.go
++++ step21d/source/vm/step21d_fixture_test.go
+@@ -0,0 +1,413 @@
++package wasmer
++
++// Prepared REAL cross-contract fixture. Compilation only in Step21C.
++// All guest entry tests unconditionally skip until the separate Step21B safety decision.
++import (
++	"bytes"
++	"crypto/ecdsa"
++	"crypto/elliptic"
++	"crypto/sha256"
++	"crypto/x509"
++	"encoding/hex"
++	"encoding/json"
++	"encoding/pem"
++	"errors"
++	"fmt"
++	"os"
++	"path/filepath"
++	"sort"
++	"testing"
++	"time"
++
++	"chainmaker.org/chainmaker/chainconf/v2"
++	cmcert "chainmaker.org/chainmaker/common/v2/cert"
++	cmcrypto "chainmaker.org/chainmaker/common/v2/crypto"
++	"chainmaker.org/chainmaker/common/v2/crypto/asym"
++	logger "chainmaker.org/chainmaker/logger/v2"
++	ac "chainmaker.org/chainmaker/pb-go/v2/accesscontrol"
++	common "chainmaker.org/chainmaker/pb-go/v2/common"
++	config "chainmaker.org/chainmaker/pb-go/v2/config"
++	"chainmaker.org/chainmaker/pb-go/v2/syscontract"
++	"chainmaker.org/chainmaker/protocol/v2"
++	"chainmaker.org/chainmaker/vm/v2"
++)
++
++// Configuration is versioned separately from any executed performance data.
++type s21cArtifact struct{ Contract, Path, SHA256 string }
++type s21cManifest struct {
++	Artifacts                []s21cArtifact
++	InputsFile, InputsSHA256 string
++}
++type s21cCall struct {
++	ID                int     `json:"id"`
++	Depth             int     `json:"depth"`
++	Contract          string  `json:"contract"`
++	Method            string  `json:"method"`
++	TxID              string  `json:"tx_id"`
++	BeginNS           int64   `json:"begin_ns"`
++	EndNS             int64   `json:"end_ns"`
++	InvokeSeconds     float64 `json:"invoke_seconds_inclusive"`
++	CallMethodSeconds float64 `json:"callmethod_seconds_nested"`
++	GasUsed           uint64  `json:"gas_used_actual"`
++	Code              uint32  `json:"code"`
++	Result            string  `json:"result"`
++	Message           string  `json:"message"`
++}
++
++type s21cStore struct {
++	protocol.BlockchainStore // unexpected/unimplemented node methods fail, never fabricate success
++	contracts                map[string]*common.Contract
++	code                     map[string][]byte
++	cfg                      *config.ChainConfig
++}
++
++func (s *s21cStore) GetContractByName(name string) (*common.Contract, error) {
++	c, ok := s.contracts[name]
++	if !ok {
++		return nil, fmt.Errorf("unregistered contract %s", name)
++	}
++	b, e := c.Marshal()
++	if e != nil {
++		return nil, e
++	}
++	clone := &common.Contract{}
++	e = clone.Unmarshal(b)
++	return clone, e
++}
++func (s *s21cStore) GetContractBytecode(name string) ([]byte, error) {
++	b, ok := s.code[name]
++	if !ok {
++		return nil, fmt.Errorf("unregistered code %s", name)
++	}
++	return append([]byte(nil), b...), nil
++}
++func (s *s21cStore) GetLastChainConfig() (*config.ChainConfig, error) { return s.cfg, nil }
++
++type s21cSnapshot struct {
++	SnapshotMock // only unused APIs retain explicit panic; GetKey/config/store below are real
++	store        *s21cStore
++	ledger       map[string]map[string][]byte
++}
++
++func (s *s21cSnapshot) GetBlockchainStore() protocol.BlockchainStore { return s.store }
++func (s *s21cSnapshot) GetLastChainConfig() *config.ChainConfig      { return s.store.cfg }
++func (s *s21cSnapshot) GetBlockHeight() uint64                       { return 111 }
++func (s *s21cSnapshot) GetKey(_ int, name string, key []byte) ([]byte, error) {
++	return append([]byte(nil), s.ledger[name][string(key)]...), nil
++}
++func (s *s21cSnapshot) hash() string {
++	b, _ := json.Marshal(s.ledger)
++	h := sha256.Sum256(b)
++	return hex.EncodeToString(h[:])
++}
++func (s *s21cSnapshot) commit(rw *common.TxRWSet) {
++	for _, w := range rw.TxWrites {
++		if s.ledger[w.ContractName] == nil {
++			s.ledger[w.ContractName] = map[string][]byte{}
++		}
++		if w.Value == nil {
++			delete(s.ledger[w.ContractName], string(w.Key))
++		} else {
++			s.ledger[w.ContractName][string(w.Key)] = append([]byte(nil), w.Value...)
++		}
++	}
++}
++
++// Restricted public identity fixture, NOT a node authentication substitute.
++// NewMember validates the configured key and derives its UID; no business result is returned here.
++type s21cMember struct {
++	member *ac.Member
++	pk     cmcrypto.PublicKey
++	uid    string
++}
++
++func (m *s21cMember) GetMemberId() string            { return m.uid }
++func (m *s21cMember) GetOrgId() string               { return m.member.OrgId }
++func (m *s21cMember) GetRole() protocol.Role         { return protocol.Role("CLIENT") }
++func (m *s21cMember) GetUid() string                 { return m.uid }
++func (m *s21cMember) GetPk() cmcrypto.PublicKey      { return m.pk }
++func (m *s21cMember) GetMember() (*ac.Member, error) { return m.member, nil }
++func (m *s21cMember) Verify(_ string, _ []byte, _ []byte) error {
++	return errors.New("Step21C fixture does not authenticate node transaction signatures")
++}
++
++type s21cAC struct {
++	protocol.AccessControlProvider
++	member *s21cMember
++}
++
++func (a *s21cAC) GetHashAlg() string { return "SHA256" }
++func (a *s21cAC) NewMember(m *ac.Member) (protocol.Member, error) {
++	if m == nil || m.MemberType != ac.MemberType_PUBLIC_KEY || m.OrgId != a.member.member.OrgId || !bytes.Equal(m.MemberInfo, a.member.member.MemberInfo) {
++		return nil, errors.New("identity not registered in Step21C fixture")
++	}
++	return a.member, nil
++}
++func (a *s21cAC) VerifyTxPrincipal(_ *common.Transaction, _ string, _ uint32) (bool, error) {
++	return false, errors.New("node ACL policy verification is outside this BlockVersion=1 VM fixture")
++}
++
++type s21cFixture struct {
++	t         *testing.T
++	snapshot  *s21cSnapshot
++	manager   protocol.VmManager
++	instances *dManager
++	member    *s21cMember
++	calls     []s21cCall
++	nextID    int
++	output    string
++}
++
++func s21cEmit(row interface{}) {
++	b, e := json.Marshal(row)
++	if e != nil {
++		panic(e)
++	}
++	fmt.Printf("STEP21C %s\n", b)
++}
++
++func s21cPrepare(t *testing.T, manifestPath, output string) *s21cFixture {
++	t.Helper()
++	// Required parent observer is detection, not a Store execution lock. It remains enabled.
++	if !step21aGuardEnabled || !step21Enabled {
++		t.Fatal("Step21A observations/guard must remain enabled")
++	}
++	data, e := os.ReadFile(manifestPath)
++	if e != nil {
++		t.Fatal(e)
++	}
++	var manifest s21cManifest
++	if e = json.Unmarshal(data, &manifest); e != nil {
++		t.Fatal(e)
++	}
++	// Public P-256 generator point. No private key, signing material or certificate is generated/written.
++	curve := elliptic.P256()
++	der, e := x509.MarshalPKIXPublicKey(&ecdsa.PublicKey{Curve: curve, X: curve.Params().Gx, Y: curve.Params().Gy})
++	if e != nil {
++		t.Fatal(e)
++	}
++	pubPEM := pem.EncodeToMemory(&pem.Block{Type: "PUBLIC KEY", Bytes: der})
++	pk, e := asym.PublicKeyFromPEM(pubPEM)
++	if e != nil {
++		t.Fatal(e)
++	}
++	ski, e := cmcert.ComputeSKI(cmcrypto.HASH_TYPE_SHA256, pk.ToStandardKey())
++	if e != nil {
++		t.Fatal(e)
++	}
++	member := &s21cMember{member: &ac.Member{OrgId: "step21c-fixture-org", MemberType: ac.MemberType_PUBLIC_KEY, MemberInfo: pubPEM}, pk: pk, uid: hex.EncodeToString(ski)}
++	cfg := &config.ChainConfig{ChainId: ChainId, Contract: &config.ContractConfig{EnableSqlSupport: false}, Vm: &config.Vm{AddrType: config.AddrType_ETHEREUM}, Crypto: &config.CryptoConfig{Hash: "SHA256"}}
++	store := &s21cStore{contracts: map[string]*common.Contract{}, code: map[string][]byte{}, cfg: cfg}
++	for _, a := range manifest.Artifacts {
++		b, err := os.ReadFile(a.Path)
++		if err != nil {
++			t.Fatal(err)
++		}
++		h := sha256.Sum256(b)
++		if hex.EncodeToString(h[:]) != a.SHA256 {
++			t.Fatal("changed WASM " + a.Contract)
++		}
++		if a.Contract != "compute" && a.Contract != "exchange" && a.Contract != "identity" && a.Contract != "erc721" {
++			t.Fatal("unexpected registered contract")
++		}
++		store.code[a.Contract] = b
++		store.contracts[a.Contract] = &common.Contract{Name: a.Contract, Version: "1.0.0", RuntimeType: common.RuntimeType_WASMER, Status: common.ContractStatus_NORMAL, Creator: &ac.MemberFull{OrgId: member.member.OrgId, MemberType: ac.MemberType_PUBLIC_KEY, MemberInfo: pubPEM, MemberId: member.uid, Role: "CLIENT", Uid: member.uid}}
++	}
++	if len(store.contracts) < 1 || len(store.contracts) > 3 {
++		t.Fatal("three actual WASM contracts required")
++	}
++	snap := &s21cSnapshot{store: store, ledger: map[string]map[string][]byte{}}
++	cfgBytes, e := cfg.Marshal()
++	if e != nil {
++		t.Fatal(e)
++	}
++	// Configuration state is supplied as node context, not a fabricated business write.
++	snap.ledger[syscontract.SystemContract_CHAIN_CONFIG.String()] = map[string][]byte{syscontract.SystemContract_CHAIN_CONFIG.String(): cfgBytes}
++	base := newDManager(os.Getenv("D_POLICY"))
++	f := &s21cFixture{t: t, snapshot: snap, instances: base, member: member, output: output}
++	base.fixture = f
++	observed := base
++	f.manager = vm.NewVmManager(map[common.RuntimeType]protocol.VmInstancesManager{common.RuntimeType_WASMER: observed}, "", &s21cAC{member: member}, nil, &chainconf.ChainConf{ChainConf: cfg}, logger.GetLogger("step21c-real-fixture"))
++	previous := protocol.ParametersValueMaxLength
++	protocol.ParametersValueMaxLength = protocol.DefaultParametersValueMaxSize * 1024 * 1024
++	t.Cleanup(func() { protocol.ParametersValueMaxLength = previous })
++	return f
++}
++
++type s21cReceipt struct {
++	Label             string                 `json:"label"`
++	TxID              string                 `json:"tx_id"`
++	Contract          string                 `json:"contract"`
++	Method            string                 `json:"method"`
++	Input             map[string]string      `json:"business_input"`
++	BeforeHash        string                 `json:"before_hash"`
++	AfterHash         string                 `json:"after_hash"`
++	RunContractWallNS int64                  `json:"runcontract_wall_ns_not_primary_metric"`
++	Status            common.TxStatusCode    `json:"status"`
++	Result            *common.ContractResult `json:"actual_result"`
++	RWSet             *common.TxRWSet        `json:"actual_rwset"`
++	Calls             []s21cCall             `json:"inclusive_call_records_do_not_sum"`
++}
++
++func (f *s21cFixture) run(label, contract, method, txID string, input map[string]string) *s21cReceipt {
++	t := f.t
++	t.Helper()
++	meta, e := f.snapshot.store.GetContractByName(contract)
++	if e != nil {
++		t.Fatal(e)
++	}
++	code, e := f.snapshot.store.GetContractBytecode(contract)
++	if e != nil {
++		t.Fatal(e)
++	}
++	params := map[string][]byte{}
++	kv := []*common.KeyValuePair{}
++	keys := make([]string, 0, len(input))
++	for k := range input {
++		keys = append(keys, k)
++	}
++	sort.Strings(keys)
++	for _, k := range keys {
++		params[k] = []byte(input[k])
++		kv = append(kv, &common.KeyValuePair{Key: k, Value: []byte(input[k])})
++	}
++	tx := &common.Transaction{Payload: &common.Payload{ChainId: ChainId, TxType: common.TxType_INVOKE_CONTRACT, TxId: txID, Timestamp: 1700000000, ContractName: contract, Method: method, Parameters: kv}, Sender: &common.EndorsementEntry{Signer: f.member.member}}
++	ctx := vm.NewTxSimContext(f.manager, f.snapshot, tx, BlockVersion, logger.GetLogger("step21c-real-fixture"))
++	f.calls = nil
++	f.nextID = 0
++	before := f.snapshot.hash()
++	begin := time.Now()
++	result, _, status := f.manager.RunContract(meta, method, code, params, ctx, 0, common.TxType_INVOKE_CONTRACT)
++	wall := time.Since(begin).Nanoseconds()
++	rw := ctx.GetTxRWSet(result.Code == 0 && status == common.TxStatusCode_SUCCESS)
++	if result.Code == 0 && status == common.TxStatusCode_SUCCESS {
++		f.snapshot.commit(rw)
++	}
++	r := &s21cReceipt{Label: label, TxID: txID, Contract: contract, Method: method, Input: input, BeforeHash: before, AfterHash: f.snapshot.hash(), RunContractWallNS: wall, Status: status, Result: result, RWSet: rw, Calls: append([]s21cCall(nil), f.calls...)}
++	b, e := json.MarshalIndent(r, "", "  ")
++	if e != nil {
++		t.Fatal(e)
++	}
++	if e = os.MkdirAll(f.output, 0755); e != nil {
++		t.Fatal(e)
++	}
++	if e = os.WriteFile(filepath.Join(f.output, label+".json"), append(b, '\n'), 0644); e != nil {
++		t.Fatal(e)
++	}
++	return r
++}
++func (f *s21cFixture) state(contract, key, field string) string {
++	return string(f.snapshot.ledger[contract][string(protocol.GetKeyStr(key, field))])
++}
++func (f *s21cFixture) close() {
++	if err := f.instances.Close(); err != nil {
++		f.t.Error(err)
++	}
++}
++
++// Compiled assertions to be enabled only after independent Step21B review, not in this task.
++func s21cPreparedScenario(t *testing.T, manifest, output string) {
++	f := s21cPrepare(t, manifest, output)
++	defer f.close()
++	for _, name := range []string{"identity", "erc721", "exchange"} {
++		args := map[string]string{}
++		// identity derives admin from the actual configured public sender.
++		// Its current source ignores a nonempty adminAddress parameter; do not seed around that logic.
++		if name == "erc721" {
++			args = map[string]string{"name": "huanletoken", "symbol": "hlt", "tokenURI": "https://chainmaker.org.cn"}
++		}
++		r := f.run("init-"+name, name, "init_contract", "step21c-init-"+name, args)
++		if r.Result.Code != 0 || r.Status != common.TxStatusCode_SUCCESS {
++			t.Fatalf("real init failed %s: %s", name, r.Result.Message)
++		}
++		if name == "identity" {
++			var admins []string
++			if e := json.Unmarshal([]byte(f.state("identity", "identity", "adminAddress")), &admins); e != nil || len(admins) == 0 || admins[0] == "" {
++				t.Fatal("actual identity initialization did not establish an admin")
++			}
++		}
++		if name == "erc721" && f.state("erc721", "erc721", "admin") != f.member.uid {
++			t.Fatal("actual ERC721 admin does not match configured sender UID")
++		}
++
++	}
++	data, e := os.ReadFile(manifest)
++	if e != nil {
++		t.Fatal(e)
++	}
++	var m s21cManifest
++	if e = json.Unmarshal(data, &m); e != nil {
++		t.Fatal(e)
++	}
++	inputsBytes, e := os.ReadFile(m.InputsFile)
++	if e != nil {
++		t.Fatal(e)
++	}
++	h := sha256.Sum256(inputsBytes)
++	if hex.EncodeToString(h[:]) != m.InputsSHA256 {
++		t.Fatal("changed frozen inputs")
++	}
++	var inputs []map[string]string
++	if e = json.Unmarshal(inputsBytes, &inputs); e != nil || len(inputs) < 3 {
++		t.Fatal("missing input sequence")
++	}
++	expected := []string{"identity/addWriteList", "identity/isApprovedUser", "identity/isApprovedUser", "erc721/mint", "erc721/setApprovalForAll2", "erc721/transferFrom"}
++	for i := 0; i < dN(t); i++ {
++		in := inputs[i]
++		r := f.run(fmt.Sprintf("success-%d", i+1), "exchange", "buyNow", fmt.Sprintf("step21c-buy-%03d", i+1), in)
++		if r.Result.Code != 0 || string(r.Result.Result) != "buyNow success" || r.Status != common.TxStatusCode_SUCCESS {
++			t.Fatalf("full real buyNow failed: %s", r.Result.Message)
++		}
++		calls := append([]s21cCall(nil), r.Calls...)
++		sort.Slice(calls, func(i, j int) bool { return calls[i].ID < calls[j].ID })
++		if len(calls) != 7 || calls[0].Depth != 0 {
++			t.Fatal("unexpected root/callee count")
++		}
++		for j, c := range calls[1:] {
++			if c.Contract+"/"+c.Method != expected[j] || c.Depth != 1 || c.Code != 0 {
++				t.Fatal("actual callee path/result mismatch")
++			}
++		}
++		if f.state("identity", "identity", in["from"]) != "1" || f.state("identity", "identity", in["to"]) != "1" {
++			t.Fatal("whitelist state missing")
++		}
++		if f.state("erc721", "tokenIds", in["tokenId"]) != in["to"] {
++			t.Fatal("owner did not transfer")
++		}
++		if f.state("erc721", "operatorApprove", in["from"]+"_"+f.member.uid) != "1" {
++			t.Fatal("operator approval missing")
++		}
++		found := false
++		for _, event := range r.Result.ContractEvent {
++			if event.Topic == "buyNow" && event.ContractName == "exchange" {
++				found = true
++			}
++		}
++		if !found {
++			t.Fatal("actual buyNow event missing")
++		}
++	}
++	if os.Getenv("D_NEGATIVE") != "1" {
++		return
++	}
++	// Duplicate token and invalid input must not be committed. No fabricated rollback response.
++	bad := f.run("negative-duplicate", "exchange", "buyNow", "step21c-negative-duplicate", inputs[0])
++	if bad.Result.Code == 0 || bad.BeforeHash != bad.AfterHash || len(bad.RWSet.TxWrites) != 0 {
++		t.Fatal("duplicate-token error or rollback differs")
++	}
++	invalid := map[string]string{}
++	for k, v := range inputs[0] {
++		invalid[k] = v
++	}
++	invalid["from"] = "bad"
++	bad = f.run("negative-address", "exchange", "buyNow", "step21c-negative-address", invalid)
++	if bad.Result.Code == 0 || bad.BeforeHash != bad.AfterHash || len(bad.RWSet.TxWrites) != 0 {
++		t.Fatal("invalid-address error or rollback differs")
++	}
++}
++
++func TestStep21CRealCrossContractPrepared(t *testing.T) {
++	t.Skip("Step21C static preparation only: Step21B Store/lifecycle safety has not been established; no guest execution or formal load authorized")
++	// Kept type-checked but unreachable until the independent safety decision changes this test.
++	s21cPreparedScenario(t, "step21c-manifest.json", "step21c-receipts")
++}
+--- step21c/step21d_runtime_test.go
++++ step21d/source/vm/step21d_runtime_test.go
+@@ -0,0 +1,309 @@
++package wasmer
++
++import (
++	"fmt"
++	"time"
++
++	"chainmaker.org/chainmaker/logger/v2"
++	common "chainmaker.org/chainmaker/pb-go/v2/common"
++	"chainmaker.org/chainmaker/protocol/v2"
++	w "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
++	"os"
++	"strconv"
++	"strings"
++	"syscall"
++)
++
++type dBundle struct {
++	scope    *w.ManagedScope
++	instance *w.Instance
++	contract string
++	id       int
++	used     int
++	closed   bool
++}
++type dManager struct {
++	protocol.VmInstancesManager
++	policy          string
++	cache           map[string]*dBundle
++	active          map[string]bool
++	fixture         *s21cFixture
++	next            int
++	inFlight        int
++	closing         bool
++	created, closed int
++}
++
++func newDManager(policy string) *dManager {
++	if policy != "R0" && policy != "R1" {
++		panic("explicit D_POLICY required")
++	}
++	return &dManager{policy: policy, cache: map[string]*dBundle{}, active: map[string]bool{}}
++}
++
++var dEpoch = time.Now()
++
++func dEvent(event string, fields map[string]interface{}) {
++	w.ManagedAssert()
++	if fields == nil {
++		fields = map[string]interface{}{}
++	}
++	fields["event"] = event
++	fields["wall_unix_ns"] = time.Now().UnixNano()
++	fields["monotonic_ns"] = time.Since(dEpoch).Nanoseconds()
++	fields["owner_tid"] = syscall.Gettid()
++	fields["managed_objects"] = w.ManagedCount()
++	data, _ := os.ReadFile("/proc/self/status")
++	for _, line := range strings.Split(string(data), "\n") {
++		for _, key := range []string{"VmRSS:", "Threads:"} {
++			if strings.HasPrefix(line, key) {
++				v, _ := strconv.Atoi(strings.Fields(line)[1])
++				fields[key[:len(key)-1]] = v
++			}
++		}
++	}
++	s21cEmit(fields)
++	// Same protection thresholds, checked at lifecycle boundaries as well as external polling.
++	if v, ok := fields["VmRSS"].(int); ok && v > 1536*1024 {
++		panic("RSS protection")
++	}
++	if v, ok := fields["Threads"].(int); ok && v > 220 {
++		panic("thread protection")
++	}
++}
++func (m *dManager) NewRuntimeInstance(_ protocol.TxSimContext, chain, method, path string, c *common.Contract, code []byte, _ protocol.Logger) (protocol.RuntimeInstance, error) {
++	w.ManagedAssert()
++	if m.closing {
++		return nil, fmt.Errorf("manager closing")
++	}
++	if len(m.cache) >= 3 && m.cache[c.Name] == nil {
++		return nil, fmt.Errorf("contract capacity")
++	}
++	return &dRuntime{manager: m, chain: chain}, nil
++}
++func (m *dManager) makeBundle(c *common.Contract, code []byte) (b *dBundle, err error) {
++	w.ManagedAssert()
++	m.next++
++	b = &dBundle{scope: w.ManagedOpen(c.Name), contract: c.Name, id: m.next}
++	begin := time.Now()
++	dEvent("create_begin", map[string]interface{}{"contract": c.Name, "instance_id": b.id})
++	defer func() {
++		if r := recover(); r != nil {
++			err = fmt.Errorf("create panic: %v", r)
++		}
++		if err != nil {
++			if e := b.scope.Close(); e != nil {
++				err = fmt.Errorf("%v; cleanup: %w", err, e)
++			}
++			dEvent("create_failed", map[string]interface{}{"error": err.Error()})
++		} else {
++			b.scope.Suspend()
++		}
++	}()
++	log := logger.GetLogger("step21d")
++	store, module, e := dCompile(c, code, log)
++	if e != nil {
++		return b, e
++	}
++	compileEnd := time.Now()
++	// Module is compiled in exactly this Store, and binding NewInstance uses module.store.
++	wasi, e := w.NewWasiStateBuilder("step21d").Finalize(store.Inner())
++	if e != nil {
++		return b, e
++	}
++	imports, e := wasi.GenerateImportObject(store, module)
++	if e != nil {
++		return b, e
++	}
++	env := CMEnvironment{}
++	imports, e = GetVmBridgeManager().GetImports(store, &env, imports)
++	if e != nil {
++		return b, e
++	}
++	inst, e := w.NewInstance(module, imports)
++	if e != nil {
++		return b, e
++	}
++	b.instance = inst
++	if e = wasi.Initialize(store, inst); e != nil {
++		return b, e
++	}
++	start, e := inst.Exports.GetWasiStartRawFunction()
++	if e != nil {
++		return b, e
++	}
++	if _, e = start.Call(); e != nil {
++		// Fixed packaged ABI reports a successful WASI proc_exit(0) as a TrapError.
++		// The original pool ignores all start errors; admit only this precise zero-exit case.
++		if e.Error() != "WASI exited with code: ExitCode::0" {
++			return b, e
++		}
++		dEvent("start_exit_zero", map[string]interface{}{"instance_id": b.id, "error": e.Error()})
++	}
++	start.Close()
++	env.instance = inst
++	env.memory, e = inst.Exports.GetMemory("memory")
++	if e != nil {
++		return b, e
++	}
++	m.created++
++	dEvent("create_done", map[string]interface{}{"contract": c.Name, "instance_id": b.id, "create_ns": time.Since(begin).Nanoseconds(), "compile_ns": compileEnd.Sub(begin).Nanoseconds()})
++	return b, nil
++}
++func (m *dManager) closeBundle(b *dBundle) (err error) {
++	if b == nil || b.closed {
++		return nil
++	}
++	w.ManagedAssert()
++	restore := b.scope.Activate()
++	defer restore()
++	begin := time.Now()
++	dEvent("close_begin", map[string]interface{}{"contract": b.contract, "instance_id": b.id})
++	// Scope always executes even if guest deallocation fails. Native void deletes have no status API.
++	defer func() {
++		if r := recover(); r != nil {
++			err = fmt.Errorf("deallocate panic: %v", r)
++		}
++		if e := b.scope.Close(); e != nil {
++			err = fmt.Errorf("close cleanup: %v; %w", err, e)
++		}
++		b.closed = true
++		b.instance = nil
++		m.closed++
++		dEvent("close_done", map[string]interface{}{"contract": b.contract, "instance_id": b.id, "close_ns": time.Since(begin).Nanoseconds(), "error": fmt.Sprint(err)})
++	}()
++	if b.instance != nil {
++		err = CallDeallocate(b.instance)
++	}
++	return err
++}
++func (m *dManager) Close() error {
++	w.ManagedAssert()
++	m.closing = true
++	if m.inFlight != 0 {
++		return fmt.Errorf("in-flight %d", m.inFlight)
++	}
++	for _, b := range m.cache {
++		if e := m.closeBundle(b); e != nil {
++			return e
++		}
++	}
++	m.cache = map[string]*dBundle{}
++	if m.created != m.closed {
++		return fmt.Errorf("lifecycle count %d/%d", m.created, m.closed)
++	}
++	dEvent("manager_closed", map[string]interface{}{"created": m.created, "closed": m.closed, "in_flight": m.inFlight})
++	return nil
++}
++
++type dRuntime struct {
++	manager *dManager
++	chain   string
++}
++
++func (r *dRuntime) Invoke(c *common.Contract, method string, code []byte, params map[string][]byte, ctx protocol.TxSimContext, gasUsed uint64) (result *common.ContractResult, order protocol.ExecOrderTxType) {
++	m := r.manager
++	w.ManagedAssert()
++	begin := time.Now()
++	result = &common.ContractResult{}
++	order = protocol.ExecOrderTxTypeNormal
++	id := m.fixture.nextID
++	m.fixture.nextID++
++	depth := ctx.GetDepth()
++	var callNS int64
++	var b *dBundle
++	defer func() {
++		if x := recover(); x != nil {
++			result.Code = 1
++			result.Message = fmt.Sprint(x)
++		}
++		end := time.Now()
++		row := s21cCall{ID: id, Depth: depth, Contract: c.Name, Method: method, TxID: ctx.GetTx().Payload.TxId, BeginNS: begin.UnixNano(), EndNS: end.UnixNano(), InvokeSeconds: end.Sub(begin).Seconds(), CallMethodSeconds: float64(callNS) / 1e9, GasUsed: result.GasUsed, Code: result.Code, Result: string(result.Result), Message: result.Message}
++		m.fixture.calls = append(m.fixture.calls, row)
++		s21cEmit(map[string]interface{}{"event": "invoke_return", "call": row})
++	}()
++	if m.closing || m.active[c.Name] || depth > 2 || m.inFlight >= 3 {
++		result.Code = 1
++		result.Message = "ownership/depth/capacity rejection"
++		return
++	}
++	m.active[c.Name] = true
++	m.inFlight++
++	defer func() { delete(m.active, c.Name); m.inFlight-- }()
++	acquireBegin := time.Now()
++	var e error
++	if m.policy == "R0" {
++		b = m.cache[c.Name]
++	}
++	if b == nil {
++		b, e = m.makeBundle(c, code)
++		if e != nil {
++			result.Code = 1
++			result.Message = e.Error()
++			return
++		}
++		if m.policy == "R0" {
++			m.cache[c.Name] = b
++		}
++	}
++	restore := b.scope.Activate()
++	defer restore()
++	dEvent("acquire", map[string]interface{}{"contract": c.Name, "instance_id": b.id, "acquire_ns": time.Since(acquireBegin).Nanoseconds(), "channel_block_ns": 0, "queue_len": 0, "in_flight": m.inFlight, "previous_uses": b.used})
++	if m.policy == "R1" && b.used != 0 {
++		panic("fresh instance reused")
++	}
++	b.used++
++	if m.policy == "R1" {
++		defer func() {
++			if ce := m.closeBundle(b); ce != nil {
++				result.Code = 1
++				result.Message += " close failure: " + ce.Error()
++			}
++		}()
++	}
++	limit := runtimeGasLimit
++	available := limit
++	if gasUsed < limit {
++		available = limit - gasUsed
++	} else {
++		available = 0
++	}
++	if e = setGasByExport(b.instance, available); e != nil {
++		panic(e)
++	}
++	sc := NewSimContext(method, logger.GetLogger("step21d"), r.chain)
++	defer sc.removeCtxPointer()
++	sc.Contract = c
++	sc.TxSimContext = ctx
++	sc.ContractResult = result
++	sc.parameters = params
++	sc.Instance = b.instance
++	sc.SpecialTxType = protocol.ExecOrderTxTypeNormal
++	execBegin := time.Now()
++	dEvent("execute_begin", map[string]interface{}{"contract": c.Name, "instance_id": b.id, "method": method})
++	callBegin := time.Now()
++	e = sc.CallMethod(b.instance)
++	callNS = time.Since(callBegin).Nanoseconds()
++	order = sc.SpecialTxType
++	remaining, gasErr := getGasByExport(b.instance)
++	if gasErr != nil {
++		panic(gasErr)
++	}
++	// Preserve original runtime semantics: the existing code overwrites CallMethod err with gas read err.
++	// Capture original CallMethod error separately as evidence, never rewrite Gas rules.
++	observedCallError := e
++	e = gasErr
++	if remaining == 0 || remaining == ^uint64(0) {
++		e = fmt.Errorf("contract invoke failed, out of gas %d", runtimeGasLimit)
++	}
++	result.GasUsed = limit - remaining
++	if e != nil {
++		result.Code = 1
++		result.Message = e.Error()
++	} else {
++		result.ContractEvent = sc.ContractEvent
++	}
++	dEvent("execute_done", map[string]interface{}{"contract": c.Name, "instance_id": b.id, "method": method, "execute_ns": time.Since(execBegin).Nanoseconds(), "callmethod_ns": callNS, "gas": result.GasUsed, "code": result.Code, "call_error_observed": fmt.Sprint(observedCallError)})
++
++	return
++}
+--- step21c/wasmer-go/engine.go
++++ step21d/source/vm/wasmer-go/engine.go
+@@ -2,7 +2,6 @@
+ 
+ // #include <wasmer.h>
+ import "C"
+-import "runtime"
+ 
+ // Engine is used by the Store to drive the compilation and the
+ // execution of a WebAssembly module.
+@@ -15,7 +14,7 @@
+ 		_inner: engine,
+ 	}
+ 
+-	runtime.SetFinalizer(self, func(self *Engine) {
++	managedSetFinalizer(self, func(self *Engine) {
+ 		C.wasm_engine_delete(self.inner())
+ 	})
+ 
+--- step21c/wasmer-go/exports.go
++++ step21d/source/vm/wasmer-go/exports.go
+@@ -5,7 +5,6 @@
+ 
+ import (
+ 	"fmt"
+-	"runtime"
+ 	"unsafe"
+ )
+ 
+@@ -21,7 +20,7 @@
+ 	self := &Exports{}
+ 	C.wasm_instance_exports(instance, &self._inner)
+ 
+-	runtime.SetFinalizer(self, func(self *Exports) {
++	managedSetFinalizer(self, func(self *Exports) {
+ 		self.Close()
+ 	})
+ 
+@@ -87,7 +86,11 @@
+ 		return nil, err
+ 	}
+ 
+-	return exports.IntoFunction(), nil
++	fn := exports.IntoFunction()
++	if fn != nil {
++		fn._managedName = name
++	}
++	return fn, nil
+ }
+ 
+ // GetFunction retrieves a exported function by its name and returns
+@@ -202,7 +205,7 @@
+ // possible to force the destruction of the Exports by calling Close
+ // manually.
+ func (self *Exports) Close() {
+-	runtime.SetFinalizer(self, nil)
++	managedSetFinalizer(self, nil)
+ 
+ 	for extern := range self.exports {
+ 		delete(self.exports, extern)
+--- step21c/wasmer-go/exporttype.go
++++ step21d/source/vm/wasmer-go/exporttype.go
+@@ -17,7 +17,7 @@
+ 	self := &exportTypes{}
+ 	C.wasm_module_exports(module.inner(), &self._inner)
+ 
+-	runtime.SetFinalizer(self, func(self *exportTypes) {
++	managedSetFinalizer(self, func(self *exportTypes) {
+ 		self.close()
+ 	})
+ 
+@@ -44,7 +44,7 @@
+ }
+ 
+ func (self *exportTypes) close() {
+-	runtime.SetFinalizer(self, nil)
++	managedSetFinalizer(self, nil)
+ 	C.wasm_exporttype_vec_delete(&self._inner)
+ }
+ 
+@@ -58,7 +58,7 @@
+ 	exportType := &ExportType{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(exportType, func(self *ExportType) {
++		managedSetFinalizer(exportType, func(self *ExportType) {
+ 			self.Close()
+ 		})
+ 	}
+@@ -128,6 +128,6 @@
+ // possible to force the destruction of the ExportType by calling
+ // Close manually.
+ func (self *ExportType) Close() {
+-	runtime.SetFinalizer(self, nil)
++	managedSetFinalizer(self, nil)
+ 	C.wasm_exporttype_delete(self.inner())
+ }
+--- step21c/wasmer-go/extern.go
++++ step21d/source/vm/wasmer-go/extern.go
+@@ -21,7 +21,7 @@
+ 	extern := &Extern{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(extern, func(extern *Extern) {
++		managedSetFinalizer(extern, func(extern *Extern) {
+ 			C.wasm_extern_delete(extern.inner())
+ 		})
+ 	}
+--- step21c/wasmer-go/externtype.go
++++ step21d/source/vm/wasmer-go/externtype.go
+@@ -59,7 +59,7 @@
+ 	externType := &ExternType{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(externType, func(externType *ExternType) {
++		managedSetFinalizer(externType, func(externType *ExternType) {
+ 			C.wasm_externtype_delete(externType.inner())
+ 		})
+ 	}
+--- step21c/wasmer-go/function.go
++++ step21d/source/vm/wasmer-go/function.go
+@@ -32,23 +32,26 @@
+ 
+ // Function is a WebAssembly function instance.
+ type Function struct {
+-	_inner      *C.wasm_func_t
+-	_ownedBy    interface{}
+-	funcType    *FunctionType
+-	environment *functionEnvironment
+-	lazyNative  NativeFunction
++	_managedScope *ManagedScope
++	_managedName  string
++	_inner        *C.wasm_func_t
++	_ownedBy      interface{}
++	funcType      *FunctionType
++	environment   *functionEnvironment
++	lazyNative    NativeFunction
+ }
+ 
+ func newFunction(pointer *C.wasm_func_t, environment *functionEnvironment, ownedBy interface{}) *Function {
+ 	function := &Function{
+-		_inner:      pointer,
+-		_ownedBy:    ownedBy,
+-		environment: environment,
+-		lazyNative:  nil,
++		_managedScope: managedCurrent,
++		_inner:        pointer,
++		_ownedBy:      ownedBy,
++		environment:   environment,
++		lazyNative:    nil,
+ 	}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(function, func(self *Function) {
++		managedSetFinalizer(function, func(self *Function) {
+ 			if self.environment != nil {
+ 				hostFunctionStore.remove(self.environment.hostFunctionStoreIndex)
+ 			}
+@@ -106,6 +109,7 @@
+ 
+ //export function_trampoline
+ func function_trampoline(env unsafe.Pointer, args *C.wasm_val_vec_t, res *C.wasm_val_vec_t) *C.wasm_trap_t {
++	ManagedAssert()
+ 	environment := (*functionEnvironment)(env)
+ 	hostFunction, err := hostFunctionStore.load(environment.hostFunctionStoreIndex)
+ 	if err != nil {
+@@ -175,6 +179,7 @@
+ 
+ //export function_with_environment_trampoline
+ func function_with_environment_trampoline(env unsafe.Pointer, args *C.wasm_val_vec_t, res *C.wasm_val_vec_t) *C.wasm_trap_t {
++	ManagedAssert()
+ 	environment := (*functionEnvironment)(env)
+ 	hostFunction, err := hostFunctionStore.load(environment.hostFunctionStoreIndex)
+ 	if err != nil {
+@@ -227,7 +232,7 @@
+ 
+ 	ty := C.wasm_func_type(self.inner())
+ 	runtime.KeepAlive(self)
+-	self.funcType = newFunctionType(ty, self.ownedBy())
++	self.funcType = newFunctionType(ty, nil)
+ 
+ 	return self.funcType
+ }
+@@ -304,6 +309,8 @@
+ 			C.wasm_val_vec_new(&arguments, C.size_t(numberOfReceivedParameters), (*C.wasm_val_t)(unsafe.Pointer(&allArguments[0])))
+ 		}
+ 
++		leave := managedEnterFunction(self)
++		defer leave()
+ 		trap := C.wasm_func_call(self.inner(), &arguments, &results)
+ 
+ 		runtime.KeepAlive(arguments)
+@@ -340,7 +347,10 @@
+ }
+ 
+ func (self *Function) Close() {
+-	self.funcType.Close()
++	if self.funcType != nil {
++		self.funcType.Close()
++		self.funcType = nil
++	}
+ }
+ 
+ type functionEnvironment struct {
+--- step21c/wasmer-go/functiontype.go
++++ step21d/source/vm/wasmer-go/functiontype.go
+@@ -2,7 +2,6 @@
+ 
+ // #include <wasmer.h>
+ import "C"
+-import "runtime"
+ 
+ // FunctionType classifies the signature of functions, mapping a
+ // vector of parameters to a vector of results. They are also used to
+@@ -20,7 +19,7 @@
+ 	functionType := &FunctionType{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(functionType, func(functionType *FunctionType) {
++		managedSetFinalizer(functionType, func(functionType *FunctionType) {
+ 			C.wasm_functype_delete(functionType.inner())
+ 		})
+ 	}
+@@ -92,5 +91,8 @@
+ 
+ // MODIFIED
+ func (self *FunctionType) Close() {
+-	C.wasm_functype_delete(self._inner)
++	if self._inner == nil { return }
++ managedSetFinalizer(self, nil)
++ C.wasm_functype_delete(self._inner)
++ self._inner = nil
+ }
+--- step21c/wasmer-go/global.go
++++ step21d/source/vm/wasmer-go/global.go
+@@ -21,7 +21,7 @@
+ 	global := &Global{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(global, func(global *Global) {
++		managedSetFinalizer(global, func(global *Global) {
+ 			C.wasm_global_delete(global.inner())
+ 		})
+ 	}
+--- step21c/wasmer-go/globaltype.go
++++ step21d/source/vm/wasmer-go/globaltype.go
+@@ -42,7 +42,7 @@
+ 	globalType := &GlobalType{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(globalType, func(globalType *GlobalType) {
++		managedSetFinalizer(globalType, func(globalType *GlobalType) {
+ 			C.wasm_globaltype_delete(globalType.inner())
+ 		})
+ 	}
+--- step21c/wasmer-go/import_object.go
++++ step21d/source/vm/wasmer-go/import_object.go
+@@ -18,9 +18,9 @@
+ //
+ //	imports := NewImportObject()
+ func NewImportObject() *ImportObject {
+-	return &ImportObject{
+-		externs: make(map[string]map[string]IntoExtern),
+-	}
++	self := &ImportObject{externs: make(map[string]map[string]IntoExtern)}
++	managedSetFinalizer(self, func(self *ImportObject) { self.Close() })
++	return self
+ }
+ 
+ func (self *ImportObject) intoInner(module *Module) (*C.wasm_extern_vec_t, error) {
+@@ -103,10 +103,14 @@
+ 
+ // MODIFIED
+ func (self *ImportObject) Close() {
++	managedSetFinalizer(self, nil)
+ 	for _, namespace := range self.externs {
+ 		for name, _ := range namespace {
+ 			delete(namespace, name)
+ 		}
+ 	}
+-	C.wasm_extern_vec_destroy(self._inner)
++	if self._inner != nil {
++		C.wasm_extern_vec_destroy(self._inner)
++		self._inner = nil
++	}
+ }
+--- step21c/wasmer-go/importtype.go
++++ step21d/source/vm/wasmer-go/importtype.go
+@@ -17,7 +17,7 @@
+ 	self := &importTypes{}
+ 	C.wasm_module_imports(module.inner(), &self._inner)
+ 
+-	runtime.SetFinalizer(self, func(self *importTypes) {
++	managedSetFinalizer(self, func(self *importTypes) {
+ 		self.close()
+ 	})
+ 
+@@ -44,7 +44,7 @@
+ }
+ 
+ func (self *importTypes) close() {
+-	runtime.SetFinalizer(self, nil)
++	managedSetFinalizer(self, nil)
+ 	C.wasm_importtype_vec_delete(&self._inner)
+ }
+ 
+@@ -59,7 +59,7 @@
+ 	importType := &ImportType{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(importType, func(self *ImportType) {
++		managedSetFinalizer(importType, func(self *ImportType) {
+ 			self.Close()
+ 		})
+ 	}
+@@ -151,6 +151,6 @@
+ // possible to force the destruction of the ImportType by calling
+ // Close manually.
+ func (self *ImportType) Close() {
+-	runtime.SetFinalizer(self, nil)
++	managedSetFinalizer(self, nil)
+ 	C.wasm_importtype_delete(self.inner())
+ }
+--- step21c/wasmer-go/instance.go
++++ step21d/source/vm/wasmer-go/instance.go
+@@ -2,7 +2,6 @@
+ 
+ // #include <wasmer.h>
+ import "C"
+-import "runtime"
+ 
+ type Instance struct {
+ 	_inner  *C.wasm_instance_t
+@@ -59,7 +58,7 @@
+ 		imports: imports,
+ 	}
+ 
+-	runtime.SetFinalizer(self, func(self *Instance) {
++	managedSetFinalizer(self, func(self *Instance) {
+ 		self.Close()
+ 	})
+ 
+@@ -135,7 +134,7 @@
+ // possible to force the destruction of the Instance by calling Close
+ // manually.
+ func (self *Instance) Close() {
+-	runtime.SetFinalizer(self, nil)
++	managedSetFinalizer(self, nil)
+ 	if self.Exports != nil {
+ 		self.Exports.Close()
+ 	}
+--- step21c/wasmer-go/managed.go
++++ step21d/source/vm/wasmer-go/managed.go
+@@ -0,0 +1,147 @@
++package wasmer
++
++// Experimental deterministic finalizer ownership. Never install a Go native finalizer.
++import (
++	"fmt"
++	"reflect"
++	"syscall"
++)
++
++type managedEntry struct {
++	object, fn interface{}
++	live       bool
++}
++type ManagedScope struct {
++	entries []*managedEntry
++	closed  bool
++	parent  *ManagedScope
++	label   string
++}
++
++var managedOwner int
++var managedCurrent *ManagedScope
++var managedEntries = map[interface{}]*managedEntry{}
++
++func ManagedBeginOwner() {
++	if managedOwner != 0 {
++		panic("owner already exists")
++	}
++	managedOwner = syscall.Gettid()
++}
++func ManagedAssert() {
++	if managedOwner == 0 || syscall.Gettid() != managedOwner {
++		panic("native owner thread violation")
++	}
++}
++func ManagedOpen(label string) *ManagedScope {
++	ManagedAssert()
++	s := &ManagedScope{parent: managedCurrent, label: label}
++	managedCurrent = s
++	return s
++}
++func (s *ManagedScope) Activate() func() {
++	ManagedAssert()
++	old := managedCurrent
++	if s.closed {
++		panic("closed scope")
++	}
++	managedCurrent = s
++	return func() { managedCurrent = old }
++}
++func managedSetFinalizer(obj, fn interface{}) {
++	ManagedAssert()
++	if fn == nil {
++		if e := managedEntries[obj]; e != nil {
++			e.live = false
++			delete(managedEntries, obj)
++		}
++		return
++	}
++	if managedCurrent == nil || managedCurrent.closed {
++		panic("native allocation outside managed scope")
++	}
++	if len(managedEntries) >= 8192 || len(managedCurrent.entries) >= 8192 {
++		panic("bounded native registry full")
++	}
++	if _, ok := managedEntries[obj]; ok {
++		panic("duplicate finalizer registration")
++	}
++	e := &managedEntry{object: obj, fn: fn, live: true}
++	managedCurrent.entries = append(managedCurrent.entries, e)
++	managedEntries[obj] = e
++}
++func (s *ManagedScope) Close() (err error) {
++	ManagedAssert()
++	if managedCallDepth[s] != 0 {
++		return fmt.Errorf("close while native call active")
++	}
++	if s.closed {
++		return nil
++	}
++	old := managedCurrent
++	managedCurrent = s
++	defer func() {
++		s.closed = true
++		managedCurrent = old
++		if old == s {
++			managedCurrent = s.parent
++		}
++	}()
++	for i := len(s.entries) - 1; i >= 0; i-- {
++		e := s.entries[i]
++		if !e.live {
++			continue
++		}
++		e.live = false
++		delete(managedEntries, e.object)
++		func() {
++			defer func() {
++				if r := recover(); r != nil {
++					err = fmt.Errorf("scope %s cleanup panic: %v", s.label, r)
++				}
++			}()
++			reflect.ValueOf(e.fn).Call([]reflect.Value{reflect.ValueOf(e.object)})
++		}()
++	}
++	s.entries = nil
++	return err
++}
++func ManagedCount() int { ManagedAssert(); return len(managedEntries) }
++func ManagedEndOwner() {
++	ManagedAssert()
++	if len(managedEntries) != 0 {
++		panic("native cleanup registry not empty")
++	}
++	managedCurrent = nil
++	managedOwner = 0
++}
++func (s *ManagedScope) Suspend() {
++	ManagedAssert()
++	if managedCurrent != s {
++		panic("scope nesting")
++	}
++	managedCurrent = s.parent
++}
++
++// Same-thread C callback reentry is limited to existing exported Gas getters/setters.
++// General same-Store recursive execution and deletion while active are rejected.
++var managedCallDepth = map[*ManagedScope]int{}
++
++func managedEnterFunction(f *Function) func() {
++	ManagedAssert()
++	s := f._managedScope
++	if s == nil || s.closed {
++		panic("native call outside live scope")
++	}
++	depth := managedCallDepth[s]
++	if depth > 0 && (depth >= 2 || (f._managedName != "GetGas" && f._managedName != "SetGas")) {
++		panic("unreviewed same-Store function reentry: " + f._managedName)
++	}
++	managedCallDepth[s] = depth + 1
++	return func() {
++		managedCallDepth[s]--
++		if managedCallDepth[s] == 0 {
++			delete(managedCallDepth, s)
++		}
++	}
++}
+--- step21c/wasmer-go/memory.go
++++ step21d/source/vm/wasmer-go/memory.go
+@@ -23,7 +23,7 @@
+ 	memory := &Memory{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(memory, func(memory *Memory) {
++		managedSetFinalizer(memory, func(memory *Memory) {
+ 			C.wasm_memory_delete(memory.inner())
+ 		})
+ 	}
+--- step21c/wasmer-go/memorytype.go
++++ step21d/source/vm/wasmer-go/memorytype.go
+@@ -18,7 +18,7 @@
+ 	memoryType := &MemoryType{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(memoryType, func(memoryType *MemoryType) {
++		managedSetFinalizer(memoryType, func(memoryType *MemoryType) {
+ 			C.wasm_memorytype_delete(memoryType.inner())
+ 		})
+ 	}
+--- step21c/wasmer-go/module.go
++++ step21d/source/vm/wasmer-go/module.go
+@@ -116,7 +116,7 @@
+ 		return nil, err2
+ 	}
+ 
+-	runtime.SetFinalizer(self, func(self *Module) {
++	managedSetFinalizer(self, func(self *Module) {
+ 		self.Close()
+ 	})
+ 
+@@ -274,7 +274,7 @@
+ 		return nil, err
+ 	}
+ 
+-	runtime.SetFinalizer(self, func(self *Module) {
++	managedSetFinalizer(self, func(self *Module) {
+ 		C.wasm_module_delete(self.inner())
+ 	})
+ 
+@@ -286,7 +286,7 @@
+ // A runtime finalizer is registered on the Module, but it is possible
+ // to force the destruction of the Module by calling Close manually.
+ func (self *Module) Close() {
+-	runtime.SetFinalizer(self, nil)
++	managedSetFinalizer(self, nil)
+ 	C.wasm_module_delete(self.inner())
+ 
+ 	if nil != self.importTypes {
+--- step21c/wasmer-go/store.go
++++ step21d/source/vm/wasmer-go/store.go
+@@ -2,7 +2,6 @@
+ 
+ // #include <wasmer.h>
+ import "C"
+-import "runtime"
+ 
+ // Store represents all global state that can be manipulated by
+ // WebAssembly programs. It consists of the runtime representation of
+@@ -30,7 +29,7 @@
+ 		Engine: engine,
+ 	}
+ 
+-	runtime.SetFinalizer(self, func(self *Store) {
++	managedSetFinalizer(self, func(self *Store) {
+ 		self.Close()
+ 	})
+ 
+@@ -50,6 +49,6 @@
+ // A runtime finalizer is registered on the Store, but it is possible
+ // to force the destruction of the Store by calling Close manually.
+ func (self *Store) Close() {
+-	runtime.SetFinalizer(self, nil)
++	managedSetFinalizer(self, nil)
+ 	C.wasm_store_delete(self.Inner())
+ }
+--- step21c/wasmer-go/table.go
++++ step21d/source/vm/wasmer-go/table.go
+@@ -2,7 +2,6 @@
+ 
+ // #include <wasmer.h>
+ import "C"
+-import "runtime"
+ 
+ // TableSize represents the size of a table.
+ type TableSize C.wasm_table_size_t
+@@ -31,7 +30,7 @@
+ 	table := &Table{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(table, func(table *Table) {
++		managedSetFinalizer(table, func(table *Table) {
+ 			C.wasm_table_delete(table.inner())
+ 		})
+ 	}
+--- step21c/wasmer-go/tabletype.go
++++ step21d/source/vm/wasmer-go/tabletype.go
+@@ -18,7 +18,7 @@
+ 	tableType := &TableType{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(tableType, func(tableType *TableType) {
++		managedSetFinalizer(tableType, func(tableType *TableType) {
+ 			C.wasm_tabletype_delete(tableType.inner())
+ 		})
+ 	}
+--- step21c/wasmer-go/target.go
++++ step21d/source/vm/wasmer-go/target.go
+@@ -2,7 +2,6 @@
+ 
+ // #include <wasmer.h>
+ import "C"
+-import "runtime"
+ 
+ // Target represents a triple + CPU features pairs.
+ type Target struct {
+@@ -14,7 +13,7 @@
+ 		_inner: target,
+ 	}
+ 
+-	runtime.SetFinalizer(self, func(self *Target) {
++	managedSetFinalizer(self, func(self *Target) {
+ 		C.wasmer_target_delete(self.inner())
+ 	})
+ 
+@@ -45,7 +44,7 @@
+ 		_inner: triple,
+ 	}
+ 
+-	runtime.SetFinalizer(self, func(self *Triple) {
++	managedSetFinalizer(self, func(self *Triple) {
+ 		C.wasmer_triple_delete(self.inner())
+ 	})
+ 
+@@ -129,7 +128,7 @@
+ 		_inner: cpu_features,
+ 	}
+ 
+-	runtime.SetFinalizer(self, func(self *CpuFeatures) {
++	managedSetFinalizer(self, func(self *CpuFeatures) {
+ 		C.wasmer_cpu_features_delete(self.inner())
+ 	})
+ 
+--- step21c/wasmer-go/trap.go
++++ step21d/source/vm/wasmer-go/trap.go
+@@ -54,7 +54,7 @@
+ // trapWithFinalizer attaches GC finalizer to the trap
+ func trapWithFinalizer(trap *Trap, ownedBy interface{}) *Trap {
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(trap, func(trap *Trap) {
++		managedSetFinalizer(trap, func(trap *Trap) {
+ 			inner := trap.inner()
+ 
+ 			if inner != nil {
+@@ -136,7 +136,7 @@
+ 	}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(frame, func(frame *Frame) {
++		managedSetFinalizer(frame, func(frame *Frame) {
+ 			C.wasm_frame_delete(frame.inner())
+ 		})
+ 	}
+@@ -203,7 +203,7 @@
+ 	C.wasm_trap_trace(trap.inner(), self.inner())
+ 
+ 	runtime.KeepAlive(trap)
+-	runtime.SetFinalizer(self, func(self *Trace) {
++	managedSetFinalizer(self, func(self *Trace) {
+ 		C.wasm_frame_vec_delete(self.inner())
+ 	})
+ 
+--- step21c/wasmer-go/valuetype.go
++++ step21d/source/vm/wasmer-go/valuetype.go
+@@ -108,7 +108,7 @@
+ 	valueType := &ValueType{_inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+-		runtime.SetFinalizer(valueType, func(valueType *ValueType) {
++		managedSetFinalizer(valueType, func(valueType *ValueType) {
+ 			C.wasm_valtype_delete(valueType.inner())
+ 		})
+ 	}
+--- step21c/wasmer-go/wasi.go
++++ step21d/source/vm/wasmer-go/wasi.go
+@@ -56,7 +56,6 @@
+ 
+ import (
+ 	"reflect"
+-	"runtime"
+ 	"unsafe"
+ )
+ 
+@@ -282,7 +281,7 @@
+ 		_inner: environment,
+ 	}
+ 
+-	runtime.SetFinalizer(self, func(environment *WasiEnvironment) {
++	managedSetFinalizer(self, func(environment *WasiEnvironment) {
+ 		C.wasi_env_delete(environment.inner())
+ 	})
+ 
+@@ -368,6 +367,7 @@
+ func (self *WasiEnvironment) GenerateImportObject(store *Store, module *Module) (*ImportObject, error) {
+ 	var wasiNamedExterns C.wasmer_named_extern_vec_t
+ 	C.wasmer_named_extern_vec_new_empty(&wasiNamedExterns)
++	defer C.wasmer_named_extern_vec_delete(&wasiNamedExterns)
+ 
+ 	err := maybeNewErrorFromWasmer(func() bool {
+ 		//lint:ignore S1002 simplifying this expression breaks compilation
+@@ -400,7 +400,5 @@
+ 		importObject.externs[module][name] = extern
+ 	}
+ 
+-	C.wasmer_named_extern_vec_delete(&wasiNamedExterns)
+-
+ 	return importObject, nil
+ }

@@ -1,0 +1,54 @@
+{
+  "label": "init-identity",
+  "tx_id": "step21c-init-identity",
+  "contract": "identity",
+  "method": "init_contract",
+  "business_input": {},
+  "before_hash": "1a9b1f516ffdbfe105ec5c49699555172204e28efade87d83cc3d099ccd4ff34",
+  "after_hash": "1a9b1f516ffdbfe105ec5c49699555172204e28efade87d83cc3d099ccd4ff34",
+  "runcontract_wall_ns_not_primary_metric": 635006120,
+  "status": 4,
+  "actual_result": {
+    "code": 1,
+    "message": "error message: getSenderAddressFromPublicKeyPEM blockVersion \u003c version2201:invalid address type 1",
+    "gas_used": 622,
+    "contract_event": [
+      {
+        "topic": "alterAdminAddress",
+        "tx_id": "step21c-init-identity",
+        "contract_name": "identity",
+        "contract_version": "1.0.0",
+        "event_data": [
+          ""
+        ]
+      }
+    ]
+  },
+  "actual_rwset": {
+    "tx_id": "step21c-init-identity",
+    "tx_reads": [
+      {
+        "key": "Q0hBSU5fQ09ORklH",
+        "value": "CgdjaGFpbjAyKggKBlNIQTI1NmIAigEA",
+        "contract_name": "CHAIN_CONFIG"
+      }
+    ]
+  },
+  "inclusive_call_records_do_not_sum": [
+    {
+      "id": 0,
+      "depth": 0,
+      "contract": "identity",
+      "method": "init_contract",
+      "tx_id": "step21c-init-identity",
+      "begin_ns": 1792986952033208942,
+      "end_ns": 1792986952667846052,
+      "invoke_seconds_inclusive": 0.634637112,
+      "callmethod_seconds_nested": 0.000547876,
+      "gas_used_actual": 622,
+      "code": 1,
+      "result": "",
+      "message": "error message: getSenderAddressFromPublicKeyPEM blockVersion \u003c version2201:invalid address type 1"
+    }
+  ]
+}

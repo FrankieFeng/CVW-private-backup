@@ -1,0 +1,65 @@
+{
+  "label": "init-identity",
+  "tx_id": "step21c-init-identity",
+  "contract": "identity",
+  "method": "init_contract",
+  "business_input": {},
+  "before_hash": "9273ff779833fc7f22acb0d3e112c41473831f93cd7b06f0e88fa4afa0087f0d",
+  "after_hash": "f51fa0ad2ba6346d8047a6e1f72a5f2d0a98e5e299b638e617af02b6c9ad0d64",
+  "runcontract_wall_ns_not_primary_metric": 648307769,
+  "status": 0,
+  "actual_result": {
+    "result": "SW5pdCBjb250cmFjdCBzdWNjZXNz",
+    "gas_used": 3882,
+    "contract_event": [
+      {
+        "topic": "alterAdminAddress",
+        "tx_id": "step21c-init-identity",
+        "contract_name": "identity",
+        "contract_version": "1.0.0",
+        "event_data": [
+          ""
+        ]
+      }
+    ]
+  },
+  "actual_rwset": {
+    "tx_id": "step21c-init-identity",
+    "tx_reads": [
+      {
+        "key": "Q0hBSU5fQ09ORklH",
+        "value": "CgdjaGFpbjAyKggKBlNIQTI1NmIAigECEAE=",
+        "contract_name": "CHAIN_CONFIG"
+      }
+    ],
+    "tx_writes": [
+      {
+        "key": "aWRlbnRpdHkjYWRtaW5BZGRyZXNz",
+        "value": "WyJaWGJhNTczN2VkYjU2YjNlMWQ0YzU1MmVkMDE4NTQ1MDNlYzEzM2VmNWUiXQ==",
+        "contract_name": "identity"
+      },
+      {
+        "key": "aWRlbnRpdHkjdXNlckNvdW50",
+        "value": "MA==",
+        "contract_name": "identity"
+      }
+    ]
+  },
+  "inclusive_call_records_do_not_sum": [
+    {
+      "id": 0,
+      "depth": 0,
+      "contract": "identity",
+      "method": "init_contract",
+      "tx_id": "step21c-init-identity",
+      "begin_ns": 1792987038205023890,
+      "end_ns": 1792987038852901714,
+      "invoke_seconds_inclusive": 0.64787782,
+      "callmethod_seconds_nested": 0.000392302,
+      "gas_used_actual": 3882,
+      "code": 0,
+      "result": "Init contract success",
+      "message": ""
+    }
+  ]
+}

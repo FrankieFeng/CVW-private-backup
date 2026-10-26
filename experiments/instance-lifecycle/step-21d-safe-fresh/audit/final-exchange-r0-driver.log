@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "reason": "exited",
+  "status_before_stop": {
+    "MainPID": "0",
+    "Result": "success",
+    "ExecMainStatus": "0",
+    "ControlGroup": "",
+    "ActiveState": "active",
+    "SubState": "exited"
+  },
+  "post_stop": "MainPID=0\nActiveState=inactive\n",
+  "peak_sampled_rss_kib": 679728,
+  "peak_sampled_threads": 56,
+  "wall_s": 1.971674450993305,
+  "test": "Exchange",
+  "method": "buyNow",
+  "policy": "R0",
+  "n": 1
+}
+21c-buy-001, contractName:erc721, contractMethod:transferFrom, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987566843518506, endTime:1792987566844081164, executionTime:0.000563 s
+2026-10-26 12:06:06.844	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b95854930159698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be
+2026-10-26 12:06:06.844	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":57,"VmRSS":697580,"call_error_observed":"\u003cnil\u003e","callmethod_ns":7358057,"code":0,"contract":"exchange","event":"execute_done","execute_ns":7377552,"gas":12761395,"instance_id":3,"managed_objects":333,"method":"buyNow","monotonic_ns":1896894533,"owner_tid":539190,"wall_unix_ns":1792987566844155952}
+STEP21C {"call":{"id":0,"depth":0,"contract":"exchange","method":"buyNow","tx_id":"step21c-buy-001","begin_ns":1792987566836692675,"end_ns":1792987566844174336,"invoke_seconds_inclusive":0.007481661,"callmethod_seconds_nested":0.007358057,"gas_used_actual":12761395,"code":0,"result":"buyNow success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21c-buy-001 contract=exchange method=buyNow begin_ns=1792987566836692169 end_ns=1792987566844176636 code=0 gas=12761395 depth=0
+2026-10-26 12:06:06.844	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-buy-001, contractName:exchange, contractMethod:buyNow, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987566836692169, endTime:1792987566844176636, executionTime:0.007484 s
+2026-10-26 12:06:06.844	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step21c-buy-001] access db spend time:0
+STEP21C {"Threads":57,"VmRSS":697592,"contract":"identity","event":"close_begin","instance_id":1,"managed_objects":333,"monotonic_ns":1897040860,"owner_tid":539190,"wall_unix_ns":1792987566844302272}
+STEP21C {"Threads":41,"VmRSS":669816,"close_ns":3902845,"contract":"identity","error":"\u003cnil\u003e","event":"close_done","instance_id":1,"managed_objects":222,"monotonic_ns":1900945977,"owner_tid":539190,"wall_unix_ns":1792987566848207245}
+STEP21C {"Threads":41,"VmRSS":669816,"contract":"erc721","event":"close_begin","instance_id":2,"managed_objects":222,"monotonic_ns":1900990952,"owner_tid":539190,"wall_unix_ns":1792987566848252389}
+STEP21C {"Threads":25,"VmRSS":607280,"close_ns":4398907,"contract":"erc721","error":"\u003cnil\u003e","event":"close_done","instance_id":2,"managed_objects":111,"monotonic_ns":1905394133,"owner_tid":539190,"wall_unix_ns":1792987566852652344}
+STEP21C {"Threads":25,"VmRSS":607280,"contract":"exchange","event":"close_begin","instance_id":3,"managed_objects":111,"monotonic_ns":1905439259,"owner_tid":539190,"wall_unix_ns":1792987566852700693}
+STEP21C {"Threads":9,"VmRSS":536404,"close_ns":4634279,"contract":"exchange","error":"\u003cnil\u003e","event":"close_done","instance_id":3,"managed_objects":0,"monotonic_ns":1910074925,"owner_tid":539190,"wall_unix_ns":1792987566857336226}
+STEP21C {"Threads":9,"VmRSS":536448,"closed":3,"created":3,"event":"manager_closed","in_flight":0,"managed_objects":0,"monotonic_ns":1910198588,"owner_tid":539190,"wall_unix_ns":1792987566857458850}
+STEP21C {"Threads":9,"VmRSS":536504,"event":"owner_closed","managed_objects":0,"managed_pending":0,"monotonic_ns":1911626269,"owner_tid":539190,"wall_unix_ns":1792987566858887305}
+--- PASS: TestStep21DExchange (1.91s)
+PASS
+

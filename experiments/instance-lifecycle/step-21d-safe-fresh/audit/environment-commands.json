@@ -1,0 +1,57 @@
+[
+  {
+    "argv": [
+      "/usr/local/go/bin/go",
+      "version"
+    ],
+    "exit": 0,
+    "stdout": "go version go1.25.0 linux/amd64\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "readelf",
+      "-n",
+      "/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/packaged/lib/linux-amd64/libwasmer.so"
+    ],
+    "exit": 0,
+    "stdout": "\nDisplaying notes found in: .note.gnu.build-id\n  Owner                Data size \tDescription\n  GNU                  0x00000014\tNT_GNU_BUILD_ID (unique build ID bitstring)\n    Build ID: 69a11e39bb80e3024770895acf2b093aae04b04f\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ldd",
+      "/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/binaries/step21d.test"
+    ],
+    "exit": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x0000726a445fd000)\n\tlibwasmer.so => /home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/packaged/lib/linux-amd64/libwasmer.so (0x0000726a42c00000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x0000726a42b17000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000726a445bf000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000726a42800000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000726a445ff000)\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/home/frankie/mygitprojects/CVW",
+      "rev-parse",
+      "620650d",
+      "32d257b"
+    ],
+    "exit": 0,
+    "stdout": "620650d9adc4be85480f363fe834f724aac44f43\n32d257b62cbaedbefd6112ddf1badb4aee2b413f\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/home/frankie/mygitprojects/.worktrees/cvw-step21d",
+      "diff",
+      "--stat",
+      "--",
+      "chainmaker"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,17 @@
+=== RUN   TestStep21DOwnerFailure
+STEP21C {"Threads":6,"VmRSS":48308,"contract":"invalid","event":"create_begin","instance_id":1,"managed_objects":0,"monotonic_ns":257779,"owner_tid":531654,"wall_unix_ns":1792986574757374922}
+opmap length 216 
+STEP21C {"Threads":6,"VmRSS":50624,"error":"[invalid_1], byte code validation failed, err = unexpected character '\\u{1}'\n     --\u003e \u003canon\u003e:1:1\n      |\n    1 | \u0001\u0002\u0003\n      | ^","event":"create_failed","managed_objects":0,"monotonic_ns":5825179,"owner_tid":531654,"wall_unix_ns":1792986574762942872}
+STEP21C {"Threads":6,"VmRSS":50632,"error":"[invalid_1], byte code validation failed, err = unexpected character '\\u{1}'\n     --\u003e \u003canon\u003e:1:1\n      |\n    1 | \u0001\u0002\u0003\n      | ^","event":"creation_failure_handled","managed_objects":0,"monotonic_ns":5875417,"owner_tid":531654,"pending":0,"wall_unix_ns":1792986574762993322}
+STEP21C {"Threads":6,"VmRSS":50640,"contract":"no-deallocator","event":"create_begin","instance_id":2,"managed_objects":0,"monotonic_ns":5893174,"owner_tid":531654,"wall_unix_ns":1792986574763011120}
+opmap length 216 
+2026-10-26 11:49:34.763	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 11:49:34.763	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0004ba100 
+2026-10-26 11:49:34.763	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 50 
+Total function bodies: 1
+2026-10-26 11:49:34.765	[DEBUG]	step21d	vm/step21d_compile.go:266	[no-deallocator_1], new module success
+STEP21C {"Threads":16,"VmRSS":59516,"error":"The WASI version could not be determined","event":"create_failed","managed_objects":0,"monotonic_ns":10354232,"owner_tid":531654,"wall_unix_ns":1792986574767471821}
+    step21d_checks_test.go:63: The WASI version could not be determined
+STEP21C {"Threads":7,"VmRSS":59792,"event":"owner_closed","managed_objects":0,"managed_pending":0,"monotonic_ns":12161778,"owner_tid":531654,"wall_unix_ns":1792986574769279308}
+--- FAIL: TestStep21DOwnerFailure (0.01s)
+FAIL

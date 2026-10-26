@@ -1,0 +1,7 @@
+{
+  "scope": "compile setup only; no guest",
+  "exit_observed_in_exec_tool": 1,
+  "cause": "initial shell write paths used wrong cwd and private go.mod relative replacements had not yet been resolved",
+  "raw_log_saved_at_time": false,
+  "recovery": "writes reapplied to correct private directory; replacements resolved to original cached dependencies; all following build commands/outcomes archived"
+}

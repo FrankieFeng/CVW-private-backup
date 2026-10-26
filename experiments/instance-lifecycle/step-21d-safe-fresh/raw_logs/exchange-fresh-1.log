@@ -1,0 +1,199 @@
+=== RUN   TestStep21DExchange
+2026-10-26 11:55:52.032	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step21c-init-identity, runtime:WASMER, method:init_contract
+2026-10-26 11:55:52.033	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21c-init-identity, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4906752, params:9
+STEP21C {"Threads":6,"VmRSS":65772,"contract":"identity","event":"create_begin","instance_id":1,"managed_objects":0,"monotonic_ns":26097478,"owner_tid":534209,"wall_unix_ns":1792986952033212033}
+opmap length 216 
+2026-10-26 11:55:52.077	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 11:55:52.078	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0012b4000 
+2026-10-26 11:55:52.078	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 4906752 
+Total function bodies: 2889
+2026-10-26 11:55:52.657	[DEBUG]	step21d	vm/step21d_compile.go:266	[identity_1.0.0], new module success
+2026-10-26 11:55:52.658	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+STEP21C {"Threads":23,"VmRSS":293992,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":1,"managed_objects":111,"monotonic_ns":656264087,"owner_tid":534209,"wall_unix_ns":1792986952663378563}
+STEP21C {"Threads":23,"VmRSS":293992,"compile_ns":624673984,"contract":"identity","create_ns":630230504,"event":"create_done","instance_id":1,"managed_objects":110,"monotonic_ns":656326388,"owner_tid":534209,"wall_unix_ns":1792986952663441082}
+STEP21C {"Threads":23,"VmRSS":293996,"acquire_ns":630250138,"channel_block_ns":0,"contract":"identity","event":"acquire","in_flight":1,"instance_id":1,"managed_objects":110,"monotonic_ns":656345739,"owner_tid":534209,"previous_uses":0,"queue_len":0,"wall_unix_ns":1792986952663460160}
+STEP21C {"Threads":23,"VmRSS":294000,"contract":"identity","event":"execute_begin","instance_id":1,"managed_objects":110,"method":"init_contract","monotonic_ns":656370586,"owner_tid":534209,"wall_unix_ns":1792986952663485287}
+2026-10-26 11:55:52.663	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 11:55:52.663	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = init_contract
+2026-10-26 11:55:52.663	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 567
+2026-10-26 11:55:52.663	[ERROR]	[Vm]	v2@v2.4.0/wasi.go:291	getSenderAddressFromPublicKeyPEM failed, getSenderAddressFromPublicKeyPEM blockVersion < version2201:invalid address type 1
+chainmaker.org/chainmaker/vm/v2.(*WacsiImpl).getSenderAddrWithBlockVersion
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/wasi.go:291
+chainmaker.org/chainmaker/vm/v2.(*WacsiImpl).GetSenderAddress
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/wasi.go:243
+chainmaker.org/chainmaker/vm-wasmer/v2.(*WaciInstance).getSenderAddressCore
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge_kv.go:125
+chainmaker.org/chainmaker/vm-wasmer/v2.(*WaciInstance).GetSenderAddressLen
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge_kv.go:116
+chainmaker.org/chainmaker/vm-wasmer/v2.(*WaciInstance).invoke
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge.go:288
+chainmaker.org/chainmaker/vm-wasmer/v2.sysCall
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge.go:192
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.function_with_environment_trampoline
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:191
+_cgoexp_7ada34273772_function_with_environment_trampoline
+	_cgo_gotypes.go:2611
+runtime.cgocallbackg1
+	/usr/local/go/src/runtime/cgocall.go:446
+runtime.cgocallbackg
+	/usr/local/go/src/runtime/cgocall.go:350
+runtime.cgocallback
+	/usr/local/go/src/runtime/asm_amd64.s:1082
+runtime.systemstack_switch
+	/usr/local/go/src/runtime/asm_amd64.s:478
+runtime.cgocall
+	/usr/local/go/src/runtime/cgocall.go:185
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go._Cfunc_wasm_func_call
+	_cgo_gotypes.go:1285
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.(*Function).Native.func1.5
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:314
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.(*Function).Native.func1
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:314
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.(*Function).Call
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:261
+chainmaker.org/chainmaker/vm-wasmer/v2.(*SimContext).callContract
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/sim_context.go:187
+chainmaker.org/chainmaker/vm-wasmer/v2.(*SimContext).CallMethod
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/sim_context.go:119
+chainmaker.org/chainmaker/vm-wasmer/v2.(*dRuntime).Invoke
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_runtime_test.go:285
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).invokeUserContractByRuntime
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:433
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).runUserContract
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:353
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).RunContract
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:287
+chainmaker.org/chainmaker/vm-wasmer/v2.(*s21cFixture).run
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_fixture_test.go:280
+chainmaker.org/chainmaker/vm-wasmer/v2.s21cPreparedScenario
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_fixture_test.go:319
+chainmaker.org/chainmaker/vm-wasmer/v2.TestStep21DExchange
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_checks_test.go:112
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1934
+2026-10-26 11:55:52.663	[ERROR]	[Vm]	v2@v2.4.0/wasi.go:245	getSenderAddressFromPublicKeyPEM blockVersion < version2201:invalid address type 1
+chainmaker.org/chainmaker/vm/v2.(*WacsiImpl).GetSenderAddress
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/wasi.go:245
+chainmaker.org/chainmaker/vm-wasmer/v2.(*WaciInstance).getSenderAddressCore
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge_kv.go:125
+chainmaker.org/chainmaker/vm-wasmer/v2.(*WaciInstance).GetSenderAddressLen
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge_kv.go:116
+chainmaker.org/chainmaker/vm-wasmer/v2.(*WaciInstance).invoke
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge.go:288
+chainmaker.org/chainmaker/vm-wasmer/v2.sysCall
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge.go:192
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.function_with_environment_trampoline
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:191
+_cgoexp_7ada34273772_function_with_environment_trampoline
+	_cgo_gotypes.go:2611
+runtime.cgocallbackg1
+	/usr/local/go/src/runtime/cgocall.go:446
+runtime.cgocallbackg
+	/usr/local/go/src/runtime/cgocall.go:350
+runtime.cgocallback
+	/usr/local/go/src/runtime/asm_amd64.s:1082
+runtime.systemstack_switch
+	/usr/local/go/src/runtime/asm_amd64.s:478
+runtime.cgocall
+	/usr/local/go/src/runtime/cgocall.go:185
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go._Cfunc_wasm_func_call
+	_cgo_gotypes.go:1285
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.(*Function).Native.func1.5
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:314
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.(*Function).Native.func1
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:314
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.(*Function).Call
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:261
+chainmaker.org/chainmaker/vm-wasmer/v2.(*SimContext).callContract
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/sim_context.go:187
+chainmaker.org/chainmaker/vm-wasmer/v2.(*SimContext).CallMethod
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/sim_context.go:119
+chainmaker.org/chainmaker/vm-wasmer/v2.(*dRuntime).Invoke
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_runtime_test.go:285
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).invokeUserContractByRuntime
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:433
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).runUserContract
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:353
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).RunContract
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:287
+chainmaker.org/chainmaker/vm-wasmer/v2.(*s21cFixture).run
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_fixture_test.go:280
+chainmaker.org/chainmaker/vm-wasmer/v2.s21cPreparedScenario
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_fixture_test.go:319
+chainmaker.org/chainmaker/vm-wasmer/v2.TestStep21DExchange
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_checks_test.go:112
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1934
+2026-10-26 11:55:52.663	[ERROR]	step21d	vm/vm_bridge.go:510	wasmer log>> [identity] getSenderAddressFromPublicKeyPEM blockVersion < version2201:invalid address type 1
+chainmaker.org/chainmaker/vm-wasmer/v2.(*WaciInstance).recordMsg
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge.go:510
+chainmaker.org/chainmaker/vm-wasmer/v2.(*WaciInstance).getSenderAddressCore
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge_kv.go:128
+chainmaker.org/chainmaker/vm-wasmer/v2.(*WaciInstance).GetSenderAddressLen
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge_kv.go:116
+chainmaker.org/chainmaker/vm-wasmer/v2.(*WaciInstance).invoke
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge.go:288
+chainmaker.org/chainmaker/vm-wasmer/v2.sysCall
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/vm_bridge.go:192
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.function_with_environment_trampoline
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:191
+_cgoexp_7ada34273772_function_with_environment_trampoline
+	_cgo_gotypes.go:2611
+runtime.cgocallbackg1
+	/usr/local/go/src/runtime/cgocall.go:446
+runtime.cgocallbackg
+	/usr/local/go/src/runtime/cgocall.go:350
+runtime.cgocallback
+	/usr/local/go/src/runtime/asm_amd64.s:1082
+runtime.systemstack_switch
+	/usr/local/go/src/runtime/asm_amd64.s:478
+runtime.cgocall
+	/usr/local/go/src/runtime/cgocall.go:185
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go._Cfunc_wasm_func_call
+	_cgo_gotypes.go:1285
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.(*Function).Native.func1.5
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:314
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.(*Function).Native.func1
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:314
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.(*Function).Call
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/wasmer-go/function.go:261
+chainmaker.org/chainmaker/vm-wasmer/v2.(*SimContext).callContract
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/sim_context.go:187
+chainmaker.org/chainmaker/vm-wasmer/v2.(*SimContext).CallMethod
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/sim_context.go:119
+chainmaker.org/chainmaker/vm-wasmer/v2.(*dRuntime).Invoke
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_runtime_test.go:285
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).invokeUserContractByRuntime
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:433
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).runUserContract
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:353
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).RunContract
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:287
+chainmaker.org/chainmaker/vm-wasmer/v2.(*s21cFixture).run
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_fixture_test.go:280
+chainmaker.org/chainmaker/vm-wasmer/v2.s21cPreparedScenario
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_fixture_test.go:319
+chainmaker.org/chainmaker/vm-wasmer/v2.TestStep21DExchange
+	/home/frankie/mygitprojects/.worktrees/cvw-step21d/experiments/instance-lifecycle/step-21d-safe-fresh/source/vm/step21d_checks_test.go:112
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1934
+2026-10-26 11:55:52.663	[INFO]	[Vm]	vm/vm_bridge.go:193	invoke WaciInstance error: method = GetSenderAddressLen
+2026-10-26 11:55:52.663	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = adminAddress, value = [""] 
+
+2026-10-26 11:55:52.663	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = userCount, value = 0 
+
+2026-10-26 11:55:52.663	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :
+2026-10-26 11:55:52.664	[INFO]	[Vm]	vm/vm_bridge.go:193	invoke WaciInstance error: method = SuccessResult
+2026-10-26 11:55:52.664	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":23,"VmRSS":294792,"call_error_observed":"\u003cnil\u003e","callmethod_ns":547876,"code":1,"contract":"identity","event":"execute_done","execute_ns":574654,"gas":622,"instance_id":1,"managed_objects":110,"method":"init_contract","monotonic_ns":656945998,"owner_tid":534209,"wall_unix_ns":1792986952664060698}
+STEP21C {"Threads":23,"VmRSS":294804,"contract":"identity","event":"close_begin","instance_id":1,"managed_objects":110,"monotonic_ns":656982731,"owner_tid":534209,"wall_unix_ns":1792986952664097432}
+STEP21C {"Threads":7,"VmRSS":256880,"close_ns":3675735,"contract":"identity","error":"\u003cnil\u003e","event":"close_done","instance_id":1,"managed_objects":0,"monotonic_ns":660660486,"owner_tid":534209,"wall_unix_ns":1792986952667774971}
+STEP21C {"call":{"id":0,"depth":0,"contract":"identity","method":"init_contract","tx_id":"step21c-init-identity","begin_ns":1792986952033208942,"end_ns":1792986952667846052,"invoke_seconds_inclusive":0.634637112,"callmethod_seconds_nested":0.000547876,"gas_used_actual":622,"code":1,"result":"","message":"error message: getSenderAddressFromPublicKeyPEM blockVersion \u003c version2201:invalid address type 1"},"event":"invoke_return"}
+REUSE_VM tx=step21c-init-identity contract=identity method=init_contract begin_ns=1792986952033208498 end_ns=1792986952667884337 code=1 gas=622 depth=0
+2026-10-26 11:55:52.667	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-init-identity, contractName:identity, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:1 ,startTime:1792986952033208498, endTime:1792986952667884337, executionTime:0.634676 s
+2026-10-26 11:55:52.668	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step21c-init-identity] access db spend time:0
+    step21d_fixture_test.go:321: real init failed identity: error message: getSenderAddressFromPublicKeyPEM blockVersion < version2201:invalid address type 1
+STEP21C {"Threads":7,"VmRSS":256992,"closed":1,"created":1,"event":"manager_closed","in_flight":0,"managed_objects":0,"monotonic_ns":661322774,"owner_tid":534209,"wall_unix_ns":1792986952668437359}
+STEP21C {"Threads":7,"VmRSS":241156,"event":"owner_closed","managed_objects":0,"managed_pending":0,"monotonic_ns":663834801,"owner_tid":534209,"wall_unix_ns":1792986952670949116}
+--- FAIL: TestStep21DExchange (0.66s)
+FAIL

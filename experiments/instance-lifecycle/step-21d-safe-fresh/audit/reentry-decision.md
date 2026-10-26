@@ -1,0 +1,7 @@
+# 回调与重入：最小运行前审计
+
+固定本地6.0.1候选源0910740（不是7.1 main）。reference_types.rs:82–92的host callback使用FunctionEnvMut调用另一个Wasm Function，属于同步嵌套调用的明确源码用例；sys Function.call_wasm_raw在VM trampoline返回后才再次访问Store；traphandlers.rs:757–799保存/恢复线程本地上层trap上下文。C API function.rs的callback在同线程转发原host回调，没有另起线程或跨线程迁移Store。此证据支持同一所有者上暂停父调用后执行子调用的机制；不是共享Store跨线程并发许可，也不是定制so逐字构建映射认证。
+
+当前bridge callContractCore在回调中对父Instance执行GetGas/SetGas；保留原Gas导出调用和规则。为缩小范围，实验绑定限制同Store嵌套Function.Call仅GetGas/SetGas且最大两层；拒绝其他同Store递归和活跃调用期间scope.Close。子合约业务另建独立Store；同合约递归在manager入口拒绝。Go host回调入口断言OS线程owner。没有全局锁或禁用重叠守卫。
+
+据此仅允许独立进程、单线程、固定一次buyNow的功能预检；仍不放行并发创建/执行。若出现越界重入/原生失败立即停止，不重试相同binary。六个callee必须真实guest，未达到就报告失败，不能填成功。

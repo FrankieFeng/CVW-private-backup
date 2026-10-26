@@ -1,0 +1,326 @@
+=== RUN   TestStep21DExchange
+2026-10-26 12:00:35.284	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step21c-init-identity, runtime:WASMER, method:init_contract
+2026-10-26 12:00:35.285	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21c-init-identity, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4906752, params:9
+STEP21C {"Threads":6,"VmRSS":65692,"contract":"identity","event":"create_begin","instance_id":1,"managed_objects":0,"monotonic_ns":17193883,"owner_tid":535541,"wall_unix_ns":1792987235285245149}
+opmap length 216 
+2026-10-26 12:00:35.335	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 12:00:35.335	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0012b4000 
+2026-10-26 12:00:35.335	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 4906752 
+Total function bodies: 2889
+2026-10-26 12:00:35.879	[DEBUG]	step21d	vm/step21d_compile.go:266	[identity_1.0.0], new module success
+2026-10-26 12:00:35.880	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+STEP21C {"Threads":23,"VmRSS":288252,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":1,"managed_objects":111,"monotonic_ns":617345179,"owner_tid":535541,"wall_unix_ns":1792987235885396354}
+STEP21C {"Threads":23,"VmRSS":288260,"compile_ns":594241152,"contract":"identity","create_ns":600267804,"event":"create_done","instance_id":1,"managed_objects":110,"monotonic_ns":617460053,"owner_tid":535541,"wall_unix_ns":1792987235885511527}
+STEP21C {"Threads":23,"VmRSS":288264,"acquire_ns":600317417,"channel_block_ns":0,"contract":"identity","event":"acquire","in_flight":1,"instance_id":1,"managed_objects":110,"monotonic_ns":617508997,"owner_tid":535541,"previous_uses":0,"queue_len":0,"wall_unix_ns":1792987235885560242}
+STEP21C {"Threads":23,"VmRSS":288264,"contract":"identity","event":"execute_begin","instance_id":1,"managed_objects":110,"method":"init_contract","monotonic_ns":617538405,"owner_tid":535541,"wall_unix_ns":1792987235885589904}
+2026-10-26 12:00:35.885	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 12:00:35.885	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = init_contract
+2026-10-26 12:00:35.885	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 567
+2026-10-26 12:00:35.885	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = adminAddress, value = ["442190758150370378495247073044081730476611463525"] 
+
+2026-10-26 12:00:35.885	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = userCount, value = 0 
+
+2026-10-26 12:00:35.885	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :
+2026-10-26 12:00:35.886	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":23,"VmRSS":289076,"call_error_observed":"\u003cnil\u003e","callmethod_ns":417031,"code":0,"contract":"identity","event":"execute_done","execute_ns":437055,"gas":4338,"instance_id":1,"managed_objects":110,"method":"init_contract","monotonic_ns":617976181,"owner_tid":535541,"wall_unix_ns":1792987235886027633}
+STEP21C {"Threads":23,"VmRSS":289080,"contract":"identity","event":"close_begin","instance_id":1,"managed_objects":110,"monotonic_ns":618012681,"owner_tid":535541,"wall_unix_ns":1792987235886064144}
+STEP21C {"Threads":7,"VmRSS":257332,"close_ns":3920643,"contract":"identity","error":"\u003cnil\u003e","event":"close_done","instance_id":1,"managed_objects":0,"monotonic_ns":621935792,"owner_tid":535541,"wall_unix_ns":1792987235889987024}
+STEP21C {"call":{"id":0,"depth":0,"contract":"identity","method":"init_contract","tx_id":"step21c-init-identity","begin_ns":1792987235285241697,"end_ns":1792987235890060707,"invoke_seconds_inclusive":0.604819014,"callmethod_seconds_nested":0.000417031,"gas_used_actual":4338,"code":0,"result":"Init contract success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21c-init-identity contract=identity method=init_contract begin_ns=1792987235285241171 end_ns=1792987235890095425 code=0 gas=4338 depth=0
+2026-10-26 12:00:35.890	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-init-identity, contractName:identity, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987235285241171, endTime:1792987235890095425, executionTime:0.604854 s
+2026-10-26 12:00:35.890	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step21c-init-identity] access db spend time:0
+2026-10-26 12:00:35.890	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step21c-init-erc721, runtime:WASMER, method:init_contract
+2026-10-26 12:00:35.891	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21c-init-erc721, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:5176627, params:12
+STEP21C {"Threads":7,"VmRSS":257396,"contract":"erc721","event":"create_begin","instance_id":2,"managed_objects":0,"monotonic_ns":622963897,"owner_tid":535541,"wall_unix_ns":1792987235891015206}
+opmap length 216 
+2026-10-26 12:00:35.915	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 12:00:35.916	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc002142000 
+2026-10-26 12:00:35.916	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 5176627 
+Total function bodies: 3015
+2026-10-26 12:00:35.731	[DEBUG]	step21d	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+STEP21C {"Threads":24,"VmRSS":324188,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":2,"managed_objects":111,"monotonic_ns":1257351323,"owner_tid":535541,"wall_unix_ns":1792987235737104899}
+STEP21C {"Threads":24,"VmRSS":324200,"compile_ns":629034826,"contract":"erc721","create_ns":634499483,"event":"create_done","instance_id":2,"managed_objects":110,"monotonic_ns":1257463143,"owner_tid":535541,"wall_unix_ns":1792987235737216966}
+STEP21C {"Threads":24,"VmRSS":324204,"acquire_ns":634523055,"channel_block_ns":0,"contract":"erc721","event":"acquire","in_flight":1,"instance_id":2,"managed_objects":110,"monotonic_ns":1257486590,"owner_tid":535541,"previous_uses":0,"queue_len":0,"wall_unix_ns":1792987235737240115}
+STEP21C {"Threads":24,"VmRSS":324212,"contract":"erc721","event":"execute_begin","instance_id":2,"managed_objects":110,"method":"init_contract","monotonic_ns":1257513716,"owner_tid":535541,"wall_unix_ns":1792987235737267557}
+2026-10-26 12:00:35.737	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 12:00:35.737	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = init_contract
+2026-10-26 12:00:35.737	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 670
+2026-10-26 12:00:35.737	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = name, value = huanletoken 
+
+2026-10-26 12:00:35.737	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = symbol, value = hlt 
+
+2026-10-26 12:00:35.737	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = tokenURI, value = https://chainmaker.org.cn 
+
+2026-10-26 12:00:35.737	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = admin, value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-10-26 12:00:35.737	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":24,"VmRSS":324244,"call_error_observed":"\u003cnil\u003e","callmethod_ns":253996,"code":0,"contract":"erc721","event":"execute_done","execute_ns":272397,"gas":410,"instance_id":2,"managed_objects":110,"method":"init_contract","monotonic_ns":1257786681,"owner_tid":535541,"wall_unix_ns":1792987235737540497}
+STEP21C {"Threads":24,"VmRSS":324244,"contract":"erc721","event":"close_begin","instance_id":2,"managed_objects":110,"monotonic_ns":1257809228,"owner_tid":535541,"wall_unix_ns":1792987235737563032}
+STEP21C {"Threads":8,"VmRSS":283032,"close_ns":3903247,"contract":"erc721","error":"\u003cnil\u003e","event":"close_done","instance_id":2,"managed_objects":0,"monotonic_ns":1261716876,"owner_tid":535541,"wall_unix_ns":1792987235741470422}
+STEP21C {"call":{"id":0,"depth":0,"contract":"erc721","method":"init_contract","tx_id":"step21c-init-erc721","begin_ns":1792987235891013874,"end_ns":1792987235741550584,"invoke_seconds_inclusive":0.638834368,"callmethod_seconds_nested":0.000253996,"gas_used_actual":410,"code":0,"result":"Init contract success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21c-init-erc721 contract=erc721 method=init_contract begin_ns=1792987235891013572 end_ns=1792987235741568173 code=0 gas=410 depth=0
+2026-10-26 12:00:35.741	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-init-erc721, contractName:erc721, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987235891013572, endTime:1792987235741568173, executionTime:-0.149445 s
+2026-10-26 12:00:35.741	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step21c-init-erc721] access db spend time:0
+2026-10-26 12:00:35.742	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[exchange], tx id:step21c-init-exchange, runtime:WASMER, method:init_contract
+2026-10-26 12:00:35.742	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21c-init-exchange, tx type:INVOKE_CONTRACT, contractId:name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4283547, params:9
+STEP21C {"Threads":8,"VmRSS":283056,"contract":"exchange","event":"create_begin","instance_id":3,"managed_objects":0,"monotonic_ns":1262380934,"owner_tid":535541,"wall_unix_ns":1792987235742134596}
+opmap length 216 
+2026-10-26 12:00:35.767	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 12:00:35.767	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0012b4000 
+2026-10-26 12:00:35.767	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 4283547 
+Total function bodies: 2630
+2026-10-26 12:00:36.254	[DEBUG]	step21d	vm/step21d_compile.go:266	[exchange_1.0.0], new module success
+STEP21C {"Threads":25,"VmRSS":334932,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":3,"managed_objects":111,"monotonic_ns":1778770181,"owner_tid":535541,"wall_unix_ns":1792987236258523607}
+STEP21C {"Threads":25,"VmRSS":334952,"compile_ns":512418913,"contract":"exchange","create_ns":516471255,"event":"create_done","instance_id":3,"managed_objects":110,"monotonic_ns":1778850585,"owner_tid":535541,"wall_unix_ns":1792987236258604427}
+STEP21C {"Threads":25,"VmRSS":334960,"acquire_ns":516491324,"channel_block_ns":0,"contract":"exchange","event":"acquire","in_flight":1,"instance_id":3,"managed_objects":110,"monotonic_ns":1778870482,"owner_tid":535541,"previous_uses":0,"queue_len":0,"wall_unix_ns":1792987236258624103}
+STEP21C {"Threads":25,"VmRSS":334968,"contract":"exchange","event":"execute_begin","instance_id":3,"managed_objects":110,"method":"init_contract","monotonic_ns":1778896321,"owner_tid":535541,"wall_unix_ns":1792987236258650149}
+2026-10-26 12:00:36.258	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 12:00:36.258	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = init_contract
+2026-10-26 12:00:36.258	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 567
+2026-10-26 12:00:36.258	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":25,"VmRSS":334996,"call_error_observed":"\u003cnil\u003e","callmethod_ns":114019,"code":0,"contract":"exchange","event":"execute_done","execute_ns":129992,"gas":58,"instance_id":3,"managed_objects":110,"method":"init_contract","monotonic_ns":1779027952,"owner_tid":535541,"wall_unix_ns":1792987236258781763}
+STEP21C {"Threads":25,"VmRSS":335004,"contract":"exchange","event":"close_begin","instance_id":3,"managed_objects":110,"monotonic_ns":1779046005,"owner_tid":535541,"wall_unix_ns":1792987236258799822}
+STEP21C {"Threads":9,"VmRSS":293820,"close_ns":3442821,"contract":"exchange","error":"\u003cnil\u003e","event":"close_done","instance_id":3,"managed_objects":0,"monotonic_ns":1782490652,"owner_tid":535541,"wall_unix_ns":1792987236262244336}
+STEP21C {"call":{"id":0,"depth":0,"contract":"exchange","method":"init_contract","tx_id":"step21c-init-exchange","begin_ns":1792987235742132039,"end_ns":1792987236262290715,"invoke_seconds_inclusive":0.520158681,"callmethod_seconds_nested":0.000114019,"gas_used_actual":58,"code":0,"result":"Init contract success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21c-init-exchange contract=exchange method=init_contract begin_ns=1792987235742131751 end_ns=1792987236262300049 code=0 gas=58 depth=0
+2026-10-26 12:00:36.262	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-init-exchange, contractName:exchange, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987235742131751, endTime:1792987236262300049, executionTime:0.520168 s
+2026-10-26 12:00:36.262	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step21c-init-exchange] access db spend time:0
+2026-10-26 12:00:36.271	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[exchange], tx id:step21c-buy-001, runtime:WASMER, method:buyNow
+2026-10-26 12:00:36.271	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21c-buy-001, tx type:INVOKE_CONTRACT, contractId:name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:buyNow, runtime type:WASMER, byte code len:4283547, params:13
+STEP21C {"Threads":9,"VmRSS":295164,"contract":"exchange","event":"create_begin","instance_id":4,"managed_objects":0,"monotonic_ns":1792243624,"owner_tid":535541,"wall_unix_ns":1792987236271997225}
+opmap length 216 
+2026-10-26 12:00:36.296	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 12:00:36.296	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0012b4000 
+2026-10-26 12:00:36.296	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 4283547 
+Total function bodies: 2630
+2026-10-26 12:00:36.793	[DEBUG]	step21d	vm/step21d_compile.go:266	[exchange_1.0.0], new module success
+STEP21C {"Threads":26,"VmRSS":335712,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":4,"managed_objects":111,"monotonic_ns":2317477381,"owner_tid":535541,"wall_unix_ns":1792987236797230908}
+STEP21C {"Threads":26,"VmRSS":335716,"compile_ns":521254023,"contract":"exchange","create_ns":525315295,"event":"create_done","instance_id":4,"managed_objects":110,"monotonic_ns":2317558237,"owner_tid":535541,"wall_unix_ns":1792987236797312000}
+STEP21C {"Threads":26,"VmRSS":335716,"acquire_ns":525336431,"channel_block_ns":0,"contract":"exchange","event":"acquire","in_flight":1,"instance_id":4,"managed_objects":110,"monotonic_ns":2317578995,"owner_tid":535541,"previous_uses":0,"queue_len":0,"wall_unix_ns":1792987236797332337}
+STEP21C {"Threads":26,"VmRSS":335716,"contract":"exchange","event":"execute_begin","instance_id":4,"managed_objects":110,"method":"buyNow","monotonic_ns":2317604608,"owner_tid":535541,"wall_unix_ns":1792987236797358456}
+2026-10-26 12:00:36.797	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 12:00:36.797	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = buyNow
+2026-10-26 12:00:36.797	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 752
+2026-10-26 12:00:36.798	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step21c-buy-001, runtime:WASMER, method:addWriteList
+2026-10-26 12:00:36.798	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21c-buy-001, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:addWriteList, runtime type:WASMER, byte code len:4906752, params:10
+STEP21C {"Threads":26,"VmRSS":335780,"contract":"identity","event":"create_begin","instance_id":5,"managed_objects":113,"monotonic_ns":2318332190,"owner_tid":535541,"wall_unix_ns":1792987236798085876}
+opmap length 216 
+2026-10-26 12:00:36.835	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 12:00:36.835	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0012b4000 
+2026-10-26 12:00:36.835	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 4906752 
+Total function bodies: 2889
+2026-10-26 12:00:37.407	[DEBUG]	step21d	vm/step21d_compile.go:266	[identity_1.0.0], new module success
+STEP21C {"Threads":43,"VmRSS":533792,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":5,"managed_objects":224,"monotonic_ns":2932868805,"owner_tid":535541,"wall_unix_ns":1792987237412622366}
+STEP21C {"Threads":43,"VmRSS":533796,"compile_ns":609480621,"contract":"identity","create_ns":614618604,"event":"create_done","instance_id":5,"managed_objects":223,"monotonic_ns":2932950620,"owner_tid":535541,"wall_unix_ns":1792987237412704422}
+STEP21C {"Threads":43,"VmRSS":533796,"acquire_ns":614638881,"channel_block_ns":0,"contract":"identity","event":"acquire","in_flight":2,"instance_id":5,"managed_objects":223,"monotonic_ns":2932970564,"owner_tid":535541,"previous_uses":0,"queue_len":0,"wall_unix_ns":1792987237412724152}
+STEP21C {"Threads":43,"VmRSS":533796,"contract":"identity","event":"execute_begin","instance_id":5,"managed_objects":223,"method":"addWriteList","monotonic_ns":2932994550,"owner_tid":535541,"wall_unix_ns":1792987237412748385}
+2026-10-26 12:00:37.412	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 12:00:37.412	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = addWriteList
+2026-10-26 12:00:37.412	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 665
+2026-10-26 12:00:37.412	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-10-26 12:00:37.412	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = 818fac1ac51525aeedf619a9a339b95854930159, value = 1 
+
+2026-10-26 12:00:37.412	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":43,"VmRSS":533820,"call_error_observed":"\u003cnil\u003e","callmethod_ns":218090,"code":0,"contract":"identity","event":"execute_done","execute_ns":235075,"gas":101804,"instance_id":5,"managed_objects":223,"method":"addWriteList","monotonic_ns":2933230250,"owner_tid":535541,"wall_unix_ns":1792987237412984051}
+STEP21C {"Threads":43,"VmRSS":533820,"contract":"identity","event":"close_begin","instance_id":5,"managed_objects":223,"monotonic_ns":2933250124,"owner_tid":535541,"wall_unix_ns":1792987237413003964}
+STEP21C {"Threads":27,"VmRSS":468484,"close_ns":3937275,"contract":"identity","error":"\u003cnil\u003e","event":"close_done","instance_id":5,"managed_objects":113,"monotonic_ns":2937189071,"owner_tid":535541,"wall_unix_ns":1792987237416942733}
+STEP21C {"call":{"id":1,"depth":1,"contract":"identity","method":"addWriteList","tx_id":"step21c-buy-001","begin_ns":1792987236798084171,"end_ns":1792987237416995230,"invoke_seconds_inclusive":0.61891106,"callmethod_seconds_nested":0.00021809,"gas_used_actual":101804,"code":0,"result":"add write list success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21c-buy-001 contract=identity method=addWriteList begin_ns=1792987236798083872 end_ns=1792987237417003561 code=0 gas=101804 depth=1
+2026-10-26 12:00:37.417	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-buy-001, contractName:identity, contractMethod:addWriteList, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987236798083872, endTime:1792987237417003561, executionTime:0.618920 s
+2026-10-26 12:00:37.417	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step21c-buy-001, runtime:WASMER, method:isApprovedUser
+2026-10-26 12:00:37.417	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21c-buy-001, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:isApprovedUser, runtime type:WASMER, byte code len:4906752, params:10
+STEP21C {"Threads":27,"VmRSS":468500,"contract":"identity","event":"create_begin","instance_id":6,"managed_objects":113,"monotonic_ns":2937955731,"owner_tid":535541,"wall_unix_ns":1792987237417709537}
+opmap length 216 
+2026-10-26 12:00:37.447	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 12:00:37.447	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0012b4000 
+2026-10-26 12:00:37.447	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 4906752 
+Total function bodies: 2889
+2026-10-26 12:00:38.064	[DEBUG]	step21d	vm/step21d_compile.go:266	[identity_1.0.0], new module success
+STEP21C {"Threads":44,"VmRSS":546008,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":6,"managed_objects":224,"monotonic_ns":3591187438,"owner_tid":535541,"wall_unix_ns":1792987238070940983}
+STEP21C {"Threads":44,"VmRSS":546028,"compile_ns":646771515,"contract":"identity","create_ns":653329313,"event":"create_done","instance_id":6,"managed_objects":223,"monotonic_ns":3591285105,"owner_tid":535541,"wall_unix_ns":1792987238071038927}
+STEP21C {"Threads":44,"VmRSS":546036,"acquire_ns":653350358,"channel_block_ns":0,"contract":"identity","event":"acquire","in_flight":2,"instance_id":6,"managed_objects":223,"monotonic_ns":3591305851,"owner_tid":535541,"previous_uses":0,"queue_len":0,"wall_unix_ns":1792987238071059381}
+STEP21C {"Threads":44,"VmRSS":546044,"contract":"identity","event":"execute_begin","instance_id":6,"managed_objects":223,"method":"isApprovedUser","monotonic_ns":3591332755,"owner_tid":535541,"wall_unix_ns":1792987238071086596}
+2026-10-26 12:00:38.071	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 12:00:38.071	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = isApprovedUser
+2026-10-26 12:00:38.071	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 624
+2026-10-26 12:00:38.071	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = identity, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 12:00:38.071	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-10-26 12:00:38.071	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":44,"VmRSS":546068,"call_error_observed":"\u003cnil\u003e","callmethod_ns":191309,"code":0,"contract":"identity","event":"execute_done","execute_ns":237557,"gas":302538,"instance_id":6,"managed_objects":223,"method":"isApprovedUser","monotonic_ns":3591571007,"owner_tid":535541,"wall_unix_ns":1792987238071324819}
+STEP21C {"Threads":44,"VmRSS":546076,"contract":"identity","event":"close_begin","instance_id":6,"managed_objects":223,"monotonic_ns":3591593872,"owner_tid":535541,"wall_unix_ns":1792987238071347693}
+STEP21C {"Threads":28,"VmRSS":481092,"close_ns":4228910,"contract":"identity","error":"\u003cnil\u003e","event":"close_done","instance_id":6,"managed_objects":113,"monotonic_ns":3595824429,"owner_tid":535541,"wall_unix_ns":1792987238075578088}
+STEP21C {"call":{"id":2,"depth":1,"contract":"identity","method":"isApprovedUser","tx_id":"step21c-buy-001","begin_ns":1792987237417708358,"end_ns":1792987238075638356,"invoke_seconds_inclusive":0.65793,"callmethod_seconds_nested":0.000191309,"gas_used_actual":302538,"code":0,"result":"true","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21c-buy-001 contract=identity method=isApprovedUser begin_ns=1792987237417708061 end_ns=1792987238075649418 code=0 gas=302538 depth=1
+2026-10-26 12:00:38.075	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-buy-001, contractName:identity, contractMethod:isApprovedUser, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987237417708061, endTime:1792987238075649418, executionTime:0.657941 s
+2026-10-26 12:00:38.076	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step21c-buy-001, runtime:WASMER, method:isApprovedUser
+2026-10-26 12:00:38.076	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21c-buy-001, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:isApprovedUser, runtime type:WASMER, byte code len:4906752, params:10
+STEP21C {"Threads":28,"VmRSS":481124,"contract":"identity","event":"create_begin","instance_id":7,"managed_objects":113,"monotonic_ns":3596645140,"owner_tid":535541,"wall_unix_ns":1792987238076398938}
+opmap length 216 
+2026-10-26 12:00:38.110	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 12:00:38.110	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0012b4000 
+2026-10-26 12:00:38.110	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 4906752 
+Total function bodies: 2889
+2026-10-26 12:00:38.707	[DEBUG]	step21d	vm/step21d_compile.go:266	[identity_1.0.0], new module success
+STEP21C {"Threads":45,"VmRSS":566228,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":7,"managed_objects":224,"monotonic_ns":4231497435,"owner_tid":535541,"wall_unix_ns":1792987238711251018}
+STEP21C {"Threads":45,"VmRSS":566240,"compile_ns":630872922,"contract":"identity","create_ns":634923140,"event":"create_done","instance_id":7,"managed_objects":223,"monotonic_ns":4231568064,"owner_tid":535541,"wall_unix_ns":1792987238711321893}
+STEP21C {"Threads":45,"VmRSS":566244,"acquire_ns":634942124,"channel_block_ns":0,"contract":"identity","event":"acquire","in_flight":2,"instance_id":7,"managed_objects":223,"monotonic_ns":4231586888,"owner_tid":535541,"previous_uses":0,"queue_len":0,"wall_unix_ns":1792987238711340490}
+STEP21C {"Threads":45,"VmRSS":566252,"contract":"identity","event":"execute_begin","instance_id":7,"managed_objects":223,"method":"isApprovedUser","monotonic_ns":4231613102,"owner_tid":535541,"wall_unix_ns":1792987238711366929}
+2026-10-26 12:00:38.711	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 12:00:38.711	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = isApprovedUser
+2026-10-26 12:00:38.711	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 624
+2026-10-26 12:00:38.711	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = identity, field = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-10-26 12:00:38.711	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-10-26 12:00:38.711	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":45,"VmRSS":566272,"call_error_observed":"\u003cnil\u003e","callmethod_ns":223362,"code":0,"contract":"identity","event":"execute_done","execute_ns":241320,"gas":705317,"instance_id":7,"managed_objects":223,"method":"isApprovedUser","monotonic_ns":4231854826,"owner_tid":535541,"wall_unix_ns":1792987238711608638}
+STEP21C {"Threads":45,"VmRSS":566272,"contract":"identity","event":"close_begin","instance_id":7,"managed_objects":223,"monotonic_ns":4231876602,"owner_tid":535541,"wall_unix_ns":1792987238711630409}
+STEP21C {"Threads":29,"VmRSS":488704,"close_ns":4895383,"contract":"identity","error":"\u003cnil\u003e","event":"close_done","instance_id":7,"managed_objects":113,"monotonic_ns":4236775545,"owner_tid":535541,"wall_unix_ns":1792987238716529220}
+STEP21C {"call":{"id":3,"depth":1,"contract":"identity","method":"isApprovedUser","tx_id":"step21c-buy-001","begin_ns":1792987238076397629,"end_ns":1792987238716619525,"invoke_seconds_inclusive":0.640221895,"callmethod_seconds_nested":0.000223362,"gas_used_actual":705317,"code":0,"result":"true","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21c-buy-001 contract=identity method=isApprovedUser begin_ns=1792987238076397318 end_ns=1792987238716629497 code=0 gas=705317 depth=1
+2026-10-26 12:00:38.716	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-buy-001, contractName:identity, contractMethod:isApprovedUser, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987238076397318, endTime:1792987238716629497, executionTime:0.640232 s
+2026-10-26 12:00:38.717	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step21c-buy-001, runtime:WASMER, method:mint
+2026-10-26 12:00:38.717	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21c-buy-001, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5176627, params:12
+STEP21C {"Threads":29,"VmRSS":488724,"contract":"erc721","event":"create_begin","instance_id":8,"managed_objects":113,"monotonic_ns":4237617132,"owner_tid":535541,"wall_unix_ns":1792987238717370834}
+opmap length 216 
+2026-10-26 12:00:38.749	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 12:00:38.749	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc002632000 
+2026-10-26 12:00:38.749	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 5176627 
+Total function bodies: 3015
+2026-10-26 12:00:39.382	[DEBUG]	step21d	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+STEP21C {"Threads":46,"VmRSS":574796,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":8,"managed_objects":224,"monotonic_ns":4907723315,"owner_tid":535541,"wall_unix_ns":1792987239387476841}
+STEP21C {"Threads":46,"VmRSS":574804,"compile_ns":665722866,"contract":"erc721","create_ns":670209097,"event":"create_done","instance_id":8,"managed_objects":223,"monotonic_ns":4907826342,"owner_tid":535541,"wall_unix_ns":1792987239387580157}
+STEP21C {"Threads":46,"VmRSS":574808,"acquire_ns":670234074,"channel_block_ns":0,"contract":"erc721","event":"acquire","in_flight":2,"instance_id":8,"managed_objects":223,"monotonic_ns":4907850569,"owner_tid":535541,"previous_uses":0,"queue_len":0,"wall_unix_ns":1792987239387604109}
+STEP21C {"Threads":46,"VmRSS":574812,"contract":"erc721","event":"execute_begin","instance_id":8,"managed_objects":223,"method":"mint","monotonic_ns":4907893096,"owner_tid":535541,"wall_unix_ns":1792987239387646831}
+2026-10-26 12:00:39.387	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 12:00:39.387	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = mint
+2026-10-26 12:00:39.387	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 692
+2026-10-26 12:00:39.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-10-26 12:00:39.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 12:00:39.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-10-26 12:00:39.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-10-26 12:00:39.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 12:00:39.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 12:00:39.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-10-26 12:00:39.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 12:00:39.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+2026-10-26 12:00:39.387	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+2026-10-26 12:00:39.388	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step21c-buy-001","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-10-26 12:00:39.388	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":46,"VmRSS":574884,"call_error_observed":"\u003cnil\u003e","callmethod_ns":455749,"code":0,"contract":"erc721","event":"execute_done","execute_ns":506389,"gas":1525965,"instance_id":8,"managed_objects":223,"method":"mint","monotonic_ns":4908399808,"owner_tid":535541,"wall_unix_ns":1792987239388153605}
+STEP21C {"Threads":46,"VmRSS":574884,"contract":"erc721","event":"close_begin","instance_id":8,"managed_objects":223,"monotonic_ns":4908423914,"owner_tid":535541,"wall_unix_ns":1792987239388177747}
+STEP21C {"Threads":30,"VmRSS":512544,"close_ns":4543674,"contract":"erc721","error":"\u003cnil\u003e","event":"close_done","instance_id":8,"managed_objects":113,"monotonic_ns":4912971601,"owner_tid":535541,"wall_unix_ns":1792987239392724861}
+STEP21C {"call":{"id":4,"depth":1,"contract":"erc721","method":"mint","tx_id":"step21c-buy-001","begin_ns":1792987238717369326,"end_ns":1792987239392796831,"invoke_seconds_inclusive":0.675427511,"callmethod_seconds_nested":0.000455749,"gas_used_actual":1525965,"code":0,"result":"mint success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21c-buy-001 contract=erc721 method=mint begin_ns=1792987238717369008 end_ns=1792987239392808734 code=0 gas=1525965 depth=1
+2026-10-26 12:00:39.392	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-buy-001, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987238717369008, endTime:1792987239392808734, executionTime:0.675440 s
+2026-10-26 12:00:39.393	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step21c-buy-001, runtime:WASMER, method:setApprovalForAll2
+2026-10-26 12:00:39.393	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21c-buy-001, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:setApprovalForAll2, runtime type:WASMER, byte code len:5176627, params:10
+STEP21C {"Threads":30,"VmRSS":513460,"contract":"erc721","event":"create_begin","instance_id":9,"managed_objects":113,"monotonic_ns":4914150572,"owner_tid":535541,"wall_unix_ns":1792987239393904169}
+opmap length 216 
+2026-10-26 12:00:39.428	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 12:00:39.428	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0017a4000 
+2026-10-26 12:00:39.428	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 5176627 
+Total function bodies: 3015
+2026-10-26 12:00:40.068	[DEBUG]	step21d	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+STEP21C {"Threads":47,"VmRSS":611140,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":9,"managed_objects":224,"monotonic_ns":5594551699,"owner_tid":535541,"wall_unix_ns":1792987240074305082}
+STEP21C {"Threads":47,"VmRSS":611140,"compile_ns":674300972,"contract":"erc721","create_ns":680493874,"event":"create_done","instance_id":9,"managed_objects":223,"monotonic_ns":5594644308,"owner_tid":535541,"wall_unix_ns":1792987240074398119}
+STEP21C {"Threads":47,"VmRSS":611140,"acquire_ns":680513865,"channel_block_ns":0,"contract":"erc721","event":"acquire","in_flight":2,"instance_id":9,"managed_objects":223,"monotonic_ns":5594662509,"owner_tid":535541,"previous_uses":0,"queue_len":0,"wall_unix_ns":1792987240074416121}
+STEP21C {"Threads":47,"VmRSS":611140,"contract":"erc721","event":"execute_begin","instance_id":9,"managed_objects":223,"method":"setApprovalForAll2","monotonic_ns":5594686569,"owner_tid":535541,"wall_unix_ns":1792987240074440379}
+2026-10-26 12:00:40.074	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 12:00:40.074	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = setApprovalForAll2
+2026-10-26 12:00:40.074	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 629
+2026-10-26 12:00:40.074	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = operatorApprove, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be, value = 1 
+
+2026-10-26 12:00:40.074	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0
+2026-10-26 12:00:40.074	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be
+2026-10-26 12:00:40.074	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :1
+2026-10-26 12:00:40.074	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":47,"VmRSS":611188,"call_error_observed":"\u003cnil\u003e","callmethod_ns":324712,"code":0,"contract":"erc721","event":"execute_done","execute_ns":340349,"gas":3137143,"instance_id":9,"managed_objects":223,"method":"setApprovalForAll2","monotonic_ns":5595027519,"owner_tid":535541,"wall_unix_ns":1792987240074781337}
+STEP21C {"Threads":47,"VmRSS":611188,"contract":"erc721","event":"close_begin","instance_id":9,"managed_objects":223,"monotonic_ns":5595052751,"owner_tid":535541,"wall_unix_ns":1792987240074806558}
+STEP21C {"Threads":31,"VmRSS":531124,"close_ns":4958235,"contract":"erc721","error":"\u003cnil\u003e","event":"close_done","instance_id":9,"managed_objects":113,"monotonic_ns":5600013009,"owner_tid":535541,"wall_unix_ns":1792987240079766615}
+STEP21C {"call":{"id":5,"depth":1,"contract":"erc721","method":"setApprovalForAll2","tx_id":"step21c-buy-001","begin_ns":1792987239393901388,"end_ns":1792987240079826297,"invoke_seconds_inclusive":0.685924909,"callmethod_seconds_nested":0.000324712,"gas_used_actual":3137143,"code":0,"result":"setApprovalForAll2 success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21c-buy-001 contract=erc721 method=setApprovalForAll2 begin_ns=1792987239393901067 end_ns=1792987240079837024 code=0 gas=3137143 depth=1
+2026-10-26 12:00:40.079	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-buy-001, contractName:erc721, contractMethod:setApprovalForAll2, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987239393901067, endTime:1792987240079837024, executionTime:0.685936 s
+2026-10-26 12:00:40.080	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step21c-buy-001, runtime:WASMER, method:transferFrom
+2026-10-26 12:00:40.080	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21c-buy-001, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:transferFrom, runtime type:WASMER, byte code len:5176627, params:12
+STEP21C {"Threads":31,"VmRSS":531132,"contract":"erc721","event":"create_begin","instance_id":10,"managed_objects":113,"monotonic_ns":5600803586,"owner_tid":535541,"wall_unix_ns":1792987240080557313}
+opmap length 216 
+2026-10-26 12:00:40.112	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 12:00:40.112	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc0017a4000 
+2026-10-26 12:00:40.112	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 5176627 
+Total function bodies: 3015
+2026-10-26 12:00:40.700	[DEBUG]	step21d	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+STEP21C {"Threads":48,"VmRSS":617228,"error":"WASI exited with code: ExitCode::0","event":"start_exit_zero","instance_id":10,"managed_objects":224,"monotonic_ns":6226204316,"owner_tid":535541,"wall_unix_ns":1792987240705957855}
+STEP21C {"Threads":48,"VmRSS":617228,"compile_ns":620529272,"contract":"erc721","create_ns":625476270,"event":"create_done","instance_id":10,"managed_objects":223,"monotonic_ns":6226279747,"owner_tid":535541,"wall_unix_ns":1792987240706033553}
+STEP21C {"Threads":48,"VmRSS":617228,"acquire_ns":625495043,"channel_block_ns":0,"contract":"erc721","event":"acquire","in_flight":2,"instance_id":10,"managed_objects":223,"monotonic_ns":6226298228,"owner_tid":535541,"previous_uses":0,"queue_len":0,"wall_unix_ns":1792987240706051835}
+STEP21C {"Threads":48,"VmRSS":617228,"contract":"erc721","event":"execute_begin","instance_id":10,"managed_objects":223,"method":"transferFrom","monotonic_ns":6226322320,"owner_tid":535541,"wall_unix_ns":1792987240706076144}
+2026-10-26 12:00:40.706	[DEBUG]	step21d	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-10-26 12:00:40.706	[DEBUG]	step21d	vm/sim_context.go:128	sc.method = transferFrom
+2026-10-26 12:00:40.706	[DEBUG]	step21d	vm/sim_context.go:143	lengthOfSubject: 703
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = operatorApprove, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 0 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 818fac1ac51525aeedf619a9a339b95854930159, value = 1 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 818fac1ac51525aeedf619a9a339b95854930159_1, value = 1 
+
+2026-10-26 12:00:40.706	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step21c-buy-001","BlockHeight":111,"From":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0","To":"818fac1ac51525aeedf619a9a339b95854930159"} 
+
+2026-10-26 12:00:40.706	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0
+2026-10-26 12:00:40.706	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :818fac1ac51525aeedf619a9a339b95854930159
+2026-10-26 12:00:40.706	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :1
+2026-10-26 12:00:40.706	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":48,"VmRSS":617360,"call_error_observed":"\u003cnil\u003e","callmethod_ns":641048,"code":0,"contract":"erc721","event":"execute_done","execute_ns":659260,"gas":6391326,"instance_id":10,"managed_objects":223,"method":"transferFrom","monotonic_ns":6226982802,"owner_tid":535541,"wall_unix_ns":1792987240706736349}
+STEP21C {"Threads":48,"VmRSS":617360,"contract":"erc721","event":"close_begin","instance_id":10,"managed_objects":223,"monotonic_ns":6227007786,"owner_tid":535541,"wall_unix_ns":1792987240706761591}
+STEP21C {"Threads":32,"VmRSS":536704,"close_ns":5393762,"contract":"erc721","error":"\u003cnil\u003e","event":"close_done","instance_id":10,"managed_objects":113,"monotonic_ns":6232405340,"owner_tid":535541,"wall_unix_ns":1792987240712158993}
+STEP21C {"call":{"id":6,"depth":1,"contract":"erc721","method":"transferFrom","tx_id":"step21c-buy-001","begin_ns":1792987240080556086,"end_ns":1792987240712247046,"invoke_seconds_inclusive":0.631690962,"callmethod_seconds_nested":0.000641048,"gas_used_actual":6391326,"code":0,"result":"transfer success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21c-buy-001 contract=erc721 method=transferFrom begin_ns=1792987240080555763 end_ns=1792987240712255494 code=0 gas=6391326 depth=1
+2026-10-26 12:00:40.712	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-buy-001, contractName:erc721, contractMethod:transferFrom, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987240080555763, endTime:1792987240712255494, executionTime:0.631700 s
+2026-10-26 12:00:40.712	[DEBUG]	step21d	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b95854930159698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be
+2026-10-26 12:00:40.712	[DEBUG]	step21d	vm/sim_context.go:195	contract invoke success
+STEP21C {"Threads":32,"VmRSS":536752,"call_error_observed":"\u003cnil\u003e","callmethod_ns":3915118404,"code":0,"contract":"exchange","event":"execute_done","execute_ns":3915139171,"gas":12765774,"instance_id":4,"managed_objects":110,"method":"buyNow","monotonic_ns":6232744778,"owner_tid":535541,"wall_unix_ns":1792987240712498461}
+STEP21C {"Threads":32,"VmRSS":536776,"contract":"exchange","event":"close_begin","instance_id":4,"managed_objects":110,"monotonic_ns":6232787845,"owner_tid":535541,"wall_unix_ns":1792987240712541668}
+STEP21C {"Threads":16,"VmRSS":504716,"close_ns":3940545,"contract":"exchange","error":"\u003cnil\u003e","event":"close_done","instance_id":4,"managed_objects":0,"monotonic_ns":6236731684,"owner_tid":535541,"wall_unix_ns":1792987240716485219}
+STEP21C {"call":{"id":0,"depth":0,"contract":"exchange","method":"buyNow","tx_id":"step21c-buy-001","begin_ns":1792987236271994501,"end_ns":1792987240716564186,"invoke_seconds_inclusive":4.444569685,"callmethod_seconds_nested":3.915118404,"gas_used_actual":12765774,"code":0,"result":"buyNow success","message":""},"event":"invoke_return"}
+REUSE_VM tx=step21c-buy-001 contract=exchange method=buyNow begin_ns=1792987236271993670 end_ns=1792987240716579313 code=0 gas=12765774 depth=0
+2026-10-26 12:00:40.716	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21c-buy-001, contractName:exchange, contractMethod:buyNow, runtime type:WASMER, runtimeContractResult:0 ,startTime:1792987236271993670, endTime:1792987240716579313, executionTime:4.444586 s
+2026-10-26 12:00:40.716	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step21c-buy-001] access db spend time:0
+STEP21C {"Threads":16,"VmRSS":504760,"closed":10,"created":10,"event":"manager_closed","in_flight":0,"managed_objects":0,"monotonic_ns":6237159024,"owner_tid":535541,"wall_unix_ns":1792987240716912621}
+STEP21C {"Threads":16,"VmRSS":461252,"event":"owner_closed","managed_objects":0,"managed_pending":0,"monotonic_ns":6239223148,"owner_tid":535541,"wall_unix_ns":1792987240718976615}
+--- PASS: TestStep21DExchange (6.24s)
+PASS

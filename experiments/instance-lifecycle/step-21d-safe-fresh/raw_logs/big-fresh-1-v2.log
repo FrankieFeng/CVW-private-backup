@@ -1,0 +1,21 @@
+=== RUN   TestStep21DCompute
+2026-10-26 11:44:02.924	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step21d-000, runtime:WASMER, method:bigNumCal
+2026-10-26 11:44:02.924	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step21d-000, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:bigNumCal, runtime type:WASMER, byte code len:4628317, params:9
+STEP21C {"Threads":6,"VmRSS":58056,"contract":"compute","event":"create_begin","instance_id":1,"managed_objects":0,"mono_wall_unix_ns":1792986242924777107}
+opmap length 216 
+2026-10-26 11:44:02.972	[INFO]	step21d	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-26 11:44:02.972	[INFO]	step21d	wasmer-go/module.go:103	wasmBytesPtr => 0xc001b12000 
+2026-10-26 11:44:02.972	[INFO]	step21d	wasmer-go/module.go:104	wasmBytesLength => 4628317 
+Total function bodies: 2819
+2026-10-26 11:44:03.485	[DEBUG]	step21d	vm/step21d_compile.go:266	[compute_1.0.0], new module success
+2026-10-26 11:44:03.486	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+STEP21C {"Threads":7,"VmRSS":245852,"error":"WASI exited with code: ExitCode::0","event":"create_failed","managed_objects":0,"mono_wall_unix_ns":1792986243494199638}
+STEP21C {"call":{"id":0,"depth":0,"contract":"compute","method":"bigNumCal","tx_id":"step21d-000","begin_ns":1792986242924774180,"end_ns":1792986243494285264,"invoke_seconds_inclusive":0.569511085,"callmethod_seconds_nested":0,"gas_used_actual":0,"code":1,"result":"","message":"WASI exited with code: ExitCode::0"},"event":"invoke_return"}
+REUSE_VM tx=step21d-000 contract=compute method=bigNumCal begin_ns=1792986242924773643 end_ns=1792986243494322616 code=1 gas=0 depth=0
+2026-10-26 11:44:03.494	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step21d-000, contractName:compute, contractMethod:bigNumCal, runtime type:WASMER, runtimeContractResult:1 ,startTime:1792986242924773643, endTime:1792986243494322616, executionTime:0.569549 s
+2026-10-26 11:44:03.494	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step21d-000] access db spend time:0
+    step21d_checks_test.go:76: business/gas mismatch: code:1 message:"WASI exited with code: ExitCode::0"  expected="success bigNumCal: 607723520" gas=105920
+STEP21C {"Threads":7,"VmRSS":245888,"closed":0,"created":0,"event":"manager_closed","in_flight":0,"managed_objects":0,"mono_wall_unix_ns":1792986243494748707}
+STEP21C {"Threads":7,"VmRSS":245312,"event":"owner_closed","managed_objects":0,"managed_pending":0,"mono_wall_unix_ns":1792986243496440933}
+--- FAIL: TestStep21DCompute (0.58s)
+FAIL

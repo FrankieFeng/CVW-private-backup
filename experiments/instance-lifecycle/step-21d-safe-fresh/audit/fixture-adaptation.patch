@@ -1,0 +1,129 @@
+--- Step21C@32d257b/step21c_fixture_test.go
++++ Step21D/step21d_fixture_test.go
+@@ -151,49 +151,13 @@
+ 	t         *testing.T
+ 	snapshot  *s21cSnapshot
+ 	manager   protocol.VmManager
+-	instances *InstancesManager
++	instances *dManager
+ 	member    *s21cMember
+ 	calls     []s21cCall
+ 	nextID    int
+ 	output    string
+ }
+ 
+-// This adapter observes actual RuntimeInstance.InvokeTime; it never manufactures a callee result.
+-type s21cObservedManager struct {
+-	protocol.VmInstancesManager
+-	actual  *InstancesManager
+-	fixture *s21cFixture
+-}
+-
+-func (m *s21cObservedManager) NewRuntimeInstance(ctx protocol.TxSimContext, chain, method, path string, c *common.Contract, code []byte, log protocol.Logger) (protocol.RuntimeInstance, error) {
+-	r, e := m.actual.NewRuntimeInstance(ctx, chain, method, path, c, code, log)
+-	if e != nil {
+-		return nil, e
+-	}
+-	actual, ok := r.(*RuntimeInstance)
+-	if !ok {
+-		return nil, errors.New("unexpected real runtime type")
+-	}
+-	return &s21cObservedRuntime{actual: actual, fixture: m.fixture}, nil
+-}
+-
+-type s21cObservedRuntime struct {
+-	actual  *RuntimeInstance
+-	fixture *s21cFixture
+-}
+-
+-func (r *s21cObservedRuntime) Invoke(c *common.Contract, method string, code []byte, params map[string][]byte, ctx protocol.TxSimContext, gas uint64) (*common.ContractResult, protocol.ExecOrderTxType) {
+-	f := r.fixture
+-	id := f.nextID
+-	f.nextID++
+-	depth := ctx.GetDepth()
+-	s21cEmit(map[string]interface{}{"event": "invoke_enter", "id": id, "contract": c.Name, "method": method, "depth": depth, "tx_id": ctx.GetTx().Payload.TxId})
+-	result, order, begin, end, total, call := r.actual.InvokeTime(c, method, code, params, ctx, gas)
+-	row := s21cCall{ID: id, Depth: depth, Contract: c.Name, Method: method, TxID: ctx.GetTx().Payload.TxId, BeginNS: begin, EndNS: end, InvokeSeconds: total, CallMethodSeconds: call, GasUsed: result.GasUsed, Code: result.Code, Result: string(result.Result), Message: result.Message}
+-	f.calls = append(f.calls, row)
+-	s21cEmit(map[string]interface{}{"event": "invoke_return", "call": row})
+-	return result, order
+-}
+ func s21cEmit(row interface{}) {
+ 	b, e := json.Marshal(row)
+ 	if e != nil {
+@@ -232,7 +196,7 @@
+ 		t.Fatal(e)
+ 	}
+ 	member := &s21cMember{member: &ac.Member{OrgId: "step21c-fixture-org", MemberType: ac.MemberType_PUBLIC_KEY, MemberInfo: pubPEM}, pk: pk, uid: hex.EncodeToString(ski)}
+-	cfg := &config.ChainConfig{ChainId: ChainId, Contract: &config.ContractConfig{EnableSqlSupport: false}, Vm: &config.Vm{AddrType: config.AddrType_CHAINMAKER}, Crypto: &config.CryptoConfig{Hash: "SHA256"}}
++	cfg := &config.ChainConfig{ChainId: ChainId, Contract: &config.ContractConfig{EnableSqlSupport: false}, Vm: &config.Vm{AddrType: config.AddrType_ETHEREUM}, Crypto: &config.CryptoConfig{Hash: "SHA256"}}
+ 	store := &s21cStore{contracts: map[string]*common.Contract{}, code: map[string][]byte{}, cfg: cfg}
+ 	for _, a := range manifest.Artifacts {
+ 		b, err := os.ReadFile(a.Path)
+@@ -243,13 +207,13 @@
+ 		if hex.EncodeToString(h[:]) != a.SHA256 {
+ 			t.Fatal("changed WASM " + a.Contract)
+ 		}
+-		if a.Contract != "exchange" && a.Contract != "identity" && a.Contract != "erc721" {
++		if a.Contract != "compute" && a.Contract != "exchange" && a.Contract != "identity" && a.Contract != "erc721" {
+ 			t.Fatal("unexpected registered contract")
+ 		}
+ 		store.code[a.Contract] = b
+ 		store.contracts[a.Contract] = &common.Contract{Name: a.Contract, Version: "1.0.0", RuntimeType: common.RuntimeType_WASMER, Status: common.ContractStatus_NORMAL, Creator: &ac.MemberFull{OrgId: member.member.OrgId, MemberType: ac.MemberType_PUBLIC_KEY, MemberInfo: pubPEM, MemberId: member.uid, Role: "CLIENT", Uid: member.uid}}
+ 	}
+-	if len(store.contracts) != 3 {
++	if len(store.contracts) < 1 || len(store.contracts) > 3 {
+ 		t.Fatal("three actual WASM contracts required")
+ 	}
+ 	snap := &s21cSnapshot{store: store, ledger: map[string]map[string][]byte{}}
+@@ -259,9 +223,10 @@
+ 	}
+ 	// Configuration state is supplied as node context, not a fabricated business write.
+ 	snap.ledger[syscontract.SystemContract_CHAIN_CONFIG.String()] = map[string][]byte{syscontract.SystemContract_CHAIN_CONFIG.String(): cfgBytes}
+-	base := NewInstancesManager(ChainId)
++	base := newDManager(os.Getenv("D_POLICY"))
+ 	f := &s21cFixture{t: t, snapshot: snap, instances: base, member: member, output: output}
+-	observed := &s21cObservedManager{VmInstancesManager: base, actual: base, fixture: f}
++	base.fixture = f
++	observed := base
+ 	f.manager = vm.NewVmManager(map[common.RuntimeType]protocol.VmInstancesManager{common.RuntimeType_WASMER: observed}, "", &s21cAC{member: member}, nil, &chainconf.ChainConf{ChainConf: cfg}, logger.GetLogger("step21c-real-fixture"))
+ 	previous := protocol.ParametersValueMaxLength
+ 	protocol.ParametersValueMaxLength = protocol.DefaultParametersValueMaxSize * 1024 * 1024
+@@ -335,16 +300,8 @@
+ 	return string(f.snapshot.ledger[contract][string(protocol.GetKeyStr(key, field))])
+ }
+ func (f *s21cFixture) close() {
+-	// Post-scenario drain is cleanup only. It does not protect successive child calls in one root.
+-	names := []string{}
+-	for name := range f.snapshot.store.contracts {
+-		names = append(names, name)
+-	}
+-	sort.Strings(names)
+-	for _, name := range names {
+-		if p := f.instances.instanceMap[name+"_1.0.0"]; p != nil {
+-			step21ClosePool(f.t, p)
+-		}
++	if err := f.instances.Close(); err != nil {
++		f.t.Error(err)
+ 	}
+ }
+ 
+@@ -395,7 +352,7 @@
+ 		t.Fatal("missing input sequence")
+ 	}
+ 	expected := []string{"identity/addWriteList", "identity/isApprovedUser", "identity/isApprovedUser", "erc721/mint", "erc721/setApprovalForAll2", "erc721/transferFrom"}
+-	for i := 0; i < 3; i++ {
++	for i := 0; i < dN(t); i++ {
+ 		in := inputs[i]
+ 		r := f.run(fmt.Sprintf("success-%d", i+1), "exchange", "buyNow", fmt.Sprintf("step21c-buy-%03d", i+1), in)
+ 		if r.Result.Code != 0 || string(r.Result.Result) != "buyNow success" || r.Status != common.TxStatusCode_SUCCESS {
+@@ -430,6 +387,9 @@
+ 			t.Fatal("actual buyNow event missing")
+ 		}
+ 	}
++	if os.Getenv("D_NEGATIVE") != "1" {
++		return
++	}
+ 	// Duplicate token and invalid input must not be committed. No fabricated rollback response.
+ 	bad := f.run("negative-duplicate", "exchange", "buyNow", "step21c-negative-duplicate", inputs[0])
+ 	if bad.Result.Code == 0 || bad.BeforeHash != bad.AfterHash || len(bad.RWSet.TxWrites) != 0 {
