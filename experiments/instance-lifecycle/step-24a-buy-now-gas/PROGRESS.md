@@ -139,3 +139,5 @@ preflight-R1-on失败：仅内部cache读取器键布局校验，mint被探针�
 下一条安全恢复命令：python3 -B scripts/analyze.py（只复算）；不需再启动guest。后续动态诊断必须独立计划，不删除STOP或覆盖本轮label。当前准备只提交实验独立分支并同步IDE资料，不push。
 
 数据与源码已提交 caabbf3（完整ID见audit/delivery.json）；最终整理仅修正文档中的log_message宿主内观测边界和精简代码diff，不改测试源码/二进制/结果。正在同步IDE目录，无远程push。
+
+交付已完成：独立worktree全部449个Git跟踪文件已同步IDE目录并逐文件hash核对；实测源码hash与build02一致，工作树clean，未push。所有测试进程已退出（仅保留已停止的原失败unit记录）。下一步只需阅读README/GAS_ATTRIBUTION或离线analyze，不再执行guest。
