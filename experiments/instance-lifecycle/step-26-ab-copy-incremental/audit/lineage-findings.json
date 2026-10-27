@@ -1,0 +1,95 @@
+{
+  "zip_path": "/home/frankie/mygitprojects/CVW/chainmaker/testdata-instrument/testdata-instrument.zip",
+  "zip_sha256": "fafd663100892d187695c5f4aecf69f0b102f377e239477e23d5dfcf7ed9c30b",
+  "zip_candidates": [
+    {
+      "entry": "compute/compute-go.wasm",
+      "bytes": 5019543,
+      "sha256": "0734282a402f932af152b958aaf6587ac40dbc6ddae4f81349502746fb3ac79d"
+    },
+    {
+      "entry": "compute/compute.go",
+      "bytes": 2572,
+      "sha256": "ec2fbbaf3087ca8b764c7d6edfdeb4b66a957f26cc9eda2bc45f84094d0f5bc0",
+      "source_loop_limits": [
+        "10000000",
+        "10000",
+        "10000"
+      ]
+    },
+    {
+      "entry": "erc721/erc721-go.wasm",
+      "bytes": 5592041,
+      "sha256": "29cfe272e701e763ad1ca214e5a8edfb63c1a46cf1c9cae3f440a1a588b3ec76"
+    },
+    {
+      "entry": "erc721/erc721.go",
+      "bytes": 26274,
+      "sha256": "5cd1f752e9bc5e761302e608e406ab5ab2e65adc37bd8038d94017c05191efce"
+    },
+    {
+      "entry": "fact/fact-go.wasm",
+      "bytes": 5287374,
+      "sha256": "dc3609efcc70b3c056925247412238c55b1eaca8563dcbdfa30e286fa0245758"
+    },
+    {
+      "entry": "fact/fact.go",
+      "bytes": 6380,
+      "sha256": "fc72fdb5679be028bd31e9d9e8c51116e8eb87efa45bfb53f0cbc4301e3230f2"
+    }
+  ],
+  "zip_matches_step24b_original": false,
+  "cross_family_input_checks": [
+    {
+      "case": "compute",
+      "same_business_params": true,
+      "same_fixed_txid": true,
+      "same_initial_ledger": true,
+      "same_final_ledger": true,
+      "same_result_excluding_gas": true,
+      "same_root_rwset": true,
+      "step18_gas": 120027,
+      "step24b_reference_gas": 105920,
+      "inputs": {},
+      "tx_id": "step25-compute-bigNumCal-fixed"
+    },
+    {
+      "case": "fact",
+      "same_business_params": true,
+      "same_fixed_txid": true,
+      "same_initial_ledger": true,
+      "same_final_ledger": true,
+      "same_result_excluding_gas": true,
+      "same_root_rwset": true,
+      "step18_gas": 154,
+      "step24b_reference_gas": 1585,
+      "inputs": {
+        "file_hash": "005521f27d745a04999c6d09f559764f9c44376a",
+        "file_name": "aoteman.jpg",
+        "time": "1792827547"
+      },
+      "tx_id": "step25-fact-saveAndFindByFileHash-fixed"
+    },
+    {
+      "case": "erc721",
+      "same_business_params": true,
+      "same_fixed_txid": true,
+      "same_initial_ledger": true,
+      "same_final_ledger": true,
+      "same_result_excluding_gas": true,
+      "same_root_rwset": true,
+      "step18_gas": 235,
+      "step24b_reference_gas": 15981,
+      "inputs": {
+        "metadata": "http://chainmaker.org.cn/",
+        "to": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+        "tokenId": "1"
+      },
+      "tx_id": "step25-erc721-mint-fixed"
+    }
+  ],
+  "recoverable_step18_saved_artifacts": true,
+  "step24b_A_B1_matching_build": "blocked_not_recovered",
+  "new_builds": 0,
+  "instrumenter_candidates": "source exists; no evidence tying exact SDK/stdlib/blacklist/flags to original binary; not executed"
+}
