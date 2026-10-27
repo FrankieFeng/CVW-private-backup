@@ -1,0 +1,239 @@
+--- step28/sim_context.go
++++ step29/sim_context.go
+@@ -187,6 +187,7 @@
+ 	exportCallStart := time.Now()
+ 	_, err = exportFunc.Call()
+ 	exportCallEnd := time.Now()
++	e29Times(exportCallStart, exportCallEnd, "export", sc.Contract.Name, methodName, sc.TxSimContext.GetDepth())
+ 	e27ProbeEnd(diag27, exportCallEnd.Sub(exportCallStart).Nanoseconds())
+ 	sc.traceBusiness("business_return", instance, err)
+ 	sc.B5Profile.CopyLookupNs = exportCallStart.Sub(copyLookupStart).Nanoseconds()
+--- step28/step21d_fixture_test.go
++++ step29/step21d_fixture_test.go
+@@ -62,6 +62,8 @@
+ }
+ 
+ func (s *s21cStore) GetContractByName(name string) (*common.Contract, error) {
++	meta29 := e29Start()
++	defer e29End(meta29, "fixture_contract_metadata", name, "", -1)
+ 	c, ok := s.contracts[name]
+ 	if !ok {
+ 		return nil, fmt.Errorf("unregistered contract %s", name)
+@@ -75,6 +77,8 @@
+ 	return clone, e
+ }
+ func (s *s21cStore) GetContractBytecode(name string) ([]byte, error) {
++	clone29 := e29Start()
++	defer e29End(clone29, "fixture_bytecode_clone", name, "", -1)
+ 	b, ok := s.code[name]
+ 	if !ok {
+ 		return nil, fmt.Errorf("unregistered code %s", name)
+@@ -159,11 +163,15 @@
+ }
+ 
+ func s21cEmit(row interface{}) {
++	encode29 := e29Start()
+ 	b, e := json.Marshal(row)
++	e29End(encode29, "json_encode_STEP21C", "", "", -1)
+ 	if e != nil {
+ 		panic(e)
+ 	}
++	write29 := e29Start()
+ 	fmt.Printf("STEP21C %s\n", b)
++	e29End(write29, "stdout_STEP21C", "", "", -1)
+ }
+ 
+ func s21cPrepare(t *testing.T, manifestPath, output string) *s21cFixture {
+@@ -227,7 +235,7 @@
+ 	f := &s21cFixture{t: t, snapshot: snap, instances: base, member: member, output: output}
+ 	base.fixture = f
+ 	observed := base
+-	f.manager = vm.NewVmManager(map[common.RuntimeType]protocol.VmInstancesManager{common.RuntimeType_WASMER: observed}, "", &s21cAC{member: member}, nil, &chainconf.ChainConf{ChainConf: cfg}, logger.GetLogger("step21c-real-fixture"))
++	f.manager = vm.NewVmManager(map[common.RuntimeType]protocol.VmInstancesManager{common.RuntimeType_WASMER: observed}, "", &s21cAC{member: member}, nil, &chainconf.ChainConf{ChainConf: cfg}, e29Logger{logger.GetLogger("step21c-real-fixture")})
+ 	previous := protocol.ParametersValueMaxLength
+ 	protocol.ParametersValueMaxLength = protocol.DefaultParametersValueMaxSize * 1024 * 1024
+ 	t.Cleanup(func() { protocol.ParametersValueMaxLength = previous })
+@@ -272,7 +280,7 @@
+ 		kv = append(kv, &common.KeyValuePair{Key: k, Value: []byte(input[k])})
+ 	}
+ 	tx := &common.Transaction{Payload: &common.Payload{ChainId: ChainId, TxType: common.TxType_INVOKE_CONTRACT, TxId: txID, Timestamp: 1700000000, ContractName: contract, Method: method, Parameters: kv}, Sender: &common.EndorsementEntry{Signer: f.member.member}}
+-	ctx := vm.NewTxSimContext(f.manager, f.snapshot, tx, BlockVersion, logger.GetLogger("step21c-real-fixture"))
++	ctx := vm.NewTxSimContext(f.manager, f.snapshot, tx, BlockVersion, e29Logger{logger.GetLogger("step21c-real-fixture")})
+ 	f.calls = nil
+ 	f.nextID = 0
+ 	before := f.snapshot.hash()
+--- step28/step21d_runtime_test.go
++++ step29/step21d_runtime_test.go
+@@ -240,6 +240,7 @@
+ 			result.Message = fmt.Sprint(x)
+ 		}
+ 		end := time.Now()
++		e29Times(begin, end, "invoke", c.Name, method, depth)
+ 		if e22Enabled && b != nil && b.profile != nil {
+ 			if e27Enabled {
+ 				b.profile.ManagedCallEnd = w.ManagedCount()
+@@ -350,7 +351,9 @@
+ 	}
+ 	callNS = time.Since(callBegin).Nanoseconds()
+ 	order = sc.SpecialTxType
++	gas29 := e29Start()
+ 	remaining, gasErr := getGasByExport(b.instance)
++	e29End(gas29, "final_get_gas", c.Name, method, depth)
+ 	if gasErr != nil {
+ 		panic(gasErr)
+ 	}
+--- step28/step22_runtime_test.go
++++ step29/step22_runtime_test.go
+@@ -83,11 +83,15 @@
+ 	return &e22State{cache: map[string]*e22Cache{}, plans: map[string]*staticMemoryPlan{}, variant: "A0"}
+ }
+ func e22Emit(event string, data interface{}) {
++	encode29 := e29Start()
+ 	b, e := json.Marshal(map[string]interface{}{"event": event, "data": data})
++	e29End(encode29, "json_encode_STEP22", "", "", -1)
+ 	if e != nil {
+ 		panic(e)
+ 	}
++	write29 := e29Start()
+ 	fmt.Printf("STEP22 %s\n", b)
++	e29End(write29, "stdout_STEP22", "", "", -1)
+ }
+ func e22Hash(b []byte) string { h := sha256.Sum256(b); return hex.EncodeToString(h[:]) }
+ func (m *dManager) e22Prepare(c *common.Contract, raw []byte) error {
+--- step28/step28_test.go
++++ step29/step28_test.go
+@@ -18,6 +18,7 @@
+ 		t.Fatal("explicit flags required")
+ 	}
+ 	defer dOwner(t)()
++	defer e29Flush()
+ 	var variants map[string]e25Artifact
+ 	data, e := os.ReadFile(os.Getenv("E25_VARIANTS"))
+ 	if e != nil || json.Unmarshal(data, &variants) != nil {
+--- step28/step29_test.go
++++ step29/step29_test.go
+@@ -0,0 +1,77 @@
++package wasmer
++
++import (
++	protocol "chainmaker.org/chainmaker/protocol/v2"
++	"encoding/json"
++	"fmt"
++	"os"
++	"time"
++)
++
++var e29On = os.Getenv("E29_TRACE") == "1"
++var e29Epoch = time.Now()
++
++type e29Span struct {
++	Kind     string `json:"kind"`
++	Contract string `json:"contract"`
++	Method   string `json:"method"`
++	Depth    int    `json:"depth"`
++	Begin    int64  `json:"begin_ns"`
++	End      int64  `json:"end_ns"`
++}
++
++var e29Spans = make([]e29Span, 0, 4096)
++
++func e29Start() time.Time {
++	if !e29On {
++		return time.Time{}
++	}
++	return time.Now()
++}
++func e29Times(a, b time.Time, kind, c, m string, d int) {
++	if !e29On {
++		return
++	}
++	if len(e29Spans) >= cap(e29Spans) {
++		panic("Step29 span bound")
++	}
++	e29Spans = append(e29Spans, e29Span{kind, c, m, d, a.Sub(e29Epoch).Nanoseconds(), b.Sub(e29Epoch).Nanoseconds()})
++}
++func e29End(a time.Time, kind, c, m string, d int) {
++	if e29On {
++		e29Times(a, time.Now(), kind, c, m, d)
++	}
++}
++func e29Flush() {
++	if !e29On {
++		return
++	}
++	b, e := json.Marshal(e29Spans)
++	if e != nil {
++		panic(e)
++	}
++	fmt.Printf("STEP29 %s\n", b)
++}
++
++type e29Logger struct{ protocol.Logger }
++
++func (l e29Logger) Infof(f string, a ...interface{}) {
++	s := e29Start()
++	l.Logger.Infof(f, a...)
++	e29End(s, "manager_logger_infof", "", f, -1)
++}
++func (l e29Logger) Debugf(f string, a ...interface{}) {
++	s := e29Start()
++	l.Logger.Debugf(f, a...)
++	e29End(s, "manager_logger_debugf", "", f, -1)
++}
++func (l e29Logger) Warnf(f string, a ...interface{}) {
++	s := e29Start()
++	l.Logger.Warnf(f, a...)
++	e29End(s, "manager_logger_warnf", "", f, -1)
++}
++func (l e29Logger) Errorf(f string, a ...interface{}) {
++	s := e29Start()
++	l.Logger.Errorf(f, a...)
++	e29End(s, "manager_logger_errorf", "", f, -1)
++}
+--- step28/vm_bridge.go
++++ step29/vm_bridge.go
+@@ -175,6 +175,7 @@
+ 	simContext := vbm.get(ctxPtr.(int32))
+ 	simContext.B5Profile.SyscallMethod = fmt.Sprint(method)
+ 	defer func() {
++		e29End(syscallStart, "syscall", simContext.Contract.Name, fmt.Sprint(method), simContext.TxSimContext.GetDepth())
+ 		simContext.B5Profile.SyscallCount++
+ 		simContext.B5Profile.SyscallNs += time.Since(syscallStart).Nanoseconds()
+ 	}()
+@@ -387,14 +388,20 @@
+ }
+ 
+ func (s *WaciInstance) callContractCore(isLen bool) int32 {
++	span29 := e29Start()
++	defer e29End(span29, "cross_core", s.Sc.Contract.Name, fmt.Sprint(isLen), s.Sc.TxSimContext.GetDepth())
++	gas29 := e29Start()
+ 	gasRemaining, err := getGasByExport(s.Sc.Instance)
+ 	if err != nil {
+ 		s.recordMsg(err.Error())
+ 		return protocol.ContractSdkSignalResultFail
+ 	}
++	e29End(gas29, "cross_get_gas", s.Sc.Contract.Name, fmt.Sprint(isLen), s.Sc.TxSimContext.GetDepth())
+ 	gasUsed := runtimeGasLimit - gasRemaining
++	wacsi29 := e29Start()
+ 	result, gas, specialTxType, err := wacsi.CallContract(s.Sc.Contract, s.RequestBody, s.Sc.TxSimContext, s.Memory,
+ 		s.Sc.GetStateCache, gasUsed, isLen)
++	e29End(wacsi29, "cross_wacsi", s.Sc.Contract.Name, fmt.Sprint(isLen), s.Sc.TxSimContext.GetDepth())
+ 	if result == nil {
+ 		s.Sc.GetStateCache = nil // reset data
+ 		//s.Sc.ContractEvent = nil
+@@ -403,6 +410,7 @@
+ 		s.Sc.ContractEvent = append(s.Sc.ContractEvent, result.ContractEvent...)
+ 	}
+ 	s.Sc.SpecialTxType = specialTxType
++	gasSet29 := e29Start()
+ 	if err = setGasByExport(s.Sc.Instance, runtimeGasLimit-gas); err != nil {
+ 		s.recordMsg(err.Error())
+ 		return protocol.ContractSdkSignalResultFail
+@@ -411,6 +419,7 @@
+ 		s.recordMsg(err.Error())
+ 		return protocol.ContractSdkSignalResultFail
+ 	}
++	e29End(gasSet29, "cross_set_gas", s.Sc.Contract.Name, fmt.Sprint(isLen), s.Sc.TxSimContext.GetDepth())
+ 	return protocol.ContractSdkSignalResultSuccess
+ }
+ 
