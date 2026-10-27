@@ -1,6 +1,6 @@
 # Step24B 可恢复执行进度
 
-**当前状态：所有登记动态实验与离线报告已完成，146测试进程/277配对语义通过，无STOP；不再扩大运行。下文保留历史检查点。最后仅Git提交与IDE镜像收尾。**
+**当前状态：所有登记动态实验与离线报告已完成，146测试进程/277配对语义通过，无STOP；不再扩大运行。下文保留历史检查点。Git与IDE镜像收尾也已完成，见末尾记录。**
 
 2026-10-27 Asia/Shanghai。分支experiment/step24b-copy-invoke，独立工作区/home/frankie/mygitprojects/.worktrees/cvw-step24b，父Step23 ba57368；Step22基准394d291。主CVW脏文件及21/22/23原始目录不修改，不push。
 
@@ -639,3 +639,6 @@ buyNow formal批3两独立变体各根1+六真实子调用已比较，通过Gas/
 - 新增文档/脚本/改动测试入口的空白检查、Python静态编译、本地报告链接检查通过；verification确认146进程/277配对、无STOP。902调用完整TIMING保留，33列以上阶段/准备/资源字段可追溯到原日志。
 - 参考22/23/21C工作区仍clean，所有step24b unit已卸载，WSL boot ID未变；未修改代理/WSL/VSCode或生产VM。
 - 下一步只提交独立Step24B目录、生成校验manifest及主CVW新目录镜像。不再运行动态实验。后续须先解决长期Store、Table/异常和节点路径，不能以本轮结果直接放行并发节点测试。
+
+## Git与IDE收尾完成
+交付提交adcf230已创建；仅新增Step24B目录，1735个Git交付文件已复制到主CVW同名新目录并按manifest核验。后续本收尾记录单独提交。未复制ELF/native库，未覆盖22/23或生产文件，未push。所有登记任务完成；恢复后无待执行guest，后续限制见README/RESULTS与PLAN。
