@@ -1,0 +1,126 @@
+{
+  "label": "target",
+  "tx_id": "step21c-buy-001",
+  "contract": "exchange",
+  "method": "buyNow",
+  "business_input": {
+    "from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+    "metadata": "http://chainmaker.org.cn/",
+    "to": "818fac1ac51525aeedf619a9a339b95854930159",
+    "tokenId": "1"
+  },
+  "before_hash": "a27f2d1e3ac3ab6c1e19c84c78c855eaf068cc21f4f31dc9e9641d8fe12274db",
+  "after_hash": "a27f2d1e3ac3ab6c1e19c84c78c855eaf068cc21f4f31dc9e9641d8fe12274db",
+  "runcontract_wall_ns_not_primary_metric": 55792568,
+  "status": 4,
+  "actual_result": {
+    "code": 1,
+    "message": "contract message:[buyNow] mint failed",
+    "gas_used": 1510719
+  },
+  "actual_rwset": {
+    "tx_id": "step21c-buy-001",
+    "tx_reads": [
+      {
+        "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+        "contract_name": "erc721"
+      },
+      {
+        "key": "ZXJjNzIxI2FkbWlu",
+        "value": "Njk4YmVhNjNkYzQ0YTM0NDY2M2ZmMTQyOWFlYTEwODQyZGYyN2I2Yjk5MWVmMjU4NjZiMmM2YzAyY2RjYzViZQ==",
+        "contract_name": "erc721"
+      },
+      {
+        "key": "dG9rZW5JZHMjMQ==",
+        "contract_name": "erc721"
+      },
+      {
+        "key": "aWRlbnRpdHkjODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+        "value": "MQ==",
+        "contract_name": "identity"
+      },
+      {
+        "key": "aWRlbnRpdHkjOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+        "value": "MQ==",
+        "contract_name": "identity"
+      }
+    ]
+  },
+  "inclusive_call_records_do_not_sum": [
+    {
+      "id": 1,
+      "depth": 1,
+      "contract": "identity",
+      "method": "addWriteList",
+      "tx_id": "step21c-buy-001",
+      "begin_ns": 1793063253342355307,
+      "end_ns": 1793063253349354047,
+      "invoke_seconds_inclusive": 0.006998732,
+      "callmethod_seconds_nested": 0.000525263,
+      "gas_used_actual": 101804,
+      "code": 0,
+      "result": "add write list success",
+      "message": ""
+    },
+    {
+      "id": 2,
+      "depth": 1,
+      "contract": "identity",
+      "method": "isApprovedUser",
+      "tx_id": "step21c-buy-001",
+      "begin_ns": 1793063253351449660,
+      "end_ns": 1793063253356849505,
+      "invoke_seconds_inclusive": 0.005399845,
+      "callmethod_seconds_nested": 0.000479478,
+      "gas_used_actual": 302538,
+      "code": 0,
+      "result": "true",
+      "message": ""
+    },
+    {
+      "id": 3,
+      "depth": 1,
+      "contract": "identity",
+      "method": "isApprovedUser",
+      "tx_id": "step21c-buy-001",
+      "begin_ns": 1793063253357868374,
+      "end_ns": 1793063253363666834,
+      "invoke_seconds_inclusive": 0.005798459,
+      "callmethod_seconds_nested": 0.000399985,
+      "gas_used_actual": 705317,
+      "code": 0,
+      "result": "true",
+      "message": ""
+    },
+    {
+      "id": 4,
+      "depth": 1,
+      "contract": "erc721",
+      "method": "mint",
+      "tx_id": "step21c-buy-001",
+      "begin_ns": 1793063253364499829,
+      "end_ns": 1793063253391557082,
+      "invoke_seconds_inclusive": 0.02705726,
+      "callmethod_seconds_nested": 0,
+      "gas_used_actual": 0,
+      "code": 1,
+      "result": "",
+      "message": "cache key layout/uniqueness mismatch"
+    },
+    {
+      "id": 0,
+      "depth": 0,
+      "contract": "exchange",
+      "method": "buyNow",
+      "tx_id": "step21c-buy-001",
+      "begin_ns": 1793063253336250395,
+      "end_ns": 1793063253391907846,
+      "invoke_seconds_inclusive": 0.055657453,
+      "callmethod_seconds_nested": 0.050623835,
+      "gas_used_actual": 1510719,
+      "code": 1,
+      "result": "",
+      "message": "contract message:[buyNow] mint failed"
+    }
+  ]
+}
