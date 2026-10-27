@@ -137,3 +137,5 @@ preflight-R1-on失败：仅内部cache读取器键布局校验，mint被探针�
 交付：README.md、TRACE_PATH.md、GAS_ATTRIBUTION.md、GAS_TRACE.csv、BLOCK_SUMMARY.csv、CALLS.csv、STATE_COMPARISON.csv、PAIRED_GAS.csv、WARM_RECORDS.csv、ALL_RUNS.csv、RESOURCE_LIFECYCLE.csv、audit/verification.json、原始raw_logs、源码及scripts。当前阻塞：只读内部cache解析未建立可靠性，因而精确encoderCache/fieldCache/fmt/分配机制未唯一定位；Table身份/异常/并发/长期回收仍not_tested。
 
 下一条安全恢复命令：python3 -B scripts/analyze.py（只复算）；不需再启动guest。后续动态诊断必须独立计划，不删除STOP或覆盖本轮label。当前准备只提交实验独立分支并同步IDE资料，不push。
+
+数据与源码已提交 caabbf3（完整ID见audit/delivery.json）；最终整理仅修正文档中的log_message宿主内观测边界和精简代码diff，不改测试源码/二进制/结果。正在同步IDE目录，无远程push。
