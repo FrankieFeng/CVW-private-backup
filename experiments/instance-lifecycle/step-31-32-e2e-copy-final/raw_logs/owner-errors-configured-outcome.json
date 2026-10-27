@@ -1,0 +1,138 @@
+{
+  "test": "TestStep21DOwnerFailure",
+  "passed": true,
+  "reason": "exited",
+  "peak_rss_kib": 53980,
+  "peak_threads": 23,
+  "go_heap_bytes": null,
+  "go_heap_status": "not_collected_in_reused_probe",
+  "pid_stopped": true,
+  "cgroup_empty": true,
+  "owner_closed": {
+    "Threads": 7,
+    "VmRSS": 53980,
+    "event": "owner_closed",
+    "managed_objects": 0,
+    "managed_pending": 0,
+    "monotonic_ns": 11844597,
+    "owner_tid": 1202249,
+    "wall_unix_ns": 1793102057373539174
+  },
+  "events": [
+    {
+      "Threads": 5,
+      "VmRSS": 41100,
+      "contract": "invalid",
+      "event": "create_begin",
+      "instance_id": 1,
+      "managed_objects": 0,
+      "monotonic_ns": 507118,
+      "owner_tid": 1202249,
+      "wall_unix_ns": 1793102057362201946
+    },
+    {
+      "Threads": 6,
+      "VmRSS": 44124,
+      "error": "[invalid_1], byte code validation failed, err = unexpected character '\\u{1}'\n     --> <anon>:1:1\n      |\n    1 | \u0001\u0002\u0003\n      | ^",
+      "event": "create_failed",
+      "managed_objects": 0,
+      "monotonic_ns": 5267504,
+      "owner_tid": 1202249,
+      "wall_unix_ns": 1793102057366961890
+    },
+    {
+      "Threads": 6,
+      "VmRSS": 44132,
+      "error": "[invalid_1], byte code validation failed, err = unexpected character '\\u{1}'\n     --> <anon>:1:1\n      |\n    1 | \u0001\u0002\u0003\n      | ^",
+      "event": "creation_failure_handled",
+      "managed_objects": 0,
+      "monotonic_ns": 5334451,
+      "owner_tid": 1202249,
+      "pending": 0,
+      "wall_unix_ns": 1793102057367029457
+    },
+    {
+      "Threads": 6,
+      "VmRSS": 44140,
+      "contract": "no-deallocator",
+      "event": "create_begin",
+      "instance_id": 2,
+      "managed_objects": 0,
+      "monotonic_ns": 5354381,
+      "owner_tid": 1202249,
+      "wall_unix_ns": 1793102057367049447
+    },
+    {
+      "Threads": 23,
+      "VmRSS": 53152,
+      "compile_ns": 3594288,
+      "contract": "no-deallocator",
+      "create_ns": 4741596,
+      "event": "create_done",
+      "instance_id": 2,
+      "managed_objects": 109,
+      "monotonic_ns": 10096388,
+      "owner_tid": 1202249,
+      "wall_unix_ns": 1793102057371791292
+    },
+    {
+      "Threads": 23,
+      "VmRSS": 53164,
+      "contract": "no-deallocator",
+      "event": "close_begin",
+      "instance_id": 2,
+      "managed_objects": 109,
+      "monotonic_ns": 10136037,
+      "owner_tid": 1202249,
+      "wall_unix_ns": 1793102057371831078
+    },
+    {
+      "Threads": 15,
+      "VmRSS": 53440,
+      "close_ns": 325675,
+      "contract": "no-deallocator",
+      "error": "Export `deallocate` does not exist",
+      "event": "close_done",
+      "instance_id": 2,
+      "managed_objects": 0,
+      "monotonic_ns": 10464044,
+      "owner_tid": 1202249,
+      "wall_unix_ns": 1793102057372159015
+    },
+    {
+      "Threads": 15,
+      "VmRSS": 53464,
+      "error": "Export `deallocate` does not exist",
+      "event": "close_failure_handled",
+      "managed_objects": 0,
+      "monotonic_ns": 10512723,
+      "owner_tid": 1202249,
+      "pending": 0,
+      "wall_unix_ns": 1793102057372207759
+    },
+    {
+      "Threads": 14,
+      "VmRSS": 53488,
+      "closed": 1,
+      "created": 1,
+      "event": "manager_closed",
+      "in_flight": 0,
+      "managed_objects": 0,
+      "monotonic_ns": 10559659,
+      "owner_tid": 1202249,
+      "wall_unix_ns": 1793102057372254679
+    },
+    {
+      "Threads": 7,
+      "VmRSS": 53980,
+      "event": "owner_closed",
+      "managed_objects": 0,
+      "managed_pending": 0,
+      "monotonic_ns": 11844597,
+      "owner_tid": 1202249,
+      "wall_unix_ns": 1793102057373539174
+    }
+  ],
+  "binary_sha": "940ccc3adf6e4d03be01ee40c36fcb17861eb4517546d53c6da86aad41716f91",
+  "node_test": false
+}
