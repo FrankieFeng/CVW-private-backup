@@ -834,3 +834,5 @@ trace定位：root残余Median G0/G1/G2=7.124/15.831/17.118ms；prepare6.196/14.
 
 交付复核完成：historical.py重新读取Step28原90个buyNow root日志，重算三条Invoke/残余配对中位数，与旧报告完全吻合，未写历史目录。分析全量重复复算通过；final-verification.json确认两套各30区块/3批，6真实callee/每root，204进程退出与历史hash不变。SOURCE_INDEX.csv与INSTRUMENTATION.diff记录准确插桩位置。原binary同期控制保留完整原计时，正式源build3的source_hashes校验完全一致。
 当前：无活动unit/Guest，仅本地版本保存与IDE镜像。恢复不用再运行Guest；离线historical.py、analyze.py、report.py、verify.py。没有需凑数的未完成样本；未定位机制和未验证项已在报告保留。
+
+本地结果/源码快照已提交8788b08（测量后形成，运行时29950ab+记录的新增源码；所有Go编译源hash逐项匹配，SOURCE_FREEZE明确区分）。未push、未修改生产VM。即将把本实验Git跟踪交付精确镜像至CVW/experiments/instance-lifecycle/step-29-buy-now-attribution，供IDE查看；运行/恢复仍在原独立worktree，镜像不含native库/host binary。所有目标交付与实际有界测试完成，无待继续的Guest任务。
