@@ -1,0 +1,52 @@
+# 关键源码与计时行号
+
+均为本轮隔离源码。原Copy/Gas/所有者/Invoke与22逐件相同，见audit/source-identity.json；source.diff仅修改测试准备/顺序/预算。
+
+- [source/vm/step22_runtime_test.go:68](source/vm/step22_runtime_test.go#L68) `func newE22State() *e22State`
+- [source/vm/step22_runtime_test.go:71](source/vm/step22_runtime_test.go#L71) `func e22Emit(event string, data interface`
+- [source/vm/step22_runtime_test.go:78](source/vm/step22_runtime_test.go#L78) `func e22Hash(b []byte) string`
+- [source/vm/step22_runtime_test.go:79](source/vm/step22_runtime_test.go#L79) `func (m *dManager) e22Prepare(c *common.Contract, raw []byte) error`
+- [source/vm/step22_runtime_test.go:126](source/vm/step22_runtime_test.go#L126) `func (m *dManager) makeE22(c *common.Contract, raw []byte) (b *dBundle, err error)`
+- [source/vm/step22_runtime_test.go:220](source/vm/step22_runtime_test.go#L220) `func (m *dManager) closeE22(b *dBundle) (err error)`
+- [source/vm/step22_runtime_test.go:246](source/vm/step22_runtime_test.go#L246) `func (s *e22State) closeCaches() error`
+- [source/vm/step22_runtime_test.go:258](source/vm/step22_runtime_test.go#L258) `func e22Clone(in map[string]map[string][]byte) map[string]map[string][]byte`
+- [source/vm/step22_runtime_test.go:264](source/vm/step22_runtime_test.go#L264) `func e22Expected(t *testing.T, f *s21cFixture, name string, p map[string]string, r *s21cReceipt)`
+- [source/vm/step22_runtime_test.go:296](source/vm/step22_runtime_test.go#L296) `func e22Assert(t *testing.T, a, b *s21cReceipt)`
+- [source/vm/step22_runtime_test.go:309](source/vm/step22_runtime_test.go#L309) `func TestStep24BSerial(t *testing.T)`
+- [source/vm/step22_runtime_test.go:411](source/vm/step22_runtime_test.go#L411) `func TestStep22ModuleLifecycle(t *testing.T)`
+- [source/vm/step22_static_test.go:33](source/vm/step22_static_test.go#L33) `func (r *staticReader) byte() byte`
+- [source/vm/step22_static_test.go:41](source/vm/step22_static_test.go#L41) `func (r *staticReader) u() int`
+- [source/vm/step22_static_test.go:56](source/vm/step22_static_test.go#L56) `func (r *staticReader) signed() int`
+- [source/vm/step22_static_test.go:74](source/vm/step22_static_test.go#L74) `func (r *staticReader) take(n int) []byte`
+- [source/vm/step22_static_test.go:82](source/vm/step22_static_test.go#L82) `func (r *staticReader) name() string`
+- [source/vm/step22_static_test.go:83](source/vm/step22_static_test.go#L83) `func staticSHA(b []byte) string`
+- [source/vm/step22_static_test.go:85](source/vm/step22_static_test.go#L85) `func prepareStaticMemory(source []byte, c *commonPb.Contract, config string) (plan *staticMemoryPlan, err error)`
+- [source/vm/step22_static_test.go:235](source/vm/step22_static_test.go#L235) `func (p *staticMemoryPlan) restore(module *wasm.Module, instance *wasm.Instance, source []byte, contract *commonPb.Contract, config string) error`
+- [source/vm/step21d_runtime_test.go:41](source/vm/step21d_runtime_test.go#L41) `func newDManager(policy string) *dManager`
+- [source/vm/step21d_runtime_test.go:54](source/vm/step21d_runtime_test.go#L54) `func dEvent(event string, fields map[string]interface`
+- [source/vm/step21d_runtime_test.go:85](source/vm/step21d_runtime_test.go#L85) `func (m *dManager) NewRuntimeInstance(_ protocol.TxSimContext, chain, method, path string, c *common.Contract, code []byte, _ protocol.Logger) (protocol.RuntimeInstance, error)`
+- [source/vm/step21d_runtime_test.go:95](source/vm/step21d_runtime_test.go#L95) `func (m *dManager) makeBundle(c *common.Contract, code []byte) (b *dBundle, err error)`
+- [source/vm/step21d_runtime_test.go:167](source/vm/step21d_runtime_test.go#L167) `func (m *dManager) closeBundle(b *dBundle) (err error)`
+- [source/vm/step21d_runtime_test.go:197](source/vm/step21d_runtime_test.go#L197) `func (m *dManager) Close() error`
+- [source/vm/step21d_runtime_test.go:226](source/vm/step21d_runtime_test.go#L226) `func (r *dRuntime) Invoke(c *common.Contract, method string, code []byte, params map[string][]byte, ctx protocol.TxSimContext, gasUsed uint64) (result *common.ContractResult, order protocol.ExecOrderTxType)`
+- [source/vm/step21d_checks_test.go:14](source/vm/step21d_checks_test.go#L14) `func dN(t *testing.T) int`
+- [source/vm/step21d_checks_test.go:21](source/vm/step21d_checks_test.go#L21) `func dOwner(t *testing.T) func()`
+- [source/vm/step21d_checks_test.go:41](source/vm/step21d_checks_test.go#L41) `func TestStep21DOwnerFailure(t *testing.T)`
+- [source/vm/step21d_checks_test.go:83](source/vm/step21d_checks_test.go#L83) `func TestStep21DCompute(t *testing.T)`
+- [source/vm/step21d_checks_test.go:111](source/vm/step21d_checks_test.go#L111) `func TestStep21DExchange(t *testing.T)`
+- [source/vm/wasmer-go/managed.go:25](source/vm/wasmer-go/managed.go#L25) `func ManagedBeginOwner()`
+- [source/vm/wasmer-go/managed.go:31](source/vm/wasmer-go/managed.go#L31) `func ManagedAssert()`
+- [source/vm/wasmer-go/managed.go:36](source/vm/wasmer-go/managed.go#L36) `func ManagedOpen(label string) *ManagedScope`
+- [source/vm/wasmer-go/managed.go:42](source/vm/wasmer-go/managed.go#L42) `func (s *ManagedScope) Activate() func()`
+- [source/vm/wasmer-go/managed.go:51](source/vm/wasmer-go/managed.go#L51) `func managedSetFinalizer(obj, fn interface`
+- [source/vm/wasmer-go/managed.go:73](source/vm/wasmer-go/managed.go#L73) `func (s *ManagedScope) Close() (err error)`
+- [source/vm/wasmer-go/managed.go:109](source/vm/wasmer-go/managed.go#L109) `func ManagedCount() int`
+- [source/vm/wasmer-go/managed.go:110](source/vm/wasmer-go/managed.go#L110) `func ManagedEndOwner()`
+- [source/vm/wasmer-go/managed.go:118](source/vm/wasmer-go/managed.go#L118) `func (s *ManagedScope) Suspend()`
+- [source/vm/wasmer-go/managed.go:130](source/vm/wasmer-go/managed.go#L130) `func managedEnterFunction(f *Function) func()`
+- [source/vm/sim_context.go:63](source/vm/sim_context.go#L63) `func NewSimContext(method string, log *logger.CMLogger, chainId string) *SimContext`
+- [source/vm/sim_context.go:76](source/vm/sim_context.go#L76) `func (sc *SimContext) CallMethod(instance *wasmer.Instance) error`
+- [source/vm/sim_context.go:124](source/vm/sim_context.go#L124) `func (sc *SimContext) callContract(instance *wasmer.Instance, methodName string, bytes []byte) error`
+- [source/vm/sim_context.go:202](source/vm/sim_context.go#L202) `func CallDeallocate(instance *wasmer.Instance) error`
+- [source/vm/sim_context.go:216](source/vm/sim_context.go#L216) `func (sc *SimContext) removeCtxPointer()`
+- [source/vm/sim_context.go:225](source/vm/sim_context.go#L225) `func (sc *SimContext) putCtxPointer()`

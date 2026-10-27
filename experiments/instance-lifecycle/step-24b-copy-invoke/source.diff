@@ -1,0 +1,99 @@
+--- step22/source/vm/step22_runtime_test.go
++++ step24b/source/vm/step22_runtime_test.go
+@@ -91,7 +91,11 @@
+ 	nodataSHA := e22Hash(p.NoData)
+ 	m.e22.plans[c.Name] = p
+ 	e22Emit("template", map[string]interface{}{"contract": c.Name, "source_sha": p.SourceSHA, "nodata_sha": nodataSHA, "image_sha": imageSHA, "key": p.Key, "image_bytes": len(p.Image), "ranges": len(p.Ranges), "prepare_ns": time.Since(begin).Nanoseconds()})
+-	for _, v := range []string{"A0", "A1"} {
++	variants := []string{"A0", "A1"}
++	if os.Getenv("E24_MODULE_FIRST") == "A1" {
++		variants = []string{"A1", "A0"}
++	}
++	for _, v := range variants {
+ 		scope := w.ManagedOpen("module-" + c.Name + v)
+ 		start := time.Now()
+ 		code := raw
+@@ -302,14 +306,14 @@
+ 		t.Fatal("A0/A1 RWSet/events differ")
+ 	}
+ }
+-func TestStep22Serial(t *testing.T) {
++func TestStep24BSerial(t *testing.T) {
+ 	if !e22Enabled {
+ 		t.Fatal("explicit E22_ENABLED required")
+ 	}
+ 	defer dOwner(t)()
+ 	n, e := strconv.Atoi(os.Getenv("E22_PAIRS"))
+-	if e != nil || n < 1 || n > 3 {
+-		t.Fatal("registered budget 1..3 pairs")
++	if e != nil || n < 1 || n > 2 {
++		t.Fatal("Step24B bounded budget 1..2 pairs")
+ 	}
+ 	name := os.Getenv("E22_CONTRACT")
+ 	method := os.Getenv("E22_METHOD")
+@@ -334,19 +338,31 @@
+ 	if single != "" && (name != "exchange" || n != 1 || single != "A0" && single != "A1") {
+ 		t.Fatal("unregistered single-process split budget")
+ 	}
+-	m.e22.variant = "A0"
++	// Symmetric initialization; no measured Instance is reused.
++	setupStart := e22Clone(f.snapshot.ledger)
++	initVariants := []string{"A0", "A1"}
+ 	if single != "" {
+-		m.e22.variant = single
+-	}
+-	for _, name := range names {
+-		args := map[string]string{}
+-		if name == "erc721" {
+-			args = map[string]string{"name": "huanletoken", "symbol": "hlt", "tokenURI": "https://chainmaker.org.cn"}
+-		}
+-		r := f.run("setup-"+name, name, "init_contract", "step22-init-"+name, args)
+-		if r.Result.Code != 0 {
+-			t.Fatalf("actual init failed: %+v", r.Result)
+-		}
++		initVariants = []string{single}
++	}
++	var initialHash string
++	for _, variant := range initVariants {
++		m.e22.variant = variant
++		f.snapshot.ledger = e22Clone(setupStart)
++		for _, setupName := range names {
++			args := map[string]string{}
++			if setupName == "erc721" {
++				args = map[string]string{"name": "huanletoken", "symbol": "hlt", "tokenURI": "https://chainmaker.org.cn"}
++			}
++			r := f.run("setup-"+setupName+"-"+variant, setupName, "init_contract", "step24b-init-"+setupName, args)
++			if r.Result.Code != 0 || r.Status != 0 {
++				t.Fatalf("actual symmetric init failed: %+v", r.Result)
++			}
++		}
++		h := f.snapshot.hash()
++		if initialHash != "" && h != initialHash {
++			t.Fatal("A0/A1 initialized ledgers differ")
++		}
++		initialHash = h
+ 	}
+ 	initial := e22Clone(f.snapshot.ledger)
+ 	m.e22.validate = phase == "preflight"
+@@ -356,10 +372,10 @@
+ 			params = map[string]string{"file_hash": "005521f27d745a04999c6d09f559764f9c44376a", "file_name": "aoteman.jpg", "time": "1792827547"}
+ 		}
+ 		if name == "erc721" {
+-			params = map[string]string{"to": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0", "tokenId": fmt.Sprint(i + 1), "metadata": "http://chainmaker.org.cn/"}
++			params = map[string]string{"to": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0", "tokenId": "1", "metadata": "http://chainmaker.org.cn/"}
+ 		}
+ 		if name == "exchange" {
+-			params = map[string]string{"from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0", "to": "818fac1ac51525aeedf619a9a339b95854930159", "tokenId": fmt.Sprint(i + 1), "metadata": "http://chainmaker.org.cn/"}
++			params = map[string]string{"from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0", "to": "818fac1ac51525aeedf619a9a339b95854930159", "tokenId": "1", "metadata": "http://chainmaker.org.cn/"}
+ 		}
+ 		order := []string{"A0", "A1"}
+ 		seed, _ := strconv.ParseInt(os.Getenv("E22_SEED"), 10, 64)
+@@ -373,7 +389,7 @@
+ 		for _, v := range order {
+ 			m.e22.variant = v
+ 			f.snapshot.ledger = e22Clone(initial)
+-			r := f.run(fmt.Sprintf("pair-%03d-%s", i, v), name, method, fmt.Sprintf("step22-%s-%03d", name, i), params)
++			r := f.run(fmt.Sprintf("pair-%03d-%s", i, v), name, method, fmt.Sprintf("step24b-%s-fixed", name), params)
+ 			receipts[v] = r
+ 			e22Expected(t, f, name, params, r)
+ 			if r.Result.Code != 0 {
