@@ -1,0 +1,65 @@
+{
+  "label": "pair-001-A0",
+  "tx_id": "step25-fact-saveAndFindByFileHash-fixed",
+  "contract": "fact",
+  "method": "saveAndFindByFileHash",
+  "business_input": {
+    "file_hash": "005521f27d745a04999c6d09f559764f9c44376a",
+    "file_name": "aoteman.jpg",
+    "time": "1792827547"
+  },
+  "before_hash": "fee9cb7c5fc89c6409383d9df23719f61b77600df50276456b2972242944e29a",
+  "after_hash": "3114af473347e819714fe097a1b48a9cb5cd397c25b9aa40c1e399c837f7e1be",
+  "runcontract_wall_ns_not_primary_metric": 4763953,
+  "status": 0,
+  "actual_result": {
+    "result": "eyJmaWxlSGFzaCI6IjAwNTUyMWYyN2Q3NDVhMDQ5OTljNmQwOWY1NTk3NjRmOWM0NDM3NmEiLCJmaWxlTmFtZSI6ImFvdGVtYW4uanBnIiwidGltZSI6MTc5MjgyNzU0N30=",
+    "gas_used": 154,
+    "contract_event": [
+      {
+        "topic": "topic_vx",
+        "tx_id": "step25-fact-saveAndFindByFileHash-fixed",
+        "contract_name": "fact",
+        "contract_version": "1.0.0",
+        "event_data": [
+          "005521f27d745a04999c6d09f559764f9c44376a",
+          "aoteman.jpg"
+        ]
+      }
+    ]
+  },
+  "actual_rwset": {
+    "tx_id": "step25-fact-saveAndFindByFileHash-fixed",
+    "tx_reads": [
+      {
+        "key": "ZmFjdF9ieXRlcyMwMDU1MjFmMjdkNzQ1YTA0OTk5YzZkMDlmNTU5NzY0ZjljNDQzNzZh",
+        "value": "e30=",
+        "contract_name": "fact"
+      }
+    ],
+    "tx_writes": [
+      {
+        "key": "ZmFjdF9ieXRlcyMwMDU1MjFmMjdkNzQ1YTA0OTk5YzZkMDlmNTU5NzY0ZjljNDQzNzZh",
+        "value": "e30=",
+        "contract_name": "fact"
+      }
+    ]
+  },
+  "inclusive_call_records_do_not_sum": [
+    {
+      "id": 0,
+      "depth": 0,
+      "contract": "fact",
+      "method": "saveAndFindByFileHash",
+      "tx_id": "step25-fact-saveAndFindByFileHash-fixed",
+      "begin_ns": 1793072351978406139,
+      "end_ns": 1793072351983046597,
+      "invoke_seconds_inclusive": 0.004640458,
+      "callmethod_seconds_nested": 0.000547527,
+      "gas_used_actual": 154,
+      "code": 0,
+      "result": "{\"fileHash\":\"005521f27d745a04999c6d09f559764f9c44376a\",\"fileName\":\"aoteman.jpg\",\"time\":1792827547}",
+      "message": ""
+    }
+  ]
+}

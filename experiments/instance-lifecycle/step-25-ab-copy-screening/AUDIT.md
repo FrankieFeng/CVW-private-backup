@@ -39,3 +39,11 @@ A0/A1在本轮日志仅是进程左右两个角色，G0..G4才是实验配置。
 沿用24B单合约软限RSS768MiB、线程125；硬限2GiB/256task、45s Go/60s unit；global available8GiB/swap1GiB，未提高。每进程立即写log/receipt/outcome，确认owner managed/pending=0、created=closed、无存活PID/cgroup。任何新异常STOP禁止扩大。旧Store线程累积未修复，有限进程退出只是隔离，不认证长Store/并发。
 
 build1首次一对预检通过；build2在正式数据前补全复制源码旧入口的doCopy默认值（仅兼容旧测试入口），新Step25测试路径语义相同；主预检及全部正式使用build2。环境记录保留两binary hash，首build1预检不混入正式结果。
+
+## 补充：两二进制家族的Gas覆盖限制
+
+主矩阵compute/fact/ERC目标Gas为120027/154/235，而24B原件105920/1585/15677。不仅仅循环上限不同，fact/ERC的Guest计费执行结果也不同。是否源于插桩覆盖、SDK路径或输入长度尚未完全归因，不能把差异唯一归为某SDK或标准库构建补丁，**原件的精确构建计费来源尚未恢复**。本轮原样使用既有WASM，未改任何Gas，但不把Step18家族的性能和Gas正确性当作24B原件组合验证。
+
+因此额外单列原24B二进制的Fresh/Copy三方法参考，phase=reference，表和CI独立，不混入主矩阵。原24B家族中A/B1/完整组合仍为blocked（缺匹配原件计费构建的可恢复布局变体）。主矩阵的五组全部来自Step18同一源码/构建家族，保持同组Gas相等；报告必须保留这一区分。
+
+原24B WASM参考使用相同业务参数，固定TxID采用Step25格式；ERC本轮Gas15981、旧24B为15677。它不是Copy开关导致的Gas差异，本轮两侧完全相等；跨二进制家族的Guest计费来源仍未对齐。
