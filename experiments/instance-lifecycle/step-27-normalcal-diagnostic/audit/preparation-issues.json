@@ -1,0 +1,17 @@
+{
+  "build1": "unused time import compile failure; no guest binary/run; log retained",
+  "first_launcher": "attempted before successful binary; rejected before unit launch; manifest only; pre-label later used for first actual run",
+  "history_parser": "normal CSV contains 12 formal+2 gate; B5 logs key=value not JSON; corrected reader; permitted <=1ns prior float CSV conversion in CallMethod, exact export/IDs retained",
+  "safety_guards_unchanged": [
+    "Managed owner/finalizer",
+    "GetGas/SetGas",
+    "opcode mapping",
+    "max3 WASI per Store",
+    "RSS/thread/time limits"
+  ],
+  "build2_sha": "a036d80886c8017de843d992d5c6a57aeee339fed015d24e5c620b2ea5131cf7",
+  "offline_analysis_corrections": [
+    "R0 init is retained, so after-close counter is not applicable until final close",
+    "Gas must be stratified: original100000072 vs Step18 100000019; no samples/Gas changed"
+  ]
+}
