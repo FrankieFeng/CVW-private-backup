@@ -1040,3 +1040,6 @@ buyNow拟拆为每组三个独立进程组成一个匹配区块，每进程仅�
 离线统计脚本首次重建账本时遗漏系统CHAIN_CONFIG初始项，随后从真实identity读集恢复并逐阶段SHA核验；未修改任何Guest/测量/账本原始记录。保存derived ledger后，恢复脚本原target-G*.json glob会误读derived ledger；已收窄target-G[0-2].json，不影响已完成的正式样本。相关复算过程均非新实验。
 最终发现：hashCal/fact/ERC的Copy与A增量三批正；bigNumCal三项CI跨零；normalCal总体A+Copy较Fresh为正、A相对Copy跨零；buyNow A相对Copy正，但总体相对Fresh跨零且批次反转。buyNow根export扣除六个不重叠childInvoke后残余在Copy组额外7.025ms，窗口明确但机制未定位。均按真实结果报告，无删样本。
 下一步只做本地commit与IDE镜像，不再运行Guest；完整复算命令依次analyze.py、report.py、children.py、verify.py。未push。
+
+最终完成：源码/Guest冻结commit e7924d8，完整结果commit17e8c88，均仅本地分支experiment/step28-six-method-acopy，未push。已把本实验3799个Git跟踪文件精确镜像到CVW/experiments/instance-lifecycle/step-28-six-method-acopy，逐文件SHA一致。镜像用于IDE阅读；重建/恢复命令在原独立worktree运行（镜像不带未跟踪native库和host binary，go.work保留实际工作树路径），不要在镜像目录误启动新测试。
+全部交付完成，无活动Guest进程/step28 unit，无待补样本。后续只需阅读README/RESULTS/BUY_NOW_ANALYSIS/CORRECTNESS；如要复核，在独立工作树离线运行统计与verify。Table身份、完整异常覆盖、长期Store及真实节点问题仍保留为未验证，不影响本轮有界串行数据的保存。
