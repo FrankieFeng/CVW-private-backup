@@ -22,6 +22,7 @@ for ep in ['baseline','optimized']:
 evidence=[]
 files=[ROOT/'.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0'/n for n in ['runtime.go','vm_pool.go','wasmer-go/store.go','wasmer-go/exports.go','wasmer-go/function.go','wasmer-go/memory.go','wasmer-go/wasi.go','wasmer-go/error.go']]
 files += [ROOT/'.worktrees/node-step17/module/rpcserver/api_service.go',ROOT/'chainmaker-test-toolkit-master/chainmaker-performance-test/parallel/parallel_claim.go',Path('/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sdk-go/v2@v2.4.0/sdk_client.go'),Path('/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sdk-go/v2@v2.4.0/conn_pool.go'),CVW/'experiments/instance-lifecycle/step-21b-wasmer-store-lifecycle/CONCURRENCY_CONTRACT.md']
+files += [ROOT/'.worktrees/node-step17/module/rpcserver/tx_result_dispatcher.go',ROOT/'.worktrees/node-step17/module/subscriber/subscriber.go',ROOT/'.worktrees/node-step17/module/core/common/block_helper.go',ROOT/'.worktrees/node-step17/module/core/common/committer.go']
 for i,p in enumerate(files):
  b=p.read_bytes();dst=P/'audit/evidence'/f'{i:02d}-{p.name}';dst.parent.mkdir(exist_ok=True);dst.write_bytes(b);evidence.append(dict(source=str(p),copy=str(dst.relative_to(P)),sha256=sha(p),has_managed_owner='ManagedBeginOwner'in b.decode(errors='replace')))
 node_deps=[]

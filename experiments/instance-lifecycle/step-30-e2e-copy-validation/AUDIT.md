@@ -60,3 +60,9 @@ Step29 fine trace有可见观测影响，不能搬入本轮主E2E。Step28/29串
 可复用旧Step20原始207响应、VM逐TxID事件、资源、停止和旧详细trace归因；本轮离线重算并明确origin_step=20。未测：新Step30客户端延迟/60对/三批、G2 E2E、逐笔SDK begin/end绝对时刻、独立账本确认时间/提交窗口TPS、Go heap、原版独立NewInstance/_start/CallMethod、当前节点clone耗时。旧S1含NewInstance+Copy，S2-S1为WASI+_start合计，不改名纯_start。旧AddTx→VM证据来自另外2026-10-19详细批次，不能拿来填Step20低日志或Step30的缺失值。
 
 补充边界：未在本轮新启动节点，因此没有“本轮复现race、RSS超限或必然崩溃”的结论。旧RSS增长不证明20对必然超限；当前阻止smoke的首要条件是节点native生命周期所有权未准入，缩小样本本身不能补足该协议。四轮历史文件实际存在性/哈希与两个基线commit另由prerequisite-files.json和git cat-file复核。
+
+### 本地提交到同步响应的补充调用链核验
+
+继续沿实际源码追踪，而非按dispatcher名称推断：`module/core/common/committer.go:60`先执行store.PutBlock，失败panic；block_helper.go:1059等待CommitBlock返回，:1087发布BlockInfo。subscriber/subscriber.go:23–25将该消息转NewBlockEvent，rpcserver/tx_result_dispatcher.go:265–275遍历块内交易，:320–333按已注册TxID发送tx.Result与blockHeight；api_service.go:629接收后返回SDK。因此当前配置下成功同步响应确实在本节点PutBlock返回之后。它不能提供独立持久化/全网最终性验证或精确提交时间戳。
+
+缺失“独立提交事件窗口TPS”不等于提交语义未知：207响应有本节点提交结果证据。客户端观察窗内这些已确认交易的响应速率可以计算；但本报告不把它冒充按PutBlock事件时间窗统计的独立节点吞吐，也不把未知pending当未提交。新增链路源码快照列入environment-check.json/evidence。

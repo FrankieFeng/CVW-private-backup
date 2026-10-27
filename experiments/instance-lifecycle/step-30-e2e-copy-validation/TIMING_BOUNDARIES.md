@@ -64,3 +64,5 @@ sequenceDiagram
 单客户端连续闭环、无100ms Sleep，保持同一并发数；每批20完整对、3批为目标，不是凑数要求。先少量功能预检，cold/模板准备单列且保留首笔；正式组顺序平衡、端点角色跨批交换；只复用低开销VM日志。每批检查RSS走势/在途/未知提交/退出，资源软限仍2560MiB/220线程，MemoryMax3GiB；不靠轮换进程或抬限掩盖未解决增长。
 
 保留每请求SDK begin/end及elapsed、driver边界、requestID、TxID、root attempts、业务状态/写集/事件、提交证据；可靠提交事件或独立账本窗口建立前不报告提交TPS。旧17/20客户端不满足这些新增字段时标“受控新E2E”，不称精确重放。当前没有实现/运行此协议。
+
+本地提交语义进一步追踪：CommitBlock的store.PutBlock返回→AddBlock发布msgbus.BlockInfo→EventSubscriber.NewBlockEvent→TxResultDispatcher按TxID送result→同步RPC返回。当前成功响应覆盖这一节点本地提交链；未记录PutBlock精确时刻，因此不能输出独立commit-event时间窗的吞吐或端到端分段。详见AUDIT补充源码行号。
