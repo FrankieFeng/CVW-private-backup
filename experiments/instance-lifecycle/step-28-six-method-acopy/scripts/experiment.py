@@ -8,11 +8,14 @@ def parity(labels,case,exception=False):
  receipts=[]
  for label in labels:
   folder=P/'raw_logs'/f'{label}-receipts'
-  for file in sorted(folder.glob('target-G*.json')):receipts.append(json.loads(file.read_text()))
+  for file in sorted(folder.glob('target-G[0-2].json')):receipts.append(json.loads(file.read_text()))
  assert len(receipts)==3
  if exception:
   for a,b in zip(receipts,receipts[1:]):
    for k in ['business_input','before_hash','after_hash','status','actual_result','actual_rwset']:assert a[k]==b[k],k
+   fields=['id','depth','contract','method','tx_id','gas_used_actual','code','result','message']
+   ca=sorted(a['inclusive_call_records_do_not_sum'],key=lambda r:r['id']);cb=sorted(b['inclusive_call_records_do_not_sum'],key=lambda r:r['id'])
+   assert [{k:r.get(k)for k in fields}for r in ca]==[{k:r.get(k)for k in fields}for r in cb]
    assert a['actual_result'].get('code',0)!=0 and a['before_hash']==a['after_hash']
   result={'exception_parity':True,'gas':receipts[0]['actual_result'].get('gas_used',0),'calls':len(receipts[0]['inclusive_call_records_do_not_sum'])}
  else:result=check(receipts[0],receipts[1],case=='buyNow');check(receipts[1],receipts[2],case=='buyNow')

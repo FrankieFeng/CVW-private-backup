@@ -1,0 +1,25 @@
+=== RUN   TestStep28Serial
+STEP22 {"data":{"contract":"identity","group":"G2","image_bytes":4849664,"image_sha":"c2a8d45c308b3671fa8c41fc8da7589f8f456339298a23a62fcdcb40ff30b856","key":"0d09a44528538e5d24601a458b7ac46c97a9787af8e026d15df6dae6a2960550","nodata_sha":"0a988745d1a8e24394e0b11633ea2a8c62086fa72ff5faa72c3e68ab5812b0d5","prepare_ns":12707200,"ranges":50698,"source_sha":"5f535e95bdebb29b05bf1bef05cfc2fff174c807e3b06228bd0d380e743277c1"},"event":"template"}
+opmap length 216 
+2026-10-27 15:42:45.179	[INFO]	step25-prepare	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-27 15:42:45.179	[INFO]	step25-prepare	wasmer-go/module.go:103	wasmBytesPtr => 0xc002e66000 
+2026-10-27 15:42:45.180	[INFO]	step25-prepare	wasmer-go/module.go:104	wasmBytesLength => 4832042 
+Total function bodies: 2882
+2026-10-27 15:42:45.765	[DEBUG]	step25-prepare	vm/step21d_compile.go:266	[identity_1.0.0], new module success
+STEP22 {"data":{"cache_key":"0d09a44528538e5d24601a458b7ac46c97a9787af8e026d15df6dae6a2960550/G2","contract":"identity","copy_enabled":false,"group":"G2","module_prepare_ns":630921500,"module_wasm_sha":"5f535e95bdebb29b05bf1bef05cfc2fff174c807e3b06228bd0d380e743277c1","source_sha":"5f535e95bdebb29b05bf1bef05cfc2fff174c807e3b06228bd0d380e743277c1","variant":"G2"},"event":"module"}
+STEP22 {"data":{"contract":"exchange","group":"G2","image_bytes":4849664,"image_sha":"5cc3d4e509cf085ca922bca6c3d8c1411048bd5ba9408693152fbd82a292696e","key":"7a3744719f5250aa74ca9ff97e6b9687798b56d05c17db1a4c9109a25e0168b0","nodata_sha":"b91b4d058d17dcf5086bbdbdff8911e46ec8006bfa3a9411e0841d17a696e05a","prepare_ns":5713182,"ranges":46291,"source_sha":"ebf73e9e633a4a0f8012039ad075130e46894d08a8d63170b15cf75d37b0c2d3"},"event":"template"}
+opmap length 216 
+2026-10-27 15:42:45.810	[INFO]	step25-prepare	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-27 15:42:45.810	[INFO]	step25-prepare	wasmer-go/module.go:103	wasmBytesPtr => 0xc002aee000 
+2026-10-27 15:42:45.810	[INFO]	step25-prepare	wasmer-go/module.go:104	wasmBytesLength => 4282626 
+Total function bodies: 2627
+2026-10-27 15:42:46.342	[DEBUG]	step25-prepare	vm/step21d_compile.go:266	[exchange_1.0.0], new module success
+STEP22 {"data":{"cache_key":"7a3744719f5250aa74ca9ff97e6b9687798b56d05c17db1a4c9109a25e0168b0/G2","contract":"exchange","copy_enabled":false,"group":"G2","module_prepare_ns":567760426,"module_wasm_sha":"ebf73e9e633a4a0f8012039ad075130e46894d08a8d63170b15cf75d37b0c2d3","source_sha":"ebf73e9e633a4a0f8012039ad075130e46894d08a8d63170b15cf75d37b0c2d3","variant":"G2"},"event":"module"}
+2026-10-27 15:42:46.344	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+STEP22 {"data":{"alignment":4194304,"alignment_distance":0,"contract":"identity","first_reserve_bloc":4194304,"group":"G2"},"event":"alignment"}
+STEP22 {"data":{"alignment":4194304,"alignment_distance":0,"contract":"exchange","first_reserve_bloc":4194304,"group":"G2"},"event":"alignment"}
+STEP22 {"data":{"close_ns":7325055,"managed_remaining":0},"event":"cache_closed"}
+STEP21C {"Threads":8,"VmRSS":326888,"closed":2,"created":2,"event":"manager_closed","in_flight":0,"managed_objects":0,"monotonic_ns":1250529462,"owner_tid":1025995,"wall_unix_ns":1793086966359720091}
+STEP21C {"Threads":8,"VmRSS":326920,"event":"owner_closed","managed_objects":0,"managed_pending":0,"monotonic_ns":1251374039,"owner_tid":1025995,"wall_unix_ns":1793086966360564254}
+--- PASS: TestStep28Serial (1.25s)
+PASS

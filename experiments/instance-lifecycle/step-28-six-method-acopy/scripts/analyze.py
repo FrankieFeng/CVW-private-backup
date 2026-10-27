@@ -37,7 +37,7 @@ for o in outcomes:
  for x in events:
   if x['event']in['module','template']:prep.append(dict(label=label,case=o['case'],phase=o['phase'],event=x['event'],**x['data']))
   if x['event']!='sample':continue
-  r=x['data'];r['s1_to_s2_ns']=r['to_s2_ns']-r['to_s1_ns'];r['s2_to_s3_ns']=r['to_s3_ns']-r['to_s2_ns'];row=dict(code_parent='c8c46ee',guest_source_commit='95903a3',host_source_fingerprint=fingerprint,binary_sha256=build['binary_sha'],label=label,case=o['case'],phase=o['phase'],batch=o['batch'],slot=o['slot'],order=o['order'],single=o['single'],valid_block=bool(meta.get(label,{}).get('valid',False)),**r);timing.append(row)
+  r=x['data'];r['s1_to_s2_ns']=r['to_s2_ns']-r['to_s1_ns'];r['s2_to_s3_ns']=r['to_s3_ns']-r['to_s2_ns'];row=dict(code_snapshot_commit='e7924d8',execution_git_head='c8c46ee + recorded experiment files',code_parent='c8c46ee',guest_source_commit='95903a3',host_source_fingerprint=fingerprint,binary_sha256=build['binary_sha'],label=label,case=o['case'],phase=o['phase'],batch=o['batch'],slot=o['slot'],order=o['order'],single=o['single'],valid_block=bool(meta.get(label,{}).get('valid',False)),**r);timing.append(row)
   if r['tx_id']==f"step28-{o['case']}-fixed" and r['depth']==0 and label in meta:roots[(o['case'],o['phase'],o['batch'],o['slot'],r['group'])]=row
 for b in blocks:
  finals=[]
