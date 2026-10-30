@@ -1,0 +1,115 @@
+diff --git a/CVW/experiments/instance-lifecycle/step-28-six-method-acopy/source/vm/step28_test.go b/.worktrees/cvw-step32/experiments/instance-lifecycle/step-32-all-contracts-acopy/source/vm/step32_test.go
+index 1cc66a3..0e8ad34 100644
+--- a/CVW/experiments/instance-lifecycle/step-28-six-method-acopy/source/vm/step28_test.go
++++ b/.worktrees/cvw-step32/experiments/instance-lifecycle/step-32-all-contracts-acopy/source/vm/step32_test.go
+@@ -13,7 +13,7 @@ import (
+ 	"time"
+ )
+ 
+-func TestStep28Serial(t *testing.T) {
++func TestStep32Serial(t *testing.T) {
+ 	if !e22Enabled || !e27Enabled {
+ 		t.Fatal("explicit flags required")
+ 	}
+@@ -25,15 +25,13 @@ func TestStep28Serial(t *testing.T) {
+ 	}
+ 	name := os.Getenv("E22_CONTRACT")
+ 	method := os.Getenv("E22_METHOD")
+-	groups := strings.Split(os.Getenv("E28_ORDER"), ",")
+-	if len(groups) != 3 {
+-		t.Fatal("triple order required")
++	groups := strings.Split(os.Getenv("E32_ORDER"), ",")
++	if len(groups) != 4 {
++		t.Fatal("quadruple order required")
+ 	}
+-	if g := os.Getenv("E28_SINGLE"); g != "" {
+-		if name != "exchange" {
+-			t.Fatal("single only buyNow")
+-		}
+-		groups = []string{g}
++	if g := os.Getenv("E32_SINGLE"); g != "" {
++		groups = strings.Split(g, ",")
++        if len(groups)>2 || (name=="exchange" && len(groups)>1) { t.Fatal("process target-call budget") }
+ 	}
+ 	f := s21cPrepare(t, os.Getenv("D_MANIFEST"), os.Getenv("D_OUTPUT"))
+ 	defer f.close()
+@@ -42,7 +40,7 @@ func TestStep28Serial(t *testing.T) {
+ 	names := []string{name}
+ 	if name == "exchange" {
+ 		names = []string{"identity", "erc721", "exchange"}
+-		if os.Getenv("E28_ALIGNMENT") == "1" {
++		if os.Getenv("E32_ALIGNMENT") == "1" {
+ 			names = []string{"identity", "exchange"}
+ 		}
+ 	}
+@@ -65,7 +63,7 @@ func TestStep28Serial(t *testing.T) {
+ 			}
+ 		}
+ 	}
+-	if os.Getenv("E28_ALIGNMENT") == "1" {
++	if os.Getenv("E32_ALIGNMENT") == "1" {
+ 		m.e22.variant = groups[0]
+ 		for _, cname := range names {
+ 			c, _ := f.snapshot.store.GetContractByName(cname)
+@@ -114,7 +112,7 @@ func TestStep28Serial(t *testing.T) {
+ 			if cname == "erc721" {
+ 				args = map[string]string{"name": "huanletoken", "symbol": "hlt", "tokenURI": "https://chainmaker.org.cn"}
+ 			}
+-			r := f.run("setup-"+cname+"-"+g, cname, "init_contract", "step28-init-"+cname, args)
++			r := f.run("setup-"+cname+"-"+g, cname, "init_contract", "step32-init-"+cname, args)
+ 			if r.Result.Code != 0 || r.Status != 0 {
+ 				t.Fatalf("init failed %+v", r.Result)
+ 			}
+@@ -136,7 +134,7 @@ func TestStep28Serial(t *testing.T) {
+ 		params = map[string]string{"from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0", "to": "818fac1ac51525aeedf619a9a339b95854930159", "tokenId": "1", "metadata": "http://chainmaker.org.cn/"}
+ 	}
+ 	receipts := map[string]*s21cReceipt{}
+-	block, _ := strconv.Atoi(os.Getenv("E28_BLOCK"))
++	block, _ := strconv.Atoi(os.Getenv("E32_BLOCK"))
+ 	m.e22.validate = os.Getenv("E22_PHASE") == "preflight"
+ 	for pos, g := range groups {
+ 		m.e22.variant = g
+@@ -147,7 +145,7 @@ func TestStep28Serial(t *testing.T) {
+ 			f.snapshot.store.code[cname] = raws[g][cname]
+ 		}
+ 		f.snapshot.ledger = e22Clone(initial)
+-		exception := os.Getenv("E28_EXCEPTION")
++		exception := os.Getenv("E32_EXCEPTION")
+ 		if exception == "empty" {
+ 			params = map[string]string{}
+ 		}
+@@ -155,7 +153,7 @@ func TestStep28Serial(t *testing.T) {
+ 			f.snapshot.ledger["erc721"][string(protocol.GetKeyStr("tokenIds", "1"))] = []byte(params["from"])
+ 		}
+ 		before := e27Host()
+-		r := f.run("target-"+g, name, method, "step28-"+os.Getenv("E28_CASE")+"-fixed", params)
++		r := f.run("target-"+g, name, method, "step32-"+os.Getenv("E32_CASE")+"-fixed", params)
+ 		receipts[g] = r
+ 		if exception != "" {
+ 			if r.Result.Code == 0 || r.BeforeHash != r.AfterHash {
+@@ -181,9 +179,6 @@ func TestStep28Serial(t *testing.T) {
+ 		}
+ 		dEvent("boundary", map[string]interface{}{"group": g, "pair": block, "position": pos, "host_before": before, "host_after": e27Host(), "gas": r.Result.GasUsed, "before_hash": r.BeforeHash, "after_hash": r.AfterHash})
+ 	}
+-	if len(groups) == 3 {
+-		e22Assert(t, receipts["G0"], receipts["G1"])
+-		e22Assert(t, receipts["G1"], receipts["G2"])
+-	}
+-	e22Emit("correctness", map[string]interface{}{"groups": groups, "block": block, "s1_checked": m.e22.validate, "fresh_instances_only": true, "table_function_identity": "not_tested", "exception": os.Getenv("E28_EXCEPTION")})
++	for i:=1; i<len(groups); i++ { e22Assert(t, receipts[groups[0]], receipts[groups[i]]) }
++	e22Emit("correctness", map[string]interface{}{"groups": groups, "block": block, "s1_checked": m.e22.validate, "fresh_instances_only": true, "table_function_identity": "not_tested", "exception": os.Getenv("E32_EXCEPTION")})
+ }
+
+diff --git a/CVW/experiments/instance-lifecycle/step-28-six-method-acopy/source/vm/step22_runtime_test.go b/.worktrees/cvw-step32/experiments/instance-lifecycle/step-32-all-contracts-acopy/source/vm/step22_runtime_test.go
+index 88eae34..a33df02 100644
+--- a/CVW/experiments/instance-lifecycle/step-28-six-method-acopy/source/vm/step22_runtime_test.go
++++ b/.worktrees/cvw-step32/experiments/instance-lifecycle/step-32-all-contracts-acopy/source/vm/step22_runtime_test.go
+@@ -269,7 +269,7 @@ func (s *e22State) closeCaches() error {
+ 		}
+ 	}
+ 	s.cache = map[string]*e22Cache{}
+-	e22Emit("cache_closed", map[string]interface{}{"close_ns": time.Since(begin).Nanoseconds(), "managed_remaining": w.ManagedCount()})
++	e22Emit("cache_closed", map[string]interface{}{"close_ns": time.Since(begin).Nanoseconds(), "managed_remaining": w.ManagedCount(), "store_scopes_closed": len(s.order), "module_scopes_closed": len(s.order)})
+ 	return nil
+ }
+ func e22Clone(in map[string]map[string][]byte) map[string]map[string][]byte {
