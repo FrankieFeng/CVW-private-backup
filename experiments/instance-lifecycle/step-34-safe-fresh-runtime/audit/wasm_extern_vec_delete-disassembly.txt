@@ -1,0 +1,33 @@
+
+.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/packaged/lib/linux-amd64/libwasmer.so:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+00000000003ec600 <wasm_extern_vec_delete>:
+  3ec600:	48 83 ec 18          	sub    $0x18,%rsp
+  3ec604:	48 8b 47 08          	mov    0x8(%rdi),%rax
+  3ec608:	48 85 c0             	test   %rax,%rax
+  3ec60b:	74 0b                	je     3ec618 <wasm_extern_vec_delete+0x18>
+  3ec60d:	48 8b 0f             	mov    (%rdi),%rcx
+  3ec610:	0f 57 c0             	xorps  %xmm0,%xmm0
+  3ec613:	0f 11 07             	movups %xmm0,(%rdi)
+  3ec616:	eb 07                	jmp    3ec61f <wasm_extern_vec_delete+0x1f>
+  3ec618:	b8 08 00 00 00       	mov    $0x8,%eax
+  3ec61d:	31 c9                	xor    %ecx,%ecx
+  3ec61f:	48 89 0c 24          	mov    %rcx,(%rsp)
+  3ec623:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+  3ec628:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  3ec62d:	48 89 e7             	mov    %rsp,%rdi
+  3ec630:	e8 9b 2f ff ff       	call   3df5d0 <_ZN4core3ptr141drop_in_place$LT$alloc..vec..Vec$LT$core..option..Option$LT$alloc..boxed..Box$LT$wasmer..wasm_c_api..externals..wasm_extern_t$GT$$GT$$GT$$GT$17h2a5fa1a5767d7507E.llvm.10094175889798322872>
+  3ec635:	48 83 c4 18          	add    $0x18,%rsp
+  3ec639:	c3                   	ret
+  3ec63a:	ff 15 80 2f 58 01    	call   *0x1582f80(%rip)        # 196f5c0 <_GLOBAL_OFFSET_TABLE_+0x4540>
+
+Disassembly of section .fini:

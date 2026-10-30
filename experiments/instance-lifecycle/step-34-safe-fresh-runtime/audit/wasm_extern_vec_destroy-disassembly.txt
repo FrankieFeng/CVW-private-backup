@@ -1,0 +1,23 @@
+
+.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/packaged/lib/linux-amd64/libwasmer.so:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+00000000003ea590 <wasm_extern_vec_destroy>:
+  3ea590:	48 8b 37             	mov    (%rdi),%rsi
+  3ea593:	48 85 f6             	test   %rsi,%rsi
+  3ea596:	74 13                	je     3ea5ab <wasm_extern_vec_destroy+0x1b>
+  3ea598:	48 8b 7f 08          	mov    0x8(%rdi),%rdi
+  3ea59c:	48 c1 e6 03          	shl    $0x3,%rsi
+  3ea5a0:	ba 08 00 00 00       	mov    $0x8,%edx
+  3ea5a5:	ff 25 45 7e 58 01    	jmp    *0x1587e45(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  3ea5ab:	c3                   	ret
+
+Disassembly of section .fini:

@@ -1,0 +1,1368 @@
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/step21d_runtime_test.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step21d_runtime_test.go
+index fa4cdc1..25bc863 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/step21d_runtime_test.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step21d_runtime_test.go
+@@ -15,6 +15,7 @@ import (
+ )
+ 
+ type dBundle struct {
++	targetStore *w.Store
+  profile *e22Profile
+ 
+ 	scope    *w.ManagedScope
+@@ -302,7 +303,7 @@ func (r *dRuntime) Invoke(c *common.Contract, method string, code []byte, params
+ 		b.profile.Role = e27Role
+ 		b.profile.Policy = m.policy
+ 		b.profile.Pair = e27Pair
+-		b.profile.StoreID = fmt.Sprintf("%p", rec.store.Inner())
++		if b.targetStore!=nil{b.profile.StoreID=fmt.Sprintf("%p",b.targetStore.Inner())}else{b.profile.StoreID = fmt.Sprintf("%p", rec.store.Inner())}
+ 		b.profile.ModuleID = fmt.Sprintf("%p", rec.module)
+ 		b.profile.SourceSHA = rec.plan.SourceSHA
+ 		b.profile.UsesBefore = b.used
+@@ -354,10 +355,10 @@ func (r *dRuntime) Invoke(c *common.Contract, method string, code []byte, params
+ 	if gasErr != nil {
+ 		panic(gasErr)
+ 	}
+-	// Preserve original runtime semantics: the existing code overwrites CallMethod err with gas read err.
+-	// Capture original CallMethod error separately as evidence, never rewrite Gas rules.
++	// Safe prototype: preserve CallMethod failures; Gas is still read/computed with the original rule.
+ 	observedCallError := e
+-	e = gasErr
++	e = observedCallError
++ if gasErr!=nil{e=gasErr}
+ 	if remaining == 0 || remaining == ^uint64(0) {
+ 		e = fmt.Errorf("contract invoke failed, out of gas %d", runtimeGasLimit)
+ 	}
+@@ -374,5 +375,12 @@ func (r *dRuntime) Invoke(c *common.Contract, method string, code []byte, params
+ 		b.profile.CallError = fmt.Sprint(observedCallError)
+ 	}
+ 
++	if depth == 0 {
++		if e := s34Fault("execute", true); e != nil {
++			result.Code = 1
++			result.Message = e.Error()
++		}
++	}
++
+ 	return
+ }
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/step22_runtime_test.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step22_runtime_test.go
+index a33df02..2f528a6 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/step22_runtime_test.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step22_runtime_test.go
+@@ -162,22 +162,41 @@ func (m *dManager) makeE22(c *common.Contract, raw []byte) (b *dBundle, err erro
+ 		}
+ 	}()
+ 	wasiBegin := time.Now()
+-	envWasi, e := w.NewWasiStateBuilder("step22").Finalize(rec.store.Inner())
++	targetStore := rec.store
++	if os.Getenv("E34_INDEPENDENT") == "1" {
++		if err = s34Fault("store", false); err != nil {
++			return b, err
++		}
++		targetStore = w.NewStore(rec.store.Engine)
++		if targetStore == nil || targetStore.Inner() == nil {
++			return b, fmt.Errorf("native Store creation failed")
++		}
++		s34StoresCreated++
++		s34Emit("store_created", map[string]interface{}{"instance": b.id, "store": fmt.Sprintf("%p", targetStore.Inner()), "compile_store": fmt.Sprintf("%p", rec.store.Inner())})
++	}
++	b.targetStore=targetStore
++ if err = s34Fault("wasi", false); err != nil {
++		return b, err
++	}
++	envWasi, e := w.NewWasiStateBuilder("step22").Finalize(targetStore.Inner())
+ 	if e != nil {
+ 		return b, e
+ 	}
+-	imports, e := envWasi.GenerateImportObject(rec.store, rec.module)
++	imports, e := envWasi.GenerateImportObject(targetStore, rec.module)
+ 	if e != nil {
+ 		return b, e
+ 	}
+ 	host := CMEnvironment{}
+-	imports, e = GetVmBridgeManager().GetImports(rec.store, &host, imports)
++	imports, e = GetVmBridgeManager().GetImports(targetStore, &host, imports)
+ 	if e != nil {
+ 		return b, e
+ 	}
+ 	p.WASIPrepNS = time.Since(wasiBegin).Nanoseconds()
+ 	ni := time.Now()
+-	inst, e := w.NewInstance(rec.module, imports)
++	if err = s34Fault("instance", false); err != nil {
++		return b, err
++	}
++	inst, e := w.NewInstanceInStore(rec.module, imports, targetStore)
+ 	p.NewInstanceNS = time.Since(ni).Nanoseconds()
+ 	if e != nil {
+ 		return b, e
+@@ -206,8 +225,11 @@ func (m *dManager) makeE22(c *common.Contract, raw []byte) (b *dBundle, err erro
+ 			return b, fmt.Errorf("S1 differs from static template")
+ 		}
+ 	}
++	if err = s34Fault("initialize", false); err != nil {
++		return b, err
++	}
+ 	ib := time.Now()
+-	if e = envWasi.Initialize(rec.store, inst); e != nil {
++	if e = envWasi.Initialize(targetStore, inst); e != nil {
+ 		return b, e
+ 	}
+ 	p.InitializeNS = time.Since(ib).Nanoseconds()
+@@ -251,6 +273,9 @@ func (m *dManager) closeE22(b *dBundle) (err error) {
+ 		m.closed++
+ 		b.profile.CloseNS = time.Since(begin).Nanoseconds()
+ 		b.profile.AfterObjects = w.ManagedCount()
++		if e := s34Fault("close", true); e != nil {
++			err = e
++		}
+ 		if e27Enabled && b.used > 1 {
+ 			e22Emit("retained_instance_closed", map[string]interface{}{"instance_id": b.id, "close_ns": b.profile.CloseNS, "managed_after": b.profile.AfterObjects})
+ 		}
+
+diff --git a/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step27_diagnostic.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step27_diagnostic.go
+new file mode 100644
+index 0000000..6eec015
+--- /dev/null
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step27_diagnostic.go
+@@ -0,0 +1,48 @@
++package wasmer
++// Existing diagnostic support moved unchanged out of _test so non-test builds are valid.
++import("encoding/json";"fmt";"os";"runtime";"runtime/metrics";"syscall")
++var e27Enabled = os.Getenv("E27_ENABLED") == "1"
++var e27Group, e27Role string
++var e27Pair int
++
++func e27Host() map[string]interface{} {
++	samples := []metrics.Sample{{Name: "/gc/cycles/total:gc-cycles"}, {Name: "/memory/classes/heap/objects:bytes"}, {Name: "/gc/pauses:seconds"}}
++	metrics.Read(samples)
++	v := map[string]interface{}{"host_gc_cycles": samples[0].Value.Uint64(), "host_heap_objects_bytes": samples[1].Value.Uint64()}
++	h := samples[2].Value.Float64Histogram()
++	v["host_gc_pause_counts"] = append([]uint64(nil), h.Counts...)
++	// Buckets include infinities; emit finite strings, retaining exact interval definitions.
++	buckets := make([]string, len(h.Buckets))
++	for i, b := range h.Buckets {
++		buckets[i] = fmt.Sprint(b)
++	}
++	v["host_gc_pause_buckets_seconds"] = buckets
++	return v
++}
++
++type e27Probe struct {
++	active bool
++	usage  syscall.Rusage
++	mem    runtime.MemStats
++}
++
++func e27ProbeBegin() e27Probe {
++	p := e27Probe{active: e27Enabled && os.Getenv("E27_DIAG") == "1"}
++	if p.active {
++		runtime.ReadMemStats(&p.mem)
++		syscall.Getrusage(syscall.RUSAGE_THREAD, &p.usage)
++	}
++	return p
++}
++func e27ProbeEnd(p e27Probe, wall int64) {
++	if !p.active {
++		return
++	}
++	var u syscall.Rusage
++	syscall.Getrusage(syscall.RUSAGE_THREAD, &u)
++	var m runtime.MemStats
++	runtime.ReadMemStats(&m)
++	e27StandaloneEmit("export_diagnostic", map[string]interface{}{"group": e27Group, "role": e27Role, "pair": e27Pair, "export_wall_ns": wall, "owner_cpu_ns": u.Utime.Nano() + u.Stime.Nano() - p.usage.Utime.Nano() - p.usage.Stime.Nano(), "host_gc_count": m.NumGC - p.mem.NumGC, "host_gc_pause_ns": m.PauseTotalNs - p.mem.PauseTotalNs, "owner_tid": syscall.Gettid(), "guest_gc": "not_observed", "scope": "outer diagnostic envelope; MemStats outside original B5 window"})
++}
++
++func e27StandaloneEmit(event string,data interface{}) {b,e:=json.Marshal(map[string]interface{}{"event":event,"data":data});if e!=nil{panic(e)};fmt.Printf("STEP22 %s\n",b)}
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/step27_test.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step27_test.go
+index 70b4b13..d5c3e86 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/step27_test.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step27_test.go
+@@ -5,55 +5,12 @@ import (
+ 	"fmt"
+ 	"os"
+ 	"runtime"
+-	"runtime/metrics"
++	
+ 	"strconv"
+-	"syscall"
++	
+ 	"testing"
+ )
+ 
+-var e27Enabled = os.Getenv("E27_ENABLED") == "1"
+-var e27Group, e27Role string
+-var e27Pair int
+-
+-func e27Host() map[string]interface{} {
+-	samples := []metrics.Sample{{Name: "/gc/cycles/total:gc-cycles"}, {Name: "/memory/classes/heap/objects:bytes"}, {Name: "/gc/pauses:seconds"}}
+-	metrics.Read(samples)
+-	v := map[string]interface{}{"host_gc_cycles": samples[0].Value.Uint64(), "host_heap_objects_bytes": samples[1].Value.Uint64()}
+-	h := samples[2].Value.Float64Histogram()
+-	v["host_gc_pause_counts"] = append([]uint64(nil), h.Counts...)
+-	// Buckets include infinities; emit finite strings, retaining exact interval definitions.
+-	buckets := make([]string, len(h.Buckets))
+-	for i, b := range h.Buckets {
+-		buckets[i] = fmt.Sprint(b)
+-	}
+-	v["host_gc_pause_buckets_seconds"] = buckets
+-	return v
+-}
+-
+-type e27Probe struct {
+-	active bool
+-	usage  syscall.Rusage
+-	mem    runtime.MemStats
+-}
+-
+-func e27ProbeBegin() e27Probe {
+-	p := e27Probe{active: e27Enabled && os.Getenv("E27_DIAG") == "1"}
+-	if p.active {
+-		runtime.ReadMemStats(&p.mem)
+-		syscall.Getrusage(syscall.RUSAGE_THREAD, &p.usage)
+-	}
+-	return p
+-}
+-func e27ProbeEnd(p e27Probe, wall int64) {
+-	if !p.active {
+-		return
+-	}
+-	var u syscall.Rusage
+-	syscall.Getrusage(syscall.RUSAGE_THREAD, &u)
+-	var m runtime.MemStats
+-	runtime.ReadMemStats(&m)
+-	e22Emit("export_diagnostic", map[string]interface{}{"group": e27Group, "role": e27Role, "pair": e27Pair, "export_wall_ns": wall, "owner_cpu_ns": u.Utime.Nano() + u.Stime.Nano() - p.usage.Utime.Nano() - p.usage.Stime.Nano(), "host_gc_count": m.NumGC - p.mem.NumGC, "host_gc_pause_ns": m.PauseTotalNs - p.mem.PauseTotalNs, "owner_tid": syscall.Gettid(), "guest_gc": "not_observed", "scope": "outer diagnostic envelope; MemStats outside original B5 window"})
+-}
+ func TestStep27Serial(t *testing.T) {
+ 	if !e22Enabled || !e27Enabled {
+ 		t.Fatal("explicit flags required")
+
+diff --git a/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_business_test.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_business_test.go
+new file mode 100644
+index 0000000..e6d2c4b
+--- /dev/null
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_business_test.go
+@@ -0,0 +1,225 @@
++package wasmer
++
++import (
++	protocol "chainmaker.org/chainmaker/protocol/v2"
++	w "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
++	"context"
++	"crypto/sha256"
++	"encoding/hex"
++	"encoding/json"
++	"fmt"
++	"os"
++	"runtime"
++	"strconv"
++	"strings"
++	"testing"
++	"time"
++)
++
++func step34Business(t *testing.T) {
++	if !e22Enabled || !e27Enabled {
++		t.Fatal("explicit flags required")
++	}
++
++	var variants map[string]e25Artifact
++	data, e := os.ReadFile(os.Getenv("E25_VARIANTS"))
++	if e != nil || json.Unmarshal(data, &variants) != nil {
++		t.Fatal("manifest")
++	}
++	name := os.Getenv("E22_CONTRACT")
++	method := os.Getenv("E22_METHOD")
++	groups := strings.Split(os.Getenv("E32_ORDER"), ",")
++	if len(groups) != 4 {
++		t.Fatal("quadruple order required")
++	}
++	if g := os.Getenv("E32_SINGLE"); g != "" {
++		groups = strings.Split(g, ",")
++		if len(groups) > 2 || (name == "exchange" && len(groups) > 1) {
++			t.Fatal("process target-call budget")
++		}
++	}
++	f := s21cPrepare(t, os.Getenv("D_MANIFEST"), os.Getenv("D_OUTPUT"))
++	defer f.close()
++	m := f.instances
++	m.policy = "R1"
++	names := []string{name}
++	if name == "exchange" {
++		names = []string{"identity", "erc721", "exchange"}
++		if os.Getenv("E32_ALIGNMENT") == "1" {
++			names = []string{"identity", "exchange"}
++		}
++	}
++	raws := map[string]map[string][]byte{}
++	for _, g := range groups {
++		raws[g] = map[string][]byte{}
++		for _, cname := range names {
++			a, ok := variants[cname+"-"+g]
++			if !ok {
++				t.Fatal("variant missing")
++			}
++			b, err := os.ReadFile(a.Path)
++			if err != nil {
++				t.Fatal(err)
++			}
++			raws[g][cname] = b
++			c, _ := f.snapshot.store.GetContractByName(cname)
++			if err = m.e25Prepare(c, b, g, a); err != nil {
++				t.Fatal(err)
++			}
++		}
++	}
++	if os.Getenv("E32_ALIGNMENT") == "1" {
++		m.e22.variant = groups[0]
++		for _, cname := range names {
++			c, _ := f.snapshot.store.GetContractByName(cname)
++			m.e22.invokeBegin = time.Now()
++			b, err := m.makeE22(c, raws[groups[0]][cname])
++			if err != nil {
++				t.Fatal(err)
++			}
++			restore := b.scope.Activate()
++			fn, err := b.instance.Exports.GetRawFunction("Step18Read")
++			if err != nil {
++				t.Fatal(err)
++			}
++			values := []interface{}{}
++			for _, idx := range []int32{4, 5, 6} {
++				v, err := fn.Call(idx)
++				if err != nil {
++					t.Fatal(err)
++				}
++				values = append(values, v)
++			}
++			fn.Close()
++			restore()
++			e22Emit("alignment", map[string]interface{}{"contract": cname, "group": groups[0], "first_reserve_bloc": values[0], "alignment_distance": values[1], "alignment": values[2]})
++			if fmt.Sprint(values[0]) != "4194304" || fmt.Sprint(values[1]) != "0" || fmt.Sprint(values[2]) != "4194304" {
++				t.Fatal("A alignment not proven")
++			}
++			if err = m.closeE22(b); err != nil {
++				t.Fatal(err)
++			}
++		}
++		return
++	}
++	empty := e22Clone(f.snapshot.ledger)
++	var initial map[string]map[string][]byte
++	initialHash := ""
++	for _, g := range groups {
++		m.e22.variant = g
++		e27Group = g
++		e27Role = g
++		e27Pair = -1
++		f.snapshot.ledger = e22Clone(empty)
++		for _, cname := range names {
++			f.snapshot.store.code[cname] = raws[g][cname]
++			args := map[string]string{}
++			if cname == "erc721" {
++				args = map[string]string{"name": "huanletoken", "symbol": "hlt", "tokenURI": "https://chainmaker.org.cn"}
++			}
++			r := f.run("setup-"+cname+"-"+g, cname, "init_contract", "step32-init-"+cname, args)
++			if r.Result.Code != 0 || r.Status != 0 {
++				t.Fatalf("init failed %+v", r.Result)
++			}
++		}
++		h := f.snapshot.hash()
++		if initialHash != "" && initialHash != h {
++			t.Fatal("initial state mismatch")
++		}
++		initialHash = h
++		initial = e22Clone(f.snapshot.ledger)
++	}
++	params := map[string]string{}
++	switch name {
++	case "fact":
++		params = map[string]string{"file_hash": "005521f27d745a04999c6d09f559764f9c44376a", "file_name": "aoteman.jpg", "time": "1792827547"}
++	case "erc721":
++		params = map[string]string{"to": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0", "tokenId": "1", "metadata": "http://chainmaker.org.cn/"}
++	case "exchange":
++		params = map[string]string{"from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0", "to": "818fac1ac51525aeedf619a9a339b95854930159", "tokenId": "1", "metadata": "http://chainmaker.org.cn/"}
++	}
++	receipts := map[string]*s21cReceipt{}
++	block, _ := strconv.Atoi(os.Getenv("E32_BLOCK"))
++	m.e22.validate = os.Getenv("E22_PHASE") == "preflight"
++	for pos, g := range groups {
++		m.e22.variant = g
++		e27Group = g
++		e27Role = g
++		e27Pair = block
++		for _, cname := range names {
++			f.snapshot.store.code[cname] = raws[g][cname]
++		}
++		f.snapshot.ledger = e22Clone(initial)
++		exception := os.Getenv("E32_EXCEPTION")
++		if exception=="missing" {method="step34_missing_method"}
++ if exception == "empty" {
++			params = map[string]string{}
++		}
++		if exception == "duplicate" {
++			f.snapshot.ledger["erc721"][string(protocol.GetKeyStr("tokenIds", "1"))] = []byte(params["from"])
++		}
++		before := e27Host()
++		s34Armed = true
++		r := f.run("target-"+g, name, method, "step32-"+os.Getenv("E32_CASE")+"-fixed", params)
++		s34Armed = false
++		if os.Getenv("E34_FAULT") != "" {
++			if r.Result.Code == 0 || r.BeforeHash != r.AfterHash {
++				t.Fatal("fault rollback failed")
++			}
++			s34Emit("fault_rollback", map[string]interface{}{"stage": os.Getenv("E34_FAULT"), "gas": r.Result.GasUsed, "ledger_unchanged": true})
++			recovery := f.run("recovery-"+g, name, method, "step32-"+os.Getenv("E32_CASE")+"-fixed", params)
++			if recovery.Result.Code != 0 || recovery.Status != 0 {
++				t.Fatal("recovery after injected failure failed")
++			}
++			e22Expected(t, f, name, params, recovery)
++			continue
++		}
++		receipts[g] = r
++		if exception != "" {
++			if r.Result.Code == 0 || r.BeforeHash != r.AfterHash {
++				t.Fatal("expected failure rollback not observed")
++			}
++			e22Emit("exception", map[string]interface{}{"kind": exception, "group": g, "calls": len(r.Calls), "gas": r.Result.GasUsed, "unchanged_ledger": r.BeforeHash == r.AfterHash})
++		} else {
++			if r.Result.Code != 0 || r.Status != 0 {
++				t.Fatalf("business failed %+v", r.Result)
++			}
++			if method == "hashCal" {
++				h := sha256.Sum256([]byte("ChainMaker Performance Test"))
++				if string(r.Result.Result) != "success hashCal "+hex.EncodeToString(h[:]) {
++					t.Fatalf("hash mismatch %s", r.Result.Result)
++				}
++			} else if method == "normalCal" {
++				if string(r.Result.Result) != "success normalCal: 666" {
++					t.Fatal("normal result")
++				}
++			} else {
++				e22Expected(t, f, name, params, r)
++			}
++		}
++		dEvent("boundary", map[string]interface{}{"group": g, "pair": block, "position": pos, "host_before": before, "host_after": e27Host(), "gas": r.Result.GasUsed, "before_hash": r.BeforeHash, "after_hash": r.AfterHash})
++	}
++	for i := 1; i < len(groups); i++ {
++		e22Assert(t, receipts[groups[0]], receipts[groups[i]])
++	}
++	e22Emit("correctness", map[string]interface{}{"groups": groups, "block": block, "s1_checked": m.e22.validate, "fresh_instances_only": true, "table_function_identity": "not_tested", "exception": os.Getenv("E32_EXCEPTION")})
++}
++
++func TestStep34Serial(t *testing.T) {
++	o, e := NewSafeFreshOwner(1, nil)
++	if e != nil {
++		t.Fatal(e)
++	}
++	ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
++	defer cancel()
++	e = o.Do(ctx, func() error { step34Business(t); runtime.GC(); return nil })
++	if e != nil {
++		t.Error(e)
++	}
++	if e = o.Stop(ctx); e != nil {
++		t.Error(e)
++	}
++	if w.ManagedStoresCreated != w.ManagedStoresClosed || w.ManagedInstancesCreated != w.ManagedInstancesClosed {
++		t.Fatal("native lifecycle allocation imbalance")
++	}
++}
+
+diff --git a/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_fault_test.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_fault_test.go
+new file mode 100644
+index 0000000..22cfa15
+--- /dev/null
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_fault_test.go
+@@ -0,0 +1,25 @@
++package wasmer
++
++import (
++	"context"
++	"encoding/json"
++	"fmt"
++	"os"
++)
++
++var s34Armed bool
++var s34StoresCreated int
++
++func s34Emit(e string, d interface{}) {
++	b, _ := json.Marshal(map[string]interface{}{"event": e, "data": d})
++	fmt.Printf("STEP34 %s\n", b)
++}
++func s34Fault(stage string, after bool) error {
++	if s34Armed && os.Getenv("E34_FAULT") == "cancel-"+stage {
++		return context.Canceled
++	}
++	if s34Armed && os.Getenv("E34_FAULT") == stage {
++		return fmt.Errorf("injected Go fault %s after_cleanup_or_guest=%v; not native failure", stage, after)
++	}
++	return nil
++}
+
+diff --git a/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_owner.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_owner.go
+new file mode 100644
+index 0000000..1da4559
+--- /dev/null
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_owner.go
+@@ -0,0 +1,213 @@
++package wasmer
++
++// Experimental bounded native owner. No native handle is returned to request goroutines.
++import (
++	w "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
++	"context"
++	"encoding/json"
++	"errors"
++	"fmt"
++	"runtime"
++	"sync"
++	"sync/atomic"
++	"syscall"
++)
++
++var ErrOwnerClosed = errors.New("owner closed/resetting")
++var ownerLease = make(chan struct{}, 1)
++
++type ownerJob struct {
++	ctx     context.Context
++	fn      func() error
++	reply   chan error
++	control bool
++}
++type SafeFreshOwner struct {
++	q                  chan ownerJob
++	done               chan struct{}
++	mu                 sync.Mutex
++	wg                 sync.WaitGroup
++	closing, resetting bool
++	poisoned           bool
++	accepted, limit    int
++	tid                atomic.Int64
++	err                error
++	cleanup            func() error
++}
++
++func NewSafeFreshOwner(limit int, cleanup func() error) (*SafeFreshOwner, error) {
++	if limit < 1 || limit > 32 {
++		return nil, errors.New("bounded owner request limit 1..32")
++	}
++	select {
++	case ownerLease <- struct{}{}:
++	default:
++		return nil, errors.New("one native owner per process")
++	}
++	o := &SafeFreshOwner{q: make(chan ownerJob, 1), done: make(chan struct{}), limit: limit, cleanup: cleanup}
++	ready := make(chan struct{})
++	go o.loop(ready)
++	<-ready
++	return o, nil
++}
++func (o *SafeFreshOwner) loop(ready chan struct{}) {
++	runtime.LockOSThread()
++	defer runtime.UnlockOSThread()
++	w.ManagedBeginOwner()
++	root := w.ManagedOpen("step34-owner-root")
++	o.tid.Store(int64(syscall.Gettid()))
++	close(ready)
++	defer func() {
++		if r := recover(); r != nil {
++			o.err = fmt.Errorf("owner panic: %v", r)
++		}
++		if e := root.Close(); e != nil {
++			o.err = e
++		}
++		remaining := w.ManagedCount()
++		if remaining != 0 {
++			o.err = fmt.Errorf("owner objects remain: %d", remaining)
++		} else {
++			w.ManagedEndOwner()
++		}
++		data, _ := json.Marshal(map[string]interface{}{"event": "owner_closed", "managed_pending": remaining, "managed_objects": remaining, "stores_created": w.ManagedStoresCreated, "stores_closed": w.ManagedStoresClosed, "instances_created": w.ManagedInstancesCreated, "instances_closed": w.ManagedInstancesClosed})
++		fmt.Printf("STEP21C %s\n", data)
++		o.tid.Store(0)
++		if remaining == 0 {
++			<-ownerLease
++		}
++		close(o.done)
++	}()
++	for j := range o.q {
++		func() {
++			err := errors.New("owner job aborted")
++			defer func() {
++				if r := recover(); r != nil {
++					err = fmt.Errorf("owner job panic: %v", r)
++				}
++				if err!=nil && !errors.Is(err,context.Canceled) && !errors.Is(err,context.DeadlineExceeded) {err=errors.New(err.Error())} // never return native Trap/Frame handles outside owner
++ j.reply <- err
++				if !j.control {
++					o.wg.Done()
++				}
++			}()
++			if j.ctx.Err() != nil {
++				err = j.ctx.Err()
++				return
++			}
++			err = j.fn()
++		}()
++	}
++}
++func (o *SafeFreshOwner) Do(ctx context.Context, fn func() error) error {
++	if int64(syscall.Gettid()) == o.tid.Load() {
++		if ctx.Err() != nil {
++			return ctx.Err()
++		}
++		return fn()
++	} // same-owner parent/child callback, no self-queue
++	o.mu.Lock()
++	if o.closing || o.resetting || o.poisoned || o.accepted >= o.limit {
++		o.mu.Unlock()
++		return ErrOwnerClosed
++	}
++	o.accepted++
++	o.wg.Add(1)
++	o.mu.Unlock()
++	j := ownerJob{ctx: ctx, fn: fn, reply: make(chan error, 1)}
++	select {
++	case o.q <- j:
++	case <-ctx.Done():
++		o.wg.Done()
++		return ctx.Err()
++	case <-o.done:
++		o.wg.Done()
++		return ErrOwnerClosed
++	}
++	select {
++	case e := <-j.reply:
++		return e
++	case <-ctx.Done():
++		return ctx.Err()
++	case <-o.done:
++		return ErrOwnerClosed
++	}
++}
++func (o *SafeFreshOwner) Reset(ctx context.Context, reset func() error) error {
++	if int64(syscall.Gettid()) == o.tid.Load() {
++		return errors.New("reset from active owner rejected")
++	}
++	o.mu.Lock()
++	if o.closing || o.resetting || o.poisoned {
++		o.mu.Unlock()
++		return ErrOwnerClosed
++	}
++	o.resetting = true
++	o.mu.Unlock()
++	reply := make(chan error, 1)
++	go func() {
++		o.wg.Wait()
++		j := ownerJob{ctx: context.Background(), fn: reset, reply: make(chan error, 1), control: true}
++		var err error
++		select {
++		case o.q <- j:
++			err = <-j.reply
++		case <-o.done:
++			err = ErrOwnerClosed
++		}
++		o.mu.Lock()
++		o.resetting = false
++		if err != nil {
++			o.poisoned = true
++		}
++		o.mu.Unlock()
++		reply <- err
++	}()
++	select {
++	case e := <-reply:
++		return e
++	case <-ctx.Done():
++		return ctx.Err()
++	}
++}
++func (o *SafeFreshOwner) Stop(ctx context.Context) error {
++	if int64(syscall.Gettid()) == o.tid.Load() {
++		return errors.New("stop from active owner rejected")
++	}
++	o.mu.Lock()
++	if o.resetting {
++		o.mu.Unlock()
++		return ErrOwnerClosed
++	}
++	first := !o.closing
++	o.closing = true
++	o.mu.Unlock()
++	if first {
++		go func() {
++			o.wg.Wait()
++			if o.cleanup != nil {
++				j := ownerJob{ctx: context.Background(), fn: o.cleanup, reply: make(chan error, 1), control: true}
++				select {
++				case o.q <- j:
++					select {
++					case e := <-j.reply:
++						if e != nil {
++							o.err = e
++						}
++					case <-o.done:
++						return
++					}
++				case <-o.done:
++					return
++				}
++			}
++			close(o.q)
++		}()
++	}
++	select {
++	case <-o.done:
++		return o.err
++	case <-ctx.Done():
++		return ctx.Err()
++	}
++}
+
+diff --git a/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_owner_test.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_owner_test.go
+new file mode 100644
+index 0000000..8222025
+--- /dev/null
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_owner_test.go
+@@ -0,0 +1,173 @@
++package wasmer
++
++import (
++	w "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
++	"context"
++	"errors"
++	"os"
++	"runtime"
++	"testing"
++	"time"
++)
++
++func TestStep34Owner(t *testing.T) {
++	ctx, cancel := context.WithTimeout(context.Background(), 12*time.Second)
++	defer cancel()
++	var cache *w.ManagedScope
++	var store *w.Store
++	var module *w.Module
++	var engine *w.Engine
++	closeCache := func() error {
++		if cache == nil {
++			return nil
++		}
++		e := cache.Close()
++		cache = nil
++		return e
++	}
++	o, e := NewSafeFreshOwner(24, closeCache)
++	if e != nil {
++		t.Fatal(e)
++	}
++	prepare := func() error {
++		cache = w.ManagedOpen("cache")
++		engine = w.NewEngine()
++		store = w.NewStore(engine)
++		var e error
++		module, e = w.NewModule(store, []byte{0, 97, 115, 109, 1, 0, 0, 0, 1, 5, 1, 96, 0, 1, 127, 3, 2, 1, 0, 7, 7, 1, 3, 114, 117, 110, 0, 0, 10, 6, 1, 4, 0, 65, 42, 11}, nil)
++		if e != nil {
++			return e
++		}
++		module.Imports()
++		module.Exports()
++		cache.Suspend()
++		return nil
++	}
++	if e = o.Do(ctx, prepare); e != nil {
++		t.Fatal(e)
++	}
++	native := func() error {
++		s := w.ManagedOpen("request")
++		defer s.Close()
++		target := w.NewStore(engine)
++		if target.Inner() == nil {
++			return errors.New("store")
++		}
++		i, e := w.NewInstanceInStore(module, w.NewImportObject(), target)
++		if e != nil {
++			return e
++		}
++		fn, e := i.Exports.GetRawFunction("run")
++		if e != nil {
++			return e
++		}
++		v, e := fn.Call()
++		if e != nil || v != int32(42) {
++			return errors.New("result")
++		}
++		fn.Close()
++		i.Close()
++		rejected := false
++		func() {
++			defer func() {
++				if recover() != nil {
++					rejected = true
++				}
++			}()
++			fn.Call()
++		}()
++		if !rejected {
++			return errors.New("function accessed after Instance Close")
++		}
++		i.Close()
++		target.Close()
++		target.Close()
++		runtime.GC()
++		return nil
++	}
++	for n := 0; n < 4; n++ {
++		if e = o.Do(ctx, native); e != nil {
++			t.Fatal(e)
++		}
++	}
++	// Invalid real module is a safe native error, not a synthetic successful fixture.
++	if e = o.Do(ctx, func() error {
++		s := w.ManagedOpen("bad-module")
++		defer s.Close()
++		_, err := w.NewModule(w.NewStore(engine), []byte{0, 97, 115, 109, 1, 0, 0, 0, 255, 0}, nil)
++		if err == nil {
++			return errors.New("invalid module accepted")
++		}
++		return nil
++	}); e != nil {
++		t.Fatal(e)
++	}
++ if e=o.Do(ctx,func()error{s:=w.ManagedOpen("real-trap");defer s.Close();st:=w.NewStore(engine);m,e:=w.NewModule(st,[]byte(`(module (func (export "fail") unreachable))`),nil);if e!=nil{return e};i,e:=w.NewInstanceInStore(m,w.NewImportObject(),st);if e!=nil{return e};fn,e:=i.Exports.GetRawFunction("fail");if e!=nil{return e};_,e=fn.Call();return e});e==nil{t.Fatal("native trap lost")};if _,ok:=e.(*w.TrapError);ok{t.Fatal("native frame handles escaped owner")}
++
++	if e = o.Do(ctx, func() error {
++		return o.Do(ctx, func() error {
++			if o.Reset(ctx, closeCache) == nil {
++				return errors.New("inline Reset accepted")
++			}
++			if o.Stop(ctx) == nil {
++				return errors.New("inline Stop accepted")
++			}
++			return nil
++		})
++	}); e != nil {
++		t.Fatal(e)
++	}
++	entered := make(chan struct{})
++	release := make(chan struct{})
++	first := make(chan error, 1)
++	go func() { first <- o.Do(ctx, func() error { close(entered); <-release; return nil }) }()
++	<-entered
++	canceled, cc := context.WithCancel(ctx)
++	cc()
++	if !errors.Is(o.Do(canceled, native), context.Canceled) {
++		t.Fatal("cancel before creation")
++	}
++	resetDone := make(chan error, 1)
++	go func() { resetDone <- o.Reset(ctx, closeCache) }()
++	runtime.GC()
++	close(release)
++	if e = <-first; e != nil {
++		t.Fatal(e)
++	}
++	if e = <-resetDone; e != nil {
++		t.Fatal(e)
++	}
++	if e = o.Do(ctx, prepare); e != nil {
++		t.Fatal(e)
++	}
++	if e = o.Do(ctx, native); e != nil {
++		t.Fatal(e)
++	}
++	// Stop cannot free cache while an admitted task is running; deadline doesn't abort native code.
++	entered = make(chan struct{})
++	release = make(chan struct{})
++	go func() { first <- o.Do(ctx, func() error { close(entered); <-release; return nil }) }()
++	<-entered
++	short, cs := context.WithCancel(ctx)
++	cs()
++	if !errors.Is(o.Stop(short), context.Canceled) {
++		t.Fatal("stop must wait")
++	}
++	close(release)
++	if e = <-first; e != nil {
++		t.Fatal(e)
++	}
++	if e = o.Stop(ctx); e != nil {
++		t.Fatal(e)
++	}
++	if e = o.Stop(ctx); e != nil {
++		t.Fatal(e)
++	}
++	if o.Do(ctx, native) == nil {
++		t.Fatal("post Stop admitted")
++	}
++	if w.ManagedStoresCreated != w.ManagedStoresClosed || w.ManagedInstancesCreated != w.ManagedInstancesClosed {
++		t.Fatal("native counts")
++	}
++	s34Emit("owner_protocol", map[string]interface{}{"stores_created": w.ManagedStoresCreated, "stores_closed": w.ManagedStoresClosed, "instances_created": w.ManagedInstancesCreated, "instances_closed": w.ManagedInstancesClosed, "gc_forced": true, "reset_stop": true, "repeat_close": true, "mode": os.Getenv("E34_INDEPENDENT")})
++}
+
+diff --git a/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_poison_test.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_poison_test.go
+new file mode 100644
+index 0000000..9acb5d9
+--- /dev/null
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_poison_test.go
+@@ -0,0 +1,4 @@
++package wasmer
++import("context";"errors";"testing";"time";w "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go")
++func TestStep34Poison(t *testing.T){ctx,c:=context.WithTimeout(context.Background(),5*time.Second);defer c();o,e:=NewSafeFreshOwner(4,nil);if e!=nil{t.Fatal(e)};e=o.Do(ctx,func()error{s:=w.ManagedOpen("rollback");defer s.Close();st:=w.NewStore(w.NewEngine());st.Close();st.Close();return nil});if e!=nil{t.Fatal(e)}
++ if o.Reset(ctx,func()error{return errors.New("Go injected reset failure after resource cleanup")})==nil{t.Fatal("reset error lost")};called:=false;if o.Do(ctx,func()error{called=true;return nil})==nil||called{t.Fatal("poisoned owner accepted new work")};if e=o.Stop(ctx);e!=nil{t.Fatal(e)};if e=o.Stop(ctx);e!=nil{t.Fatal(e)};s34Emit("poison_reset",map[string]interface{}{"reject_after_reset_failure":true,"stop_completed":true})}
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/exports.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/exports.go
+index 16a2585..040e3b7 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/exports.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/exports.go
+@@ -11,6 +11,7 @@ import (
+ // Exports is a special kind of map that allows easily unwrapping the
+ // types of instances.
+ type Exports struct {
++	_store   *Store
+ 	_inner   C.wasm_extern_vec_t
+ 	exports  map[string]*Extern
+ 	instance *C.wasm_instance_t
+@@ -57,6 +58,7 @@ func (self *Exports) inner() *C.wasm_extern_vec_t {
+ //	instance, _ := NewInstance(module, NewImportObject())
+ //	extern, error := instance.Exports.Get("an_export")
+ func (self *Exports) Get(name string) (*Extern, error) {
++	managedBorrowAlive(self)
+ 	export, exists := self.exports[name]
+ 
+ 	if !exists {
+@@ -205,7 +207,9 @@ func (self *Exports) GetWasiStartRawFunction() (*Function, error) {
+ // possible to force the destruction of the Exports by calling Close
+ // manually.
+ func (self *Exports) Close() {
+-	managedSetFinalizer(self, nil)
++	if !managedSetFinalizer(self, nil) {
++		return
++	}
+ 
+ 	for extern := range self.exports {
+ 		delete(self.exports, extern)
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/exporttype.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/exporttype.go
+index d2e7300..9979c80 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/exporttype.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/exporttype.go
+@@ -44,7 +44,9 @@ func (self *exportTypes) inner() *C.wasm_exporttype_vec_t {
+ }
+ 
+ func (self *exportTypes) close() {
+-	managedSetFinalizer(self, nil)
++	if !managedSetFinalizer(self, nil) {
++		return
++	}
+ 	C.wasm_exporttype_vec_delete(&self._inner)
+ }
+ 
+@@ -128,6 +130,8 @@ func (self *ExportType) Type() *ExternType {
+ // possible to force the destruction of the ExportType by calling
+ // Close manually.
+ func (self *ExportType) Close() {
+-	managedSetFinalizer(self, nil)
++	if !managedSetFinalizer(self, nil) {
++		return
++	}
+ 	C.wasm_exporttype_delete(self.inner())
+ }
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/functiontype.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/functiontype.go
+index 359c0fe..4dce9f8 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/functiontype.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/functiontype.go
+@@ -91,8 +91,12 @@ func (self *FunctionType) IntoExternType() *ExternType {
+ 
+ // MODIFIED
+ func (self *FunctionType) Close() {
+-	if self._inner == nil { return }
+- managedSetFinalizer(self, nil)
++	if self._inner == nil {
++		return
++	}
++	if !managedSetFinalizer(self, nil) {
++		return
++	}
+ 	C.wasm_functype_delete(self._inner)
+ 	self._inner = nil
+ }
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/import_object.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/import_object.go
+index a621797..b702499 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/import_object.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/import_object.go
+@@ -103,7 +103,9 @@ func (self *ImportObject) Register(namespaceName string, namespace map[string]In
+ 
+ // MODIFIED
+ func (self *ImportObject) Close() {
+-	managedSetFinalizer(self, nil)
++	if !managedSetFinalizer(self, nil) {
++		return
++	}
+ 	for _, namespace := range self.externs {
+ 		for name, _ := range namespace {
+ 			delete(namespace, name)
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/importtype.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/importtype.go
+index 57985d3..3eed0cd 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/importtype.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/importtype.go
+@@ -44,7 +44,9 @@ func (self *importTypes) inner() *C.wasm_importtype_vec_t {
+ }
+ 
+ func (self *importTypes) close() {
+-	managedSetFinalizer(self, nil)
++	if !managedSetFinalizer(self, nil) {
++		return
++	}
+ 	C.wasm_importtype_vec_delete(&self._inner)
+ }
+ 
+@@ -151,6 +153,8 @@ func (self *ImportType) Type() *ExternType {
+ // possible to force the destruction of the ImportType by calling
+ // Close manually.
+ func (self *ImportType) Close() {
+-	managedSetFinalizer(self, nil)
++	if !managedSetFinalizer(self, nil) {
++		return
++	}
+ 	C.wasm_importtype_delete(self.inner())
+ }
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/instance.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/instance.go
+index 6075e94..bdd86ae 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/instance.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/instance.go
+@@ -2,6 +2,7 @@ package wasmer
+ 
+ // #include <wasmer.h>
+ import "C"
++import "fmt"
+ 
+ type Instance struct {
+ 	_inner  *C.wasm_instance_t
+@@ -25,6 +26,16 @@ type Instance struct {
+ //	importObject := wasmer.NewImportObject()
+ //	instance, err := wasmer.NewInstance(module, importObject)
+ func NewInstance(module *Module, imports *ImportObject) (*Instance, error) {
++	return NewInstanceInStore(module, imports, module.store)
++}
++
++// NewInstanceInStore uses the actual target native Store; all imports must belong to it.
++func NewInstanceInStore(module *Module, imports *ImportObject, store *Store) (*Instance, error) {
++	ManagedAssert()
++	if store == nil || store._inner == nil || module == nil || module._inner == nil || store.Engine != module.store.Engine {
++		return nil, fmt.Errorf("closed/mismatched engine Store/Module")
++	}
++
+ 	var traps *C.wasm_trap_t
+ 	externs, err := imports.intoInner(module)
+ 	if err != nil {
+@@ -35,7 +46,7 @@ func NewInstance(module *Module, imports *ImportObject) (*Instance, error) {
+ 
+ 	err2 := maybeNewErrorFromWasmer(func() bool {
+ 		instance = C.wasm_instance_new(
+-			module.store.Inner(),
++			store.Inner(),
+ 			module.inner(),
+ 			externs,
+ 			&traps,
+@@ -54,7 +65,7 @@ func NewInstance(module *Module, imports *ImportObject) (*Instance, error) {
+ 
+ 	self := &Instance{
+ 		_inner:  instance,
+-		Exports: newExports(instance, module),
++		Exports: nil,
+ 		imports: imports,
+ 	}
+ 
+@@ -62,26 +73,33 @@ func NewInstance(module *Module, imports *ImportObject) (*Instance, error) {
+ 		self.Close()
+ 	})
+ 
++	ManagedInstancesCreated++
++	self.Exports = newExports(instance, module)
++	self.Exports._store = store
+ 	return self, nil
+ }
+ 
+ func (self *Instance) inner() *C.wasm_instance_t {
++	ManagedAssert()
++	if self._inner == nil {
++		panic("closed Instance")
++	}
+ 	return self._inner
+ }
+ 
+ // GetRemainingPoints exposes wasm meterings remaining gas or points
+ func (self *Instance) GetGasRemaining() uint64 {
+-	return uint64(C.wasmer_metering_get_remaining_points(self._inner))
++	return uint64(C.wasmer_metering_get_remaining_points(self.inner()))
+ }
+ 
+ // MeteringPointsExhausted is a bool which determines if the engine has been shutdown from meter exhaustion
+ func (self *Instance) MeteringPointsExhausted() bool {
+-	return bool(C.wasmer_metering_points_are_exhausted(self._inner))
++	return bool(C.wasmer_metering_points_are_exhausted(self.inner()))
+ }
+ 
+ // SetRemainingPoints imposes a new gas limit on the wasm engine
+ func (self *Instance) SetGasLimit(newLimit uint64) {
+-	C.wasmer_metering_set_remaining_points(self._inner, C.uint64_t(newLimit))
++	C.wasmer_metering_set_remaining_points(self.inner(), C.uint64_t(newLimit))
+ }
+ 
+ // ReleaseFn is a function to release resources
+@@ -134,13 +152,18 @@ func (self *Instance) SetGasLimit(newLimit uint64) {
+ // possible to force the destruction of the Instance by calling Close
+ // manually.
+ func (self *Instance) Close() {
+-	managedSetFinalizer(self, nil)
++	if !managedSetFinalizer(self, nil) {
++		return
++	}
+ 	if self.Exports != nil {
+ 		self.Exports.Close()
+ 	}
+ 	if self.imports != nil {
+ 		self.imports.Close()
+ 	}
+-	C.wasm_instance_delete(self.inner())
+-	self.Exports.Close()
++	C.wasm_instance_delete(self._inner)
++	self._inner = nil
++	self.Exports = nil
++	self.imports = nil
++	ManagedInstancesClosed++
+ }
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/managed.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/managed.go
+index c3e4aaa..a7c9a7f 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/managed.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/managed.go
+@@ -48,14 +48,15 @@ func (s *ManagedScope) Activate() func() {
+ 	managedCurrent = s
+ 	return func() { managedCurrent = old }
+ }
+-func managedSetFinalizer(obj, fn interface{}) {
++func managedSetFinalizer(obj, fn interface{}) bool {
+ 	ManagedAssert()
+ 	if fn == nil {
+ 		if e := managedEntries[obj]; e != nil {
+ 			e.live = false
+ 			delete(managedEntries, obj)
++			return true
+ 		}
+-		return
++		return false
+ 	}
+ 	if managedCurrent == nil || managedCurrent.closed {
+ 		panic("native allocation outside managed scope")
+@@ -69,6 +70,7 @@ func managedSetFinalizer(obj, fn interface{}) {
+ 	e := &managedEntry{object: obj, fn: fn, live: true}
+ 	managedCurrent.entries = append(managedCurrent.entries, e)
+ 	managedEntries[obj] = e
++	return true
+ }
+ func (s *ManagedScope) Close() (err error) {
+ 	ManagedAssert()
+@@ -92,8 +94,6 @@ func (s *ManagedScope) Close() (err error) {
+ 		if !e.live {
+ 			continue
+ 		}
+-		e.live = false
+-		delete(managedEntries, e.object)
+ 		func() {
+ 			defer func() {
+ 				if r := recover(); r != nil {
+@@ -102,6 +102,8 @@ func (s *ManagedScope) Close() (err error) {
+ 			}()
+ 			reflect.ValueOf(e.fn).Call([]reflect.Value{reflect.ValueOf(e.object)})
+ 		}()
++		e.live = false
++		delete(managedEntries, e.object)
+ 	}
+ 	s.entries = nil
+ 	return err
+@@ -129,6 +131,7 @@ var managedCallDepth = map[*ManagedScope]int{}
+ 
+ func managedEnterFunction(f *Function) func() {
+ 	ManagedAssert()
++	managedBorrowAlive(f._ownedBy)
+ 	s := f._managedScope
+ 	if s == nil || s.closed {
+ 		panic("native call outside live scope")
+@@ -145,3 +148,23 @@ func managedEnterFunction(f *Function) func() {
+ 		}
+ 	}
+ }
++
++var ManagedStoresCreated, ManagedStoresClosed, ManagedInstancesCreated, ManagedInstancesClosed uint64
++
++func managedBorrowAlive(owner interface{}) {
++	ManagedAssert()
++	switch x := owner.(type) {
++	case *Exports:
++		if managedEntries[x] == nil || (x._store != nil && x._store._inner == nil) {
++			panic("closed exports/Store")
++		}
++	case *Store:
++		if x._inner == nil {
++			panic("closed Store")
++		}
++	case *Module:
++		if x._inner == nil {
++			panic("closed Module")
++		}
++	}
++}
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/memory.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/memory.go
+index f1e357c..a5ba8b8 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/memory.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/memory.go
+@@ -15,12 +15,13 @@ import (
+ //
+ // Specification: https://webassembly.github.io/spec/core/syntax/modules.html#memories
+ type Memory struct {
++	_scope   *ManagedScope
+ 	_inner   *C.wasm_memory_t
+ 	_ownedBy interface{}
+ }
+ 
+ func newMemory(pointer *C.wasm_memory_t, ownedBy interface{}) *Memory {
+-	memory := &Memory{_inner: pointer, _ownedBy: ownedBy}
++	memory := &Memory{_scope: managedCurrent, _inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+ 		managedSetFinalizer(memory, func(memory *Memory) {
+@@ -49,6 +50,11 @@ func NewMemory(store *Store, ty *MemoryType) *Memory {
+ }
+ 
+ func (self *Memory) inner() *C.wasm_memory_t {
++	ManagedAssert()
++	if self._scope == nil || self._scope.closed {
++		panic("closed Memory scope")
++	}
++	managedBorrowAlive(self._ownedBy)
+ 	return self._inner
+ }
+ 
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/module.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/module.go
+index 55b1934..cfb7232 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/module.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/module.go
+@@ -164,6 +164,10 @@ func ValidateModule(store *Store, bytes []byte) error {
+ }
+ 
+ func (self *Module) inner() *C.wasm_module_t {
++	ManagedAssert()
++	if self._inner == nil {
++		panic("closed Module")
++	}
+ 	return self._inner
+ }
+ 
+@@ -275,7 +279,8 @@ func DeserializeModule(store *Store, bytes []byte) (*Module, error) {
+ 	}
+ 
+ 	managedSetFinalizer(self, func(self *Module) {
+-		C.wasm_module_delete(self.inner())
++		C.wasm_module_delete(self._inner)
++		self._inner = nil
+ 	})
+ 
+ 	return self, nil
+@@ -286,8 +291,11 @@ func DeserializeModule(store *Store, bytes []byte) (*Module, error) {
+ // A runtime finalizer is registered on the Module, but it is possible
+ // to force the destruction of the Module by calling Close manually.
+ func (self *Module) Close() {
+-	managedSetFinalizer(self, nil)
+-	C.wasm_module_delete(self.inner())
++	if !managedSetFinalizer(self, nil) {
++		return
++	}
++	C.wasm_module_delete(self._inner)
++	self._inner = nil
+ 
+ 	if nil != self.importTypes {
+ 		self.importTypes.close()
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/store.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/store.go
+index 9857090..3434f90 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/store.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/store.go
+@@ -29,6 +29,10 @@ func NewStore(engine *Engine) *Store {
+ 		Engine: engine,
+ 	}
+ 
++	if self._inner == nil {
++		return nil
++	}
++	ManagedStoresCreated++
+ 	managedSetFinalizer(self, func(self *Store) {
+ 		self.Close()
+ 	})
+@@ -37,10 +41,17 @@ func NewStore(engine *Engine) *Store {
+ }
+ 
+ func (self *Store) inner() *C.wasm_store_t {
++	return self.Inner()
++}
++func (self *Store) unusedInner() *C.wasm_store_t {
+ 	return self._inner
+ }
+ 
+ func (self *Store) Inner() *C.wasm_store_t {
++	ManagedAssert()
++	if self._inner == nil {
++		panic("closed Store")
++	}
+ 	return self._inner
+ }
+ 
+@@ -49,6 +60,10 @@ func (self *Store) Inner() *C.wasm_store_t {
+ // A runtime finalizer is registered on the Store, but it is possible
+ // to force the destruction of the Store by calling Close manually.
+ func (self *Store) Close() {
+-	managedSetFinalizer(self, nil)
+-	C.wasm_store_delete(self.Inner())
++	if !managedSetFinalizer(self, nil) {
++		return
++	}
++	C.wasm_store_delete(self._inner)
++	self._inner = nil
++	ManagedStoresClosed++
+ }
+
+diff --git a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/wasi.go b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/wasi.go
+index 764bb18..536b79f 100644
+--- a/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/wasmer-go/wasi.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/wasi.go
+@@ -282,7 +282,7 @@ func newWasiEnvironment(stateBuilder *WasiStateBuilder, store *C.wasm_store_t) (
+ 	}
+ 
+ 	managedSetFinalizer(self, func(environment *WasiEnvironment) {
+-		C.wasi_env_delete(environment.inner())
++		environment.Close()
+ 	})
+ 
+ 	return self, nil
+@@ -402,3 +402,11 @@ func (self *WasiEnvironment) GenerateImportObject(store *Store, module *Module)
+ 
+ 	return importObject, nil
+ }
++
++func (self *WasiEnvironment) Close() {
++	if !managedSetFinalizer(self, nil) {
++		return
++	}
++	C.wasi_env_delete(self._inner)
++	self._inner = nil
++}

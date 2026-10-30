@@ -1,0 +1,16 @@
+[
+  "systemd-run",
+  "--user",
+  "--wait",
+  "--pipe",
+  "--collect",
+  "--unit=step34-native-compat",
+  "-p",
+  "MemoryMax=768M",
+  "-p",
+  "TasksMax=125",
+  "-p",
+  "RuntimeMaxSec=15s",
+  "/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/binaries/compat",
+  "/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/inputs/compat.wasm"
+]

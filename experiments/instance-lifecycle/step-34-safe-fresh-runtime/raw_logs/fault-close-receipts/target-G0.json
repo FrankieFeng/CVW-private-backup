@@ -1,0 +1,60 @@
+{
+  "label": "target-G0",
+  "tx_id": "step32-fact-fixed",
+  "contract": "fact",
+  "method": "saveAndFindByFileHash",
+  "business_input": {
+    "file_hash": "005521f27d745a04999c6d09f559764f9c44376a",
+    "file_name": "aoteman.jpg",
+    "time": "1792827547"
+  },
+  "before_hash": "fee9cb7c5fc89c6409383d9df23719f61b77600df50276456b2972242944e29a",
+  "after_hash": "fee9cb7c5fc89c6409383d9df23719f61b77600df50276456b2972242944e29a",
+  "runcontract_wall_ns_not_primary_metric": 8796047,
+  "status": 4,
+  "actual_result": {
+    "code": 1,
+    "result": "eyJmaWxlSGFzaCI6IjAwNTUyMWYyN2Q3NDVhMDQ5OTljNmQwOWY1NTk3NjRmOWM0NDM3NmEiLCJmaWxlTmFtZSI6ImFvdGVtYW4uanBnIiwidGltZSI6MTc5MjgyNzU0N30=",
+    "message": " close failure: injected Go fault close after_cleanup_or_guest=true; not native failure",
+    "gas_used": 154,
+    "contract_event": [
+      {
+        "topic": "topic_vx",
+        "tx_id": "step32-fact-fixed",
+        "contract_name": "fact",
+        "contract_version": "1.0.0",
+        "event_data": [
+          "005521f27d745a04999c6d09f559764f9c44376a",
+          "aoteman.jpg"
+        ]
+      }
+    ]
+  },
+  "actual_rwset": {
+    "tx_id": "step32-fact-fixed",
+    "tx_reads": [
+      {
+        "key": "ZmFjdF9ieXRlcyMwMDU1MjFmMjdkNzQ1YTA0OTk5YzZkMDlmNTU5NzY0ZjljNDQzNzZh",
+        "value": "e30=",
+        "contract_name": "fact"
+      }
+    ]
+  },
+  "inclusive_call_records_do_not_sum": [
+    {
+      "id": 0,
+      "depth": 0,
+      "contract": "fact",
+      "method": "saveAndFindByFileHash",
+      "tx_id": "step32-fact-fixed",
+      "begin_ns": 1793380617233252910,
+      "end_ns": 1793380617241661979,
+      "invoke_seconds_inclusive": 0.008409075,
+      "callmethod_seconds_nested": 0.000652852,
+      "gas_used_actual": 154,
+      "code": 1,
+      "result": "{\"fileHash\":\"005521f27d745a04999c6d09f559764f9c44376a\",\"fileName\":\"aoteman.jpg\",\"time\":1792827547}",
+      "message": " close failure: injected Go fault close after_cleanup_or_guest=true; not native failure"
+    }
+  ]
+}

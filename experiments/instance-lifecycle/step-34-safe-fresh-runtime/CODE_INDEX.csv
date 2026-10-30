@@ -1,0 +1,98 @@
+path,line,declaration
+source/vm/step21d_runtime_test.go,42,func newDManager(policy string) *dManager {
+source/vm/step21d_runtime_test.go,55,"func dEvent(event string, fields map[string]interface{}) {"
+source/vm/step21d_runtime_test.go,86,"func (m *dManager) NewRuntimeInstance(_ protocol.TxSimContext, chain, method, path string, c *common.Contract, code []byte, _ protocol.Logger) (protocol.RuntimeInstance, error) {"
+source/vm/step21d_runtime_test.go,96,"func (m *dManager) makeBundle(c *common.Contract, code []byte) (b *dBundle, err error) {"
+source/vm/step21d_runtime_test.go,168,func (m *dManager) closeBundle(b *dBundle) (err error) {
+source/vm/step21d_runtime_test.go,198,func (m *dManager) Close() error {
+source/vm/step21d_runtime_test.go,227,"func (r *dRuntime) Invoke(c *common.Contract, method string, code []byte, params map[string][]byte, ctx protocol.TxSimContext, gasUsed uint64) (result *common.ContractResult, order protocol.ExecOrderT"
+source/vm/step22_runtime_test.go,82,func newE22State() *e22State {
+source/vm/step22_runtime_test.go,85,"func e22Emit(event string, data interface{}) {"
+source/vm/step22_runtime_test.go,92,func e22Hash(b []byte) string { h := sha256.Sum256(b); return hex.EncodeToString(h[:]) }
+source/vm/step22_runtime_test.go,93,"func (m *dManager) e22Prepare(c *common.Contract, raw []byte) error {"
+source/vm/step22_runtime_test.go,140,"func (m *dManager) makeE22(c *common.Contract, raw []byte) (b *dBundle, err error) {"
+source/vm/step22_runtime_test.go,256,func (m *dManager) closeE22(b *dBundle) (err error) {
+source/vm/step22_runtime_test.go,288,func (s *e22State) closeCaches() error {
+source/vm/step22_runtime_test.go,300,func e22Clone(in map[string]map[string][]byte) map[string]map[string][]byte {
+source/vm/step22_runtime_test.go,306,"func e22Expected(t *testing.T, f *s21cFixture, name string, p map[string]string, r *s21cReceipt) {"
+source/vm/step22_runtime_test.go,338,"func e22Assert(t *testing.T, a, b *s21cReceipt) {"
+source/vm/step22_runtime_test.go,351,func TestStep24BSerial(t *testing.T) {
+source/vm/step22_runtime_test.go,453,func TestStep22ModuleLifecycle(t *testing.T) {
+source/vm/step27_diagnostic.go,8,func e27Host() map[string]interface{} {
+source/vm/step27_diagnostic.go,29,func e27ProbeBegin() e27Probe {
+source/vm/step27_diagnostic.go,37,"func e27ProbeEnd(p e27Probe, wall int64) {"
+source/vm/step27_diagnostic.go,48,"func e27StandaloneEmit(event string,data interface{}) {b,e:=json.Marshal(map[string]interface{}{""event"":event,""data"":data});if e!=nil{panic(e)};fmt.Printf(""STEP22 %s\n"",b)}"
+source/vm/step34_business_test.go,19,func step34Business(t *testing.T) {
+source/vm/step34_business_test.go,208,func TestStep34Serial(t *testing.T) {
+source/vm/step34_fault_test.go,13,"func s34Emit(e string, d interface{}) {"
+source/vm/step34_fault_test.go,17,"func s34Fault(stage string, after bool) error {"
+source/vm/step34_owner.go,38,"func NewSafeFreshOwner(limit int, cleanup func() error) (*SafeFreshOwner, error) {"
+source/vm/step34_owner.go,53,func (o *SafeFreshOwner) loop(ready chan struct{}) {
+source/vm/step34_owner.go,102,"func (o *SafeFreshOwner) Do(ctx context.Context, fn func() error) error {"
+source/vm/step34_owner.go,136,"func (o *SafeFreshOwner) Reset(ctx context.Context, reset func() error) error {"
+source/vm/step34_owner.go,173,func (o *SafeFreshOwner) Stop(ctx context.Context) error {
+source/vm/step34_owner_test.go,13,func TestStep34Owner(t *testing.T) {
+source/vm/step34_poison_test.go,3,"func TestStep34Poison(t *testing.T){ctx,c:=context.WithTimeout(context.Background(),5*time.Second);defer c();o,e:=NewSafeFreshOwner(4,nil);if e!=nil{t.Fatal(e)};e=o.Do(ctx,func()error{s:=w.ManagedOpen"
+source/vm/wasmer-go/instance.go,28,"func NewInstance(module *Module, imports *ImportObject) (*Instance, error) {"
+source/vm/wasmer-go/instance.go,33,"func NewInstanceInStore(module *Module, imports *ImportObject, store *Store) (*Instance, error) {"
+source/vm/wasmer-go/instance.go,82,func (self *Instance) inner() *C.wasm_instance_t {
+source/vm/wasmer-go/instance.go,91,func (self *Instance) GetGasRemaining() uint64 {
+source/vm/wasmer-go/instance.go,96,func (self *Instance) MeteringPointsExhausted() bool {
+source/vm/wasmer-go/instance.go,101,func (self *Instance) SetGasLimit(newLimit uint64) {
+source/vm/wasmer-go/instance.go,154,func (self *Instance) Close() {
+source/vm/wasmer-go/managed.go,25,func ManagedBeginOwner() {
+source/vm/wasmer-go/managed.go,31,func ManagedAssert() {
+source/vm/wasmer-go/managed.go,36,func ManagedOpen(label string) *ManagedScope {
+source/vm/wasmer-go/managed.go,42,func (s *ManagedScope) Activate() func() {
+source/vm/wasmer-go/managed.go,51,"func managedSetFinalizer(obj, fn interface{}) bool {"
+source/vm/wasmer-go/managed.go,75,func (s *ManagedScope) Close() (err error) {
+source/vm/wasmer-go/managed.go,111,func ManagedCount() int { ManagedAssert(); return len(managedEntries) }
+source/vm/wasmer-go/managed.go,112,func ManagedEndOwner() {
+source/vm/wasmer-go/managed.go,120,func (s *ManagedScope) Suspend() {
+source/vm/wasmer-go/managed.go,132,func managedEnterFunction(f *Function) func() {
+source/vm/wasmer-go/managed.go,154,func managedBorrowAlive(owner interface{}) {
+source/vm/wasmer-go/memory.go,23,"func newMemory(pointer *C.wasm_memory_t, ownedBy interface{}) *Memory {"
+source/vm/wasmer-go/memory.go,43,"func NewMemory(store *Store, ty *MemoryType) *Memory {"
+source/vm/wasmer-go/memory.go,52,func (self *Memory) inner() *C.wasm_memory_t {
+source/vm/wasmer-go/memory.go,61,func (self *Memory) ownedBy() interface{} {
+source/vm/wasmer-go/memory.go,73,func (self *Memory) Type() *MemoryType {
+source/vm/wasmer-go/memory.go,85,func (self *Memory) Size() Pages {
+source/vm/wasmer-go/memory.go,93,func (self *Memory) DataSize() uint {
+source/vm/wasmer-go/memory.go,101,func (self *Memory) Data() []byte {
+source/vm/wasmer-go/memory.go,121,func (self *Memory) Grow(delta Pages) bool {
+source/vm/wasmer-go/memory.go,132,func (self *Memory) IntoExtern() *Extern {
+source/vm/wasmer-go/memory.go,139,func (self *Memory) Reset() bool {
+source/vm/wasmer-go/module.go,76,"func NewModule(store *Store, bytes []byte, log *logger.CMLogger) (*Module, error) {"
+source/vm/wasmer-go/module.go,138,"func ValidateModule(store *Store, bytes []byte) error {"
+source/vm/wasmer-go/module.go,166,func (self *Module) inner() *C.wasm_module_t {
+source/vm/wasmer-go/module.go,183,func (self *Module) Name() string {
+source/vm/wasmer-go/module.go,202,func (self *Module) Imports() []*ImportType {
+source/vm/wasmer-go/module.go,217,func (self *Module) Exports() []*ExportType {
+source/vm/wasmer-go/module.go,232,"func (self *Module) Serialize() ([]byte, error) {"
+source/vm/wasmer-go/module.go,259,"func DeserializeModule(store *Store, bytes []byte) (*Module, error) {"
+source/vm/wasmer-go/module.go,293,func (self *Module) Close() {
+source/vm/wasmer-go/store.go,26,func NewStore(engine *Engine) *Store {
+source/vm/wasmer-go/store.go,43,func (self *Store) inner() *C.wasm_store_t {
+source/vm/wasmer-go/store.go,46,func (self *Store) unusedInner() *C.wasm_store_t {
+source/vm/wasmer-go/store.go,50,func (self *Store) Inner() *C.wasm_store_t {
+source/vm/wasmer-go/store.go,62,func (self *Store) Close() {
+source/vm/wasmer-go/wasi.go,87,func (self WasiVersion) String() string {
+source/vm/wasmer-go/wasi.go,105,func GetWasiVersion(module *Module) WasiVersion {
+source/vm/wasmer-go/wasi.go,118,func NewWasiStateBuilder(programName string) *WasiStateBuilder {
+source/vm/wasmer-go/wasi.go,134,func (self *WasiStateBuilder) Argument(argument string) *WasiStateBuilder {
+source/vm/wasmer-go/wasi.go,147,"func (self *WasiStateBuilder) Environment(key string, value string) *WasiStateBuilder {"
+source/vm/wasmer-go/wasi.go,168,func (self *WasiStateBuilder) PreopenDirectory(preopenDirectory string) *WasiStateBuilder {
+source/vm/wasmer-go/wasi.go,184,"func (self *WasiStateBuilder) MapDirectory(alias string, directory string) *WasiStateBuilder {"
+source/vm/wasmer-go/wasi.go,198,func (self *WasiStateBuilder) InheritStdin() *WasiStateBuilder {
+source/vm/wasmer-go/wasi.go,211,func (self *WasiStateBuilder) CaptureStdout() *WasiStateBuilder {
+source/vm/wasmer-go/wasi.go,219,func (self *WasiStateBuilder) InheritStdout() *WasiStateBuilder {
+source/vm/wasmer-go/wasi.go,226,func (self *WasiStateBuilder) CaptureStderr() *WasiStateBuilder {
+source/vm/wasmer-go/wasi.go,234,func (self *WasiStateBuilder) InheritStderr() *WasiStateBuilder {
+source/vm/wasmer-go/wasi.go,252,"func (self *WasiStateBuilder) Finalize(store *C.wasm_store_t) (*WasiEnvironment, error) {"
+source/vm/wasmer-go/wasi.go,256,func (self *WasiStateBuilder) inner() *C.wasi_config_t {
+source/vm/wasmer-go/wasi.go,268,"func newWasiEnvironment(stateBuilder *WasiStateBuilder, store *C.wasm_store_t) (*WasiEnvironment, error) {"
+source/vm/wasmer-go/wasi.go,291,func (self *WasiEnvironment) inner() *C.wasi_env_t {
+source/vm/wasmer-go/wasi.go,295,"func (self *WasiEnvironment) Initialize(store *Store, instance *Instance) error {"
+source/vm/wasmer-go/wasi.go,307,"func buildByteSliceFromCBuffer(buffer *C.char, length int) []byte {"
+source/vm/wasmer-go/wasi.go,367,"func (self *WasiEnvironment) GenerateImportObject(store *Store, module *Module) (*ImportObject, error) {"
+source/vm/wasmer-go/wasi.go,406,func (self *WasiEnvironment) Close() {

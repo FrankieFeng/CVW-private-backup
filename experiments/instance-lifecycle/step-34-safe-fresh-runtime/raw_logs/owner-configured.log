@@ -1,0 +1,16 @@
+=== RUN   TestStep34Owner
+Total function bodies: 1
+Total function bodies: 1
+panic: native owner thread violation
+
+goroutine 22 [running]:
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.ManagedAssert()
+	/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/managed.go:33 +0x68
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.ManagedCount(...)
+	/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/wasmer-go/managed.go:111
+chainmaker.org/chainmaker/vm-wasmer/v2.(*SafeFreshOwner).loop.func1()
+	/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_owner.go:71 +0x1f8
+chainmaker.org/chainmaker/vm-wasmer/v2.(*SafeFreshOwner).loop(0xc00009e420, 0xc000100310)
+	/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_owner.go:96 +0x21a
+created by chainmaker.org/chainmaker/vm-wasmer/v2.NewSafeFreshOwner in goroutine 21
+	/home/frankie/mygitprojects/.worktrees/cvw-step34/experiments/instance-lifecycle/step-34-safe-fresh-runtime/source/vm/step34_owner.go:48 +0x139
