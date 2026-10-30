@@ -1,0 +1,57 @@
+{
+  "label": "setup-business-0-G2",
+  "tx_id": "step33-setup-itinerary-0",
+  "contract": "itinerary",
+  "method": "save",
+  "business_input": {
+    "itinerary": "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}",
+    "phone": "13800000000"
+  },
+  "before_hash": "fee9cb7c5fc89c6409383d9df23719f61b77600df50276456b2972242944e29a",
+  "after_hash": "dfa918bba6794657415c86a40c9c6363f5c529975bd46968e377b21ff05725e3",
+  "runcontract_wall_ns_not_primary_metric": 4552843,
+  "status": 0,
+  "actual_result": {
+    "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiaXAiOiIxMjcuMC4wLjEiLCJjaXR5IjoiU2hhbmdoYWkiLCJyZWdpb24iOiJTaGFuZ2hhaSIsImNvdW50cnkiOiJDTiIsImxvYyI6IiIsIm9yZyI6IiIsInRpbWV6b25lIjoiIiwiYXNuIjp7ImFzbiI6IiIsIm5hbWUiOiIiLCJkb21haW4iOiIiLCJyb3V0ZSI6IiIsInR5cGUiOiIifSwiY29tcGFueSI6eyJuYW1lIjoiIiwiZG9tYWluIjoiIiwidHlwZSI6IiJ9LCJwcml2YWN5Ijp7InZwbiI6ZmFsc2UsInByb3h5IjpmYWxzZSwidG9yIjpmYWxzZSwicmVsYXkiOmZhbHNlLCJob3N0aW5nIjpmYWxzZSwic2VydmljZSI6IiJ9LCJhYnVzZSI6eyJhZGRyZXNzIjoiIiwiY291bnRyeSI6IiIsImVtYWlsIjoiIiwibmFtZSI6IiIsIm5ldHdvcmsiOiIiLCJwaG9uZSI6IiJ9LCJkb21haW5zIjp7InRvdGFsIjowLCJkb21haW5zIjpudWxsfX19",
+    "gas_used": 127,
+    "contract_event": [
+      {
+        "topic": "save",
+        "tx_id": "step33-setup-itinerary-0",
+        "contract_name": "itinerary",
+        "contract_version": "1.0.0",
+        "event_data": [
+          "13800000000",
+          "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+        ]
+      }
+    ]
+  },
+  "actual_rwset": {
+    "tx_id": "step33-setup-itinerary-0",
+    "tx_writes": [
+      {
+        "key": "MTM4MDAwMDAwMDA=",
+        "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0=",
+        "contract_name": "itinerary"
+      }
+    ]
+  },
+  "inclusive_call_records_do_not_sum": [
+    {
+      "id": 0,
+      "depth": 0,
+      "contract": "itinerary",
+      "method": "save",
+      "tx_id": "step33-setup-itinerary-0",
+      "begin_ns": 1793341304475682574,
+      "end_ns": 1793341304480150793,
+      "invoke_seconds_inclusive": 0.004468218,
+      "callmethod_seconds_nested": 0.000529593,
+      "gas_used_actual": 127,
+      "code": 0,
+      "result": "{\"code\":200,\"msg\":\"\",\"data\":{\"ip\":\"127.0.0.1\",\"city\":\"Shanghai\",\"region\":\"Shanghai\",\"country\":\"CN\",\"loc\":\"\",\"org\":\"\",\"timezone\":\"\",\"asn\":{\"asn\":\"\",\"name\":\"\",\"domain\":\"\",\"route\":\"\",\"type\":\"\"},\"company\":{\"name\":\"\",\"domain\":\"\",\"type\":\"\"},\"privacy\":{\"vpn\":false,\"proxy\":false,\"tor\":false,\"relay\":false,\"hosting\":false,\"service\":\"\"},\"abuse\":{\"address\":\"\",\"country\":\"\",\"email\":\"\",\"name\":\"\",\"network\":\"\",\"phone\":\"\"},\"domains\":{\"total\":0,\"domains\":null}}}",
+      "message": ""
+    }
+  ]
+}

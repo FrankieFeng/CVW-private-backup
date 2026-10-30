@@ -1,0 +1,20 @@
+{
+  "case": "raffle_raffle",
+  "contract": "raffle",
+  "method": "raffle",
+  "params": {
+    "level": "1",
+    "timestamp": "1700000000"
+  },
+  "setup": [
+    {
+      "method": "registerAll",
+      "params": {
+        "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+      }
+    }
+  ],
+  "expected": "num: 3, name: Carol, level: 1",
+  "kind": "raffle_draw",
+  "contains": ""
+}

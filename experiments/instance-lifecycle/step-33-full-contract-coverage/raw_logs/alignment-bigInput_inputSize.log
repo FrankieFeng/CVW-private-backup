@@ -1,0 +1,17 @@
+=== RUN   TestStep33Serial
+STEP22 {"data":{"contract":"bigInput","group":"G1","image_bytes":4849664,"image_sha":"bef3634bbde5ab02ef76ed78af38f91282976e5682c22cc1ff942def364116ac","key":"8450b1bb6b76b36d6f4c5a5105a96607f3595dfd6df99daf8a86ed183406f4fa","nodata_sha":"8509533446d337a8a8034b300f34483dc8b11855b181c6bd33b827db0bd8cc9f","prepare_ns":12270730,"ranges":46241,"source_sha":"b4d8bc6ddf2bfb615ed9c83ef4120a86d48f31bb496d7c52bdad82107a73cc29"},"event":"template"}
+opmap length 216 
+2026-10-30 14:12:02.450	[INFO]	step25-prepare	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-10-30 14:12:02.450	[INFO]	step25-prepare	wasmer-go/module.go:103	wasmBytesPtr => 0xc0024bc000 
+2026-10-30 14:12:02.450	[INFO]	step25-prepare	wasmer-go/module.go:104	wasmBytesLength => 4250784 
+Total function bodies: 2625
+2026-10-30 14:12:02.890	[DEBUG]	step25-prepare	vm/step21d_compile.go:266	[bigInput_1.0.0], new module success
+STEP22 {"data":{"cache_key":"8450b1bb6b76b36d6f4c5a5105a96607f3595dfd6df99daf8a86ed183406f4fa/G1","contract":"bigInput","copy_enabled":false,"group":"G1","module_prepare_ns":483171600,"module_wasm_sha":"b4d8bc6ddf2bfb615ed9c83ef4120a86d48f31bb496d7c52bdad82107a73cc29","source_sha":"b4d8bc6ddf2bfb615ed9c83ef4120a86d48f31bb496d7c52bdad82107a73cc29","variant":"G1"},"event":"module"}
+2026-10-30 14:12:02.892	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+STEP22 {"data":{"contract":"bigInput","values":[4194304,0,4194304]},"event":"alignment"}
+STEP22 {"data":{"case":"bigInput_inputSize","fresh_instances_only":true,"groups":["G1"],"real_business":true,"table_function_identity":"not_tested"},"event":"correctness"}
+STEP22 {"data":{"close_ns":3162042,"managed_remaining":0,"module_scopes_closed":1,"store_scopes_closed":1},"event":"cache_closed"}
+STEP21C {"Threads":7,"VmRSS":235776,"closed":1,"created":1,"event":"manager_closed","in_flight":0,"managed_objects":0,"monotonic_ns":516459319,"owner_tid":2026648,"wall_unix_ns":1793340722899311759}
+STEP21C {"Threads":7,"VmRSS":235888,"event":"owner_closed","managed_objects":0,"managed_pending":0,"monotonic_ns":517288764,"owner_tid":2026648,"wall_unix_ns":1793340722900141118}
+--- PASS: TestStep33Serial (0.52s)
+PASS

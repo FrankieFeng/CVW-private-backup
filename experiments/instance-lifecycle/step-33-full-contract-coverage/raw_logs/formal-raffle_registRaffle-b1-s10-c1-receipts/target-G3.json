@@ -1,0 +1,64 @@
+{
+  "label": "target-G3",
+  "tx_id": "step33-raffle_registRaffle-fixed",
+  "contract": "raffle",
+  "method": "registRaffle",
+  "business_input": {
+    "level": "1",
+    "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}",
+    "timestamp": "1700000000"
+  },
+  "before_hash": "fee9cb7c5fc89c6409383d9df23719f61b77600df50276456b2972242944e29a",
+  "after_hash": "b1c392c56b10b1617776cc70ec01d895ae63ef73908a17106176956b69cdf9d3",
+  "runcontract_wall_ns_not_primary_metric": 3511403,
+  "status": 0,
+  "actual_result": {
+    "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+    "gas_used": 309,
+    "contract_event": [
+      {
+        "topic": "peoples",
+        "tx_id": "step33-raffle_registRaffle-fixed",
+        "contract_name": "raffle",
+        "contract_version": "1.0.0",
+        "event_data": [
+          "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+        ]
+      }
+    ]
+  },
+  "actual_rwset": {
+    "tx_id": "step33-raffle_registRaffle-fixed",
+    "tx_reads": [
+      {
+        "key": "cGVvcGxlcw==",
+        "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0=",
+        "contract_name": "raffle"
+      }
+    ],
+    "tx_writes": [
+      {
+        "key": "cGVvcGxlcw==",
+        "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn1dfQ==",
+        "contract_name": "raffle"
+      }
+    ]
+  },
+  "inclusive_call_records_do_not_sum": [
+    {
+      "id": 0,
+      "depth": 0,
+      "contract": "raffle",
+      "method": "registRaffle",
+      "tx_id": "step33-raffle_registRaffle-fixed",
+      "begin_ns": 1793341490565716745,
+      "end_ns": 1793341490568968294,
+      "invoke_seconds_inclusive": 0.003251558,
+      "callmethod_seconds_nested": 0.000448676,
+      "gas_used_actual": 309,
+      "code": 0,
+      "result": "num: 3, name: Carol, level: 1",
+      "message": ""
+    }
+  ]
+}

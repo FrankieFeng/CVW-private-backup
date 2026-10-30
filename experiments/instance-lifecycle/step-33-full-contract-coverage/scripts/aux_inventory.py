@@ -10,3 +10,9 @@ for sub in ['test/output/formatTest.go','test/example/test.go','registry/registr
   if any(x['contract']==p.stem and x['method']==m for x in rows):continue
   extra.append(dict(contract=p.stem,method=m,source_path=str(p),frozen_source_commit='current read-only artifact; not benchmarked',wasm_path=str(wasm)if wasm else'',wasm_sha256=hashlib.sha256(wasm.read_bytes()).hexdigest()if wasm and wasm.exists()else'',independent_deployable=False,also_child=False,fixture_status='not_applicable_tool',A_build_status='not_built',Copy_build_status='not_built',step32_covered=False,step33_execute=False,status='auxiliary_not_performance',blocking_reason='Go syntax/instrumentation sample or helper; no ChainMaker init_contract/SDK business ABI',case='',source_is_duplicate=False))
 rows+=extra;keys=list(dict.fromkeys(k for r in rows for k in r));f=(P/'CONTRACT_INVENTORY.csv').open('w',newline='');w=csv.DictWriter(f,keys);w.writeheader();w.writerows(rows);f.close();print('extra auxiliary rows',len(extra),'inventory',len(rows))
+ws=list(csv.DictReader((P/'audit/ALL_WASM_SCAN.csv').open()));extra=[]
+for name in ['tests.wasm','wasi.wasm']:
+ for x in ws:
+  if Path(x['path']).name!=name or'/experiments/'in x['path']or any(r['contract']==name for r in rows):continue
+  d={k:''for k in rows[0]};d.update(contract=name,method='(native binding test module)',source_path='wasmer-go testdata; not SDK business',wasm_path=x['path'],wasm_sha256=x['sha256'],independent_deployable=False,step32_covered=False,step33_execute=False,status='auxiliary_not_performance',fixture_status='not_applicable_tool',blocking_reason='Wasmer binding/WASI test module; no independent ChainMaker SDK deployment business',A_build_status='not_built',Copy_build_status='not_built');extra.append(d)
+rows+=extra;keys=list(dict.fromkeys(k for r in rows for k in r));f=(P/'CONTRACT_INVENTORY.csv').open('w',newline='');w=csv.DictWriter(f,keys);w.writeheader();w.writerows(rows);f.close()

@@ -1,0 +1,17 @@
+{
+  "case": "raffle_query",
+  "contract": "raffle",
+  "method": "query",
+  "params": {},
+  "setup": [
+    {
+      "method": "registerAll",
+      "params": {
+        "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+      }
+    }
+  ],
+  "expected": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}",
+  "kind": "",
+  "contains": ""
+}

@@ -10,7 +10,7 @@ for r in inv:
   r['status']='completed'if N[r['case']]==30 else'partial'if N[r['case']]else'preflight_passed'if r['case']in pref else'pending';r['fixture_status']=r['status'];r['A_build_status']='frozen_and_preflight_validated'if r['case']in pref else r['A_build_status'];r['Copy_build_status']='preflight_passed'if r['case']in pref else r['Copy_build_status'];r['formal_blocks']=N[r['case']]
 write(P/'CONTRACT_INVENTORY.csv',inv)
 methods={'bigNumCal':('compute','bigNumCal'),'hashCal':('compute','hashCal'),'normalCal':('compute','normalCal'),'fact':('fact','saveAndFindByFileHash'),'erc721':('erc721','mint'),'buyNow':('exchange','buyNow')};matrix=[]
-for origin,rs,sums,sha,branch in [('Step32',old,osum,'7eccc36e','experiment/step32-all-contracts-acopy-matrix'),('Step33',new,summary,'see audit/build3-outcome.json; final branch HEAD','experiment/step33-full-contract-coverage')]:
+for origin,rs,sums,sha,branch in [('Step32',old,osum,'7eccc36e','experiment/step32-all-contracts-acopy-matrix'),('Step33',new,summary,json.loads((P/'audit/SOURCE_SNAPSHOT.json').read_text())['source_snapshot_commit'],'experiment/step33-full-contract-coverage')]:
  for case in sorted({r['case']for r in rs}):
   c,m=methods[case]if origin=='Step32'else(cm[case]['contract'],cm[case]['method']);effects={r['effect']:r for r in rs if r['case']==case};gr={r['group']:r for r in sums if r['case']==case and r['metric']=='invoke_ns'}
   d=dict(contract=c,method=m,source=origin,branch=branch,commit=sha,family='Step18-P0-plain',N_per_group=gr['G0']['N'],batches=gr['G0']['batches'],status='completed'if int(gr['G0']['N'])==30 else'partial',exception_rollback='not_tested',table_identity='not_tested')

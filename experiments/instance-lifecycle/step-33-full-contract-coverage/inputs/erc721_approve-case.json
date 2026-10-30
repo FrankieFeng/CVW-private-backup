@@ -1,0 +1,28 @@
+{
+  "case": "erc721_approve",
+  "contract": "erc721",
+  "method": "approve",
+  "params": {
+    "to": "818fac1ac51525aeedf619a9a339b95854930159",
+    "tokenId": "1"
+  },
+  "setup": [
+    {
+      "method": "mint",
+      "params": {
+        "to": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+        "tokenId": "1",
+        "metadata": "http://chainmaker.org.cn/"
+      }
+    },
+    {
+      "method": "setApprovalForAll2",
+      "params": {
+        "approvalFrom": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+      }
+    }
+  ],
+  "expected": "approve success",
+  "kind": "erc_approve",
+  "contains": ""
+}

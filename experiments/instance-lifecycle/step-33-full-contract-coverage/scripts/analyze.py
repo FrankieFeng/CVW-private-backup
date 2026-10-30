@@ -26,7 +26,7 @@ def reconstruct(folder,g,case):
  setup=[folder/f'setup-{c}-{g}.json']+sorted(folder.glob(f'setup-business-*-{g}.json'))
  for f in setup:
   r=json.loads(f.read_text());assert digest(l)==r['before_hash'],(case,f,'initial');apply(l,r);assert digest(l)==r['after_hash'],(case,f,'final')
- initial=json.loads(json.dumps(l));r=json.loads((folder/f'target-{g}.json').read_text());assert digest(l)==r['before_hash'];apply(l,r);assert digest(l)==r['after_hash']
+ initial=json.loads(json.dumps(l));r=json.loads((folder/f'target-{g}.json').read_text());case_input=json.loads(Path(CASE_META[case]['file']).read_text());assert r['business_input']==case_input['params'],(case,'input freeze');assert digest(l)==r['before_hash'];apply(l,r);assert digest(l)==r['after_hash']
  out=folder/f'target-{g}-ledger.json'
  if not out.exists():out.write_text(json.dumps(dict(initial=initial,final=l,initial_sha=digest(initial),final_sha=digest(l)),indent=2))
  return digest(l)
@@ -48,7 +48,7 @@ for o in outcomes:
  for e in events:
   if e['event']in ['module','template']:modules.append(dict(label=label,case=o['case'],phase=o['phase'],event=e['event'],**e['data']))
   if e['event']!='sample':continue
-  r=e['data'];r['s1_to_s2_ns']=r['to_s2_ns']-r['to_s1_ns'];r['s2_to_s3_ns']=r['to_s3_ns']-r['to_s2_ns'];rows.append(dict(wasm_family='Step18-P0-plain',code_parent='7eccc36e',config_sha=json.loads((P/'environment.json').read_text())['config_sha'],source_log_line=e['source_log_line'],label=label,case=o['case'],phase=o['phase'],batch=o['batch'],slot=o['slot'],order=o['order'],chunk=o['single'],valid_block=bool(meta.get(label,{}).get('valid',False)),binary_sha256=json.loads((P/'raw_logs'/f'{label}-command.json').read_text())['binary_sha256'],**r))
+  r=e['data'];r['s1_to_s2_ns']=r['to_s2_ns']-r['to_s1_ns'];r['s2_to_s3_ns']=r['to_s3_ns']-r['to_s2_ns'];rows.append(dict(wasm_family='Step18-P0-plain',source_snapshot_commit=json.loads((P/'audit/SOURCE_SNAPSHOT.json').read_text())['source_snapshot_commit'],code_parent='7eccc36e',config_sha=json.loads((P/'environment.json').read_text())['config_sha'],source_log_line=e['source_log_line'],label=label,case=o['case'],phase=o['phase'],batch=o['batch'],slot=o['slot'],order=o['order'],chunk=o['single'],valid_block=bool(meta.get(label,{}).get('valid',False)),binary_sha256=json.loads((P/'raw_logs'/f'{label}-command.json').read_text())['binary_sha256'],**r))
 for b in blocks:
  assert b['valid'];receipts=[];ledgers=[]
  for lab in b['labels']:
@@ -88,8 +88,15 @@ for ci,case in enumerate(CASES):
    for g in GROUPS:
     root=lookup[(case,*k,g)];ch=[r for r in rows if r['label']==root['label']and r['group']==g and r['tx_id']==root['tx_id']and r['depth']==1];assert len(ch)==6
     children.append(dict(batch=k[0],slot=k[1],group=g,root_invoke_ms=root['invoke_ns']/1e6,root_export_ms=root['export_call_ns']/1e6,children_sum_invoke_ms=sum(x['invoke_ns']for x in ch)/1e6,root_export_residual_ms=(root['export_call_ns']-sum(x['invoke_ns']for x in ch))/1e6,children_sum_start_ms=sum(x['start_ns']for x in ch)/1e6))
+checks=[]
+for r in main:
+ tests={'newinstance_plus_copy_within_s1':r['newinstance_ns']+r['copy_ns']<=r['to_s1_ns'],'s2_after_s1':r['to_s2_ns']>=r['to_s1_ns'],'s3_after_s2':r['to_s3_ns']>=r['to_s2_ns'],'export_nested_in_callmethod':r['export_call_ns']<=r['callmethod_ns'],'close_within_invoke':r['to_s3_ns']+r['close_ns']<=r['invoke_ns'],'no_business_reuse':not r['reused'],'callmethod_error_empty':r.get('call_error_observed','')in['','<nil>']}
+ assert all(tests.values()),(r['label'],r['group'],tests)
+ checks.append(dict(label=r['label'],case=r['case'],group=r['group'],batch=r['batch'],slot=r['slot'],**tests,remaining_after_s3_close_ns=r['invoke_ns']-r['to_s3_ns']-r['close_ns']))
+dump('TIMING_WINDOW_VALIDATION.csv',checks)
 dump('SUMMARY.csv',summary);dump('BATCH_SUMMARY.csv',batchsummary);dump('PAIRED_EFFECTS.csv',effects);dump('INTERACTION_ANALYSIS.csv',interaction);dump('STRATIFIED_EFFECTS.csv',strata);dump('STAGE_EFFECTS.csv',stage);dump('BUY_NOW_WINDOWS.csv',children)
 (P/'analysis.json').write_text(json.dumps(dict(valid_formal_blocks=sum(b['phase']=='formal'for b in blocks),formal_root_calls=len(main),formal_real_child_calls=sum(r['phase']=='formal'and r['depth']==1 and r['valid_block']for r in rows),outcomes=len(outcomes),failed=sum(not o['passed']for o in outcomes),valid_by_case={c:len([r for r in main if r['case']==c])//4 for c in CASES},bootstrap='10000 batch to whole block; seed320027+case*100+edge; linear quantile',interaction_sign='positive raw=antagonism; negative raw=synergy'),indent=2))
+dump('INPUT_MANIFEST.csv',[dict(case=c['case'],path=c['file'],sha256=hashlib.sha256(Path(c['file']).read_bytes()).hexdigest(),max_groups_per_process=c['max_groups_per_process'])for c in CASE_META.values()])
 print('ANALYZED',len(main),'formal roots;',len(blocks),'all valid blocks; outcomes',len(outcomes),flush=True)
 if children:
  d={(r['batch'],r['slot'],r['group']):r for r in children};out=[]

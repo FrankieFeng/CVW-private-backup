@@ -1,0 +1,5 @@
+# 复算与重建补充
+
+补充：原始主数据为raw_logs/标签日志、command/outcome/收据；source/vm/default.log*保留logger辅助输出及复制的旧片段，不用于本轮筛选统计。预检含build2与后端补齐后的build3，所有正式调用统一build3；各进程二进制SHA见command.json。可用python3 scripts/recompute.py一键复算全部派生表，旧来源保持只读。
+
+归档未包含可执行.test与native so；本地工作树保留它们。重建时须使用固定SHA native库、现有Go1.24.1诊断工具链和Step21C/18依赖工作树，不能自动替换库。build.py使用新的build标签以避免覆盖历史；run.py支持E33_BINARY_LABEL指定新构建，旧有效标签会跳过，新的独立复现须登记新目录/标签与输入路径。完整环境还包括audit/EXTERNAL_MODULE_SOURCE.json中Step21C核心依赖提交32d257b62cbaedbefd6112ddf1badb4aee2b413f。

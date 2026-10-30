@@ -1,0 +1,55 @@
+{
+  "label": "target-G3",
+  "tx_id": "step33-raffle_registerAll-fixed",
+  "contract": "raffle",
+  "method": "registerAll",
+  "business_input": {
+    "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+  },
+  "before_hash": "fee9cb7c5fc89c6409383d9df23719f61b77600df50276456b2972242944e29a",
+  "after_hash": "19e881fcd9906c62a62e2ffb3b31c1f4f418d5faa395db896db6b37a3592b738",
+  "runcontract_wall_ns_not_primary_metric": 3357902,
+  "status": 0,
+  "actual_result": {
+    "result": "b2s=",
+    "gas_used": 70,
+    "contract_event": [
+      {
+        "topic": "peoples",
+        "tx_id": "step33-raffle_registerAll-fixed",
+        "contract_name": "raffle",
+        "contract_version": "1.0.0",
+        "event_data": [
+          "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+        ]
+      }
+    ]
+  },
+  "actual_rwset": {
+    "tx_id": "step33-raffle_registerAll-fixed",
+    "tx_writes": [
+      {
+        "key": "cGVvcGxlcw==",
+        "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0=",
+        "contract_name": "raffle"
+      }
+    ]
+  },
+  "inclusive_call_records_do_not_sum": [
+    {
+      "id": 0,
+      "depth": 0,
+      "contract": "raffle",
+      "method": "registerAll",
+      "tx_id": "step33-raffle_registerAll-fixed",
+      "begin_ns": 1793342321291271241,
+      "end_ns": 1793342321294545461,
+      "invoke_seconds_inclusive": 0.003274218,
+      "callmethod_seconds_nested": 0.0003666,
+      "gas_used_actual": 70,
+      "code": 0,
+      "result": "ok",
+      "message": ""
+    }
+  ]
+}

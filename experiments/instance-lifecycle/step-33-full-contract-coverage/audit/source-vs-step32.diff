@@ -1,0 +1,73 @@
+diff --git a/CVW/experiments/instance-lifecycle/step-32-all-contracts-acopy/source/vm/step21d_fixture_test.go b/.worktrees/cvw-step33/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/step21d_fixture_test.go
+index cd61dd9..a92e90f 100644
+--- a/CVW/experiments/instance-lifecycle/step-32-all-contracts-acopy/source/vm/step21d_fixture_test.go
++++ b/.worktrees/cvw-step33/experiments/instance-lifecycle/step-33-full-contract-coverage/source/vm/step21d_fixture_test.go
+@@ -28,6 +28,7 @@ import (
+ 	common "chainmaker.org/chainmaker/pb-go/v2/common"
+ 	config "chainmaker.org/chainmaker/pb-go/v2/config"
+ 	"chainmaker.org/chainmaker/pb-go/v2/syscontract"
++ historypb "chainmaker.org/chainmaker/pb-go/v2/store"
+ 	"chainmaker.org/chainmaker/protocol/v2"
+ 	"chainmaker.org/chainmaker/vm/v2"
+ )
+@@ -59,6 +60,8 @@ type s21cStore struct {
+ 	contracts                map[string]*common.Contract
+ 	code                     map[string][]byte
+ 	cfg                      *config.ChainConfig
++ snapshot *s21cSnapshot
++ history map[string][]*historypb.KeyModification
+ }
+ 
+ func (s *s21cStore) GetContractByName(name string) (*common.Contract, error) {
+@@ -101,7 +104,10 @@ func (s *s21cSnapshot) hash() string {
+ 	return hex.EncodeToString(h[:])
+ }
+ func (s *s21cSnapshot) commit(rw *common.TxRWSet) {
++ if s.store.history == nil { s.store.history=map[string][]*historypb.KeyModification{} }
+ 	for _, w := range rw.TxWrites {
++ hk:=w.ContractName+"\x00"+string(w.Key)
++ s.store.history[hk]=append(s.store.history[hk], &historypb.KeyModification{TxId:rw.TxId,Value:append([]byte(nil),w.Value...),IsDelete:w.Value==nil,BlockHeight:111,Timestamp:1700000000})
+ 		if s.ledger[w.ContractName] == nil {
+ 			s.ledger[w.ContractName] = map[string][]byte{}
+ 		}
+@@ -207,7 +213,7 @@ func s21cPrepare(t *testing.T, manifestPath, output string) *s21cFixture {
+ 		if hex.EncodeToString(h[:]) != a.SHA256 {
+ 			t.Fatal("changed WASM " + a.Contract)
+ 		}
+-		if a.Contract != "fact" && a.Contract != "compute" && a.Contract != "exchange" && a.Contract != "identity" && a.Contract != "erc721" {
++		if a.Contract != "fact" && a.Contract != "compute" && a.Contract != "exchange" && a.Contract != "identity" && a.Contract != "erc721" && a.Contract != "bigInput" && a.Contract != "itinerary" && a.Contract != "raffle" {
+ 			t.Fatal("unexpected registered contract")
+ 		}
+ 		store.code[a.Contract] = b
+@@ -217,6 +223,7 @@ func s21cPrepare(t *testing.T, manifestPath, output string) *s21cFixture {
+ 		t.Fatal("three actual WASM contracts required")
+ 	}
+ 	snap := &s21cSnapshot{store: store, ledger: map[string]map[string][]byte{}}
++ store.snapshot = snap
+ 	cfgBytes, e := cfg.Marshal()
+ 	if e != nil {
+ 		t.Fatal(e)
+@@ -411,3 +418,23 @@ func TestStep21CRealCrossContractPrepared(t *testing.T) {
+ 	// Kept type-checked but unreachable until the independent safety decision changes this test.
+ 	s21cPreparedScenario(t, "step21c-manifest.json", "step21c-receipts")
+ }
++
++// Step33 history fixture is derived only from actually committed RW writes.
++// No canned iterator values or business return values are supplied.
++type s33HistoryIter struct { values []*historypb.KeyModification; index int; closed bool }
++func (i *s33HistoryIter) Next() bool { if i.closed { return false }; i.index++;return i.index<len(i.values) }
++func (i *s33HistoryIter) Value() (*historypb.KeyModification,error) { if i.closed || i.index<0 || i.index>=len(i.values) {return nil,fmt.Errorf("history iterator outside valid entry")};return i.values[i.index],nil }
++func (i *s33HistoryIter) Release() { i.closed=true }
++func (s *s21cStore) GetHistoryForKey(c string,key []byte)(protocol.KeyHistoryIterator,error) { vs:=s.history[c+"\x00"+string(key)];return &s33HistoryIter{values:append([]*historypb.KeyModification(nil),vs...),index:-1},nil }
++func (s *s21cSnapshot) GetTxRWSetTable() []*common.TxRWSet { return nil } // no other in-flight block transactions; setup writes are committed history
++func (s *s21cSnapshot) GetBlockTimestamp() int64 { return 1700000000 }
++
++// Range iteration over the actual committed ledger; no canned contract result.
++type s33StateIter struct { values []*historypb.KV; index int }
++func (i *s33StateIter) Next() bool { i.index++;return i.index<len(i.values) }
++func (i *s33StateIter) Value() (*historypb.KV,error) { if i.index<0 || i.index>=len(i.values) {return nil,fmt.Errorf("state iterator bounds")};return i.values[i.index],nil }
++func (i *s33StateIter) Release() {i.values=nil}
++func (s *s21cStore) SelectObject(c string,start,limit []byte)(protocol.StateIterator,error) {
++ keys:=[]string{};for k:=range s.snapshot.ledger[c] {if k>=string(start) && k<string(limit) {keys=append(keys,k)}};sort.Strings(keys)
++ values:=[]*historypb.KV{};for _,k:=range keys {values=append(values,&historypb.KV{ContractName:c,Key:[]byte(k),Value:append([]byte(nil),s.snapshot.ledger[c][k]...)})};return &s33StateIter{values:values,index:-1},nil
++}

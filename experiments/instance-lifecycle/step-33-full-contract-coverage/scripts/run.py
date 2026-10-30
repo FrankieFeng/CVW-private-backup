@@ -1,5 +1,5 @@
 from pathlib import Path
-import argparse,subprocess,json,time,hashlib,sys
+import argparse,subprocess,json,time,hashlib,sys,os
 P=Path(__file__).resolve().parents[1]
 def save(p,x):p.write_text(json.dumps(x,indent=2)+'\n')
 def cmd(args):return subprocess.run(args,capture_output=True,text=True)
@@ -24,7 +24,7 @@ def run(label,case,phase='preflight',order='G0,G1,G2,G3',batch=0,slot=0,single='
  group=(single or 'G0').split(',')[0]
  manifest=P/'inputs'/f'{label}-manifest.json';save(manifest,{'Artifacts':[{'Contract':c,'Path':variants[c+'-'+group]['path'],'SHA256':variants[c+'-'+group]['sha']}for c in names]})
  native=P/'source/vm/wasmer-go/packaged/lib/linux-amd64/libwasmer.so';assert hashlib.sha256(native.read_bytes()).hexdigest()=='dcdfa7164c58856f6e0c01597fd52c9a4c5f7da772751e3a874f7333612c3db9'
- binary=P/'binaries/build3.test';sha=hashlib.sha256(binary.read_bytes()).hexdigest();assert sha==json.loads((P/'audit/build3-outcome.json').read_text())['binary_sha']
+ build_label=os.environ.get('E33_BINARY_LABEL','build3');binary=P/'binaries'/f'{build_label}.test';sha=hashlib.sha256(binary.read_bytes()).hexdigest();assert sha==json.loads((P/'audit'/f'{build_label}-outcome.json').read_text())['binary_sha']
  env={'E27_ENABLED':'1','E27_DIAG':'0','E22_ENABLED':'1','E22_CONTRACT':contract,'E22_METHOD':case_meta['method'],'E33_CASE_FILE':case_meta['file'], 'E22_PHASE':phase,'E25_VARIANTS':str(variant_file),'E33_ORDER':order,'E33_SINGLE':single,'E33_BLOCK':str((batch-1)*10+slot),'E33_CASE':case,'E33_ALIGNMENT':'1'if alignment else'0','E33_EXCEPTION':exception,'E22_CONFIG_SHA':json.loads((P/'environment.json').read_text())['config_sha'],'CM_REUSE_EXPERIMENT':'R1','CM_STEP21A_POOL':'capacity','CM_STEP21A_STORE_GUARD':'1','CM_STEP21_OBSERVE':'1','D_POLICY':'R1','D_N':'1','D_MANIFEST':str(manifest),'D_OUTPUT':str(P/'raw_logs'/f'{label}-receipts'),'GOMAXPROCS':'2','GOGC':'100','LD_LIBRARY_PATH':str(native.parent)}
  unit='step33-'+label;test='TestStep33Serial'
  argv=['systemd-run','--user','--unit='+unit,'-p','MemoryMax=2G','-p','TasksMax=256','-p','RuntimeMaxSec=60s','-p','TimeoutStopSec=5s','-p','KillMode=control-group','-p','RemainAfterExit=yes','-p','StandardOutput=append:'+str(log),'-p','StandardError=inherit','--working-directory='+str(P/'source/vm')]+['--setenv='+k+'='+v for k,v in env.items()]+[str(binary),'-test.run=^'+test+'$','-test.v','-test.count=1','-test.timeout=45s']
