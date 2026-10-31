@@ -1,0 +1,898 @@
+2026-11-01 00:32:00.119	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-init-compute, runtime:WASMER, method:init_contract
+2026-11-01 00:32:00.123	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-init-compute, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 00:32:00.172	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:32:00.172	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc001f40000 
+2026-11-01 00:32:00.172	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 4580683 
+2026-11-01 00:32:00.709	[DEBUG]	step35	vm/step21d_compile.go:266	[compute_1.0.0], new module success
+2026-11-01 00:32:00.711	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+2026-11-01 00:32:00.716	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:32:00.716	[DEBUG]	step35	vm/sim_context.go:128	sc.method = init_contract
+2026-11-01 00:32:00.716	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 565
+2026-11-01 00:32:00.716	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:32:00.716	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-init-compute, contractName:compute, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464320123092063, endTime:1793464320716640257, executionTime:0.593548 s
+2026-11-01 00:32:00.716	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-init-compute] access db spend time:0
+2026-11-01 00:32:00.717	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-target, runtime:WASMER, method:bigNumCal
+2026-11-01 00:32:00.717	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:bigNumCal, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 00:32:00.724	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:32:00.724	[DEBUG]	step35	vm/sim_context.go:128	sc.method = bigNumCal
+2026-11-01 00:32:00.724	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 559
+2026-11-01 00:32:00.737	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:32:00.738	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:compute, contractMethod:bigNumCal, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464320717828776, endTime:1793464320738275990, executionTime:0.020447 s
+2026-11-01 00:32:00.738	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:0
+2026-11-01 00:32:00.742	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-target, runtime:WASMER, method:bigNumCal
+2026-11-01 00:32:00.744	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:bigNumCal, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 00:32:00.768	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:32:00.768	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc001220000 
+2026-11-01 00:32:00.768	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 4580683 
+2026-11-01 00:32:01.316	[DEBUG]	step35	vm/step21d_compile.go:266	[compute_1.0.0], new module success
+2026-11-01 00:32:01.323	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:32:01.323	[DEBUG]	step35	vm/sim_context.go:128	sc.method = bigNumCal
+2026-11-01 00:32:01.323	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 559
+2026-11-01 00:32:01.337	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:32:01.338	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:compute, contractMethod:bigNumCal, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464320744701838, endTime:1793464321338083587, executionTime:0.593382 s
+2026-11-01 00:32:01.338	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:0
+2026-11-01 00:32:01.338	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-missing, runtime:WASMER, method:step35_missing
+2026-11-01 00:32:01.339	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-missing, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:step35_missing, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 00:32:01.348	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:32:01.348	[DEBUG]	step35	vm/sim_context.go:128	sc.method = step35_missing
+2026-11-01 00:32:01.348	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 560
+2026-11-01 00:32:01.348	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-missing, contractName:compute, contractMethod:step35_missing, runtime type:WASMER, runtimeContractResult:1 ,startTime:1793464321339471494, endTime:1793464321348899672, executionTime:0.009428 s
+2026-11-01 00:32:01.348	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-missing] access db spend time:0
+2026-11-01 00:33:03.772	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-init-identity, runtime:WASMER, method:init_contract
+2026-11-01 00:33:03.774	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-init-identity, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4808365, params:9
+2026-11-01 00:33:03.827	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:33:03.827	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc0024d2000 
+2026-11-01 00:33:03.827	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 4808365 
+2026-11-01 00:33:04.406	[DEBUG]	step35	vm/step21d_compile.go:266	[identity_1.0.0], new module success
+2026-11-01 00:33:04.409	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+2026-11-01 00:33:04.413	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:04.413	[DEBUG]	step35	vm/sim_context.go:128	sc.method = init_contract
+2026-11-01 00:33:04.413	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 566
+2026-11-01 00:33:04.413	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = adminAddress, value = ["442190758150370378495247073044081730476611463525"] 
+
+2026-11-01 00:33:04.413	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = userCount, value = 0 
+
+2026-11-01 00:33:04.413	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :
+2026-11-01 00:33:04.413	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:04.414	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-init-identity, contractName:identity, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464383774880406, endTime:1793464384414426195, executionTime:0.639546 s
+2026-11-01 00:33:04.414	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-init-identity] access db spend time:0
+2026-11-01 00:33:04.418	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-init-erc721, runtime:WASMER, method:init_contract
+2026-11-01 00:33:04.421	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-init-erc721, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:33:04.463	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:33:04.463	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc00174c000 
+2026-11-01 00:33:04.463	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 5054458 
+2026-11-01 00:33:05.093	[DEBUG]	step35	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+2026-11-01 00:33:05.100	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:05.100	[DEBUG]	step35	vm/sim_context.go:128	sc.method = init_contract
+2026-11-01 00:33:05.100	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 669
+2026-11-01 00:33:05.100	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = name, value = huanletoken 
+
+2026-11-01 00:33:05.100	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = symbol, value = hlt 
+
+2026-11-01 00:33:05.100	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = tokenURI, value = https://chainmaker.org.cn 
+
+2026-11-01 00:33:05.100	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = admin, value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:33:05.100	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:05.100	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-init-erc721, contractName:erc721, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464384421603353, endTime:1793464385100699743, executionTime:0.679096 s
+2026-11-01 00:33:05.100	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-init-erc721] access db spend time:0
+2026-11-01 00:33:05.101	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[exchange], tx id:step35-init-exchange, runtime:WASMER, method:init_contract
+2026-11-01 00:33:05.102	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-init-exchange, tx type:INVOKE_CONTRACT, contractId:name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4260176, params:9
+2026-11-01 00:33:05.132	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:33:05.132	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc00127a000 
+2026-11-01 00:33:05.132	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 4260176 
+2026-11-01 00:33:05.657	[DEBUG]	step35	vm/step21d_compile.go:266	[exchange_1.0.0], new module success
+2026-11-01 00:33:05.663	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:05.663	[DEBUG]	step35	vm/sim_context.go:128	sc.method = init_contract
+2026-11-01 00:33:05.663	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 566
+2026-11-01 00:33:05.663	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:05.663	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-init-exchange, contractName:exchange, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464385102271950, endTime:1793464385663692896, executionTime:0.561421 s
+2026-11-01 00:33:05.663	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-init-exchange] access db spend time:0
+2026-11-01 00:33:05.664	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[exchange], tx id:step35-target, runtime:WASMER, method:buyNow
+2026-11-01 00:33:05.664	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:buyNow, runtime type:WASMER, byte code len:4260176, params:13
+2026-11-01 00:33:05.670	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:05.670	[DEBUG]	step35	vm/sim_context.go:128	sc.method = buyNow
+2026-11-01 00:33:05.670	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 750
+2026-11-01 00:33:05.671	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:addWriteList
+2026-11-01 00:33:05.671	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:addWriteList, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:33:05.679	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:05.679	[DEBUG]	step35	vm/sim_context.go:128	sc.method = addWriteList
+2026-11-01 00:33:05.679	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 663
+2026-11-01 00:33:05.679	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-11-01 00:33:05.679	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = 818fac1ac51525aeedf619a9a339b95854930159, value = 1 
+
+2026-11-01 00:33:05.679	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:05.680	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:addWriteList, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464385671575999, endTime:1793464385680091194, executionTime:0.008515 s
+2026-11-01 00:33:05.681	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:isApprovedUser
+2026-11-01 00:33:05.682	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:isApprovedUser, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:33:05.690	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:05.690	[DEBUG]	step35	vm/sim_context.go:128	sc.method = isApprovedUser
+2026-11-01 00:33:05.690	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 622
+2026-11-01 00:33:05.690	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = identity, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:05.690	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:33:05.690	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:05.690	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:isApprovedUser, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464385682847056, endTime:1793464385690530385, executionTime:0.007683 s
+2026-11-01 00:33:05.691	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:isApprovedUser
+2026-11-01 00:33:05.691	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:isApprovedUser, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:33:05.697	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:05.697	[DEBUG]	step35	vm/sim_context.go:128	sc.method = isApprovedUser
+2026-11-01 00:33:05.697	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 622
+2026-11-01 00:33:05.698	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = identity, field = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:33:05.698	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:33:05.698	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:05.698	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:isApprovedUser, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464385691487629, endTime:1793464385698471515, executionTime:0.006984 s
+2026-11-01 00:33:05.699	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:mint
+2026-11-01 00:33:05.700	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:33:05.707	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:05.707	[DEBUG]	step35	vm/sim_context.go:128	sc.method = mint
+2026-11-01 00:33:05.707	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 690
+2026-11-01 00:33:05.707	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:33:05.707	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:33:05.707	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-11-01 00:33:05.707	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:33:05.707	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:05.707	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:33:05.707	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-11-01 00:33:05.707	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:05.707	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+2026-11-01 00:33:05.707	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+2026-11-01 00:33:05.708	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step35-target","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-11-01 00:33:05.708	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:05.708	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464385700028996, endTime:1793464385708464065, executionTime:0.008435 s
+2026-11-01 00:33:05.710	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:setApprovalForAll2
+2026-11-01 00:33:05.713	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:setApprovalForAll2, runtime type:WASMER, byte code len:5054458, params:10
+2026-11-01 00:33:05.720	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:05.720	[DEBUG]	step35	vm/sim_context.go:128	sc.method = setApprovalForAll2
+2026-11-01 00:33:05.720	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 627
+2026-11-01 00:33:05.720	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = operatorApprove, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be, value = 1 
+
+2026-11-01 00:33:05.720	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0
+2026-11-01 00:33:05.721	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be
+2026-11-01 00:33:05.721	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :1
+2026-11-01 00:33:05.721	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:05.721	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:setApprovalForAll2, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464385713359204, endTime:1793464385721642986, executionTime:0.008284 s
+2026-11-01 00:33:05.725	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:transferFrom
+2026-11-01 00:33:05.726	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:transferFrom, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:33:05.733	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:05.733	[DEBUG]	step35	vm/sim_context.go:128	sc.method = transferFrom
+2026-11-01 00:33:05.733	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 701
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = operatorApprove, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 0 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 818fac1ac51525aeedf619a9a339b95854930159, value = 1 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:33:05.733	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 818fac1ac51525aeedf619a9a339b95854930159_1, value = 1 
+
+2026-11-01 00:33:05.734	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step35-target","BlockHeight":111,"From":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0","To":"818fac1ac51525aeedf619a9a339b95854930159"} 
+
+2026-11-01 00:33:05.734	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0
+2026-11-01 00:33:05.734	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :818fac1ac51525aeedf619a9a339b95854930159
+2026-11-01 00:33:05.734	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :1
+2026-11-01 00:33:05.734	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:05.734	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:transferFrom, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464385726144012, endTime:1793464385734733619, executionTime:0.008590 s
+2026-11-01 00:33:05.734	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b95854930159698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be
+2026-11-01 00:33:05.735	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:05.735	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:exchange, contractMethod:buyNow, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464385664527162, endTime:1793464385735769028, executionTime:0.071242 s
+2026-11-01 00:33:05.735	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:5
+2026-11-01 00:33:05.746	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[exchange], tx id:step35-target, runtime:WASMER, method:buyNow
+2026-11-01 00:33:05.748	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:buyNow, runtime type:WASMER, byte code len:4260176, params:13
+2026-11-01 00:33:05.770	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:33:05.770	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc00348a000 
+2026-11-01 00:33:05.770	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 4260176 
+2026-11-01 00:33:06.279	[DEBUG]	step35	vm/step21d_compile.go:266	[exchange_1.0.0], new module success
+2026-11-01 00:33:06.284	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:06.284	[DEBUG]	step35	vm/sim_context.go:128	sc.method = buyNow
+2026-11-01 00:33:06.284	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 750
+2026-11-01 00:33:06.284	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:addWriteList
+2026-11-01 00:33:06.285	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:addWriteList, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:33:06.310	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:33:06.310	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc003d32000 
+2026-11-01 00:33:06.310	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 4808365 
+2026-11-01 00:33:06.911	[DEBUG]	step35	vm/step21d_compile.go:266	[identity_1.0.0], new module success
+2026-11-01 00:33:06.917	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:06.917	[DEBUG]	step35	vm/sim_context.go:128	sc.method = addWriteList
+2026-11-01 00:33:06.917	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 663
+2026-11-01 00:33:06.917	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-11-01 00:33:06.917	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = 818fac1ac51525aeedf619a9a339b95854930159, value = 1 
+
+2026-11-01 00:33:06.917	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:06.917	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:addWriteList, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464386285500801, endTime:1793464386917600420, executionTime:0.632100 s
+2026-11-01 00:33:06.918	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:isApprovedUser
+2026-11-01 00:33:06.918	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:isApprovedUser, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:33:06.925	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:06.925	[DEBUG]	step35	vm/sim_context.go:128	sc.method = isApprovedUser
+2026-11-01 00:33:06.925	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 622
+2026-11-01 00:33:06.925	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = identity, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:06.925	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:33:06.925	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:06.925	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:isApprovedUser, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464386918653533, endTime:1793464386925532049, executionTime:0.006879 s
+2026-11-01 00:33:06.926	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:isApprovedUser
+2026-11-01 00:33:06.926	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:isApprovedUser, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:33:06.934	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:06.935	[DEBUG]	step35	vm/sim_context.go:128	sc.method = isApprovedUser
+2026-11-01 00:33:06.935	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 622
+2026-11-01 00:33:06.935	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = identity, field = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:33:06.935	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:33:06.935	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:06.935	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:isApprovedUser, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464386926547618, endTime:1793464386935458903, executionTime:0.008911 s
+2026-11-01 00:33:06.936	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:mint
+2026-11-01 00:33:06.938	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:33:06.976	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:33:06.976	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc002854000 
+2026-11-01 00:33:06.976	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 5054458 
+2026-11-01 00:33:07.621	[DEBUG]	step35	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+2026-11-01 00:33:07.628	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:07.628	[DEBUG]	step35	vm/sim_context.go:128	sc.method = mint
+2026-11-01 00:33:07.628	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 690
+2026-11-01 00:33:07.628	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:33:07.628	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:33:07.628	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-11-01 00:33:07.628	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:33:07.628	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:07.628	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:33:07.628	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-11-01 00:33:07.628	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:07.628	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+2026-11-01 00:33:07.628	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+2026-11-01 00:33:07.628	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step35-target","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-11-01 00:33:07.628	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:07.628	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464386938664730, endTime:1793464387628774030, executionTime:0.690109 s
+2026-11-01 00:33:07.629	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:setApprovalForAll2
+2026-11-01 00:33:07.629	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:setApprovalForAll2, runtime type:WASMER, byte code len:5054458, params:10
+2026-11-01 00:33:07.648	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:07.648	[DEBUG]	step35	vm/sim_context.go:128	sc.method = setApprovalForAll2
+2026-11-01 00:33:07.648	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 627
+2026-11-01 00:33:07.648	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = operatorApprove, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be, value = 1 
+
+2026-11-01 00:33:07.648	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0
+2026-11-01 00:33:07.648	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be
+2026-11-01 00:33:07.648	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :1
+2026-11-01 00:33:07.648	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:07.648	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:setApprovalForAll2, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464387629785578, endTime:1793464387648821502, executionTime:0.019036 s
+2026-11-01 00:33:07.649	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:transferFrom
+2026-11-01 00:33:07.652	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:transferFrom, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:33:07.660	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:07.660	[DEBUG]	step35	vm/sim_context.go:128	sc.method = transferFrom
+2026-11-01 00:33:07.660	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 701
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = operatorApprove, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 0 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 818fac1ac51525aeedf619a9a339b95854930159, value = 1 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 818fac1ac51525aeedf619a9a339b95854930159_1, value = 1 
+
+2026-11-01 00:33:07.660	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step35-target","BlockHeight":111,"From":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0","To":"818fac1ac51525aeedf619a9a339b95854930159"} 
+
+2026-11-01 00:33:07.660	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0
+2026-11-01 00:33:07.660	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :818fac1ac51525aeedf619a9a339b95854930159
+2026-11-01 00:33:07.660	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :1
+2026-11-01 00:33:07.660	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:07.661	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:transferFrom, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464387653274859, endTime:1793464387661240221, executionTime:0.007965 s
+2026-11-01 00:33:07.661	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b95854930159698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be
+2026-11-01 00:33:07.661	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:07.662	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:exchange, contractMethod:buyNow, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464385748442883, endTime:1793464387662005751, executionTime:1.913563 s
+2026-11-01 00:33:07.662	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:0
+2026-11-01 00:33:07.662	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[exchange], tx id:step35-missing, runtime:WASMER, method:step35_missing
+2026-11-01 00:33:07.664	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-missing, tx type:INVOKE_CONTRACT, contractId:name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:step35_missing, runtime type:WASMER, byte code len:4260176, params:9
+2026-11-01 00:33:07.670	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:07.670	[DEBUG]	step35	vm/sim_context.go:128	sc.method = step35_missing
+2026-11-01 00:33:07.670	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 560
+2026-11-01 00:33:07.671	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-missing, contractName:exchange, contractMethod:step35_missing, runtime type:WASMER, runtimeContractResult:1 ,startTime:1793464387664173229, endTime:1793464387671057720, executionTime:0.006884 s
+2026-11-01 00:33:07.671	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-missing] access db spend time:0
+2026-11-01 00:33:38.209	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[fact], tx id:step35-init-fact, runtime:WASMER, method:init_contract
+2026-11-01 00:33:38.213	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-init-fact, tx type:INVOKE_CONTRACT, contractId:name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4773463, params:9
+2026-11-01 00:33:38.261	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:33:38.262	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc002054000 
+2026-11-01 00:33:38.262	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 4773463 
+2026-11-01 00:33:38.815	[DEBUG]	step35	vm/step21d_compile.go:266	[fact_1.0.0], new module success
+2026-11-01 00:33:38.817	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+2026-11-01 00:33:38.822	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:38.822	[DEBUG]	step35	vm/sim_context.go:128	sc.method = init_contract
+2026-11-01 00:33:38.822	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 562
+2026-11-01 00:33:38.822	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:38.823	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-init-fact, contractName:fact, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464418213215423, endTime:1793464418823122158, executionTime:0.609907 s
+2026-11-01 00:33:38.823	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-init-fact] access db spend time:0
+2026-11-01 00:33:38.824	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[fact], tx id:step35-target, runtime:WASMER, method:saveAndFindByFileHash
+2026-11-01 00:33:38.824	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:saveAndFindByFileHash, runtime type:WASMER, byte code len:4773463, params:12
+2026-11-01 00:33:38.831	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:38.831	[DEBUG]	step35	vm/sim_context.go:128	sc.method = saveAndFindByFileHash
+2026-11-01 00:33:38.831	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 690
+2026-11-01 00:33:38.831	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :005521f27d745a04999c6d09f559764f9c44376a
+2026-11-01 00:33:38.831	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :aoteman.jpg
+2026-11-01 00:33:38.831	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a, value = {} 
+
+2026-11-01 00:33:38.831	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a 
+
+2026-11-01 00:33:38.831	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = {} 
+
+2026-11-01 00:33:38.831	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:38.832	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:fact, contractMethod:saveAndFindByFileHash, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464418824526282, endTime:1793464418832077039, executionTime:0.007551 s
+2026-11-01 00:33:38.832	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:0
+2026-11-01 00:33:38.836	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[fact], tx id:step35-target, runtime:WASMER, method:saveAndFindByFileHash
+2026-11-01 00:33:38.838	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:saveAndFindByFileHash, runtime type:WASMER, byte code len:4773463, params:12
+2026-11-01 00:33:38.863	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:33:38.863	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc0012aa000 
+2026-11-01 00:33:38.863	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 4773463 
+2026-11-01 00:33:39.471	[DEBUG]	step35	vm/step21d_compile.go:266	[fact_1.0.0], new module success
+2026-11-01 00:33:39.478	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:39.478	[DEBUG]	step35	vm/sim_context.go:128	sc.method = saveAndFindByFileHash
+2026-11-01 00:33:39.478	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 690
+2026-11-01 00:33:39.478	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :005521f27d745a04999c6d09f559764f9c44376a
+2026-11-01 00:33:39.478	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :aoteman.jpg
+2026-11-01 00:33:39.478	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a, value = {} 
+
+2026-11-01 00:33:39.478	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = fact_bytes, field = 005521f27d745a04999c6d09f559764f9c44376a 
+
+2026-11-01 00:33:39.478	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = {} 
+
+2026-11-01 00:33:39.478	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:33:39.478	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:fact, contractMethod:saveAndFindByFileHash, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464418838609332, endTime:1793464419478978152, executionTime:0.640369 s
+2026-11-01 00:33:39.479	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:0
+2026-11-01 00:33:39.479	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[fact], tx id:step35-missing, runtime:WASMER, method:step35_missing
+2026-11-01 00:33:39.479	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-missing, tx type:INVOKE_CONTRACT, contractId:name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:step35_missing, runtime type:WASMER, byte code len:4773463, params:9
+2026-11-01 00:33:39.486	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"fact" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:33:39.486	[DEBUG]	step35	vm/sim_context.go:128	sc.method = step35_missing
+2026-11-01 00:33:39.486	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 560
+2026-11-01 00:33:39.487	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-missing, contractName:fact, contractMethod:step35_missing, runtime type:WASMER, runtimeContractResult:1 ,startTime:1793464419480028454, endTime:1793464419487205576, executionTime:0.007177 s
+2026-11-01 00:33:39.487	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-missing] access db spend time:0
+2026-11-01 00:34:38.281	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-init-erc721, runtime:WASMER, method:init_contract
+2026-11-01 00:34:38.286	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-init-erc721, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:34:38.343	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:34:38.343	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc0021ec000 
+2026-11-01 00:34:38.343	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 5054458 
+2026-11-01 00:34:38.944	[DEBUG]	step35	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+2026-11-01 00:34:38.946	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+2026-11-01 00:34:38.951	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:38.951	[DEBUG]	step35	vm/sim_context.go:128	sc.method = init_contract
+2026-11-01 00:34:38.951	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 669
+2026-11-01 00:34:38.951	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = name, value = huanletoken 
+
+2026-11-01 00:34:38.951	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = symbol, value = hlt 
+
+2026-11-01 00:34:38.951	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = tokenURI, value = https://chainmaker.org.cn 
+
+2026-11-01 00:34:38.951	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = admin, value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:34:38.951	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:38.952	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-init-erc721, contractName:erc721, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464478286884537, endTime:1793464478952074494, executionTime:0.665190 s
+2026-11-01 00:34:38.952	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-init-erc721] access db spend time:0
+2026-11-01 00:34:38.952	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:mint
+2026-11-01 00:34:38.953	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:34:38.960	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:38.960	[DEBUG]	step35	vm/sim_context.go:128	sc.method = mint
+2026-11-01 00:34:38.960	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 690
+2026-11-01 00:34:38.960	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:34:38.960	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:34:38.960	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-11-01 00:34:38.960	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:34:38.960	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:38.960	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:34:38.960	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-11-01 00:34:38.960	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:38.960	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+2026-11-01 00:34:38.960	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+2026-11-01 00:34:38.960	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step35-target","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-11-01 00:34:38.960	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:38.960	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464478953324423, endTime:1793464478960864359, executionTime:0.007540 s
+2026-11-01 00:34:38.960	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:0
+2026-11-01 00:34:38.965	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:mint
+2026-11-01 00:34:38.968	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:34:38.998	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:34:38.999	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc001376000 
+2026-11-01 00:34:38.999	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 5054458 
+2026-11-01 00:34:39.619	[DEBUG]	step35	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+2026-11-01 00:34:39.626	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:39.626	[DEBUG]	step35	vm/sim_context.go:128	sc.method = mint
+2026-11-01 00:34:39.626	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 690
+2026-11-01 00:34:39.626	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:34:39.626	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:34:39.626	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-11-01 00:34:39.626	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:34:39.626	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:39.626	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:34:39.626	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-11-01 00:34:39.626	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:39.626	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+2026-11-01 00:34:39.626	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+2026-11-01 00:34:39.626	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step35-target","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-11-01 00:34:39.626	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:39.626	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464478968518419, endTime:1793464479626921206, executionTime:0.658403 s
+2026-11-01 00:34:39.626	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:0
+2026-11-01 00:34:39.627	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-missing, runtime:WASMER, method:step35_missing
+2026-11-01 00:34:39.628	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-missing, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:step35_missing, runtime type:WASMER, byte code len:5054458, params:9
+2026-11-01 00:34:39.635	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:39.635	[DEBUG]	step35	vm/sim_context.go:128	sc.method = step35_missing
+2026-11-01 00:34:39.635	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 560
+2026-11-01 00:34:39.636	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-missing, contractName:erc721, contractMethod:step35_missing, runtime type:WASMER, runtimeContractResult:1 ,startTime:1793464479628291776, endTime:1793464479636238816, executionTime:0.007947 s
+2026-11-01 00:34:39.636	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-missing] access db spend time:0
+2026-11-01 00:34:39.770	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-init-compute, runtime:WASMER, method:init_contract
+2026-11-01 00:34:39.773	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-init-compute, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 00:34:39.815	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:34:39.815	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc0029a6000 
+2026-11-01 00:34:39.815	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 3060589 
+2026-11-01 00:34:40.341	[DEBUG]	step35	vm/step21d_compile.go:266	[compute_1.0.0], new module success
+2026-11-01 00:34:40.343	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+2026-11-01 00:34:40.346	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:40.346	[DEBUG]	step35	vm/sim_context.go:128	sc.method = init_contract
+2026-11-01 00:34:40.346	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 565
+2026-11-01 00:34:40.346	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:40.346	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-init-compute, contractName:compute, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464479773964592, endTime:1793464480346597658, executionTime:0.572633 s
+2026-11-01 00:34:40.346	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-init-compute] access db spend time:0
+2026-11-01 00:34:40.349	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-target, runtime:WASMER, method:bigNumCal
+2026-11-01 00:34:40.351	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:bigNumCal, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 00:34:40.357	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:40.357	[DEBUG]	step35	vm/sim_context.go:128	sc.method = bigNumCal
+2026-11-01 00:34:40.357	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 559
+2026-11-01 00:34:40.370	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:40.370	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:compute, contractMethod:bigNumCal, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464480351304017, endTime:1793464480370494867, executionTime:0.019191 s
+2026-11-01 00:34:40.370	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:0
+2026-11-01 00:34:40.376	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-target, runtime:WASMER, method:bigNumCal
+2026-11-01 00:34:40.378	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:bigNumCal, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 00:34:40.407	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:34:40.407	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc001e7a000 
+2026-11-01 00:34:40.407	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 3060589 
+2026-11-01 00:34:40.936	[DEBUG]	step35	vm/step21d_compile.go:266	[compute_1.0.0], new module success
+2026-11-01 00:34:40.940	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:40.940	[DEBUG]	step35	vm/sim_context.go:128	sc.method = bigNumCal
+2026-11-01 00:34:40.940	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 559
+2026-11-01 00:34:40.953	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:40.953	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:compute, contractMethod:bigNumCal, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464480378598515, endTime:1793464480953593387, executionTime:0.574995 s
+2026-11-01 00:34:40.953	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:0
+2026-11-01 00:34:40.954	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-missing, runtime:WASMER, method:step35_missing
+2026-11-01 00:34:40.954	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-missing, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:step35_missing, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 00:34:40.961	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:40.961	[DEBUG]	step35	vm/sim_context.go:128	sc.method = step35_missing
+2026-11-01 00:34:40.961	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 560
+2026-11-01 00:34:40.961	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-missing, contractName:compute, contractMethod:step35_missing, runtime type:WASMER, runtimeContractResult:1 ,startTime:1793464480954752214, endTime:1793464480961742839, executionTime:0.006991 s
+2026-11-01 00:34:40.961	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-missing] access db spend time:0
+2026-11-01 00:34:41.088	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-init-identity, runtime:WASMER, method:init_contract
+2026-11-01 00:34:41.090	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-init-identity, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4808365, params:9
+2026-11-01 00:34:41.134	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:34:41.134	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc003400000 
+2026-11-01 00:34:41.134	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 3242476 
+2026-11-01 00:34:41.681	[DEBUG]	step35	vm/step21d_compile.go:266	[identity_1.0.0], new module success
+2026-11-01 00:34:41.683	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+2026-11-01 00:34:41.686	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:41.686	[DEBUG]	step35	vm/sim_context.go:128	sc.method = init_contract
+2026-11-01 00:34:41.686	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 566
+2026-11-01 00:34:41.687	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = adminAddress, value = ["442190758150370378495247073044081730476611463525"] 
+
+2026-11-01 00:34:41.687	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = userCount, value = 0 
+
+2026-11-01 00:34:41.687	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :
+2026-11-01 00:34:41.687	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:41.687	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-init-identity, contractName:identity, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464481090761063, endTime:1793464481687492243, executionTime:0.596731 s
+2026-11-01 00:34:41.687	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-init-identity] access db spend time:0
+2026-11-01 00:34:41.690	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-init-erc721, runtime:WASMER, method:init_contract
+2026-11-01 00:34:41.693	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-init-erc721, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:34:41.724	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:34:41.724	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc0040bc000 
+2026-11-01 00:34:41.724	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 3419622 
+2026-11-01 00:34:42.306	[DEBUG]	step35	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+2026-11-01 00:34:42.311	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:42.311	[DEBUG]	step35	vm/sim_context.go:128	sc.method = init_contract
+2026-11-01 00:34:42.311	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 669
+2026-11-01 00:34:42.311	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = name, value = huanletoken 
+
+2026-11-01 00:34:42.311	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = symbol, value = hlt 
+
+2026-11-01 00:34:42.311	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = tokenURI, value = https://chainmaker.org.cn 
+
+2026-11-01 00:34:42.311	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = erc721, field = admin, value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:34:42.311	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:42.311	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-init-erc721, contractName:erc721, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464481693458036, endTime:1793464482311585583, executionTime:0.618128 s
+2026-11-01 00:34:42.311	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-init-erc721] access db spend time:0
+2026-11-01 00:34:42.314	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[exchange], tx id:step35-init-exchange, runtime:WASMER, method:init_contract
+2026-11-01 00:34:42.314	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-init-exchange, tx type:INVOKE_CONTRACT, contractId:name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4260176, params:9
+2026-11-01 00:34:42.337	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:34:42.337	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc003bc2000 
+2026-11-01 00:34:42.337	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 2847857 
+2026-11-01 00:34:42.839	[DEBUG]	step35	vm/step21d_compile.go:266	[exchange_1.0.0], new module success
+2026-11-01 00:34:42.844	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:42.844	[DEBUG]	step35	vm/sim_context.go:128	sc.method = init_contract
+2026-11-01 00:34:42.844	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 566
+2026-11-01 00:34:42.844	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:42.844	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-init-exchange, contractName:exchange, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464482314981858, endTime:1793464482844761657, executionTime:0.529780 s
+2026-11-01 00:34:42.844	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-init-exchange] access db spend time:0
+2026-11-01 00:34:42.845	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[exchange], tx id:step35-target, runtime:WASMER, method:buyNow
+2026-11-01 00:34:42.848	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:buyNow, runtime type:WASMER, byte code len:4260176, params:13
+2026-11-01 00:34:42.853	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:42.853	[DEBUG]	step35	vm/sim_context.go:128	sc.method = buyNow
+2026-11-01 00:34:42.853	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 750
+2026-11-01 00:34:42.854	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:addWriteList
+2026-11-01 00:34:42.854	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:addWriteList, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:34:42.861	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:42.861	[DEBUG]	step35	vm/sim_context.go:128	sc.method = addWriteList
+2026-11-01 00:34:42.861	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 663
+2026-11-01 00:34:42.862	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-11-01 00:34:42.862	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = 818fac1ac51525aeedf619a9a339b95854930159, value = 1 
+
+2026-11-01 00:34:42.862	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:42.862	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:addWriteList, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464482854661526, endTime:1793464482862336179, executionTime:0.007675 s
+2026-11-01 00:34:42.862	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:isApprovedUser
+2026-11-01 00:34:42.863	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:isApprovedUser, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:34:42.869	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:42.869	[DEBUG]	step35	vm/sim_context.go:128	sc.method = isApprovedUser
+2026-11-01 00:34:42.869	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 622
+2026-11-01 00:34:42.869	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = identity, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:42.869	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:34:42.869	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:42.870	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:isApprovedUser, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464482863219950, endTime:1793464482870128295, executionTime:0.006908 s
+2026-11-01 00:34:42.873	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:isApprovedUser
+2026-11-01 00:34:42.876	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:isApprovedUser, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:34:42.882	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:42.882	[DEBUG]	step35	vm/sim_context.go:128	sc.method = isApprovedUser
+2026-11-01 00:34:42.882	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 622
+2026-11-01 00:34:42.882	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = identity, field = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:34:42.882	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:34:42.882	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:42.883	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:isApprovedUser, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464482876160981, endTime:1793464482883008168, executionTime:0.006847 s
+2026-11-01 00:34:42.885	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:mint
+2026-11-01 00:34:42.889	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:34:42.896	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:42.896	[DEBUG]	step35	vm/sim_context.go:128	sc.method = mint
+2026-11-01 00:34:42.896	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 690
+2026-11-01 00:34:42.896	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:34:42.896	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:34:42.896	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-11-01 00:34:42.896	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:34:42.896	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:42.896	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:34:42.896	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-11-01 00:34:42.896	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:42.896	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+2026-11-01 00:34:42.896	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+2026-11-01 00:34:42.896	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step35-target","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-11-01 00:34:42.896	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:42.897	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464482889781613, endTime:1793464482897209849, executionTime:0.007428 s
+2026-11-01 00:34:42.899	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:setApprovalForAll2
+2026-11-01 00:34:42.905	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:setApprovalForAll2, runtime type:WASMER, byte code len:5054458, params:10
+2026-11-01 00:34:42.914	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:42.914	[DEBUG]	step35	vm/sim_context.go:128	sc.method = setApprovalForAll2
+2026-11-01 00:34:42.914	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 627
+2026-11-01 00:34:42.914	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = operatorApprove, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be, value = 1 
+
+2026-11-01 00:34:42.914	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0
+2026-11-01 00:34:42.914	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be
+2026-11-01 00:34:42.914	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :1
+2026-11-01 00:34:42.914	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:42.915	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:setApprovalForAll2, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464482905234129, endTime:1793464482915251169, executionTime:0.010017 s
+2026-11-01 00:34:42.915	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:transferFrom
+2026-11-01 00:34:42.916	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:transferFrom, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:34:42.922	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:42.922	[DEBUG]	step35	vm/sim_context.go:128	sc.method = transferFrom
+2026-11-01 00:34:42.922	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 701
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = operatorApprove, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 0 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 818fac1ac51525aeedf619a9a339b95854930159, value = 1 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 818fac1ac51525aeedf619a9a339b95854930159_1, value = 1 
+
+2026-11-01 00:34:42.922	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step35-target","BlockHeight":111,"From":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0","To":"818fac1ac51525aeedf619a9a339b95854930159"} 
+
+2026-11-01 00:34:42.922	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0
+2026-11-01 00:34:42.922	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :818fac1ac51525aeedf619a9a339b95854930159
+2026-11-01 00:34:42.922	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :1
+2026-11-01 00:34:42.922	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:42.923	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:transferFrom, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464482916174184, endTime:1793464482923083714, executionTime:0.006910 s
+2026-11-01 00:34:42.923	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b95854930159698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be
+2026-11-01 00:34:42.923	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:42.923	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:exchange, contractMethod:buyNow, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464482848310884, endTime:1793464482923698566, executionTime:0.075388 s
+2026-11-01 00:34:42.923	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:6
+2026-11-01 00:34:42.932	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[exchange], tx id:step35-target, runtime:WASMER, method:buyNow
+2026-11-01 00:34:42.933	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:buyNow, runtime type:WASMER, byte code len:4260176, params:13
+2026-11-01 00:34:42.954	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:34:42.954	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc005a78000 
+2026-11-01 00:34:42.954	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 2847857 
+2026-11-01 00:34:43.451	[DEBUG]	step35	vm/step21d_compile.go:266	[exchange_1.0.0], new module success
+2026-11-01 00:34:43.456	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:43.456	[DEBUG]	step35	vm/sim_context.go:128	sc.method = buyNow
+2026-11-01 00:34:43.456	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 750
+2026-11-01 00:34:43.459	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:addWriteList
+2026-11-01 00:34:43.462	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:addWriteList, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:34:43.485	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:34:43.485	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc0027c4000 
+2026-11-01 00:34:43.485	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 3242476 
+2026-11-01 00:34:44.036	[DEBUG]	step35	vm/step21d_compile.go:266	[identity_1.0.0], new module success
+2026-11-01 00:34:44.040	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:44.041	[DEBUG]	step35	vm/sim_context.go:128	sc.method = addWriteList
+2026-11-01 00:34:44.041	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 663
+2026-11-01 00:34:44.041	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-11-01 00:34:44.041	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = identity, field = 818fac1ac51525aeedf619a9a339b95854930159, value = 1 
+
+2026-11-01 00:34:44.041	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:44.041	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:addWriteList, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464483462585472, endTime:1793464484041402867, executionTime:0.578817 s
+2026-11-01 00:34:44.042	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:isApprovedUser
+2026-11-01 00:34:44.044	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:isApprovedUser, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:34:44.050	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:44.050	[DEBUG]	step35	vm/sim_context.go:128	sc.method = isApprovedUser
+2026-11-01 00:34:44.050	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 622
+2026-11-01 00:34:44.050	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = identity, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:44.050	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:34:44.050	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:44.051	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:isApprovedUser, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464484044458186, endTime:1793464484051414778, executionTime:0.006957 s
+2026-11-01 00:34:44.053	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[identity], tx id:step35-target, runtime:WASMER, method:isApprovedUser
+2026-11-01 00:34:44.053	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:isApprovedUser, runtime type:WASMER, byte code len:4808365, params:10
+2026-11-01 00:34:44.059	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"identity" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:44.059	[DEBUG]	step35	vm/sim_context.go:128	sc.method = isApprovedUser
+2026-11-01 00:34:44.059	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 622
+2026-11-01 00:34:44.059	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = identity, field = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:34:44.059	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:34:44.059	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:44.060	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:identity, contractMethod:isApprovedUser, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464484053656643, endTime:1793464484060155702, executionTime:0.006499 s
+2026-11-01 00:34:44.060	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:mint
+2026-11-01 00:34:44.061	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:mint, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:34:44.085	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 00:34:44.086	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc005594000 
+2026-11-01 00:34:44.086	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 3419622 
+2026-11-01 00:34:44.700	[DEBUG]	step35	vm/step21d_compile.go:266	[erc721_1.0.0], new module success
+2026-11-01 00:34:44.705	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:44.705	[DEBUG]	step35	vm/sim_context.go:128	sc.method = mint
+2026-11-01 00:34:44.705	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 690
+2026-11-01 00:34:44.705	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:34:44.705	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:34:44.705	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = erc721, field = admin 
+
+2026-11-01 00:34:44.705	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:34:44.705	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:44.705	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:34:44.705	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 1 
+
+2026-11-01 00:34:44.705	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:44.705	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_1, value = 1 
+
+2026-11-01 00:34:44.705	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_metadata, value = http://chainmaker.org.cn/ 
+
+2026-11-01 00:34:44.705	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step35-target","BlockHeight":111,"From":"0000000000000000000000000000000000000000","To":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"} 
+
+2026-11-01 00:34:44.705	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:44.706	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:mint, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464484061103022, endTime:1793464484706247607, executionTime:0.645145 s
+2026-11-01 00:34:44.706	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:setApprovalForAll2
+2026-11-01 00:34:44.707	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:setApprovalForAll2, runtime type:WASMER, byte code len:5054458, params:10
+2026-11-01 00:34:44.731	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:44.732	[DEBUG]	step35	vm/sim_context.go:128	sc.method = setApprovalForAll2
+2026-11-01 00:34:44.732	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 627
+2026-11-01 00:34:44.732	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = operatorApprove, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be, value = 1 
+
+2026-11-01 00:34:44.732	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0
+2026-11-01 00:34:44.732	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be
+2026-11-01 00:34:44.732	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :1
+2026-11-01 00:34:44.732	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:44.732	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:setApprovalForAll2, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464484707171463, endTime:1793464484732500748, executionTime:0.025329 s
+2026-11-01 00:34:44.733	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[erc721], tx id:step35-target, runtime:WASMER, method:transferFrom
+2026-11-01 00:34:44.735	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:transferFrom, runtime type:WASMER, byte code len:5054458, params:12
+2026-11-01 00:34:44.742	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"erc721" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:44.742	[DEBUG]	step35	vm/sim_context.go:128	sc.method = transferFrom
+2026-11-01 00:34:44.742	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 701
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = operatorApprove, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0_698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = tokenIds, field = 1 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value = 1 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 8acfaca5eeec9f6f7c23c4ffac969b86f27799b0, value = 0 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:167	wacsiImpl::GetState() ==> key = balanceInfo, field = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:173	wacsiImpl::GetState() ==> value =  
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = balanceInfo, field = 818fac1ac51525aeedf619a9a339b95854930159, value = 1 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenIds, field = 1, value = 818fac1ac51525aeedf619a9a339b95854930159 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = accountInfo, field = 818fac1ac51525aeedf619a9a339b95854930159_1, value = 1 
+
+2026-11-01 00:34:44.742	[DEBUG]	[Vm]	v2@v2.4.0/wasi.go:135	wacsiImpl::PutState() ==> key = tokenInfo, field = 1_latestTxInfo, value = {"TxId":"step35-target","BlockHeight":111,"From":"8acfaca5eeec9f6f7c23c4ffac969b86f27799b0","To":"818fac1ac51525aeedf619a9a339b95854930159"} 
+
+2026-11-01 00:34:44.742	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0
+2026-11-01 00:34:44.742	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :818fac1ac51525aeedf619a9a339b95854930159
+2026-11-01 00:34:44.742	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :1
+2026-11-01 00:34:44.742	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:44.743	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:erc721, contractMethod:transferFrom, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464484735803580, endTime:1793464484743254399, executionTime:0.007451 s
+2026-11-01 00:34:44.743	[DEBUG]	step35	v2@v2.4.0/wasi.go:651	[emit event] event data :8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b95854930159698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be
+2026-11-01 00:34:44.743	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 00:34:44.743	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:exchange, contractMethod:buyNow, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793464482933224225, endTime:1793464484743739056, executionTime:1.810515 s
+2026-11-01 00:34:44.743	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:4
+2026-11-01 00:34:44.744	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[exchange], tx id:step35-missing, runtime:WASMER, method:step35_missing
+2026-11-01 00:34:44.744	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-missing, tx type:INVOKE_CONTRACT, contractId:name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:step35_missing, runtime type:WASMER, byte code len:4260176, params:9
+2026-11-01 00:34:44.750	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"exchange" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 00:34:44.750	[DEBUG]	step35	vm/sim_context.go:128	sc.method = step35_missing
+2026-11-01 00:34:44.750	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 560
+2026-11-01 00:34:44.750	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-missing, contractName:exchange, contractMethod:step35_missing, runtime type:WASMER, runtimeContractResult:1 ,startTime:1793464484744702452, endTime:1793464484750843419, executionTime:0.006141 s
+2026-11-01 00:34:44.750	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-missing] access db spend time:0
+2026-11-01 01:04:16.783	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-init-compute, runtime:WASMER, method:init_contract
+2026-11-01 01:04:16.789	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-init-compute, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:init_contract, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 01:04:16.842	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 01:04:16.842	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc001ee0000 
+2026-11-01 01:04:16.842	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 4580683 
+2026-11-01 01:04:17.354	[DEBUG]	step35	vm/step21d_compile.go:266	[compute_1.0.0], new module success
+2026-11-01 01:04:17.356	[DEBUG]	[Vm]	vm/vm_bridge.go:531	init vmBridgeManager
+2026-11-01 01:04:17.360	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 01:04:17.361	[DEBUG]	step35	vm/sim_context.go:128	sc.method = init_contract
+2026-11-01 01:04:17.361	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 565
+2026-11-01 01:04:17.361	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 01:04:17.361	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-init-compute, contractName:compute, contractMethod:init_contract, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793466256789959340, endTime:1793466257361502135, executionTime:0.571543 s
+2026-11-01 01:04:17.361	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-init-compute] access db spend time:0
+2026-11-01 01:04:17.362	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-target, runtime:WASMER, method:bigNumCal
+2026-11-01 01:04:17.362	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:bigNumCal, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 01:04:17.369	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 01:04:17.369	[DEBUG]	step35	vm/sim_context.go:128	sc.method = bigNumCal
+2026-11-01 01:04:17.369	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 559
+2026-11-01 01:04:17.384	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 01:04:17.384	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:compute, contractMethod:bigNumCal, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793466257362865931, endTime:1793466257384658232, executionTime:0.021792 s
+2026-11-01 01:04:17.384	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:0
+2026-11-01 01:04:17.388	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-target, runtime:WASMER, method:bigNumCal
+2026-11-01 01:04:17.391	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-target, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:bigNumCal, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 01:04:17.421	[INFO]	step35	wasmer-go/module.go:102	store.inner() => &{{{}}} 
+2026-11-01 01:04:17.421	[INFO]	step35	wasmer-go/module.go:103	wasmBytesPtr => 0xc0011c0000 
+2026-11-01 01:04:17.421	[INFO]	step35	wasmer-go/module.go:104	wasmBytesLength => 4580683 
+2026-11-01 01:04:17.990	[DEBUG]	step35	vm/step21d_compile.go:266	[compute_1.0.0], new module success
+2026-11-01 01:04:17.996	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 01:04:17.996	[DEBUG]	step35	vm/sim_context.go:128	sc.method = bigNumCal
+2026-11-01 01:04:17.996	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 559
+2026-11-01 01:04:18.011	[DEBUG]	step35	vm/sim_context.go:197	contract invoke success
+2026-11-01 01:04:18.011	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-target, contractName:compute, contractMethod:bigNumCal, runtime type:WASMER, runtimeContractResult:0 ,startTime:1793466257391989535, endTime:1793466258011843365, executionTime:0.619854 s
+2026-11-01 01:04:18.011	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-target] access db spend time:0
+2026-11-01 01:04:18.012	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:365	invoke user contract[compute], tx id:step35-missing, runtime:WASMER, method:step35_missing
+2026-11-01 01:04:18.012	[DEBUG]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:412	invoke vm, tx id:step35-missing, tx type:INVOKE_CONTRACT, contractId:name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > , method:step35_missing, runtime type:WASMER, byte code len:4580683, params:9
+2026-11-01 01:04:18.019	[DEBUG]	step35	vm/sim_context.go:127	sc.Contract = name:"compute" version:"1.0.0" runtime_type:WASMER creator:<org_id:"step21c-fixture-org" member_type:PUBLIC_KEY member_info:"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt\n6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==\n-----END PUBLIC KEY-----\n" member_id:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" role:"CLIENT" uid:"698bea63dc44a344663ff1429aea10842df27b6b991ef25866b2c6c02cdcc5be" > 
+2026-11-01 01:04:18.019	[DEBUG]	step35	vm/sim_context.go:128	sc.method = step35_missing
+2026-11-01 01:04:18.019	[DEBUG]	step35	vm/sim_context.go:143	lengthOfSubject: 560
+2026-11-01 01:04:18.020	[INFO]	step21c-real-fixture	v2@v2.4.0/vm_factory.go:439	invoke vm, tx id:step35-missing, contractName:compute, contractMethod:step35_missing, runtime type:WASMER, runtimeContractResult:1 ,startTime:1793466258012927097, endTime:1793466258020095142, executionTime:0.007168 s
+2026-11-01 01:04:18.020	[DEBUG]	step21c-real-fixture	v2@v2.4.0/tx_sim_context.go:767	txSimContext[step35-missing] access db spend time:0

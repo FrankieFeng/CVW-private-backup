@@ -1,0 +1,15 @@
+Running as unit: step35-chainmaker2.service; invocation ID: 4c3543a1253046fa83698974381a2e2a
+# github.com/mattn/go-sqlite3
+sqlite3-binding.c: In function ‘sqlite3SelectNew’:
+sqlite3-binding.c:125801:10: warning: function may return address of local variable [-Wreturn-local-addr]
+125801 |   return pNew;
+       |          ^~~~
+sqlite3-binding.c:125761:10: note: declared here
+125761 |   Select standin;
+       |          ^~~~~~~
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 5.082s
+CPU time consumed: 5.751s
+Memory peak: 764.0K
+Memory swap peak: 0B

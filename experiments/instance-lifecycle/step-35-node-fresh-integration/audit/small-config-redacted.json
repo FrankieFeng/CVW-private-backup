@@ -1,0 +1,312 @@
+{
+  "auth_type": "permissionedWithCert",
+  "log": {
+    "config_file": "/tmp/cvw-step35-small-ledger/config/wx-org1.chainmaker.org/log.yml"
+  },
+  "crypto_engine": "tjfoc",
+  "blockchain": [
+    {
+      "chainId": "step35",
+      "genesis": "/tmp/cvw-step35-small-ledger/config/wx-org1.chainmaker.org/chainconfig/bc1.yml"
+    }
+  ],
+  "node": {
+    "org_id": "wx-org1.chainmaker.org",
+    "priv_key_file": "/tmp/cvw-step35-small-ledger/config/wx-org1.chainmaker.org/certs/node/consensus1/consensus1.sign.key",
+    "cert_file": "/tmp/cvw-step35-small-ledger/config/wx-org1.chainmaker.org/certs/node/consensus1/consensus1.sign.crt",
+    "cert_cache_size": 1000,
+    "cert_key_usage_check": true,
+    "fast_sync": {
+      "enabled": true
+    },
+    "pkcs11": {
+      "enabled": false,
+      "type": "pkcs11",
+      "library": "/usr/local/lib64/pkcs11/libupkcs11.so",
+      "label": "HSM",
+      "password": "[REDACTED]",
+      "session_cache_size": 10,
+      "hash": "SHA256"
+    },
+    "kms": {
+      "enabled": false,
+      "is_public": true,
+      "secret_id": "[REDACTED]",
+      "secret_key": "[REDACTED]",
+      "address": "kms.tencentcloudapi.com",
+      "region": "ap-guangzhou",
+      "sdk_scheme": "https",
+      "ext_params": ""
+    }
+  },
+  "net": {
+    "provider": "LibP2P",
+    "listen_addr": "/ip4/127.0.0.1/tcp/28535",
+    "seeds": [],
+    "seed_target_address_list": null,
+    "tls": {
+      "enabled": true,
+      "priv_key_file": "/tmp/cvw-step35-small-ledger/config/wx-org1.chainmaker.org/certs/node/consensus1/consensus1.tls.key",
+      "cert_file": "/tmp/cvw-step35-small-ledger/config/wx-org1.chainmaker.org/certs/node/consensus1/consensus1.tls.crt",
+      "priv_enc_key_file": "/tmp/cvw-step35-small-ledger/config/wx-org1.chainmaker.org/certs/node/consensus1/consensus1.tls.enc.key",
+      "cert_enc_file": "/tmp/cvw-step35-small-ledger/config/wx-org1.chainmaker.org/certs/node/consensus1/consensus1.tls.enc.crt"
+    }
+  },
+  "sync": {
+    "block_pool_size": 128,
+    "from_nodes": null,
+    "conn_timeout_scale": 1000,
+    "ideal_height_distance": 1,
+    "wait_period_seconds_after_latest": 5,
+    "max_nodes_selected_count": 10
+  },
+  "txpool": {
+    "pool_type": "SINGLE",
+    "max_txpool_size": 50000,
+    "max_config_txpool_size": 10,
+    "is_dump_txs_in_queue": true,
+    "common_queue_num": 8,
+    "batch_max_size": 100,
+    "batch_create_timeout": 50,
+    "rebroadcast": {
+      "tx_pool_sync_enable": false,
+      "tx_pool_status_tick": 10,
+      "tx_pool_sync_proportion": 0.1
+    }
+  },
+  "rpc": {
+    "provider": "grpc",
+    "host": "127.0.0.1",
+    "port": 27535,
+    "check_chain_conf_trust_roots_change_interval": 60,
+    "sync_tx_result_timeout": 60,
+    "gateway": {
+      "enabled": false,
+      "max_resp_body_size": 16
+    },
+    "ratelimit": {
+      "enabled": false,
+      "type": 0,
+      "token_per_second": -1,
+      "token_bucket_size": -1
+    },
+    "subscriber": {
+      "ratelimit": {
+        "enabled": false,
+        "type": 0,
+        "token_per_second": 100,
+        "token_bucket_size": 100
+      }
+    },
+    "tls": {
+      "mode": "disable",
+      "priv_key_file": "/tmp/cvw-step35-small-ledger/config/wx-org1.chainmaker.org/certs/node/consensus1/consensus1.tls.key",
+      "cert_file": "/tmp/cvw-step35-small-ledger/config/wx-org1.chainmaker.org/certs/node/consensus1/consensus1.tls.crt"
+    },
+    "blacklist": {
+      "addresses": null
+    },
+    "max_send_msg_size": 100,
+    "max_recv_msg_size": 100
+  },
+  "tx_filter": {
+    "type": 0,
+    "sharding": {
+      "length": 5,
+      "timeout": 60,
+      "snapshot": {
+        "type": 0,
+        "timed": {
+          "interval": 10
+        },
+        "block_height": {
+          "interval": 10
+        },
+        "serialize_interval": 10,
+        "path": "/tmp/cvw-step35-small-ledger/data/wx-org1.chainmaker.org/tx_filter"
+      },
+      "birds_nest": {
+        "length": 10,
+        "rules": {
+          "absolute_expire_time": 172800
+        },
+        "cuckoo": {
+          "key_type": 1,
+          "tags_per_bucket": 2,
+          "bits_per_item": 11,
+          "max_num_keys": 2000000,
+          "table_type": 0
+        }
+      }
+    },
+    "birds_nest": {
+      "length": 10,
+      "snapshot": {
+        "type": 0,
+        "timed": {
+          "interval": 10
+        },
+        "block_height": {
+          "interval": 10
+        },
+        "serialize_interval": 10,
+        "path": "/tmp/cvw-step35-small-ledger/data/wx-org1.chainmaker.org/tx_filter"
+      },
+      "rules": {
+        "absolute_expire_time": 172800
+      },
+      "cuckoo": {
+        "key_type": 1,
+        "tags_per_bucket": 2,
+        "bits_per_item": 11,
+        "max_num_keys": 2000000,
+        "table_type": 0
+      }
+    }
+  },
+  "monitor": {
+    "enabled": false,
+    "port": 14321
+  },
+  "pprof": {
+    "enabled": false,
+    "port": 24321
+  },
+  "consensus": {
+    "raft": {
+      "snap_count": 10,
+      "async_wal_save": true,
+      "ticker": 1
+    }
+  },
+  "scheduler": {
+    "rwset_log": false
+  },
+  "storage": {
+    "store_path": "/tmp/cvw-step35-small-ledger/data/wx-org1.chainmaker.org/ledgerData1",
+    "unarchive_block_height": 300000,
+    "archive_check_interval": 10,
+    "restore_interval": 60,
+    "disable_block_file_db": false,
+    "logdb_segment_async": false,
+    "logdb_segment_size": 64,
+    "read_bfdb_timeout": 1000,
+    "enable_bigfilter": false,
+    "bigfilter_config": {
+      "redis_hosts_port": "127.0.0.1:6300,127.0.0.1:6301",
+      "redis_password": "[REDACTED]",
+      "tx_capacity": 1000000000,
+      "fp_rate": 1e-09
+    },
+    "enable_rwc": true,
+    "rolling_window_cache_capacity": 55000,
+    "write_block_type": 0,
+    "quick_write_channel_size": 100,
+    "slow_log": 0,
+    "disable_state_cache": false,
+    "state_cache_config": {
+      "provider": "slru",
+      "spec": {
+        "memory": 1024,
+        "capacity": 10000
+      }
+    },
+    "blockdb_config": {
+      "provider": "leveldb",
+      "leveldb_config": {
+        "store_path": "/tmp/cvw-step35-small-ledger/data/wx-org1.chainmaker.org/block",
+        "write_buffer_size": 64
+      }
+    },
+    "statedb_config": {
+      "provider": "leveldb",
+      "leveldb_config": {
+        "store_path": "/tmp/cvw-step35-small-ledger/data/wx-org1.chainmaker.org/state",
+        "write_buffer_size": 64
+      },
+      "bloom_config": {
+        "enable": true,
+        "dump_path": "/tmp/cvw-step35-small-ledger/data/wx-org1.chainmaker.org/state/bloom",
+        "keys_capacity": 100000,
+        "false_positive_rate": 0.01,
+        "dump_per_blocks_committed": 1000
+      }
+    },
+    "disable_historydb": false,
+    "historydb_config": {
+      "provider": "leveldb",
+      "disable_key_history": false,
+      "disable_contract_history": true,
+      "disable_account_history": true,
+      "leveldb_config": {
+        "store_path": "/tmp/cvw-step35-small-ledger/data/wx-org1.chainmaker.org/history",
+        "write_buffer_size": 64
+      }
+    },
+    "disable_resultdb": false,
+    "resultdb_config": {
+      "provider": "leveldb",
+      "leveldb_config": {
+        "store_path": "/tmp/cvw-step35-small-ledger/data/wx-org1.chainmaker.org/result",
+        "write_buffer_size": 64
+      }
+    },
+    "disable_contract_eventdb": true,
+    "contract_eventdb_config": {
+      "provider": "sql",
+      "sqldb_config": {
+        "sqldb_type": "mysql",
+        "dsn": "[REDACTED]"
+      }
+    }
+  },
+  "vm": {
+    "common": {
+      "max_send_msg_size": 100,
+      "max_recv_msg_size": 100,
+      "dial_timeout": 10,
+      "runtime_server": {
+        "port": 32351
+      },
+      "contract_engine": {
+        "preload_disable": false,
+        "preload_num_by_use_frequency": 10,
+        "preload_num_by_last_time": 10,
+        "cgroup": {
+          "disable": true,
+          "max_mem_size_per_process": -1,
+          "max_cpu_percent_per_process": -1,
+          "devices_allow": "",
+          "devices_deny": ""
+        }
+      }
+    },
+    "go": {
+      "enable": false,
+      "data_mount_path": "/tmp/cvw-step35-small-ledger/data/wx-org1.chainmaker.org/go",
+      "log_mount_path": "/tmp/cvw-step35-small-ledger/log/wx-org1.chainmaker.org/go",
+      "protocol": "tcp",
+      "log_in_console": false,
+      "log_level": null,
+      "max_concurrency": 20,
+      "contract_engine": {
+        "host": "127.0.0.1",
+        "port": 22351,
+        "max_connection": 5
+      }
+    },
+    "java": {
+      "enable": false,
+      "data_mount_path": "/tmp/cvw-step35-small-ledger/data/wx-org1.chainmaker.org/java",
+      "log_mount_path": "/tmp/cvw-step35-small-ledger/log/wx-org1.chainmaker.org/java",
+      "log_in_console": false,
+      "log_level": null,
+      "max_concurrency": 20,
+      "contract_engine": {
+        "host": "127.0.0.1",
+        "port": 23351,
+        "max_connection": 5
+      }
+    }
+  }
+}
