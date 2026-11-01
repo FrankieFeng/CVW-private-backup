@@ -1,0 +1,31 @@
+
+/home/frankie/mygitprojects/.worktrees/cvw-step35a/experiments/instance-lifecycle/step-35a-resource-reset-validation/source/vm/wasmer-go/packaged/lib/linux-amd64/libwasmer.so:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000cd27a0 <_ZN3mio5waker5Waker4wake17hce111056cc3c08b7E>:
+  cd27a0:	e9 0b 00 00 00       	jmp    cd27b0 <_ZN3mio3sys4unix5waker5Waker4wake17ha6018dd989182a09E>
+  cd27a5:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+  cd27ac:	00 00 00 
+  cd27af:	90                   	nop
+
+0000000000cd27b0 <_ZN3mio3sys4unix5waker5Waker4wake17ha6018dd989182a09E>:
+  cd27b0:	41 57                	push   %r15
+  cd27b2:	41 56                	push   %r14
+  cd27b4:	53                   	push   %rbx
+  cd27b5:	48 83 ec 20          	sub    $0x20,%rsp
+  cd27b9:	49 89 fe             	mov    %rdi,%r14
+  cd27bc:	48 c7 44 24 08 01 00 	movq   $0x1,0x8(%rsp)
+  cd27c3:	00 00 
+  cd27c5:	48 89 7c 24 10       	mov    %rdi,0x10(%rsp)
+  cd27ca:	48 8d 7c 24 10       	lea    0x10(%rsp),%rdi
+  cd27cf:	48 8d 74 24 08       	lea    0x8(%rsp),%rsi
+  cd27d4:	ba 08 00 00 00       	mov    $0x8,%edx
+  cd27d9:	ff 15 59 90 c9 00    	call   *0xc99059(%rip)        # 196b838 <_GLOBAL_OFFSET_TABLE_+0x7b8>
+  cd27df:	48 85 c0             	test   %rax,%rax
+  cd27e2:	74 5f                	je     cd2843 <_ZN3mio3sys4unix5waker5Waker4wake17ha6018dd989182a09E+0x93>
+  cd27e4:	48 89 d3             	mov    %rdx,%rbx
+  cd27e7:	48 89 d7             	mov    %rdx,%rdi
+  cd27ea:	e8 71 fd ff ff       	call   cd2560 <_ZN3std2io5error5Error4kind17h71bf7cbc1da3e59bE>
+  cd27ef:	3c                   	.byte 0x3c

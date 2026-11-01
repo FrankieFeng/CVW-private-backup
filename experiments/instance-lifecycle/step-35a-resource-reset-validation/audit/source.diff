@@ -1,0 +1,467 @@
+--- a/step34_owner.go
++++ b/step34_owner.go
+@@ -28,6 +28,7 @@
+ 	mu                 sync.Mutex
+ 	wg                 sync.WaitGroup
+ 	closing, resetting bool
++	resetDone          chan struct{}
+ 	poisoned           bool
+ 	accepted, limit    int
+ 	tid                atomic.Int64
+@@ -85,8 +86,10 @@
+ 				if r := recover(); r != nil {
+ 					err = fmt.Errorf("owner job panic: %v", r)
+ 				}
+-				if err!=nil && !errors.Is(err,context.Canceled) && !errors.Is(err,context.DeadlineExceeded) {err=errors.New(err.Error())} // never return native Trap/Frame handles outside owner
+- j.reply <- err
++				if err != nil && !errors.Is(err, context.Canceled) && !errors.Is(err, context.DeadlineExceeded) {
++					err = errors.New(err.Error())
++				} // never return native Trap/Frame handles outside owner
++				j.reply <- err
+ 				if !j.control {
+ 					o.wg.Done()
+ 				}
+@@ -143,6 +146,7 @@
+ 		return ErrOwnerClosed
+ 	}
+ 	o.resetting = true
++	o.resetDone = make(chan struct{})
+ 	o.mu.Unlock()
+ 	reply := make(chan error, 1)
+ 	go func() {
+@@ -157,6 +161,7 @@
+ 		}
+ 		o.mu.Lock()
+ 		o.resetting = false
++		close(o.resetDone)
+ 		if err != nil {
+ 			o.poisoned = true
+ 		}
+@@ -176,8 +181,14 @@
+ 	}
+ 	o.mu.Lock()
+ 	if o.resetting {
+-		o.mu.Unlock()
+-		return ErrOwnerClosed
++		done := o.resetDone
++		o.mu.Unlock()
++		select {
++		case <-done:
++			return o.Stop(ctx)
++		case <-ctx.Done():
++			return ctx.Err()
++		}
+ 	}
+ 	first := !o.closing
+ 	o.closing = true
+--- a/step35_node.go
++++ b/step35_node.go
+@@ -26,6 +26,7 @@
+ 	source string
+ }
+ type nodeFreshManager struct {
++	control35a    *control35a
+ 	owner         *SafeFreshOwner
+ 	caches        map[string]*nodeFreshCache
+ 	order         []string
+--- /dev/null
++++ b/step35a_control.go
+@@ -0,0 +1,152 @@
++package wasmer
++
++// Experiment-only Unix control, no network listen. All native diagnostics stay on the existing Owner.
++import (
++	w "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
++	"context"
++	"encoding/json"
++	"errors"
++	"fmt"
++	"net"
++	"net/http"
++	"os"
++	"path/filepath"
++	"runtime"
++	"runtime/debug"
++	"sync"
++	"time"
++)
++
++type control35a struct {
++	server       *http.Server
++	listener     net.Listener
++	mu           sync.Mutex
++	lastResetErr string
++	resetSeq     int
++	closed       bool
++}
++
++func (c *control35a) Close() {
++	c.mu.Lock()
++	if c.closed {
++		c.mu.Unlock()
++		return
++	}
++	c.closed = true
++	c.mu.Unlock()
++	c.listener.Close()
++	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
++	defer cancel()
++	if e := c.server.Shutdown(ctx); e != nil {
++		c.server.Close()
++		nodeEvent("control_shutdown_error", map[string]interface{}{"error": e.Error()})
++	}
++
++}
++func (m *InstancesManager) tracked35aReset() error {
++	begin := time.Now()
++	nodeEvent("manager_reset_begin", map[string]interface{}{"entry": "InstancesManager.ResetAllPool/ResetAVmPool", "inflight": m.safe.inflight.Load()})
++	err := m.safe.reset()
++	nodeEvent("manager_reset_end", map[string]interface{}{"error": fmt.Sprint(err), "reset_ns": time.Since(begin).Nanoseconds(), "inflight": m.safe.inflight.Load()})
++	if c := m.safe.control35a; c != nil {
++		c.mu.Lock()
++		c.lastResetErr = fmt.Sprint(err)
++		c.resetSeq++
++		c.mu.Unlock()
++	}
++	return err
++}
++func (m *InstancesManager) start35aControl() error {
++	path := os.Getenv("CM_STEP35A_CONTROL")
++	if path == "" {
++		return nil
++	}
++	if !filepath.IsAbs(path) {
++		return errors.New("control socket must be absolute")
++	}
++	if _, e := os.Lstat(path); !os.IsNotExist(e) {
++		return errors.New("existing control path: preserve, do not overwrite")
++	}
++	ln, e := net.Listen("unix", path)
++	if e != nil {
++		return e
++	}
++	if e = os.Chmod(path, 0600); e != nil {
++		ln.Close()
++		return e
++	}
++	c := &control35a{listener: ln}
++	m.safe.control35a = c
++	mux := http.NewServeMux()
++	mux.HandleFunc("/state", func(rw http.ResponseWriter, r *http.Request) {
++		o := m.safe.owner
++		o.mu.Lock()
++		s := map[string]interface{}{"resetting": o.resetting, "closing": o.closing, "accepted": o.accepted, "limit": o.limit, "inflight": m.safe.inflight.Load()}
++		o.mu.Unlock()
++		json.NewEncoder(rw).Encode(s)
++	})
++	mux.HandleFunc("/reset", func(rw http.ResponseWriter, r *http.Request) {
++		if r.Method != "POST" {
++			rw.WriteHeader(405)
++			return
++		}
++		m.ResetAllPool()
++		c.mu.Lock()
++		out := map[string]interface{}{"manager_entry": "ResetAllPool", "seq": c.resetSeq, "error": c.lastResetErr}
++		c.mu.Unlock()
++		json.NewEncoder(rw).Encode(out)
++	})
++	mux.HandleFunc("/snapshot", func(rw http.ResponseWriter, r *http.Request) {
++		var out map[string]interface{}
++		err := m.safe.owner.Do(context.Background(), func() error { out = m.safe.snapshot35a(r.URL.Query().Get("tag")); return nil })
++		if err != nil {
++			rw.WriteHeader(409)
++			json.NewEncoder(rw).Encode(map[string]interface{}{"error": err.Error()})
++			return
++		}
++		json.NewEncoder(rw).Encode(out)
++	})
++	// Forced collection/scavenging is a separately labelled diagnostic, never a service setting or admission benchmark.
++	mux.HandleFunc("/gc", func(rw http.ResponseWriter, r *http.Request) {
++		if r.Method != "POST" {
++			rw.WriteHeader(405)
++			return
++		}
++		runtime.GC()
++		json.NewEncoder(rw).Encode(map[string]string{"diagnostic": "explicit Go GC only"})
++	})
++	mux.HandleFunc("/scavenge", func(rw http.ResponseWriter, r *http.Request) {
++		if r.Method != "POST" {
++			rw.WriteHeader(405)
++			return
++		}
++		debug.FreeOSMemory()
++		json.NewEncoder(rw).Encode(map[string]string{"diagnostic": "explicit Go GC+scavenge; not default runtime policy"})
++	})
++	c.server = &http.Server{Handler: mux, ReadHeaderTimeout: 2 * time.Second}
++	go func() {
++		e := c.server.Serve(ln)
++		if e != nil && !errors.Is(e, net.ErrClosed) && !errors.Is(e, http.ErrServerClosed) {
++			nodeEvent("control_error", map[string]interface{}{"error": e.Error()})
++		}
++	}()
++	return nil
++}
++func (m *nodeFreshManager) snapshot35a(tag string) map[string]interface{} {
++	w.ManagedAssert()
++	var ms runtime.MemStats
++	runtime.ReadMemStats(&ms)
++	goThreadRecords, _ := runtime.ThreadCreateProfile(nil)
++	tasks, _ := filepath.Glob("/proc/self/task/*")
++	thread := []map[string]string{}
++	for _, p := range tasks {
++		b, _ := os.ReadFile(p + "/comm")
++		wc, _ := os.ReadFile(p + "/wchan")
++		thread = append(thread, map[string]string{"tid": filepath.Base(p), "comm": string(b), "wchan": string(wc)})
++	}
++	roll, _ := os.ReadFile("/proc/self/smaps_rollup")
++	status, _ := os.ReadFile("/proc/self/status")
++	out := map[string]interface{}{"tag": tag, "wall_ns": time.Now().UnixNano(), "go_heap": ms.HeapAlloc, "go_heap_sys": ms.HeapSys, "go_heap_idle": ms.HeapIdle, "go_heap_released": ms.HeapReleased, "go_num_gc": ms.NumGC, "go_pause_total_ns": ms.PauseTotalNs, "goroutines": runtime.NumGoroutine(), "os_threads": len(tasks), "go_thread_create_records": goThreadRecords, "thread_details": thread, "smaps_rollup": string(roll), "proc_status": string(status), "stores_created": w.ManagedStoresCreated, "stores_closed": w.ManagedStoresClosed, "instances_created": w.ManagedInstancesCreated, "instances_closed": w.ManagedInstancesClosed, "managed_pending": w.ManagedCount(), "modules_cached": len(m.caches), "inflight": m.inflight.Load(), "native_diagnostic": w.Diagnostic35aNative()}
++	nodeEvent("resource_snapshot", map[string]interface{}{"tag": tag, "modules_cached": len(m.caches), "goroutines": runtime.NumGoroutine(), "os_threads": len(tasks)})
++	return out
++}
+--- /dev/null
++++ b/step35a_owner_test.go
+@@ -0,0 +1,96 @@
++package wasmer
++
++import (
++	"context"
++	"errors"
++	"runtime"
++	"testing"
++	"time"
++)
++
++func TestStep35AResetStop(t *testing.T) {
++	o, e := NewSafeFreshOwner(4, nil)
++	if e != nil {
++		t.Fatal(e)
++	}
++	entered, release := make(chan struct{}), make(chan struct{})
++	job := make(chan error, 1)
++	go func() { job <- o.Do(context.Background(), func() error { close(entered); <-release; return nil }) }()
++	<-entered
++	reset := make(chan error, 1)
++	go func() { reset <- o.Reset(context.Background(), func() error { return nil }) }()
++	deadline := time.Now().Add(time.Second)
++	for {
++		o.mu.Lock()
++		active := o.resetting
++		o.mu.Unlock()
++		if active {
++			break
++		}
++		if time.Now().After(deadline) {
++			close(release)
++			t.Fatal("Reset did not begin")
++		}
++		runtime.Gosched()
++	}
++	if e = o.Do(context.Background(), func() error { return nil }); !errors.Is(e, ErrOwnerClosed) {
++		t.Fatal("new job admitted during Reset", e)
++	}
++	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Millisecond)
++	defer cancel()
++	e = o.Stop(ctx)
++	if !errors.Is(e, context.DeadlineExceeded) {
++		close(release)
++		t.Fatal("Stop should wait Reset, not return early", e)
++	}
++	close(release)
++	if e = <-job; e != nil {
++		t.Fatal(e)
++	}
++	if e = <-reset; e != nil {
++		t.Fatal(e)
++	}
++	if e = o.Stop(context.Background()); e != nil {
++		t.Fatal(e)
++	}
++	if e = o.Stop(context.Background()); e != nil {
++		t.Fatal(e)
++	}
++}
++func TestStep35AStopThenReset(t *testing.T) {
++	o, e := NewSafeFreshOwner(2, nil)
++	if e != nil {
++		t.Fatal(e)
++	}
++	entered, release := make(chan struct{}), make(chan struct{})
++	job := make(chan error, 1)
++	go func() { job <- o.Do(context.Background(), func() error { close(entered); <-release; return nil }) }()
++	<-entered
++	stopped := make(chan error, 1)
++	go func() { stopped <- o.Stop(context.Background()) }()
++	deadline := time.Now().Add(time.Second)
++	for {
++		o.mu.Lock()
++		closing := o.closing
++		o.mu.Unlock()
++		if closing {
++			break
++		}
++		if time.Now().After(deadline) {
++			close(release)
++			t.Fatal("Stop did not close admission")
++		}
++		runtime.Gosched()
++	}
++	if e = o.Reset(context.Background(), func() error { return nil }); !errors.Is(e, ErrOwnerClosed) {
++		close(release)
++		t.Fatal("Reset admitted after Stop", e)
++	}
++	close(release)
++	if e = <-job; e != nil {
++		t.Fatal(e)
++	}
++	if e = <-stopped; e != nil {
++		t.Fatal(e)
++	}
++}
+--- a/vm_instances_manager.go
++++ b/vm_instances_manager.go
+@@ -43,6 +43,9 @@
+ 	}
+ 	if os.Getenv("CM_SAFE_FRESH_NODE") == "1" {
+ 		vmPoolManager.safe, vmPoolManager.safeErr = newNodeFreshManager(chainId)
++		if vmPoolManager.safeErr == nil {
++			vmPoolManager.safeErr = vmPoolManager.start35aControl()
++		}
+ 	} else {
+ 		vmPoolManager.safeErr = fmt.Errorf("managed experimental binary requires CM_SAFE_FRESH_NODE=1; rollback uses the original binary, not the legacy pool in this binary")
+ 	}
+@@ -140,7 +143,7 @@
+ // CloseAVmPool close the contract vm pool
+ func (m *InstancesManager) CloseAVmPool(contractId *commonPb.Contract) {
+ 	if m.safe != nil {
+-		if e := m.safe.reset(); e != nil {
++		if e := m.tracked35aReset(); e != nil {
+ 			m.log.Errorf("safe reset: %v", e)
+ 		}
+ 		return
+@@ -160,7 +163,7 @@
+ // CloseAllVmPool close all contract vm pool
+ func (m *InstancesManager) CloseAllVmPool() {
+ 	if m.safe != nil {
+-		if e := m.safe.reset(); e != nil {
++		if e := m.tracked35aReset(); e != nil {
+ 			m.log.Errorf("safe reset: %v", e)
+ 		}
+ 		return
+@@ -179,7 +182,7 @@
+ // FIXME: 确认函数名是否多了字符A？@taifu
+ func (m *InstancesManager) ResetAVmPool(contractId *commonPb.Contract) {
+ 	if m.safe != nil {
+-		if e := m.safe.reset(); e != nil {
++		if e := m.tracked35aReset(); e != nil {
+ 			m.log.Errorf("safe reset: %v", e)
+ 		}
+ 		return
+@@ -198,7 +201,7 @@
+ // ResetAllPool reset all contract pool instance
+ func (m *InstancesManager) ResetAllPool() {
+ 	if m.safe != nil {
+-		if e := m.safe.reset(); e != nil {
++		if e := m.tracked35aReset(); e != nil {
+ 			m.log.Errorf("safe reset: %v", e)
+ 		}
+ 		return
+@@ -225,6 +228,9 @@
+ 		nodeEvent("stop_requested", map[string]interface{}{"inflight": m.safe.inflight.Load()})
+ 		start := time.Now()
+ 		err := m.safe.owner.Stop(context.Background())
++		if m.safe.control35a != nil {
++			m.safe.control35a.Close()
++		}
+ 		nodeEvent("stop_finished", map[string]interface{}{"stop_ns": time.Since(start).Nanoseconds(), "error": fmt.Sprint(err)})
+ 		return err
+ 	}
+--- a/wasmer-go/import_object.go
++++ b/wasmer-go/import_object.go
+@@ -18,6 +18,7 @@
+ //
+ //	imports := NewImportObject()
+ func NewImportObject() *ImportObject {
++	ManagedImportContainersCreated++
+ 	self := &ImportObject{externs: make(map[string]map[string]IntoExtern)}
+ 	managedSetFinalizer(self, func(self *ImportObject) { self.Close() })
+ 	return self
+@@ -106,6 +107,7 @@
+ 	if !managedSetFinalizer(self, nil) {
+ 		return
+ 	}
++	ManagedImportContainersClosed++
+ 	for _, namespace := range self.externs {
+ 		for name, _ := range namespace {
+ 			delete(namespace, name)
+--- /dev/null
++++ b/wasmer-go/step35a_resources.go
+@@ -0,0 +1,41 @@
++package wasmer
++
++/*
++#include <stdlib.h>
++#include <wasmer.h>
++#include <malloc.h>
++#include <stdint.h>
++// Read-only debug layout, pinned to dcdfa716... ELF: wasm_store_delete @0x2ce610 reads *(store), then decrements *(rc).
++static size_t step35a_rc_before_delete(void *store) { return **(size_t **)store; }
++*/
++import "C"
++import "unsafe"
++
++var ManagedStoreLastStrong, ManagedStoreSharedStrong uint64
++var ManagedStoreStrongHistogram = map[uint64]uint64{}
++
++func diagnostic35aStoreDelete(store *C.wasm_store_t) {
++	ManagedAssert()
++	n := uint64(C.step35a_rc_before_delete(unsafe.Pointer(store)))
++	ManagedStoreStrongHistogram[n]++
++	if n == 1 {
++		ManagedStoreLastStrong++
++	} else {
++		ManagedStoreSharedStrong++
++	}
++}
++
++var ManagedWasiCreated, ManagedWasiClosed, ManagedImportContainersCreated, ManagedImportContainersClosed uint64
++
++func Diagnostic35aNative() map[string]interface{} {
++	ManagedAssert()
++	m := C.mallinfo2()
++	histogram := map[uint64]uint64{}
++	for k, v := range ManagedStoreStrongHistogram {
++		histogram[k] = v
++	}
++	hostFunctionStore.RLock()
++	host := len(hostFunctionStore.functions)
++	hostFunctionStore.RUnlock()
++	return map[string]interface{}{"store_last_strong_delete": ManagedStoreLastStrong, "store_shared_strong_delete": ManagedStoreSharedStrong, "store_strong_before_histogram": histogram, "glibc_arena_bytes": uint64(m.arena), "glibc_inuse_bytes": uint64(m.uordblks), "glibc_free_bytes": uint64(m.fordblks), "glibc_mmap_bytes": uint64(m.hblkhd), "host_function_registrations": host, "wasi_created": ManagedWasiCreated, "wasi_closed": ManagedWasiClosed, "import_containers_created": ManagedImportContainersCreated, "import_containers_closed": ManagedImportContainersClosed}
++}
+--- a/wasmer-go/store.go
++++ b/wasmer-go/store.go
+@@ -63,6 +63,7 @@
+ 	if !managedSetFinalizer(self, nil) {
+ 		return
+ 	}
++	diagnostic35aStoreDelete(self._inner)
+ 	C.wasm_store_delete(self._inner)
+ 	self._inner = nil
+ 	ManagedStoresClosed++
+--- a/wasmer-go/wasi.go
++++ b/wasmer-go/wasi.go
+@@ -277,6 +277,7 @@
+ 		return nil, err
+ 	}
+ 
++	ManagedWasiCreated++
+ 	self := &WasiEnvironment{
+ 		_inner: environment,
+ 	}
+@@ -408,5 +409,6 @@
+ 		return
+ 	}
+ 	C.wasi_env_delete(self._inner)
++	ManagedWasiClosed++
+ 	self._inner = nil
+ }

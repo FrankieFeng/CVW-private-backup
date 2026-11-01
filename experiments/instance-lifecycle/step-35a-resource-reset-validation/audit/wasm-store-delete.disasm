@@ -1,0 +1,45 @@
+
+/home/frankie/mygitprojects/.worktrees/cvw-step35a/experiments/instance-lifecycle/step-35a-resource-reset-validation/source/vm/wasmer-go/packaged/lib/linux-amd64/libwasmer.so:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000002ce610 <wasm_store_delete>:
+  2ce610:	41 57                	push   %r15
+  2ce612:	41 56                	push   %r14
+  2ce614:	53                   	push   %rbx
+  2ce615:	48 85 ff             	test   %rdi,%rdi
+  2ce618:	74 5e                	je     2ce678 <wasm_store_delete+0x68>
+  2ce61a:	4c 8b 37             	mov    (%rdi),%r14
+  2ce61d:	49 ff 0e             	decq   (%r14)
+  2ce620:	75 41                	jne    2ce663 <wasm_store_delete+0x53>
+  2ce622:	48 89 fb             	mov    %rdi,%rbx
+  2ce625:	4d 8b 7e 10          	mov    0x10(%r14),%r15
+  2ce629:	4c 89 ff             	mov    %r15,%rdi
+  2ce62c:	e8 0f 91 ff ff       	call   2c7740 <_ZN4core3ptr63drop_in_place$LT$wasmer..entities..store..inner..StoreInner$GT$17h7c46a7b9428ca27bE.llvm.2734696651674205074>
+  2ce631:	be 50 01 00 00       	mov    $0x150,%esi
+  2ce636:	ba 08 00 00 00       	mov    $0x8,%edx
+  2ce63b:	4c 89 ff             	mov    %r15,%rdi
+  2ce63e:	ff 15 ac 3d 6a 01    	call   *0x16a3dac(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  2ce644:	49 ff 4e 08          	decq   0x8(%r14)
+  2ce648:	48 89 df             	mov    %rbx,%rdi
+  2ce64b:	75 16                	jne    2ce663 <wasm_store_delete+0x53>
+  2ce64d:	be 18 00 00 00       	mov    $0x18,%esi
+  2ce652:	ba 08 00 00 00       	mov    $0x8,%edx
+  2ce657:	4c 89 f7             	mov    %r14,%rdi
+  2ce65a:	ff 15 90 3d 6a 01    	call   *0x16a3d90(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  2ce660:	48 89 df             	mov    %rbx,%rdi
+  2ce663:	be 08 00 00 00       	mov    $0x8,%esi
+  2ce668:	ba 08 00 00 00       	mov    $0x8,%edx
+  2ce66d:	5b                   	pop    %rbx
+  2ce66e:	41 5e                	pop    %r14
+  2ce670:	41 5f                	pop    %r15
+  2ce672:	ff 25 78 3d 6a 01    	jmp    *0x16a3d78(%rip)        # 19723f0 <_GLOBAL_OFFSET_TABLE_+0x7370>
+  2ce678:	5b                   	pop    %rbx
+  2ce679:	41 5e                	pop    %r14
+  2ce67b:	41 5f                	pop    %r15
+  2ce67d:	c3                   	ret
+  2ce67e:	4c 8d 35 cb 07 1c 00 	lea    0x1c07cb(%rip),%r14        # 48ee50 <__rust_dealloc>
+  2ce685:	be 50 01 00 00       	mov    $0x150,%esi
+  2ce68a:	ba 08 00 00 00       	mov    $0x8,%edx
+  2ce68f:	4c                   	rex.WR

@@ -1,0 +1,15 @@
+Running as unit: step35a-node1.service; invocation ID: a117c2ed1ded453bac900de0f2d5acff
+# github.com/mattn/go-sqlite3
+sqlite3-binding.c: In function ‘sqlite3SelectNew’:
+sqlite3-binding.c:125801:10: warning: function may return address of local variable [-Wreturn-local-addr]
+125801 |   return pNew;
+       |          ^~~~
+sqlite3-binding.c:125761:10: note: declared here
+125761 |   Select standin;
+       |          ^~~~~~~
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 13.628s
+CPU time consumed: 16.886s
+Memory peak: 256.0K
+Memory swap peak: 0B

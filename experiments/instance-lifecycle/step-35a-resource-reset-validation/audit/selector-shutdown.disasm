@@ -1,0 +1,18 @@
+
+/home/frankie/mygitprojects/.worktrees/cvw-step35a/experiments/instance-lifecycle/step-35a-resource-reset-validation/source/vm/wasmer-go/packaged/lib/linux-amd64/libwasmer.so:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000abf070 <_ZN11virtual_mio8selector8Selector8shutdown17h955984cfeb3630e9E>:
+  abf070:	50                   	push   %rax
+  abf071:	48 83 c7 50          	add    $0x50,%rdi
+  abf075:	ff 15 35 26 eb 00    	call   *0xeb2635(%rip)        # 19716b0 <_GLOBAL_OFFSET_TABLE_+0x6630>
+  abf07b:	48 89 04 24          	mov    %rax,(%rsp)
+  abf07f:	48 85 c0             	test   %rax,%rax
+  abf082:	74 08                	je     abf08c <_ZN11virtual_mio8selector8Selector8shutdown17h955984cfeb3630e9E+0x1c>
+  abf084:	48 89 e7             	mov    %rsp,%rdi
+  abf087:	e8 24 fa ff ff       	call   abeab0 <_ZN4core3ptr42drop_in_place$LT$std..io..error..Error$GT$17hb47376ea71f34ea5E>
+  abf08c:	58                   	pop    %rax
+  abf08d:	c3                   	ret
+  abf08e:	66 90                	xchg   %ax,%ax
