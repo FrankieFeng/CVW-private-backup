@@ -1,0 +1,23 @@
+using crypto CryptoEngine = tjfoc
+using crypto CryptoEngine = tjfoc
+panic: listen unix /tmp/cvw-step35c-v4-active/drain.sock: bind: address already in use
+
+goroutine 184 [running]:
+chainmaker.org/chainmaker/store/v2/step35c.Start.func1()
+	/home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/store/step35c/trace.go:45 +0x12e
+sync.(*Once).doSlow(0x79b57d4d7108?, 0x10?)
+	/usr/local/go/src/sync/once.go:78 +0xac
+sync.(*Once).Do(...)
+	/usr/local/go/src/sync/once.go:69
+chainmaker.org/chainmaker/store/v2/step35c.Start()
+	/home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/store/step35c/trace.go:38 +0x2c
+chainmaker.org/chainmaker-go/module/core/syncmode.(*CoreEngine).Start(0xc0003f9e00)
+	/home/frankie/mygitprojects/.worktrees/node-step35c/module/core/syncmode/core_syncmode_impl.go:223 +0x1c
+chainmaker.org/chainmaker-go/module/blockchain.(*Blockchain).startCoreEngine(...)
+	/home/frankie/mygitprojects/.worktrees/node-step35c/module/blockchain/blockchain_start.go:130
+chainmaker.org/chainmaker-go/module/blockchain.(*Blockchain).Start(0xc00011af00)
+	/home/frankie/mygitprojects/.worktrees/node-step35c/module/blockchain/blockchain_start.go:54 +0xe34
+chainmaker.org/chainmaker-go/module/blockchain.startBlockchain(0xc00011af00)
+	/home/frankie/mygitprojects/.worktrees/node-step35c/module/blockchain/chainmaker_server.go:429 +0x27
+created by chainmaker.org/chainmaker-go/module/blockchain.(*ChainMakerServer).Start.func1 in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step35c/module/blockchain/chainmaker_server.go:459 +0x68

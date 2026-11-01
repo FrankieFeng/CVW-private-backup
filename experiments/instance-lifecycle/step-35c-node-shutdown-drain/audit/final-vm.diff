@@ -1,0 +1,18 @@
+--- /home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/source/vm/vm_instances_manager.go	2026-11-01 11:51:53.876170952 +0800
++++ /home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/vm/vm_instances_manager.go	2026-11-02 00:22:48.953152964 +0800
+@@ -223,11 +223,12 @@
+ // StopVM comment at next version
+ func (m *InstancesManager) StopVM() error {
+ 	if m.safe != nil {
+-		// Do not return a timeout to Blockchain.Stop while a guest may still access its TxSimContext/store.
+-		// The external node supervisor bounds shutdown and kills the whole process on a stuck native call.
++		// Step35C aborts module shutdown on error before any database Close; a timeout is now propagated safely.
+ 		nodeEvent("stop_requested", map[string]interface{}{"inflight": m.safe.inflight.Load()})
+ 		start := time.Now()
+-		err := m.safe.owner.Stop(context.Background())
++		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
++		defer cancel()
++		err := m.safe.owner.Stop(ctx)
+ 		if m.safe.control35a != nil {
+ 			m.safe.control35a.Close()
+ 		}

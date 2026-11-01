@@ -1,0 +1,25 @@
+# LevelDB写入者与已证实根因
+
+## 历史与本轮证据
+
+35B原始panic：HistoryKvDB.writeBatch→CommitBlock→BlockStoreImpl.putBlock2DB→WriteKvDb.func3。goroutine6589在goroutine6425的WriteKvDb中创建。历史日志没有每个子任务入场时间，不能恢复其确切创建时刻或完整任务ID。
+
+本轮观测版obs-held记录：commit_received→commit_job_begin→put_begin(height46, mode0)→db_write_begin→hold_enter；Stop后core_stop_end、VM Stop完成、db_close_begin仍早于hold_exit。恢复写入后，StateKvDB写已关闭LevelDB并exit2。该子goroutine1268由goroutine1106中的WriteKvDb创建；其父任务早于Stop被接收，关闭时还未完成。
+
+诊断rendezvous位于WriteKvDb正式并行KV写之前，12秒硬超时，通过控制socket释放，不增加Sleep。它放大一个已存在的竞态，不作为正常性能样本；历史35B未用此rendezvous也出现同类HistoryDB错误。受控实验不能反推历史每条指令的具体交错。
+
+## 责任边界
+
+Core.OnMessage在启动AddBlock后就返回。旧Core.Stop只停止Proposer循环，不等待已启动AddBlock。WriteKvDb的局部wg.Wait在AddBlock的调用链内，但另一条Stop链并不等待它。BlockStore.Close的waitG主要跟踪快速写消费者，当前Common模式下不覆盖CommonPutBlock在途调用。因此DB能在父提交任务存活时关闭。
+
+本轮修复同时在Core与Store建立任务边界，避免仅依赖RPC或VM结束推断账本完成。VM Owner配平只能证明Guest资源结束，不能证明区块持久化结束。旧RPC.Stop又会强制结束响应，不能据此把连接断开解释成任务已经被安全排空。
+
+## 不是已经证实的原因
+
+- 当前write_block_type=0，不能说快速队列耗尽/消费者没消费导致该错误。
+- 不把Selector Token补丁当作账本错误根因。观测版和修复版都使用同一个补丁so；不改Selector即可复现并消除关闭竞态。尚未设计native版本随机对照，不能排除它影响调度时间，但代码缺口属于节点任务生命周期。
+- 不用RSS变化推断DB损坏，也不把故意触发SIGTERM说成WSL自行崩溃。
+
+任务ID：RPC/VM原始记录含TxID，存储事件含block height，原始Core接收事件未附完整block/TxID；本轮单请求、每块1笔可结合put_begin关联，详见LIFECYCLE_EVENTS.csv。未声称该关联方法足以处理多节点多交易并发。
+
+修复后同一rendezvous场景candidate-writer：rpc_stop_begin时尚有请求；release后DB写与commit结束，再rpc_drain_end、Core/Owner/ledger排空，最后db_close。原始错误没有被捕获忽略或改成成功。

@@ -1,0 +1,123 @@
+--- /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go	2026-09-08 09:51:27.217869902 +0800
++++ /home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/store/blockstore_impl.go	2026-11-02 00:36:34.955111775 +0800
+@@ -8,6 +8,8 @@
+ package store
+ 
+ import (
++	trace35c "chainmaker.org/chainmaker/store/v2/step35c"
++	"context"
+ 	"encoding/json"
+ 	"errors"
+ 	"fmt"
+@@ -71,6 +73,11 @@
+ // BlockStoreImpl provides an implementation of `protocol.BlockchainStore`.
+ // @Description:
+ type BlockStoreImpl struct {
++	drain35c        trace35c.Gate
++	close35c        sync.Mutex
++	closed35c       bool
++	closeErr35c     error
++	background35c   sync.WaitGroup
+ 	blockDB         blockdb.BlockDB
+ 	stateDB         statedb.StateDB
+ 	historyDB       historydb.HistoryDB
+@@ -354,6 +361,15 @@
+ // @param txRWSets
+ // @return error
+ func (bs *BlockStoreImpl) PutBlock(block *commonPb.Block, txRWSets []*commonPb.TxRWSet) error {
++	end35c, e35c := bs.drain35c.Begin()
++	if e35c != nil {
++		return e35c
++	}
++	defer end35c()
++
++	trace35c.Event("put_begin", map[string]interface{}{"height": block.Header.BlockHeight, "txs": block.Header.TxCount, "mode": bs.storeConfig.WriteBlockType})
++	defer trace35c.Event("put_end", map[string]interface{}{"height": block.Header.BlockHeight})
++
+ 	bs.logger.Infof("start putBlock,height:[%d]", block.Header.BlockHeight)
+ 	defer func() {
+ 		bs.logger.Infof("end putBlock,height:[%d]", block.Header.BlockHeight)
+@@ -397,7 +413,9 @@
+ // @return error
+ func (bs *BlockStoreImpl) WriteKvDbCacheSqlDb(blockWithSerializedInfo *serialization.BlockWithSerializedInfo,
+ 	errsChan chan error) error {
+-
++	trace35c.Event("db_write_begin", map[string]interface{}{"height": blockWithSerializedInfo.Block.Header.BlockHeight})
++	defer trace35c.Event("db_write_end", map[string]interface{}{"height": blockWithSerializedInfo.Block.Header.BlockHeight})
++	trace35c.Hold("db_write")
+ 	wg := sync.WaitGroup{}
+ 	wg.Add(8)
+ 
+@@ -655,7 +673,11 @@
+ 		return <-errsChan
+ 	}
+ 	// 4.删除wal,每100个block删除一次
++	bs.background35c.Add(1)
+ 	go func() {
++		defer bs.background35c.Done()
++		trace35c.Event("wal_cleanup_begin", nil)
++		defer trace35c.Event("wal_cleanup_end", nil)
+ 		err = bs.deleteBlockFromLog(block.Header.BlockHeight)
+ 		if err != nil {
+ 			bs.logger.Warnf("chain[%s]: failed to clean log, block[%d], err:%s",
+@@ -727,6 +749,7 @@
+ 	wBatch := writeBatch{
+ 		blockWithSerializedInfo: blockWithSerializedInfo,
+ 	}
++	trace35c.Event("ledger_queue_send", map[string]interface{}{"height": block.Header.BlockHeight})
+ 	bs.writeBatchChan <- wBatch
+ 
+ 	writeBatchChanDur := time.Since(startTime)
+@@ -800,6 +823,7 @@
+ 			bs.logger.Infof("block store stop writing batch from chan to db")
+ 			return
+ 		case wBatch := <-bs.writeBatchChan:
++			trace35c.Event("ledger_queue_receive", map[string]interface{}{"height": wBatch.blockWithSerializedInfo.Block.Header.BlockHeight})
+ 			writedb(wBatch.blockWithSerializedInfo)
+ 		}
+ 	}
+@@ -1590,16 +1614,43 @@
+ // @Description:
+ // @receiver bs
+ // @return error
+-func (bs *BlockStoreImpl) Close() error {
++func (bs *BlockStoreImpl) Close() (err35c error) {
+ 	if bs == nil {
+ 		return nil
+ 	}
++	bs.close35c.Lock()
++	defer bs.close35c.Unlock()
++	if bs.closed35c {
++		return bs.closeErr35c
++	}
++	trace35c.Event("ledger_drain_begin", map[string]interface{}{"active": bs.drain35c.Count()})
++	ctx35c, cancel35c := context.WithTimeout(context.Background(), 15*time.Second)
++	defer cancel35c()
++	if err := bs.drain35c.Drain(ctx35c); err != nil {
++		trace35c.Event("ledger_drain_error", map[string]interface{}{"error": err.Error()})
++		return err
++	}
++	bg35c := make(chan struct{})
++	go func() { bs.background35c.Wait(); close(bg35c) }()
++	select {
++	case <-bg35c:
++	case <-ctx35c.Done():
++		return ctx35c.Err()
++	}
++	trace35c.Event("ledger_drain_end", map[string]interface{}{"active": bs.drain35c.Count()})
++	bs.closed35c = true
++	defer func() { bs.closeErr35c = err35c }()
++
++	trace35c.Event("db_close_begin", nil)
++	defer trace35c.Event("db_close_end", nil)
++
+ 	close(bs.stopCh)
+ 	bs.waitG.Wait()
+ 
+ 	if bs.archiveMgr != nil {
+ 		if err := bs.archiveMgr.Close(); err != nil {
+ 			bs.logger.Errorf("Close archiveMgr failed: %v", err)
++			return err
+ 		}
+ 	}
+ 	if bs.blockDB != nil {

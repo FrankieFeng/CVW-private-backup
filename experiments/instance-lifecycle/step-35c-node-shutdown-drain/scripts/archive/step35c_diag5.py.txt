@@ -1,0 +1,16 @@
+from pathlib import Path
+import subprocess
+R=Path('/home/frankie/mygitprojects');P=R/'.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain';N=R/'.worktrees/node-step35c';f=P/'source/store/step35c/trace.go';s=f.read_text().replace('import (','import (\n "context"',1)
+s=s.replace('var used bool','var used bool\nvar server35c *http.Server\nvar listener35c net.Listener\nvar done35c chan struct{}\nvar close35c sync.Once')
+s=s.replace('go func() { http.Serve(ln, mux) }()','server35c=&http.Server{Handler:mux};listener35c=ln;done35c=make(chan struct{});go func(){defer close(done35c);e:=server35c.Serve(ln);Event("diagnostic_server_exit",map[string]interface{}{"error":fmt.Sprint(e)})}()')
+s+='''
+func Stop(){close35c.Do(func(){if server35c==nil{return};ctx,c:=context.WithTimeout(context.Background(),2*time.Second);defer c();if e:=server35c.Shutdown(ctx);e!=nil{panic(e)};listener35c.Close();select{case <-done35c:case<-ctx.Done():panic(ctx.Err())};Event("diagnostic_stopped",nil)})}
+''';f.write_text(s)
+f=N/'module/blockchain/chainmaker_server.go';s=f.read_text().replace('import (','import (\n trace35c "chainmaker.org/chainmaker/store/v2/step35c"',1);s=s.replace('log.Info("net is stopped!")','log.Info("net is stopped!")\n trace35c.Stop()',1);f.write_text(s)
+f=N/'module/blockchain/blockchain_stop.go';s=f.read_text().replace('''bc.log.Errorf("stop module[%s] failed, %s", name, err)
+				continue''','''bc.log.Errorf("stop module[%s] failed, %s", name, err)
+ trace35c.Event("module_stop_error",map[string]interface{}{"module":name,"error":err.Error()});panic(err)''',1);f.write_text(s)
+for f in [P/'source/store/step35c/trace.go',N/'module/blockchain/chainmaker_server.go',N/'module/blockchain/blockchain_stop.go']:subprocess.run(['/usr/local/go/bin/gofmt','-w',str(f)],check=True)
+f=P/'scripts/node_smoke.py';s=f.read_text().replace("'CM35C_SOCKET':str(H/'drain.sock')","'CM35C_SOCKET':str(H/('drain-'+label+'.sock'))");f.write_text(s)
+f=P/'scripts/observe_run.py';s=f.read_text().replace("str(H/'drain.sock')","str(H/('drain-'+sys.argv[1]+'.sock'))");f.write_text(s)
+with(P/'PROGRESS.md').open('a')as f:f.write('\nCandidate fixed4 eight lifecycle cases PASS. Restart-v4-active failed before transactions: retained diagnostic socket path, not DB corruption; no ledger correctness inference. Implement diagnostic HTTP close/join and per-run path in fixed5; preserve old socket/log and binary. Also propagate module-stop errors via explicit fail-safe because existing Stop API is void. Only bounded final validation, no feature expansion.\n')

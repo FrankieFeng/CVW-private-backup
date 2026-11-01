@@ -1,0 +1,29 @@
+from pathlib import Path
+import subprocess
+R=Path('/home/frankie/mygitprojects');N=R/'.worktrees/node-step35c';P=R/'.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain'
+f=N/'module/core/syncmode/proposer/block_proposer_impl.go';s=f.read_text();s=s.replace('import (','import (\n "context"\n trace35c "chainmaker.org/chainmaker/store/v2/step35c"',1) # sync,time already present
+s=s.replace('type BlockProposerImpl struct {','type BlockProposerImpl struct {\n stop35c sync.Once\n stopErr35c error\n workers35c sync.WaitGroup\n loopDone35c chan struct{}',1)
+s=s.replace('exitC:           make(chan bool),','exitC:           make(chan bool),\n loopDone35c: make(chan struct{}),',1)
+s=s.replace('''	bp.exitC <- true
+	return nil
+}''',''' bp.stop35c.Do(func(){
+ close(bp.exitC)
+ ctx,cancel:=context.WithTimeout(context.Background(),15*time.Second);defer cancel()
+ select{case <-bp.loopDone35c:case <-ctx.Done():bp.stopErr35c=ctx.Err();return}
+ done:=make(chan struct{});go func(){bp.workers35c.Wait();close(done)}()
+ select{case <-done:trace35c.Event("proposer_drained",nil);case <-ctx.Done():bp.stopErr35c=ctx.Err()}
+ })
+ return bp.stopErr35c
+}''',1)
+s=s.replace('func (bp *BlockProposerImpl) startProposingLoop() {','func (bp *BlockProposerImpl) startProposingLoop() {\n defer close(bp.loopDone35c)',1)
+s=s.replace('go bp.proposeBlock()','bp.run35c(bp.proposeBlock)')
+s=s.replace('go bp.proposing(proposingHeight, lastBlock.Header.BlockHash)','bp.run35c(func(){bp.proposing(proposingHeight, lastBlock.Header.BlockHash)})')
+s=s.replace('bp.txPoolSignalC <- txPoolSignal','select{case bp.txPoolSignalC <- txPoolSignal:case <-bp.exitC:}',1)
+s+='\nfunc(bp *BlockProposerImpl)run35c(f func()){bp.workers35c.Add(1);go func(){defer bp.workers35c.Done();f()}()}\n'
+f.write_text(s)
+f=N/'module/core/syncmode/core_syncmode_impl.go';s=f.read_text();s=s.replace('import (','import (\n "sync"',1).replace('type CoreEngine struct {','type CoreEngine struct {\n stop35c sync.Once',1)
+s=s.replace('func (c *CoreEngine) Stop() {','func(c *CoreEngine) Stop(){c.stop35c.Do(c.stopDrain35c)}\nfunc (c *CoreEngine) stopDrain35c() {',1)
+s=s.replace('c.blockProposer.Stop() //nolint: errcheck','if e35c:=c.blockProposer.Stop();e35c!=nil{panic(e35c)}',1);f.write_text(s)
+f=N/'module/rpcserver/rpc_server.go';s=f.read_text().replace('import (','import (\n "sync"',1).replace('type RPCServer struct {','type RPCServer struct {\n stop35c sync.Once',1)
+s=s.replace('func (s *RPCServer) Stop() {','func(s *RPCServer)Stop(){s.stop35c.Do(s.stopDrain35c)}\nfunc (s *RPCServer) stopDrain35c() {',1);f.write_text(s)
+for f in [N/'module/core/syncmode/proposer/block_proposer_impl.go',N/'module/core/syncmode/core_syncmode_impl.go',N/'module/rpcserver/rpc_server.go']:subprocess.run(['/usr/local/go/bin/gofmt','-w',str(f)],check=True)

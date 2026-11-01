@@ -1,0 +1,159 @@
+diff --git a/go.mod b/go.mod
+index b1fc63d..53e0fcb 100644
+--- a/go.mod
++++ b/go.mod
+@@ -302,7 +302,7 @@ replace (
+ 	chainmaker.org/chainmaker/consensus-tbft/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/consensus-tbft/v2@v2.4.0
+ 	chainmaker.org/chainmaker/protocol/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/protocol/v2@v2.4.0
+ 	chainmaker.org/chainmaker/utils/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/utils/v2@v2.4.0
+-	chainmaker.org/chainmaker/vm-wasmer/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/source/vm
++	chainmaker.org/chainmaker/vm-wasmer/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/vm
+ 	chainmaker.org/chainmaker/vm/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0
+ 	github.com/RedisBloom/redisbloom-go => chainmaker.org/third_party/redisbloom-go v1.0.0
+ 	github.com/btcsuite/btcd => chainmaker.org/third_party/btcd v1.0.0
+@@ -319,3 +319,5 @@ replace (
+ 	github.com/syndtr/goleveldb => chainmaker.org/third_party/goleveldb v1.1.0
+ 	github.com/tikv/client-go => chainmaker.org/third_party/tikv-client-go v1.0.0
+ )
++
++replace chainmaker.org/chainmaker/store/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/store
+diff --git a/module/blockchain/blockchain_stop.go b/module/blockchain/blockchain_stop.go
+index c5aaba6..6d05525 100644
+--- a/module/blockchain/blockchain_stop.go
++++ b/module/blockchain/blockchain_stop.go
+@@ -7,6 +7,8 @@ SPDX-License-Identifier: Apache-2.0
+ 
+ package blockchain
+ 
++import trace35c "chainmaker.org/chainmaker/store/v2/step35c"
++
+ // Stop all the modules.
+ func (bc *Blockchain) Stop() {
+ 	// stop all module
+@@ -53,10 +55,12 @@ func (bc *Blockchain) Stop() {
+ 	for idx := total - 1; idx >= 0; idx-- {
+ 		stopModule := stopModules[idx]
+ 		for name, stopFunc := range stopModule {
++			trace35c.Event("module_stop_begin", map[string]interface{}{"module": name})
+ 			if err := stopFunc(); err != nil {
+ 				bc.log.Errorf("stop module[%s] failed, %s", name, err)
+ 				continue
+ 			}
++			trace35c.Event("module_stop_end", map[string]interface{}{"module": name})
+ 			bc.log.Infof("STOP STEP (%d/%d) => stop module[%s] success :)", total-idx, total, name)
+ 		}
+ 	}
+diff --git a/module/core/syncmode/core_syncmode_impl.go b/module/core/syncmode/core_syncmode_impl.go
+index 9f3b238..3ae56bd 100644
+--- a/module/core/syncmode/core_syncmode_impl.go
++++ b/module/core/syncmode/core_syncmode_impl.go
+@@ -8,8 +8,11 @@ SPDX-License-Identifier: Apache-2.0
+ package syncmode
+ 
+ import (
++	trace35c "chainmaker.org/chainmaker/store/v2/step35c"
++	"context"
+ 	"fmt"
+ 	"strings"
++	"time"
+ 
+ 	"chainmaker.org/chainmaker-go/module/core/common"
+ 	"chainmaker.org/chainmaker-go/module/core/common/scheduler"
+@@ -29,6 +32,7 @@ import (
+ // One core engine for one chain.
+ // nolint: structcheck,unused
+ type CoreEngine struct {
++	drain35c  trace35c.Gate
+ 	chainId   string             // chainId, identity of a chain
+ 	chainConf protocol.ChainConf // chain config
+ 
+@@ -167,13 +171,28 @@ func (c *CoreEngine) OnMessage(message *msgbus.Message) {
+ 			c.blockProposer.OnReceiveProposeStatusChange(proposeStatus)
+ 		}
+ 	case msgbus.VerifyBlock:
++		end35c, err35c := c.drain35c.Begin()
++		if err35c != nil {
++			trace35c.Event("core_admission_rejected", map[string]interface{}{"topic": "verify"})
++			return
++		}
+ 		go func() {
++			defer end35c()
+ 			if block, ok := message.Payload.(*commonpb.Block); ok {
+ 				c.BlockVerifier.VerifyBlock(block, protocol.CONSENSUS_VERIFY) //nolint: errcheck
+ 			}
+ 		}()
+ 	case msgbus.CommitBlock:
++		end35c, err35c := c.drain35c.Begin()
++		if err35c != nil {
++			trace35c.Event("core_admission_rejected", map[string]interface{}{"topic": "commit"})
++			return
++		}
++		trace35c.Event("commit_received", nil)
+ 		go func() {
++			defer end35c()
++			trace35c.Event("commit_job_begin", nil)
++			defer trace35c.Event("commit_job_end", nil)
+ 			if block, ok := message.Payload.(*commonpb.Block); ok {
+ 				if err := c.BlockCommitter.AddBlock(block); err != nil {
+ 					c.log.Warnf("put block(%d,%x) error %s",
+@@ -199,6 +218,7 @@ func (c *CoreEngine) OnMessage(message *msgbus.Message) {
+ 
+ // Start, initialize core engine
+ func (c *CoreEngine) Start() {
++	trace35c.Start()
+ 	c.msgBus.Register(msgbus.ProposeState, c)
+ 	c.msgBus.Register(msgbus.VerifyBlock, c)
+ 	c.msgBus.Register(msgbus.CommitBlock, c)
+@@ -210,8 +230,18 @@ func (c *CoreEngine) Start() {
+ 
+ // Stop, stop core engine
+ func (c *CoreEngine) Stop() {
++	trace35c.Event("core_stop_begin", nil)
++	defer trace35c.Event("core_stop_end", nil)
+ 	defer c.log.Infof("core stopped.")
+ 	c.blockProposer.Stop() //nolint: errcheck
++	ctx35c, cancel35c := context.WithTimeout(context.Background(), 15*time.Second)
++	defer cancel35c()
++	trace35c.Event("core_drain_begin", map[string]interface{}{"active": c.drain35c.Count()})
++	if e35c := c.drain35c.Drain(ctx35c); e35c != nil {
++		trace35c.Event("core_drain_error", map[string]interface{}{"error": e35c.Error()})
++		panic(e35c)
++	}
++	trace35c.Event("core_drain_end", map[string]interface{}{"active": c.drain35c.Count()})
+ }
+ 
+ func (c *CoreEngine) GetBlockProposer() protocol.BlockProposer {
+diff --git a/module/rpcserver/rpc_server.go b/module/rpcserver/rpc_server.go
+index 9cb76cb..f239704 100644
+--- a/module/rpcserver/rpc_server.go
++++ b/module/rpcserver/rpc_server.go
+@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
+ package rpcserver
+ 
+ import (
++	trace35c "chainmaker.org/chainmaker/store/v2/step35c"
+ 	"context"
+ 	"encoding/hex"
+ 	"errors"
+@@ -291,9 +292,20 @@ func (s *RPCServer) RegisterHandler() error {
+ 
+ // Stop - stop RPCServer
+ func (s *RPCServer) Stop() {
++	trace35c.Event("rpc_stop_begin", nil)
++	defer trace35c.Event("rpc_stop_end", nil)
+ 	s.isShutdown = true
++	done35c := make(chan struct{})
++	go func() { s.grpcServer.GracefulStop(); close(done35c) }()
++	select {
++	case <-done35c:
++	case <-time.After(20 * time.Second):
++		trace35c.Event("rpc_drain_timeout", nil)
++		s.grpcServer.Stop()
++		panic("step35c RPC drain timeout: abort before DB close")
++	}
++	trace35c.Event("rpc_drain_end", nil)
+ 	s.cancel()
+-	s.grpcServer.Stop()
+ 	dispatcher.Stop()
+ 	s.log.Info("RPCServer is stopped!")
+ }

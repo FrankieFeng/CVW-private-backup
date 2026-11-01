@@ -1,0 +1,55 @@
+from pathlib import Path
+import subprocess,shutil
+R=Path('/home/frankie/mygitprojects');P=R/'.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain';N=R/'.worktrees/node-step35c';S=P/'source/store';D=S/'step35c'
+(P/'LEVELDB_WRITE_ANALYSIS.md').write_text('''# Phase1/3 measured evidence before fix\nCurrent storage mode0=CommonPutBlock; no quick-write queue is used.\nCore OnMessage(CommitBlock) starts AddBlock in an unjoined goroutine. AddBlock calls commonCommit.CommitBlock→store.PutBlock→CommonPutBlock→WriteKvDb (five parallel DB writes, local WaitGroup only). Core.Stop only signals proposer loop; it does not wait AddBlock. BlockStore.Close waits only its registered quick-consumer/background group, not CommonPutBlock calls. Original RPC.Stop cancels and force-closes accepted RPC handlers.\n\nObservation-only obs-idle passed. obs-held holds one existing DB write at a bounded rendezvous before native DB writes (no Sleep), then SIGTERM. Logs prove db_write_begin(height46)→core_stop_end→VM stop_finished→db_close_begin while hold still active→hold_exit→StateDB leveldb:closed (exit2). Historical35B had same parent WriteKvDb but HistoryDB child; exact historical block/task identity remains unavailable. This controlled trace confirms the close-vs-active-write gap without assuming a queue. No Selector code/native library was changed.\n\nAll failure logs retained; unfixed matrix expansion halted after protocol violation. Next minimal lifecycle fix and bounded regression, no formal E2E.\n''')
+# Gate tracks accepted top-level operations; Close never closes resources after timed-out drain.
+(D/'gate.go').write_text('''package step35c
+import("context";"errors";"sync")
+type Gate struct{mu sync.Mutex;closing bool;n int;idle chan struct{};done chan struct{}}
+func(g *Gate)Begin()(func(),error){g.mu.Lock();defer g.mu.Unlock();if g.closing{return nil,errors.New("lifecycle admission closed")};if g.n==0{g.idle=make(chan struct{})};g.n++;var once sync.Once;return func(){once.Do(func(){g.mu.Lock();defer g.mu.Unlock();g.n--;if g.n==0{close(g.idle)}})},nil}
+func(g *Gate)Drain(ctx context.Context)error{g.mu.Lock();g.closing=true;if g.n==0{g.mu.Unlock();return nil};idle:=g.idle;g.mu.Unlock();select{case<-idle:return nil;case<-ctx.Done():return ctx.Err()}}
+func(g *Gate)Count()int{g.mu.Lock();defer g.mu.Unlock();return g.n}
+''')
+f=S/'blockstore_impl.go';s=f.read_text().replace('import (','import (\n "context"',1)
+s=s.replace('type BlockStoreImpl struct {','type BlockStoreImpl struct {\n drain35c trace35c.Gate\n close35c sync.Mutex\n closed35c bool\n background35c sync.WaitGroup',1)
+s=s.replace('func (bs *BlockStoreImpl) PutBlock(block *commonPb.Block, txRWSets []*commonPb.TxRWSet) error {','''func (bs *BlockStoreImpl) PutBlock(block *commonPb.Block, txRWSets []*commonPb.TxRWSet) error {
+ end35c,e35c:=bs.drain35c.Begin();if e35c!=nil{return e35c};defer end35c()
+''')
+s=s.replace('func (bs *BlockStoreImpl) Close() error {','''func (bs *BlockStoreImpl) Close() error {
+ bs.close35c.Lock();defer bs.close35c.Unlock();if bs.closed35c{return nil}
+ trace35c.Event("ledger_drain_begin",map[string]interface{}{"active":bs.drain35c.Count()})
+ ctx35c,cancel35c:=context.WithTimeout(context.Background(),15*time.Second);defer cancel35c()
+ if err:=bs.drain35c.Drain(ctx35c);err!=nil{trace35c.Event("ledger_drain_error",map[string]interface{}{"error":err.Error()});return err}
+ bg35c:=make(chan struct{});go func(){bs.background35c.Wait();close(bg35c)}();select{case<-bg35c:case<-ctx35c.Done():return ctx35c.Err()}
+ trace35c.Event("ledger_drain_end",map[string]interface{}{"active":bs.drain35c.Count()});bs.closed35c=true
+''')
+s=s.replace('// 4.删除wal,每100个block删除一次\n\tgo func() {','// 4.删除wal,每100个block删除一次\n bs.background35c.Add(1)\n\tgo func() {\n defer bs.background35c.Done();trace35c.Event("wal_cleanup_begin",nil);defer trace35c.Event("wal_cleanup_end",nil)')
+f.write_text(s)
+# Register Core callbacks before spawning; don't wait while holding lifecycle mutex.
+f=N/'module/core/syncmode/core_syncmode_impl.go';s=f.read_text().replace('import (','import (\n "context"\n "time"',1).replace('type CoreEngine struct {','type CoreEngine struct {\n drain35c trace35c.Gate',1)
+s=s.replace('case msgbus.VerifyBlock:\n\t\tgo func() {','case msgbus.VerifyBlock:\n end35c,err35c:=c.drain35c.Begin();if err35c!=nil{trace35c.Event("core_admission_rejected",map[string]interface{}{"topic":"verify"});return}\n\t\tgo func() {\n defer end35c()')
+s=s.replace('case msgbus.CommitBlock:\n trace35c.Event("commit_received",nil)','case msgbus.CommitBlock:\n end35c,err35c:=c.drain35c.Begin();if err35c!=nil{trace35c.Event("core_admission_rejected",map[string]interface{}{"topic":"commit"});return}\n trace35c.Event("commit_received",nil)')
+s=s.replace('trace35c.Event("commit_job_begin",nil);defer trace35c.Event("commit_job_end",nil)','defer end35c();trace35c.Event("commit_job_begin",nil);defer trace35c.Event("commit_job_end",nil)')
+s=s.replace('c.blockProposer.Stop() //nolint: errcheck\n}', '''c.blockProposer.Stop() //nolint: errcheck
+ ctx35c,cancel35c:=context.WithTimeout(context.Background(),15*time.Second);defer cancel35c()
+ trace35c.Event("core_drain_begin",map[string]interface{}{"active":c.drain35c.Count()})
+ if e35c:=c.drain35c.Drain(ctx35c);e35c!=nil{trace35c.Event("core_drain_error",map[string]interface{}{"error":e35c.Error()});panic(e35c)}
+ trace35c.Event("core_drain_end",map[string]interface{}{"active":c.drain35c.Count()})
+}''')
+f.write_text(s)
+# RPC protocol: wait accepted sync handlers, bound error rather than pretending timeout is successful drain.
+f=N/'module/rpcserver/rpc_server.go';s=f.read_text().replace('''	s.isShutdown = true
+	s.cancel()
+	s.grpcServer.Stop()
+	dispatcher.Stop()''',''' s.isShutdown = true
+ done35c:=make(chan struct{});go func(){s.grpcServer.GracefulStop();close(done35c)}()
+ select{case <-done35c:case <-time.After(20*time.Second):trace35c.Event("rpc_drain_timeout",nil);s.grpcServer.Stop();panic("step35c RPC drain timeout: abort before DB close")}
+ trace35c.Event("rpc_drain_end",nil)
+ s.cancel()
+ dispatcher.Stop()''',1);f.write_text(s)
+# timeouts do not advance to DB close: Core.Stop has no error return; experimental panic is explicit fail-safe.
+for f in [D/'trace.go',D/'gate.go',S/'blockstore_impl.go',N/'module/core/syncmode/core_syncmode_impl.go',N/'module/blockchain/blockchain_stop.go',N/'module/rpcserver/rpc_server.go']:
+ subprocess.run(['/usr/local/go/bin/gofmt','-w',str(f)],check=True)
+(P/'audit/fix-node.diff').write_text(subprocess.check_output(['git','-C',str(N),'diff'],text=True))
+(P/'audit/fix-store.diff').write_text(subprocess.run(['diff','-u','/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go',str(S/'blockstore_impl.go')],capture_output=True,text=True).stdout)
+with(P/'PROGRESS.md').open('a')as f:f.write('\nPhase3 observation protocol violation reproduced (CommonWrite, held writer and Close overlap, exit2 StateDB). Unfixed expansion stopped. Phase4 minimal fix implemented: RPC GracefulStop20s fail-safe, Core commit/verify admission+15s drain, CommonPutBlock lease+15s close drain+WAL cleanup wait, idempotent ledgerClose. Quick-mode and multi-consensus remain outside this prototype gate; not modifying Selector or Gas. Next build fix and lifecycle unit tests before regression.\n')

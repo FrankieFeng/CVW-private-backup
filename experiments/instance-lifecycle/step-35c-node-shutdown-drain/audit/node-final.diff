@@ -1,0 +1,461 @@
+diff --git a/go.mod b/go.mod
+index b1fc63d..53e0fcb 100644
+--- a/go.mod
++++ b/go.mod
+@@ -302,7 +302,7 @@ replace (
+ 	chainmaker.org/chainmaker/consensus-tbft/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/consensus-tbft/v2@v2.4.0
+ 	chainmaker.org/chainmaker/protocol/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/protocol/v2@v2.4.0
+ 	chainmaker.org/chainmaker/utils/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/utils/v2@v2.4.0
+-	chainmaker.org/chainmaker/vm-wasmer/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/source/vm
++	chainmaker.org/chainmaker/vm-wasmer/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/vm
+ 	chainmaker.org/chainmaker/vm/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0
+ 	github.com/RedisBloom/redisbloom-go => chainmaker.org/third_party/redisbloom-go v1.0.0
+ 	github.com/btcsuite/btcd => chainmaker.org/third_party/btcd v1.0.0
+@@ -319,3 +319,5 @@ replace (
+ 	github.com/syndtr/goleveldb => chainmaker.org/third_party/goleveldb v1.1.0
+ 	github.com/tikv/client-go => chainmaker.org/third_party/tikv-client-go v1.0.0
+ )
++
++replace chainmaker.org/chainmaker/store/v2 => /home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/store
+diff --git a/module/blockchain/blockchain_stop.go b/module/blockchain/blockchain_stop.go
+index c5aaba6..b1ea2c9 100644
+--- a/module/blockchain/blockchain_stop.go
++++ b/module/blockchain/blockchain_stop.go
+@@ -7,6 +7,8 @@ SPDX-License-Identifier: Apache-2.0
+ 
+ package blockchain
+ 
++import trace35c "chainmaker.org/chainmaker/store/v2/step35c"
++
+ // Stop all the modules.
+ func (bc *Blockchain) Stop() {
+ 	// stop all module
+@@ -53,10 +55,13 @@ func (bc *Blockchain) Stop() {
+ 	for idx := total - 1; idx >= 0; idx-- {
+ 		stopModule := stopModules[idx]
+ 		for name, stopFunc := range stopModule {
++			trace35c.Event("module_stop_begin", map[string]interface{}{"module": name})
+ 			if err := stopFunc(); err != nil {
+ 				bc.log.Errorf("stop module[%s] failed, %s", name, err)
+-				continue
++				trace35c.Event("module_stop_error", map[string]interface{}{"module": name, "error": err.Error()})
++				panic(err)
+ 			}
++			trace35c.Event("module_stop_end", map[string]interface{}{"module": name})
+ 			bc.log.Infof("STOP STEP (%d/%d) => stop module[%s] success :)", total-idx, total, name)
+ 		}
+ 	}
+diff --git a/module/blockchain/chainmaker_server.go b/module/blockchain/chainmaker_server.go
+index 685738b..6617d80 100644
+--- a/module/blockchain/chainmaker_server.go
++++ b/module/blockchain/chainmaker_server.go
+@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
+ package blockchain
+ 
+ import (
++	trace35c "chainmaker.org/chainmaker/store/v2/step35c"
+ 	"errors"
+ 	"fmt"
+ 	"io/ioutil"
+@@ -505,6 +506,7 @@ func (server *ChainMakerServer) Stop() {
+ 		log.Errorf("stop net failed, %s", err.Error())
+ 	}
+ 	log.Info("net is stopped!")
++	trace35c.Stop()
+ 
+ }
+ 
+diff --git a/module/core/syncmode/core_syncmode_impl.go b/module/core/syncmode/core_syncmode_impl.go
+index 9f3b238..cc78aa6 100644
+--- a/module/core/syncmode/core_syncmode_impl.go
++++ b/module/core/syncmode/core_syncmode_impl.go
+@@ -8,8 +8,12 @@ SPDX-License-Identifier: Apache-2.0
+ package syncmode
+ 
+ import (
++	trace35c "chainmaker.org/chainmaker/store/v2/step35c"
++	"context"
+ 	"fmt"
+ 	"strings"
++	"sync"
++	"time"
+ 
+ 	"chainmaker.org/chainmaker-go/module/core/common"
+ 	"chainmaker.org/chainmaker-go/module/core/common/scheduler"
+@@ -29,6 +33,8 @@ import (
+ // One core engine for one chain.
+ // nolint: structcheck,unused
+ type CoreEngine struct {
++	stop35c   sync.Once
++	drain35c  trace35c.Gate
+ 	chainId   string             // chainId, identity of a chain
+ 	chainConf protocol.ChainConf // chain config
+ 
+@@ -167,13 +173,28 @@ func (c *CoreEngine) OnMessage(message *msgbus.Message) {
+ 			c.blockProposer.OnReceiveProposeStatusChange(proposeStatus)
+ 		}
+ 	case msgbus.VerifyBlock:
++		end35c, err35c := c.drain35c.Begin()
++		if err35c != nil {
++			trace35c.Event("core_admission_rejected", map[string]interface{}{"topic": "verify"})
++			return
++		}
+ 		go func() {
++			defer end35c()
+ 			if block, ok := message.Payload.(*commonpb.Block); ok {
+ 				c.BlockVerifier.VerifyBlock(block, protocol.CONSENSUS_VERIFY) //nolint: errcheck
+ 			}
+ 		}()
+ 	case msgbus.CommitBlock:
++		end35c, err35c := c.drain35c.Begin()
++		if err35c != nil {
++			trace35c.Event("core_admission_rejected", map[string]interface{}{"topic": "commit"})
++			return
++		}
++		trace35c.Event("commit_received", nil)
+ 		go func() {
++			defer end35c()
++			trace35c.Event("commit_job_begin", nil)
++			defer trace35c.Event("commit_job_end", nil)
+ 			if block, ok := message.Payload.(*commonpb.Block); ok {
+ 				if err := c.BlockCommitter.AddBlock(block); err != nil {
+ 					c.log.Warnf("put block(%d,%x) error %s",
+@@ -199,6 +220,7 @@ func (c *CoreEngine) OnMessage(message *msgbus.Message) {
+ 
+ // Start, initialize core engine
+ func (c *CoreEngine) Start() {
++	trace35c.Start()
+ 	c.msgBus.Register(msgbus.ProposeState, c)
+ 	c.msgBus.Register(msgbus.VerifyBlock, c)
+ 	c.msgBus.Register(msgbus.CommitBlock, c)
+@@ -209,9 +231,22 @@ func (c *CoreEngine) Start() {
+ }
+ 
+ // Stop, stop core engine
+-func (c *CoreEngine) Stop() {
++func (c *CoreEngine) Stop() { c.stop35c.Do(c.stopDrain35c) }
++func (c *CoreEngine) stopDrain35c() {
++	trace35c.Event("core_stop_begin", nil)
++	defer trace35c.Event("core_stop_end", nil)
+ 	defer c.log.Infof("core stopped.")
+-	c.blockProposer.Stop() //nolint: errcheck
++	if e35c := c.blockProposer.Stop(); e35c != nil {
++		panic(e35c)
++	}
++	ctx35c, cancel35c := context.WithTimeout(context.Background(), 15*time.Second)
++	defer cancel35c()
++	trace35c.Event("core_drain_begin", map[string]interface{}{"active": c.drain35c.Count()})
++	if e35c := c.drain35c.Drain(ctx35c); e35c != nil {
++		trace35c.Event("core_drain_error", map[string]interface{}{"error": e35c.Error()})
++		panic(e35c)
++	}
++	trace35c.Event("core_drain_end", map[string]interface{}{"active": c.drain35c.Count()})
+ }
+ 
+ func (c *CoreEngine) GetBlockProposer() protocol.BlockProposer {
+diff --git a/module/core/syncmode/proposer/block_proposer_impl.go b/module/core/syncmode/proposer/block_proposer_impl.go
+index f25ad52..b43b55b 100644
+--- a/module/core/syncmode/proposer/block_proposer_impl.go
++++ b/module/core/syncmode/proposer/block_proposer_impl.go
+@@ -8,6 +8,8 @@ package proposer
+ 
+ import (
+ 	"bytes"
++	trace35c "chainmaker.org/chainmaker/store/v2/step35c"
++	"context"
+ 	"errors"
+ 	"fmt"
+ 	"sync"
+@@ -38,7 +40,11 @@ import (
+ // BlockProposerImpl implements BlockProposer interface.
+ // In charge of propose a new block.
+ type BlockProposerImpl struct {
+-	chainId string // chain id, to identity this chain
++	stop35c     sync.Once
++	stopErr35c  error
++	workers35c  sync.WaitGroup
++	loopDone35c chan struct{}
++	chainId     string // chain id, to identity this chain
+ 
+ 	txPool          protocol.TxPool          // tx pool provides tx batch
+ 	txScheduler     protocol.TxScheduler     // scheduler orders tx batch into DAG form and returns a block
+@@ -106,6 +112,7 @@ func NewBlockProposer(config BlockProposerConfig, log protocol.Logger) (protocol
+ 		canProposeC:     make(chan bool),
+ 		txPoolSignalC:   make(chan *txpoolpb.TxPoolSignal),
+ 		exitC:           make(chan bool),
++		loopDone35c:     make(chan struct{}),
+ 		txPool:          config.TxPool,
+ 		snapshotManager: config.SnapshotManager,
+ 		txScheduler:     config.TxScheduler,
+@@ -182,19 +189,38 @@ func (bp *BlockProposerImpl) Start() error {
+ // Stop, stop proposing loop
+ func (bp *BlockProposerImpl) Stop() error {
+ 	defer bp.log.Infof("block proposer stopped")
+-	bp.exitC <- true
+-	return nil
++	bp.stop35c.Do(func() {
++		close(bp.exitC)
++		ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
++		defer cancel()
++		select {
++		case <-bp.loopDone35c:
++		case <-ctx.Done():
++			bp.stopErr35c = ctx.Err()
++			return
++		}
++		done := make(chan struct{})
++		go func() { bp.workers35c.Wait(); close(done) }()
++		select {
++		case <-done:
++			trace35c.Event("proposer_drained", nil)
++		case <-ctx.Done():
++			bp.stopErr35c = ctx.Err()
++		}
++	})
++	return bp.stopErr35c
+ }
+ 
+ // Start, start proposing loop
+ func (bp *BlockProposerImpl) startProposingLoop() {
++	defer close(bp.loopDone35c)
+ 	for {
+ 		select {
+ 		case <-bp.proposeTimer.C:
+ 			if !bp.isSelfProposer() {
+ 				break
+ 			}
+-			go bp.proposeBlock()
++			bp.run35c(bp.proposeBlock)
+ 
+ 		case signal := <-bp.txPoolSignalC:
+ 			if !bp.isSelfProposer() {
+@@ -203,7 +229,7 @@ func (bp *BlockProposerImpl) startProposingLoop() {
+ 			if signal.SignalType != txpoolpb.SignalType_BLOCK_PROPOSE {
+ 				break
+ 			}
+-			go bp.proposeBlock()
++			bp.run35c(bp.proposeBlock)
+ 
+ 		case <-bp.exitC:
+ 			bp.proposeTimer.Stop()
+@@ -265,7 +291,7 @@ func (bp *BlockProposerImpl) proposeBlock() {
+ 	}
+ 	defer bp.setIdle()
+ 
+-	go bp.proposing(proposingHeight, lastBlock.Header.BlockHash)
++	bp.run35c(func() { bp.proposing(proposingHeight, lastBlock.Header.BlockHash) })
+ 	// #DEBUG MODE#
+ 	if localconf.ChainMakerConfig.DebugConfig.IsHaltPropose {
+ 		go func() {
+@@ -401,7 +427,10 @@ func (bp *BlockProposerImpl) proposing(height uint64, preHash []byte) *commonpb.
+ 
+ // OnReceiveTxPoolSignal, receive txpool signal and deliver to chan txpool signal
+ func (bp *BlockProposerImpl) OnReceiveTxPoolSignal(txPoolSignal *txpoolpb.TxPoolSignal) {
+-	bp.txPoolSignalC <- txPoolSignal
++	select {
++	case bp.txPoolSignalC <- txPoolSignal:
++	case <-bp.exitC:
++	}
+ }
+ 
+ /*
+@@ -794,3 +823,8 @@ func (bp *BlockProposerImpl) dealProposalRequestWithProposalCache(
+ 
+ 	return true
+ }
++
++func (bp *BlockProposerImpl) run35c(f func()) {
++	bp.workers35c.Add(1)
++	go func() { defer bp.workers35c.Done(); f() }()
++}
+diff --git a/module/rpcserver/api_service.go b/module/rpcserver/api_service.go
+index ba616e4..e745d74 100644
+--- a/module/rpcserver/api_service.go
++++ b/module/rpcserver/api_service.go
+@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
+ package rpcserver
+ 
+ import (
++	trace35c "chainmaker.org/chainmaker/store/v2/step35c"
+ 	"context"
+ 	"encoding/hex"
+ 	"encoding/json"
+@@ -114,6 +115,10 @@ func NewApiService(ctx context.Context, chainMakerServer *blockchain.ChainMakerS
+ 
+ // SendRequest - deal received TxRequest
+ func (s *ApiService) SendRequest(ctx context.Context, req *commonPb.TxRequest) (*commonPb.TxResponse, error) {
++	if req != nil && req.Payload != nil {
++		trace35c.Event("rpc_tx_begin", map[string]interface{}{"tx_id": req.Payload.TxId, "method": "SendRequest"})
++		defer trace35c.Event("rpc_tx_end", map[string]interface{}{"tx_id": req.Payload.TxId, "method": "SendRequest"})
++	}
+ 	s.log.DebugDynamic(func() string {
+ 		return fmt.Sprintf("SendRequest[%s],payload:%#v,\n----signer:%v\n----endorsers:%+v",
+ 			req.Payload.TxId, req.Payload, req.Sender, req.Endorsers)
+@@ -140,6 +145,10 @@ func (s *ApiService) SendRequest(ctx context.Context, req *commonPb.TxRequest) (
+ 
+ // SendRequestSync - deal received TxRequest, sync tx result and send response
+ func (s *ApiService) SendRequestSync(ctx context.Context, req *commonPb.TxRequest) (*commonPb.TxResponse, error) {
++	if req != nil && req.Payload != nil {
++		trace35c.Event("rpc_tx_begin", map[string]interface{}{"tx_id": req.Payload.TxId, "method": "SendRequestSync"})
++		defer trace35c.Event("rpc_tx_end", map[string]interface{}{"tx_id": req.Payload.TxId, "method": "SendRequestSync"})
++	}
+ 	s.log.DebugDynamic(func() string {
+ 		return fmt.Sprintf("SendRequestSync[%s],payload:%#v,\n----signer:%v\n----endorsers:%+v",
+ 			req.Payload.TxId, req.Payload, req.Sender, req.Endorsers)
+diff --git a/module/rpcserver/middleware.go b/module/rpcserver/middleware.go
+index 5af8c77..bd71fd9 100644
+--- a/module/rpcserver/middleware.go
++++ b/module/rpcserver/middleware.go
+@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
+ package rpcserver
+ 
+ import (
++	trace35c "chainmaker.org/chainmaker/store/v2/step35c"
+ 	"context"
+ 	"fmt"
+ 	"math"
+@@ -232,20 +233,35 @@ func splitMethodName(fullMethodName string) (string, string) {
+ 	return UNKNOWN, UNKNOWN
+ }
+ 
+-func GrpcHandlerFunc(grpcServer *grpc.Server, otherHandler http.Handler) http.Handler {
++func GrpcHandlerFunc(grpcServer *grpc.Server, otherHandler http.Handler, gates ...*trace35c.Gate) http.Handler {
++	serve35c := func(w http.ResponseWriter, r *http.Request) {
++		if len(gates) > 0 && gates[0] != nil {
++			end, e := gates[0].Begin()
++			if e != nil {
++				trace35c.Event("rpc_admission_rejected", map[string]interface{}{"method": r.URL.Path})
++				http.Error(w, "node stopping", http.StatusServiceUnavailable)
++				return
++			}
++			defer end()
++		}
++		trace35c.Event("rpc_request_begin", map[string]interface{}{"method": r.URL.Path})
++		defer trace35c.Event("rpc_request_end", map[string]interface{}{"method": r.URL.Path})
++		grpcServer.ServeHTTP(w, r)
++	}
++
+ 	var http2Server = &http2.Server{
+ 		MaxConcurrentStreams: math.MaxUint32,
+ 	}
+ 
+ 	if otherHandler == nil {
+ 		return h2c.NewHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+-			grpcServer.ServeHTTP(w, r)
++			serve35c(w, r)
+ 		}), http2Server)
+ 	}
+ 
+ 	return h2c.NewHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+ 		if r.ProtoMajor == 2 && strings.Contains(r.Header.Get("Content-Type"), "application/grpc") {
+-			grpcServer.ServeHTTP(w, r)
++			serve35c(w, r)
+ 		} else {
+ 			otherHandler.ServeHTTP(w, r)
+ 		}
+diff --git a/module/rpcserver/rpc_server.go b/module/rpcserver/rpc_server.go
+index 9cb76cb..e93bbe2 100644
+--- a/module/rpcserver/rpc_server.go
++++ b/module/rpcserver/rpc_server.go
+@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
+ package rpcserver
+ 
+ import (
++	trace35c "chainmaker.org/chainmaker/store/v2/step35c"
+ 	"context"
+ 	"encoding/hex"
+ 	"errors"
+@@ -18,6 +19,7 @@ import (
+ 	"os"
+ 	"sort"
+ 	"strings"
++	"sync"
+ 	"time"
+ 
+ 	"chainmaker.org/chainmaker-go/module/blockchain"
+@@ -40,6 +42,8 @@ import (
+ 
+ // RPCServer struct define
+ type RPCServer struct {
++	requests35c                *trace35c.Gate
++	stop35c                    sync.Once
+ 	grpcServer                 *grpc.Server
+ 	chainMakerServer           *blockchain.ChainMakerServer
+ 	log                        *logger.CMLogger
+@@ -76,7 +80,8 @@ func NewRPCServer(chainMakerServer *blockchain.ChainMakerServer) (*RPCServer, er
+ 		return nil, fmt.Errorf("new grpc server failed, %s", err.Error())
+ 	}
+ 
+-	mixServer, err := newMixServer(grpcServer, chainMakerServer)
++	gate35c := new(trace35c.Gate)
++	mixServer, err := newMixServer(grpcServer, chainMakerServer, gate35c)
+ 	if err != nil {
+ 		return nil, fmt.Errorf("new http grpc server failed, %s", err.Error())
+ 	}
+@@ -98,6 +103,7 @@ func NewRPCServer(chainMakerServer *blockchain.ChainMakerServer) (*RPCServer, er
+ 	}
+ 
+ 	return &RPCServer{
++		requests35c:      gate35c,
+ 		grpcServer:       grpcServer,
+ 		mixServer:        mixServer,
+ 		chainMakerServer: chainMakerServer,
+@@ -290,10 +296,28 @@ func (s *RPCServer) RegisterHandler() error {
+ }
+ 
+ // Stop - stop RPCServer
+-func (s *RPCServer) Stop() {
++func (s *RPCServer) Stop() { s.stop35c.Do(s.stopDrain35c) }
++func (s *RPCServer) stopDrain35c() {
++	trace35c.Event("rpc_stop_begin", nil)
++	defer trace35c.Event("rpc_stop_end", nil)
+ 	s.isShutdown = true
+-	s.cancel()
++	ctx35c, cancel35c := context.WithTimeout(context.Background(), 20*time.Second)
++	defer cancel35c()
++	if s.requests35c != nil {
++		trace35c.Event("rpc_drain_begin", map[string]interface{}{"active": s.requests35c.Count()})
++		if e := s.requests35c.Drain(ctx35c); e != nil {
++			trace35c.Event("rpc_drain_timeout", map[string]interface{}{"error": e.Error()})
++			panic("step35c RPC drain timeout: abort before DB close")
++		}
++	}
++	if s.mixServer != nil {
++		if e := s.mixServer.Shutdown(ctx35c); e != nil {
++			panic(e)
++		}
++	}
+ 	s.grpcServer.Stop()
++	trace35c.Event("rpc_drain_end", nil)
++	s.cancel()
+ 	dispatcher.Stop()
+ 	s.log.Info("RPCServer is stopped!")
+ }
+@@ -317,7 +341,8 @@ func (s *RPCServer) Restart(reason string) error {
+ 		return errors.New(errMsg)
+ 	}
+ 
+-	s.mixServer, err = newMixServer(s.grpcServer, s.chainMakerServer)
++	s.requests35c = new(trace35c.Gate)
++	s.mixServer, err = newMixServer(s.grpcServer, s.chainMakerServer, s.requests35c)
+ 	if err != nil {
+ 		errMsg := fmt.Sprintf("new http grpc server failed, %s", err.Error())
+ 		s.log.Errorf(errMsg)
+@@ -552,7 +577,7 @@ func newGrpc(chainMakerServer *blockchain.ChainMakerServer) (*grpc.Server, error
+ 	return server, nil
+ }
+ 
+-func newMixServer(grpcServer *grpc.Server, chainMakerServer *blockchain.ChainMakerServer) (*http.Server, error) {
++func newMixServer(grpcServer *grpc.Server, chainMakerServer *blockchain.ChainMakerServer, gates ...*trace35c.Gate) (*http.Server, error) {
+ 
+ 	var (
+ 		mux        *http.ServeMux
+@@ -570,7 +595,7 @@ func newMixServer(grpcServer *grpc.Server, chainMakerServer *blockchain.ChainMak
+ 		mux.Handle("/", gwmux)
+ 	}
+ 
+-	handler := GrpcHandlerFunc(grpcServer, mux)
++	handler := GrpcHandlerFunc(grpcServer, mux, gates...)
+ 
+ 	if localconf.ChainMakerConfig.RpcConfig.GatewayConfig.Enabled {
+ 		httpServer = &http.Server{

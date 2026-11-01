@@ -1,0 +1,17 @@
+using crypto CryptoEngine = tjfoc
+using crypto CryptoEngine = tjfoc
+STEP35 {"contract":"exchange","depth":0,"event":"invoke_begin","go_heap":521038192,"go_heap_released":6881280,"go_heap_sys":762281984,"go_num_gc":8,"instance_id":1,"instances_closed":0,"instances_created":0,"managed_pending":0,"method":"buyNow","stores_closed":0,"stores_created":0,"tx_id":"18e3f7d63f5cab98cabda5fa7c135be67980688d628747e4be1b811438f6fb35","wall_ns":1793549576220338677}
+STEP35C {"contract":"exchange","depth":0,"event":"vm_invoke_begin","go_heap":521038192,"go_heap_released":6881280,"go_heap_sys":762281984,"go_num_gc":8,"instance_id":1,"instances_closed":0,"instances_created":0,"managed_pending":0,"method":"buyNow","mono_ns":71488710591413,"seq":1,"stores_closed":0,"stores_created":0,"tx_id":"18e3f7d63f5cab98cabda5fa7c135be67980688d628747e4be1b811438f6fb35","wall_ns":1793549576220472882}
+opmap length 216 
+STEP35C {"event":"rpc_stop_begin","mono_ns":71488714949953,"seq":2,"wall_ns":1793549576224831339}
+panic: Drain() is not implemented
+
+goroutine 249 [running]:
+google.golang.org/grpc/internal/transport.(*serverHandlerTransport).Drain(0x0?)
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/internal/transport/handler_server.go:439 +0x25
+google.golang.org/grpc.(*Server).GracefulStop(0xc00e4c9340)
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/server.go:1765 +0x3e2
+chainmaker.org/chainmaker-go/module/rpcserver.(*RPCServer).stopDrain35c.func1()
+	/home/frankie/mygitprojects/.worktrees/node-step35c/module/rpcserver/rpc_server.go:302 +0x25
+created by chainmaker.org/chainmaker-go/module/rpcserver.(*RPCServer).stopDrain35c in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step35c/module/rpcserver/rpc_server.go:302 +0xce

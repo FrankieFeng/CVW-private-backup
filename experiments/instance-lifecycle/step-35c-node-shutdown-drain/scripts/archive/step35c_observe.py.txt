@@ -1,0 +1,56 @@
+from pathlib import Path
+import shutil,subprocess
+R=Path('/home/frankie/mygitprojects');P=R/'.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain';N=R/'.worktrees/node-step35c';old=R/'.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread'
+S=P/'source/store'
+if not S.exists():shutil.copytree('/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0',S)
+S.chmod(S.stat().st_mode|0o700)
+for f in S.rglob('*'):
+ f.chmod(f.stat().st_mode|0o200|(0o100 if f.is_dir() else 0))
+D=S/'step35c';D.mkdir()
+(D/'trace.go').write_text('''package step35c
+import("encoding/json";"fmt";"os";"sync";"sync/atomic";"time";"net";"net/http";"golang.org/x/sys/unix")
+var seq uint64
+var once sync.Once
+var mu sync.Mutex
+var phase string
+var release chan struct{}
+var used bool
+func Mono()int64{var t unix.Timespec;unix.ClockGettime(unix.CLOCK_MONOTONIC,&t);return t.Nano()}
+func Event(event string,x map[string]interface{}){if os.Getenv("CM35C_TRACE")!="1"{return};if x==nil{x=map[string]interface{}{}};x["event"]=event;x["mono_ns"]=Mono();x["wall_ns"]=time.Now().UnixNano();x["seq"]=atomic.AddUint64(&seq,1);b,_:=json.Marshal(x);fmt.Printf("STEP35C %s\\n",b)}
+func Start(){once.Do(func(){p:=os.Getenv("CM35C_SOCKET");if p==""{return};ln,e:=net.Listen("unix",p);if e!=nil{panic(e)};os.Chmod(p,0600);mux:=http.NewServeMux();mux.HandleFunc("/state",func(w http.ResponseWriter,r *http.Request){mu.Lock();defer mu.Unlock();json.NewEncoder(w).Encode(map[string]interface{}{"phase":phase,"used":used})});mux.HandleFunc("/release",func(w http.ResponseWriter,r *http.Request){mu.Lock();defer mu.Unlock();if release!=nil{close(release);release=nil};json.NewEncoder(w).Encode(map[string]bool{"released":true})});go func(){http.Serve(ln,mux)}()})}
+func Hold(p string){Start();if os.Getenv("CM35C_HOLD")!=p{return};mu.Lock();if used{mu.Unlock();return};used=true;phase=p;c:=make(chan struct{});release=c;mu.Unlock();Event("hold_enter",map[string]interface{}{"phase":p});select{case <-c:case <-time.After(12*time.Second):Event("hold_timeout",nil);panic("step35c diagnostic hold timeout")};Event("hold_exit",map[string]interface{}{"phase":p})}
+''')
+f=S/'blockstore_impl.go';s=f.read_text().replace('import (','import (\n trace35c "chainmaker.org/chainmaker/store/v2/step35c"',1)
+s=s.replace('func (bs *BlockStoreImpl) PutBlock(block *commonPb.Block, txRWSets []*commonPb.TxRWSet) error {','''func (bs *BlockStoreImpl) PutBlock(block *commonPb.Block, txRWSets []*commonPb.TxRWSet) error {
+ trace35c.Event("put_begin",map[string]interface{}{"height":block.Header.BlockHeight,"txs":block.Header.TxCount,"mode":bs.storeConfig.WriteBlockType});defer trace35c.Event("put_end",map[string]interface{}{"height":block.Header.BlockHeight})
+''')
+s=s.replace('errsChan chan error) error {\n\n\twg := sync.WaitGroup{}','''errsChan chan error) error {
+ trace35c.Event("db_write_begin",map[string]interface{}{"height":blockWithSerializedInfo.Block.Header.BlockHeight});defer trace35c.Event("db_write_end",map[string]interface{}{"height":blockWithSerializedInfo.Block.Header.BlockHeight});trace35c.Hold("db_write")
+ wg := sync.WaitGroup{}''',1)
+s=s.replace('func (bs *BlockStoreImpl) Close() error {','''func (bs *BlockStoreImpl) Close() error {
+ trace35c.Event("db_close_begin",nil);defer trace35c.Event("db_close_end",nil)
+''')
+s=s.replace('bs.writeBatchChan <- wBatch','trace35c.Event("ledger_queue_send",map[string]interface{}{"height":block.Header.BlockHeight});bs.writeBatchChan <- wBatch')
+s=s.replace('case wBatch := <-bs.writeBatchChan:\n','case wBatch := <-bs.writeBatchChan:\n trace35c.Event("ledger_queue_receive",map[string]interface{}{"height":wBatch.blockWithSerializedInfo.Block.Header.BlockHeight})\n')
+f.write_text(s)
+f=N/'go.mod';f.write_text(f.read_text()+'\nreplace chainmaker.org/chainmaker/store/v2 => '+str(S)+'\n')
+f=P/'source/vm/go.mod';f.write_text(f.read_text()+'\nreplace chainmaker.org/chainmaker/store/v2 => '+str(S)+'\n')
+f=N/'module/core/syncmode/core_syncmode_impl.go';s=f.read_text().replace('import (','import (\n trace35c "chainmaker.org/chainmaker/store/v2/step35c"',1)
+s=s.replace('func (c *CoreEngine) Start() {','func (c *CoreEngine) Start() {\n trace35c.Start()')
+s=s.replace('func (c *CoreEngine) Stop() {','func (c *CoreEngine) Stop() {\n trace35c.Event("core_stop_begin",nil);defer trace35c.Event("core_stop_end",nil)')
+s=s.replace('case msgbus.CommitBlock:\n\t\tgo func() {','case msgbus.CommitBlock:\n trace35c.Event("commit_received",nil)\n\t\tgo func() {\n trace35c.Event("commit_job_begin",nil);defer trace35c.Event("commit_job_end",nil)')
+f.write_text(s)
+f=N/'module/blockchain/blockchain_stop.go';s=f.read_text().replace('package blockchain','package blockchain\nimport trace35c "chainmaker.org/chainmaker/store/v2/step35c"',1);s=s.replace('if err := stopFunc(); err != nil {','trace35c.Event("module_stop_begin",map[string]interface{}{"module":name})\n if err := stopFunc(); err != nil {',1);s=s.replace('bc.log.Infof("STOP STEP','trace35c.Event("module_stop_end",map[string]interface{}{"module":name})\n bc.log.Infof("STOP STEP',1);f.write_text(s)
+f=N/'module/rpcserver/rpc_server.go';s=f.read_text().replace('import (','import (\n trace35c "chainmaker.org/chainmaker/store/v2/step35c"',1).replace('func (s *RPCServer) Stop() {','func (s *RPCServer) Stop() {\n trace35c.Event("rpc_stop_begin",nil);defer trace35c.Event("rpc_stop_end",nil)');f.write_text(s)
+for name in ['build_go.py','node_smoke.py','diagnose.py']:
+ s=(old/'scripts'/name).read_text().replace('node-step35b','node-step35c').replace('step35b-','step35c-').replace('STEP35B_VARIANT','STEP35C_VARIANT')
+ if name=='node_smoke.py':
+  s=s.replace("LIB=P/'libraries'/os.environ['STEP35C_VARIANT']","LIB=Path('/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/libraries/patched')")
+  s=s.replace("'node'","os.environ.get('CM35C_BINARY','observe')") if False else s
+  s=s.replace("os.environ.get('STEP35_NODE_BINARY','node')","os.environ.get('STEP35_NODE_BINARY','observe')")
+  s=s.replace("'CM_STEP35A_CONTROL':str(H/'manager.sock')","'CM_STEP35A_CONTROL':str(H/'manager.sock'),'CM35C_TRACE':'1','CM35C_SOCKET':str(H/'drain.sock'),'CM35C_HOLD':os.environ.get('CM35C_HOLD','')")
+ (P/'scripts'/name).write_text(s)
+# Retain exact source snapshot/diff for observation-only binary before lifecycle edits.
+subprocess.run(['gofmt','-w',str(D/'trace.go'),str(S/'blockstore_impl.go'),str(N/'module/core/syncmode/core_syncmode_impl.go'),str(N/'module/blockchain/blockchain_stop.go'),str(N/'module/rpcserver/rpc_server.go')],check=True)
+(P/'audit/observe-node.diff').write_text(subprocess.check_output(['git','-C',str(N),'diff'],text=True))
+(P/'audit/observe-store.diff').write_text(subprocess.run(['diff','-u','/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/blockstore_impl.go',str(S/'blockstore_impl.go')],capture_output=True,text=True).stdout)

@@ -1,0 +1,78 @@
+--- /home/frankie/go/pkg/mod/chainmaker.org/chainmaker/store/v2@v2.4.0/archive/manager.go	2026-09-08 09:51:27.207765397 +0800
++++ /home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/store/archive/manager.go	2026-11-02 00:35:50.000201035 +0800
+@@ -10,6 +10,8 @@
+ 
+ import (
+ 	"bytes"
++	trace35c "chainmaker.org/chainmaker/store/v2/step35c"
++	"context"
+ 	"encoding/hex"
+ 	"encoding/json"
+ 	"errors"
+@@ -59,6 +61,8 @@
+ //
+ //	@Description:
+ type ArchiveMgr struct {
++	workers35c  sync.WaitGroup
++	stopOnce35c sync.Once
+ 	sync.RWMutex
+ 	archivedPivot         uint64
+ 	unarchivedBlockHeight uint64
+@@ -138,7 +142,8 @@
+ 			return nil, err
+ 		}
+ 
+-		go archiveMgr.moveFDBFiles()
++		archiveMgr.workers35c.Add(1)
++		go func() { defer archiveMgr.workers35c.Done(); archiveMgr.moveFDBFiles() }()
+ 	}
+ 
+ 	unarchiveBlockHeight := uint64(0)
+@@ -502,7 +507,13 @@
+ 			if err = mgr.doRestore(); err != nil {
+ 				mgr.logger.Warnf("do restore failed, err: %v", err)
+ 			}
+-			time.Sleep(interval)
++			timer35c := time.NewTimer(interval)
++			select {
++			case <-timer35c.C:
++			case <-mgr.stopCh:
++				timer35c.Stop()
++				return
++			}
+ 		}
+ 	}
+ }
+@@ -570,7 +581,9 @@
+ 	}
+ 
+ 	if len(bNums) > 0 {
++		mgr.workers35c.Add(1)
+ 		go func() {
++			defer mgr.workers35c.Done()
+ 			_ = mgr.blockDB.CompactRange()
+ 			_, _ = mgr.GetArchivedPivot()
+ 		}()
+@@ -1419,8 +1432,20 @@
+ // @receiver mgr
+ // @return error
+ func (mgr *ArchiveMgr) Close() error {
+-	if mgr.stopCh != nil {
+-		close(mgr.stopCh)
++	mgr.stopOnce35c.Do(func() {
++		if mgr.stopCh != nil {
++			close(mgr.stopCh)
++		}
++	})
++	ctx35c, cancel35c := context.WithTimeout(context.Background(), 15*time.Second)
++	defer cancel35c()
++	done35c := make(chan struct{})
++	go func() { mgr.workers35c.Wait(); close(done35c) }()
++	select {
++	case <-done35c:
++		trace35c.Event("archive_workers_drained", nil)
++	case <-ctx35c.Done():
++		return ctx35c.Err()
+ 	}
+ 	if mgr.fileRestore != nil {
+ 		return mgr.fileRestore.Close()
