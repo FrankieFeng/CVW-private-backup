@@ -3,6 +3,7 @@ import subprocess,json,os,time,socket,threading,signal,hashlib,select,sys
 P=Path(__file__).resolve().parents[1];R=Path('/home/frankie/mygitprojects');H=Path(os.environ.get('STEP35_HOME','/tmp/cvw-step35-isolated'));LIB=P/'libraries'/os.environ['STEP35B_VARIANT'];GUARD_R=1536*1024;GUARD_T=220
 class Node:
  def __init__(self,label,copy=0):
+  assert not (P/'STOP.json').exists(), 'Retained Step35B stop: audit ledger shutdown before any new node run'
   self.label=label;self.unit='step35b-node-'+label;self.log=P/'raw_logs'/f'{label}-node.log';assert not self.log.exists();self.stopmon=threading.Event();self.reason='';self.peakR=self.peakT=0;self.pid=0;self.pids=set();self.cgroup=''
   native=LIB/'libwasmer.so';assert native.exists(); native_sha=hashlib.sha256(native.read_bytes()).hexdigest()
   env={'CM_SAFE_FRESH_NODE':'1','CM_SAFE_FRESH_CONFIG':'native6.0.1/'+native_sha+'/compiler-locked/gas-step34/maxpages512/v35b','CM_STATIC_MEMORY_COPY':str(copy),'CM_REUSE_EXPERIMENT':'R1','CM_STEP21A_POOL':'capacity','CM_STEP21A_STORE_GUARD':'1','CM_STEP21_OBSERVE':'1','LD_LIBRARY_PATH':str(LIB),'GOMAXPROCS':'2','GOGC':'100','CM_STEP35A_CONTROL':str(H/'manager.sock')}
