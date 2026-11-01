@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--wait",
+    "--pipe",
+    "--collect",
+    "--unit=step35b-patched-single",
+    "-p",
+    "MemoryMax=512M",
+    "-p",
+    "TasksMax=220",
+    "-p",
+    "RuntimeMaxSec=20s",
+    "--setenv=LD_LIBRARY_PATH=/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/libraries/patched",
+    "--setenv=LD_PRELOAD=/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/binaries/pthread_trace_wake.so",
+    "--setenv=STEP35B_TRACE=/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/raw_logs/patched-single-pthread.log",
+    "/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/binaries/patched-single",
+    "1"
+  ],
+  "lib": "/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/libraries/patched/libwasmer.so",
+  "sha": "56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc",
+  "binary_sha": "673206131da0ec2933e8738263e336a195b6d69a167d3d3fdc3a127268663c0c"
+}

@@ -1,0 +1,4 @@
+package wasmer
+import("context";"errors";"testing";"time";w "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go")
+func TestStep34Poison(t *testing.T){ctx,c:=context.WithTimeout(context.Background(),5*time.Second);defer c();o,e:=NewSafeFreshOwner(4,nil);if e!=nil{t.Fatal(e)};e=o.Do(ctx,func()error{s:=w.ManagedOpen("rollback");defer s.Close();st:=w.NewStore(w.NewEngine());st.Close();st.Close();return nil});if e!=nil{t.Fatal(e)}
+ if o.Reset(ctx,func()error{return errors.New("Go injected reset failure after resource cleanup")})==nil{t.Fatal("reset error lost")};called:=false;if o.Do(ctx,func()error{called=true;return nil})==nil||called{t.Fatal("poisoned owner accepted new work")};if e=o.Stop(ctx);e!=nil{t.Fatal(e)};if e=o.Stop(ctx);e!=nil{t.Fatal(e)};s34Emit("poison_reset",map[string]interface{}{"reject_after_reset_failure":true,"stop_completed":true})}

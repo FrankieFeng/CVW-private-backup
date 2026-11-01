@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--wait",
+    "--pipe",
+    "--collect",
+    "--unit=step35b-rebuilt-baseline-single",
+    "-p",
+    "MemoryMax=512M",
+    "-p",
+    "TasksMax=220",
+    "-p",
+    "RuntimeMaxSec=20s",
+    "--setenv=LD_LIBRARY_PATH=/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/libraries/baseline",
+    "--setenv=LD_PRELOAD=/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/binaries/pthread_trace_wake.so",
+    "--setenv=STEP35B_TRACE=/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/raw_logs/rebuilt-baseline-single-pthread.log",
+    "/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/binaries/rebuilt-baseline-single",
+    "1"
+  ],
+  "lib": "/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/libraries/baseline/libwasmer.so",
+  "sha": "75dea41cd2d9b7d83a77b54c21fcda756b187305a1a967e5877a0ce370cab07b",
+  "binary_sha": "260d01a3a67dc1d780d9645ac64407c5b1f38c9b739ab87acfb24b49bcf3add2"
+}

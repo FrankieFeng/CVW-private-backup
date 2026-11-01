@@ -1,0 +1,73 @@
+   Compiling virtual-mio v0.600.1 (/home/frankie/mygitprojects/.worktrees/native-step35b/lib/virtual-io)
+   Compiling virtual-net v0.600.1 (/home/frankie/mygitprojects/.worktrees/native-step35b/lib/virtual-net)
+   Compiling wasmer-journal v0.600.1 (/home/frankie/mygitprojects/.worktrees/native-step35b/lib/journal)
+   Compiling wasmer-wasix v0.600.1 (/home/frankie/mygitprojects/.worktrees/native-step35b/lib/wasix)
+warning: unused import: `std::collections::HashSet`
+  --> lib/middlewares/src/metering.rs:11:5
+   |
+11 | use std::collections::HashSet;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `FunctionIndex`
+  --> lib/middlewares/src/metering.rs:22:44
+   |
+22 | use wasmer_types::{GlobalIndex, ModuleInfo,FunctionIndex};
+   |                                            ^^^^^^^^^^^^^
+
+warning: unused import: `std::ffi::CStr`
+   --> lib/middlewares/src/metering.rs:243:5
+    |
+243 | use std::ffi::CStr;
+    |     ^^^^^^^^^^^^^^
+
+warning: unused variable: `info`
+   --> lib/middlewares/src/metering.rs:335:13
+    |
+335 |         let info = if skip {
+    |             ^^^^ help: if this is intentional, prefix it with an underscore: `_info`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `name`
+   --> lib/middlewares/src/metering.rs:400:14
+    |
+400 |         for (name, export) in module_info.exports.iter() {
+    |              ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+
+warning: field `cost_function` is never read
+  --> lib/middlewares/src/metering.rs:93:5
+   |
+88 | pub struct Metering<F: Fn(&Operator) -> u64 + Send + Sync> {
+   |            -------- field in this struct
+...
+93 |     cost_function: Arc<F>,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: field `fn_cost_function` is never read
+   --> lib/middlewares/src/metering.rs:114:5
+    |
+109 | pub struct FunctionMetering<F: Fn(&Operator) -> u64 + Send + Sync> {
+    |            ---------------- field in this struct
+...
+114 |     fn_cost_function: Arc<dyn Fn(*const c_char) -> u64 + Send + Sync>,
+    |     ^^^^^^^^^^^^^^^^
+
+warning: function `strip_last_suffix` is never used
+   --> lib/middlewares/src/metering.rs:195:4
+    |
+195 | fn strip_last_suffix(name: &str) -> &str {
+    |    ^^^^^^^^^^^^^^^^^
+
+warning: function `black_list` is never used
+   --> lib/middlewares/src/metering.rs:213:4
+    |
+213 | fn black_list(name: &str) -> bool {
+    |    ^^^^^^^^^^
+
+warning: `wasmer-middlewares` (lib) generated 9 warnings (run `cargo fix --lib -p wasmer-middlewares` to apply 3 suggestions)
+   Compiling wasmer-c-api v6.0.1 (/home/frankie/mygitprojects/.worktrees/native-step35b/lib/c-api)
+    Finished `release` profile [optimized] target(s) in 2m 12s

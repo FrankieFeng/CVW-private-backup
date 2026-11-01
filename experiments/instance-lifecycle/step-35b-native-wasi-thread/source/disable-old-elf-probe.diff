@@ -1,0 +1,36 @@
+--- .worktrees/cvw-step35a/experiments/instance-lifecycle/step-35a-resource-reset-validation/source/vm/wasmer-go/store.go	2026-11-01 12:00:24.540177141 +0800
++++ .worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/source/vm/wasmer-go/store.go	2026-10-31 01:21:39.411661777 +0800
+@@ -63,7 +63,6 @@
+ 	if !managedSetFinalizer(self, nil) {
+ 		return
+ 	}
+-	diagnostic35aStoreDelete(self._inner)
+ 	C.wasm_store_delete(self._inner)
+ 	self._inner = nil
+ 	ManagedStoresClosed++
+
+--- .worktrees/cvw-step35a/experiments/instance-lifecycle/step-35a-resource-reset-validation/source/vm/wasmer-go/step35a_resources.go	2026-11-01 12:00:24.540177141 +0800
++++ .worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/source/vm/wasmer-go/step35a_resources.go	2026-11-01 17:29:09.418127050 +0800
+@@ -9,22 +9,10 @@
+ static size_t step35a_rc_before_delete(void *store) { return **(size_t **)store; }
+ */
+ import "C"
+-import "unsafe"
+ 
+ var ManagedStoreLastStrong, ManagedStoreSharedStrong uint64
+ var ManagedStoreStrongHistogram = map[uint64]uint64{}
+ 
+-func diagnostic35aStoreDelete(store *C.wasm_store_t) {
+-	ManagedAssert()
+-	n := uint64(C.step35a_rc_before_delete(unsafe.Pointer(store)))
+-	ManagedStoreStrongHistogram[n]++
+-	if n == 1 {
+-		ManagedStoreLastStrong++
+-	} else {
+-		ManagedStoreSharedStrong++
+-	}
+-}
+-
+ var ManagedWasiCreated, ManagedWasiClosed, ManagedImportContainersCreated, ManagedImportContainersClosed uint64
+ 
+ func Diagnostic35aNative() map[string]interface{} {

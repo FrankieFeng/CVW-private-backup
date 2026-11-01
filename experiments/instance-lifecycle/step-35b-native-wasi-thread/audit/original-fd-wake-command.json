@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--wait",
+    "--pipe",
+    "--collect",
+    "--unit=step35b-original-fd-wake",
+    "-p",
+    "MemoryMax=512M",
+    "-p",
+    "TasksMax=220",
+    "-p",
+    "RuntimeMaxSec=20s",
+    "--setenv=LD_LIBRARY_PATH=/home/frankie/mygitprojects/CVW/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/wasmer-go/packaged/lib/linux-amd64",
+    "--setenv=LD_PRELOAD=/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/binaries/pthread_trace_wake.so",
+    "--setenv=STEP35B_TRACE=/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/raw_logs/original-fd-wake-pthread.log",
+    "/home/frankie/mygitprojects/.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/binaries/original-fd-wake",
+    "1"
+  ],
+  "lib": "/home/frankie/mygitprojects/CVW/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/wasmer-go/packaged/lib/linux-amd64/libwasmer.so",
+  "sha": "dcdfa7164c58856f6e0c01597fd52c9a4c5f7da772751e3a874f7333612c3db9",
+  "binary_sha": "125e607b1e3c90f3e1f25e5882c6ead89cde1203193a9afe5b4149f98dc0621d"
+}
