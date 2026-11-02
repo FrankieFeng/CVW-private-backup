@@ -633,3 +633,6 @@ clock-B-control PASS; raw log/outcome/command retained.
 下一步仅做交付校验和独立分支提交，不推送。无待补跑任务，不自动运行节点/E2E或Step39。
 
 复算命令：python3 scripts/analyze.py → python3 scripts/supplement.py → python3 scripts/report.py → python3 scripts/validate.py。不得为复算启动experiment.py；正式数据已完成。
+
+## 收尾完成
+数据和源码已在独立分支提交fac5a56b。所有测试已退出，节点/原Native代码无修改，未推送。全部交付已完成，将镜像新Step38目录供IDE读取；仅保留复算命令，无新增实验待运行。
