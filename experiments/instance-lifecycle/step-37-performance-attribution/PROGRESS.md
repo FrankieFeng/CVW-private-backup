@@ -23,3 +23,6 @@
 - 剩余仅提交独立分析分支和镜像新目录供IDE阅读，不推送。
 - 下一条可执行命令（仅复算）：python3 scripts/analyze.py && python3 scripts/layout.py && python3 scripts/verify_records.py && python3 scripts/report.py && python3 scripts/supplement.py && python3 scripts/validate.py
 - 没有待执行性能实验；本轮结束，不自动启动Step38/39。
+
+## 收尾已完成
+数据/源码分析提交c52e90bd，独立分支已提交且未推送；新Step37目录已镜像到CVW供IDE阅读。全部要求交付完成，无待运行实验。仅可按RUNNING.md复算，不自动开展下一Step。
