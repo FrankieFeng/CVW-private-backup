@@ -1,0 +1,85 @@
+using crypto CryptoEngine = tjfoc
+using crypto CryptoEngine = tjfoc
+STEP35C {"event":"proposer_ready","mono_ns":110995175038457,"ready":true,"seq":1,"wall_ns":1793589082684919073}
+STEP35C {"event":"rpc_request_begin","method":"/api.RpcNode/SendRequest","mono_ns":110995231751332,"seq":2,"wall_ns":1793589082741631880}
+STEP35C {"event":"rpc_tx_begin","method":"SendRequest","mono_ns":110995232425829,"seq":3,"tx_id":"18e41bc495c65f17ca45417c5aba2ca50cd653b0f0414e1888baf535361e6afc","wall_ns":1793589082742306155}
+STEP35C {"event":"rpc_tx_end","method":"SendRequest","mono_ns":110995232993647,"seq":4,"tx_id":"18e41bc495c65f17ca45417c5aba2ca50cd653b0f0414e1888baf535361e6afc","wall_ns":1793589082742873815}
+STEP35C {"event":"rpc_request_end","method":"/api.RpcNode/SendRequest","mono_ns":110995233299942,"seq":5,"wall_ns":1793589082743181366}
+STEP35C {"event":"rpc_request_begin","method":"/api.RpcNode/SendRequest","mono_ns":110995234715095,"seq":6,"wall_ns":1793589082744595552}
+STEP35C {"event":"rpc_tx_begin","method":"SendRequest","mono_ns":110995234801213,"seq":7,"tx_id":"18e41bc495ffb483cac6b7f2b7e0d000b2c789a839fd4ccd93be83c5540dff55","wall_ns":1793589082744681390}
+STEP35C {"event":"rpc_tx_end","method":"SendRequest","mono_ns":110995235015382,"seq":8,"tx_id":"18e41bc495ffb483cac6b7f2b7e0d000b2c789a839fd4ccd93be83c5540dff55","wall_ns":1793589082744895436}
+STEP35C {"event":"rpc_request_end","method":"/api.RpcNode/SendRequest","mono_ns":110995235074446,"seq":9,"wall_ns":1793589082744954524}
+STEP35C {"event":"rpc_request_begin","method":"/api.RpcNode/SendRequest","mono_ns":110995235591361,"seq":10,"wall_ns":1793589082745471686}
+STEP35C {"event":"rpc_tx_begin","method":"SendRequest","mono_ns":110995235658919,"seq":11,"tx_id":"18e41bc4960d2bddcad179bfeb14020eae2d661a0887483692b7cecfe8bdb24a","wall_ns":1793589082745539169}
+STEP35C {"event":"rpc_tx_end","method":"SendRequest","mono_ns":110995235827454,"seq":12,"tx_id":"18e41bc4960d2bddcad179bfeb14020eae2d661a0887483692b7cecfe8bdb24a","wall_ns":1793589082745707501}
+STEP35C {"event":"rpc_request_end","method":"/api.RpcNode/SendRequest","mono_ns":110995235877623,"seq":13,"wall_ns":1793589082745758203}
+STEP35C {"event":"rpc_request_begin","method":"/api.RpcNode/SendRequestSync","mono_ns":110995238370795,"seq":14,"wall_ns":1793589082748251513}
+STEP35C {"event":"rpc_tx_begin","method":"SendRequestSync","mono_ns":110995238478235,"seq":15,"tx_id":"cfd67abf1dad0c18d3e7805e7136845bc0ae4bcd2f3fb5c40b2d70ef4503a0c4","wall_ns":1793589082748358667}
+STEP35 {"contract":"raffle","depth":0,"event":"invoke_begin","go_heap":535929928,"go_heap_released":5275648,"go_heap_sys":544243712,"go_num_gc":7,"instance_id":1,"instances_closed":0,"instances_created":0,"managed_pending":0,"method":"raffle","stores_closed":0,"stores_created":0,"tx_id":"cfd67abf1dad0c18d3e7805e7136845bc0ae4bcd2f3fb5c40b2d70ef4503a0c4","wall_ns":1793589082784416460}
+STEP35C {"contract":"raffle","depth":0,"event":"vm_invoke_begin","go_heap":535929928,"go_heap_released":5275648,"go_heap_sys":544243712,"go_num_gc":7,"instance_id":1,"instances_closed":0,"instances_created":0,"managed_pending":0,"method":"raffle","mono_ns":110995274747698,"seq":16,"stores_closed":0,"stores_created":0,"tx_id":"cfd67abf1dad0c18d3e7805e7136845bc0ae4bcd2f3fb5c40b2d70ef4503a0c4","wall_ns":1793589082784628333}
+opmap length 216 
+Total function bodies: 3070
+STEP35 {"contract":"raffle","copy":true,"event":"module_prepared","go_heap":566919848,"go_heap_released":3506176,"go_heap_sys":573505536,"go_num_gc":7,"instances_closed":0,"instances_created":0,"key":"step35/raffle/1.0.0/6d19e9dcbca9e704e1e17439af6ef8aa27e1326290624782682e1d02ec908113/native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36/copy=true","managed_pending":5,"prepare_ns":604437700,"source_sha":"6d19e9dcbca9e704e1e17439af6ef8aa27e1326290624782682e1d02ec908113","stores_closed":0,"stores_created":1,"wall_ns":1793589083390337322}
+STEP35C {"contract":"raffle","copy":true,"event":"vm_module_prepared","go_heap":566919848,"go_heap_released":3506176,"go_heap_sys":573505536,"go_num_gc":7,"instances_closed":0,"instances_created":0,"key":"step35/raffle/1.0.0/6d19e9dcbca9e704e1e17439af6ef8aa27e1326290624782682e1d02ec908113/native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36/copy=true","managed_pending":5,"mono_ns":110995880553935,"prepare_ns":604437700,"seq":17,"source_sha":"6d19e9dcbca9e704e1e17439af6ef8aa27e1326290624782682e1d02ec908113","stores_closed":0,"stores_created":1,"wall_ns":1793589083390434806}
+panic: runtime error: integer divide by zero
+
+goroutine 1 [running]:
+main.raffle()
+	/home/frankie/mygitprojects/.worktrees/cvw-step33/experiments/instance-lifecycle/step-33-full-contract-coverage/guest-source/raffle/raffle.go:176 +0xc0
+STEP35 {"callmethod_ns":6680637,"close_ns":228557,"code":1,"compile_store_id":"0x107a05b0","contract":"raffle","copy_ns":1365363,"depth":0,"error":"\u003cnil\u003e","event":"invoke_end","gas":355,"go_heap":566987448,"go_heap_released":3465216,"go_heap_sys":573472768,"go_num_gc":7,"instance_id":1,"instances_closed":1,"instances_created":1,"invoke_ns":616775775,"managed_pending":5,"method":"raffle","mono_ns":110995274747698,"newinstance_ns":67284,"s1_ns":608290328,"s2_ns":609843516,"seq":16,"start_ns":1524902,"store_id":"0x10b458d0","stores_closed":1,"stores_created":2,"tx_id":"cfd67abf1dad0c18d3e7805e7136845bc0ae4bcd2f3fb5c40b2d70ef4503a0c4","wall_ns":1793589083401247684}
+STEP35C {"callmethod_ns":6680637,"close_ns":228557,"code":1,"compile_store_id":"0x107a05b0","contract":"raffle","copy_ns":1365363,"depth":0,"error":"\u003cnil\u003e","event":"vm_invoke_end","gas":355,"go_heap":566987448,"go_heap_released":3465216,"go_heap_sys":573472768,"go_num_gc":7,"instance_id":1,"instances_closed":1,"instances_created":1,"invoke_ns":616775775,"managed_pending":5,"method":"raffle","mono_ns":110995891435546,"newinstance_ns":67284,"s1_ns":608290328,"s2_ns":609843516,"seq":18,"start_ns":1524902,"store_id":"0x10b458d0","stores_closed":1,"stores_created":2,"tx_id":"cfd67abf1dad0c18d3e7805e7136845bc0ae4bcd2f3fb5c40b2d70ef4503a0c4","wall_ns":1793589083401315890}
+REUSE_VM tx=cfd67abf1dad0c18d3e7805e7136845bc0ae4bcd2f3fb5c40b2d70ef4503a0c4 contract=raffle method=raffle begin_ns=1793589082781723634 end_ns=1793589083401343802 code=1 gas=355 depth=0
+STEP35C {"event":"proposer_ready","mono_ns":110995892171088,"ready":false,"seq":19,"wall_ns":1793589083402051332}
+STEP35C {"event":"proposer_ready","mono_ns":110995892358405,"ready":false,"seq":20,"wall_ns":1793589083402238629}
+STEP35C {"event":"commit_received","mono_ns":110995892457735,"seq":21,"wall_ns":1793589083402337852}
+STEP35C {"event":"commit_job_begin","mono_ns":110995892472418,"seq":22,"wall_ns":1793589083402352427}
+STEP35C {"event":"put_begin","height":6,"mode":0,"mono_ns":110995892519177,"seq":23,"txs":1,"wall_ns":1793589083402399199}
+STEP35C {"event":"db_write_begin","height":6,"mono_ns":110995905603604,"seq":24,"wall_ns":1793589083415484794}
+STEP35C {"event":"db_write_end","height":6,"mono_ns":110995907817244,"seq":25,"wall_ns":1793589083417698323}
+STEP35C {"event":"put_end","height":6,"mono_ns":110995920626540,"seq":26,"wall_ns":1793589083430507220}
+STEP35C {"event":"wal_cleanup_begin","mono_ns":110995920695227,"seq":27,"wall_ns":1793589083430576235}
+STEP35C {"event":"wal_cleanup_end","mono_ns":110995920714487,"seq":28,"wall_ns":1793589083430594563}
+STEP35C {"event":"commit_job_end","mono_ns":110995920724875,"seq":29,"wall_ns":1793589083430605010}
+STEP35C {"event":"proposer_ready","mono_ns":110995920795411,"ready":true,"seq":30,"wall_ns":1793589083430675447}
+STEP35C {"event":"rpc_tx_end","method":"SendRequestSync","mono_ns":110995920802885,"seq":31,"tx_id":"cfd67abf1dad0c18d3e7805e7136845bc0ae4bcd2f3fb5c40b2d70ef4503a0c4","wall_ns":1793589083430682928}
+STEP35C {"event":"rpc_request_end","method":"/api.RpcNode/SendRequestSync","mono_ns":110995920945963,"seq":32,"wall_ns":1793589083430826031}
+STEP35C {"event":"rpc_request_begin","method":"/api.RpcNode/SendRequest","mono_ns":110995921620496,"seq":33,"wall_ns":1793589083431500836}
+STEP35C {"event":"rpc_tx_begin","method":"SendRequest","mono_ns":110995921707447,"seq":34,"tx_id":"18e41bc4bef15e28caf802c7e4239eb867ffb1eddf8e431d8d57f518ddb1a4b6","wall_ns":1793589083431587505}
+STEP35C {"event":"rpc_tx_end","method":"SendRequest","mono_ns":110995921946161,"seq":35,"tx_id":"18e41bc4bef15e28caf802c7e4239eb867ffb1eddf8e431d8d57f518ddb1a4b6","wall_ns":1793589083431826242}
+STEP35C {"event":"rpc_request_end","method":"/api.RpcNode/SendRequest","mono_ns":110995922001200,"seq":36,"wall_ns":1793589083431881256}
+STEP35C {"event":"rpc_stop_begin","mono_ns":110995927951468,"seq":37,"wall_ns":1793589083437831891}
+STEP35C {"active":0,"event":"rpc_drain_begin","mono_ns":110995927973301,"seq":38,"wall_ns":1793589083437853355}
+STEP35C {"event":"rpc_drain_end","mono_ns":110995928012048,"seq":39,"wall_ns":1793589083437892064}
+STEP35C {"event":"rpc_stop_end","mono_ns":110995928084755,"seq":40,"wall_ns":1793589083437965200}
+STEP35C {"event":"module_stop_begin","module":"TxPool","mono_ns":110995928100970,"seq":41,"wall_ns":1793589083437980997}
+STEP35C {"event":"module_stop_end","module":"TxPool","mono_ns":110995928125724,"seq":42,"wall_ns":1793589083438005773}
+STEP35C {"event":"module_stop_begin","module":"Core","mono_ns":110995928129062,"seq":43,"wall_ns":1793589083438009088}
+STEP35C {"event":"core_stop_begin","mono_ns":110995928131504,"seq":44,"wall_ns":1793589083438011508}
+STEP35C {"event":"proposer_drained","mono_ns":110995928140863,"seq":45,"wall_ns":1793589083438020895}
+STEP35C {"active":0,"event":"core_drain_begin","mono_ns":110995928154870,"seq":46,"wall_ns":1793589083438035044}
+STEP35C {"active":0,"event":"core_drain_end","mono_ns":110995928157679,"seq":47,"wall_ns":1793589083438037686}
+STEP35C {"event":"core_stop_end","mono_ns":110995928159569,"seq":48,"wall_ns":1793589083438039598}
+STEP35C {"event":"module_stop_end","module":"Core","mono_ns":110995928161386,"seq":49,"wall_ns":1793589083438041399}
+STEP35C {"event":"module_stop_begin","module":"VM","mono_ns":110995928163061,"seq":50,"wall_ns":1793589083438043080}
+STEP35 {"event":"stop_requested","go_heap":469243600,"go_heap_released":6987776,"go_heap_sys":590249984,"go_num_gc":8,"inflight":0,"wall_ns":1793589083438054132}
+STEP35C {"event":"vm_stop_requested","go_heap":469243600,"go_heap_released":6987776,"go_heap_sys":590249984,"go_num_gc":8,"inflight":0,"mono_ns":110995928260389,"seq":51,"wall_ns":1793589083438140497}
+STEP35 {"event":"cache_closed","go_heap":469249296,"go_heap_released":6987776,"go_heap_sys":590249984,"go_num_gc":8,"instances_closed":1,"instances_created":1,"managed_pending":0,"stores_closed":2,"stores_created":2,"wall_ns":1793589083441594675}
+STEP35C {"event":"vm_cache_closed","go_heap":469249296,"go_heap_released":6987776,"go_heap_sys":590249984,"go_num_gc":8,"instances_closed":1,"instances_created":1,"managed_pending":0,"mono_ns":110995931752798,"seq":52,"stores_closed":2,"stores_created":2,"wall_ns":1793589083441633474}
+STEP21C {"event":"owner_closed","instances_closed":1,"instances_created":1,"managed_objects":0,"managed_pending":0,"stores_closed":2,"stores_created":2}
+STEP35 {"error":"\u003cnil\u003e","event":"stop_finished","go_heap":469254520,"go_heap_released":6987776,"go_heap_sys":590282752,"go_num_gc":8,"stop_ns":3672091,"wall_ns":1793589083441820408}
+STEP35C {"error":"\u003cnil\u003e","event":"vm_stop_finished","go_heap":469254520,"go_heap_released":6987776,"go_heap_sys":590282752,"go_num_gc":8,"mono_ns":110995932173054,"seq":53,"stop_ns":3672091,"wall_ns":1793589083442054194}
+STEP35C {"event":"module_stop_end","module":"VM","mono_ns":110995932193061,"seq":54,"wall_ns":1793589083442073341}
+STEP35C {"event":"module_stop_begin","module":"Consensus","mono_ns":110995932202630,"seq":55,"wall_ns":1793589083442082910}
+STEP35C {"event":"module_stop_end","module":"Consensus","mono_ns":110995933796560,"seq":56,"wall_ns":1793589083443677261}
+STEP35C {"event":"module_stop_begin","module":"NetService","mono_ns":110995933813603,"seq":57,"wall_ns":1793589083443693888}
+STEP35C {"event":"module_stop_end","module":"NetService","mono_ns":110995933980884,"seq":58,"wall_ns":1793589083443861334}
+STEP35C {"event":"module_stop_begin","module":"Store","mono_ns":110995934002586,"seq":59,"wall_ns":1793589083443882895}
+STEP35C {"active":0,"event":"ledger_drain_begin","mono_ns":110995934011755,"seq":60,"wall_ns":1793589083443892016}
+STEP35C {"active":0,"event":"ledger_drain_end","mono_ns":110995934032120,"seq":61,"wall_ns":1793589083443912385}
+STEP35C {"event":"db_close_begin","mono_ns":110995934038298,"seq":62,"wall_ns":1793589083443918690}
+STEP35C {"event":"archive_workers_drained","mono_ns":110995934058525,"seq":63,"wall_ns":1793589083443938833}
+STEP35C {"event":"db_close_end","mono_ns":110995934650260,"seq":64,"wall_ns":1793589083444530660}
+STEP35C {"event":"module_stop_end","module":"Store","mono_ns":110995934660878,"seq":65,"wall_ns":1793589083444540909}
+STEP35C {"error":"http: Server closed","event":"diagnostic_server_exit","mono_ns":110995934812809,"seq":66,"wall_ns":1793589083444693065}
+STEP35C {"event":"diagnostic_stopped","mono_ns":110995934825483,"seq":67,"wall_ns":1793589083444705592}
+ChainMaker exit

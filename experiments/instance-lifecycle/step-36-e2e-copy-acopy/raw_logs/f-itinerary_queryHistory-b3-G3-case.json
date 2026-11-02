@@ -1,0 +1,881 @@
+{
+  "label": "f-itinerary_queryHistory-b3-G3",
+  "case": "itinerary_queryHistory",
+  "group": "G3",
+  "phase": "formal",
+  "batch": 3,
+  "planned": 4,
+  "passed": true,
+  "status": "PASSED",
+  "records": [
+    {
+      "row": {
+        "elapsed_ns": 705703949,
+        "input": {
+          "Op": "invoke",
+          "Contract": "itinerary",
+          "Method": "save",
+          "Tag": "setup-0",
+          "Path": "",
+          "TxID": "dbf5e43286edf4870013107f1dacff42e5ecc78614c30180ab81cdc1ed09284b",
+          "Phase": "setup",
+          "Params": {
+            "itinerary": "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}",
+            "phone": "13800000000"
+          }
+        },
+        "request_id": "f-itinerary_queryHistory-b3-G3/dbf5e43286edf4870013107f1dacff42e5ecc78614c30180ab81cdc1ed09284b",
+        "response": {
+          "contract_result": {
+            "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiaXAiOiIxMjcuMC4wLjEiLCJjaXR5IjoiU2hhbmdoYWkiLCJyZWdpb24iOiJTaGFuZ2hhaSIsImNvdW50cnkiOiJDTiIsImxvYyI6IiIsIm9yZyI6IiIsInRpbWV6b25lIjoiIiwiYXNuIjp7ImFzbiI6IiIsIm5hbWUiOiIiLCJkb21haW4iOiIiLCJyb3V0ZSI6IiIsInR5cGUiOiIifSwiY29tcGFueSI6eyJuYW1lIjoiIiwiZG9tYWluIjoiIiwidHlwZSI6IiJ9LCJwcml2YWN5Ijp7InZwbiI6ZmFsc2UsInByb3h5IjpmYWxzZSwidG9yIjpmYWxzZSwicmVsYXkiOmZhbHNlLCJob3N0aW5nIjpmYWxzZSwic2VydmljZSI6IiJ9LCJhYnVzZSI6eyJhZGRyZXNzIjoiIiwiY291bnRyeSI6IiIsImVtYWlsIjoiIiwibmFtZSI6IiIsIm5ldHdvcmsiOiIiLCJwaG9uZSI6IiJ9LCJkb21haW5zIjp7InRvdGFsIjowLCJkb21haW5zIjpudWxsfX19",
+            "gas_used": 265,
+            "contract_event": [
+              {
+                "topic": "save",
+                "tx_id": "dbf5e43286edf4870013107f1dacff42e5ecc78614c30180ab81cdc1ed09284b",
+                "contract_name": "itinerary",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "13800000000",
+                  "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "dbf5e43286edf4870013107f1dacff42e5ecc78614c30180ab81cdc1ed09284b",
+          "tx_timestamp": 1793586898,
+          "tx_block_height": 2
+        },
+        "sdk_end_mono_ns": 705726151,
+        "sdk_end_wall_ns": 1793586898945023043,
+        "sdk_start_mono_ns": 22202,
+        "sdk_start_wall_ns": 1793586898239319092,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "dbf5e43286edf4870013107f1dacff42e5ecc78614c30180ab81cdc1ed09284b",
+            "timestamp": 1793586898,
+            "contract_name": "itinerary",
+            "method": "save",
+            "parameters": [
+              {
+                "key": "itinerary",
+                "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0="
+              },
+              {
+                "key": "phone",
+                "value": "MTM4MDAwMDAwMDA="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEYCIQCybfMr9cRev1Ang4lyVu7z8FkYe3h+R5fK6zphblOmEwIhANtzY7laI1SoHD2L2zK2rvUPUoWWnkgBFNtbBLeGw6l/"
+          },
+          "result": {
+            "contract_result": {
+              "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiaXAiOiIxMjcuMC4wLjEiLCJjaXR5IjoiU2hhbmdoYWkiLCJyZWdpb24iOiJTaGFuZ2hhaSIsImNvdW50cnkiOiJDTiIsImxvYyI6IiIsIm9yZyI6IiIsInRpbWV6b25lIjoiIiwiYXNuIjp7ImFzbiI6IiIsIm5hbWUiOiIiLCJkb21haW4iOiIiLCJyb3V0ZSI6IiIsInR5cGUiOiIifSwiY29tcGFueSI6eyJuYW1lIjoiIiwiZG9tYWluIjoiIiwidHlwZSI6IiJ9LCJwcml2YWN5Ijp7InZwbiI6ZmFsc2UsInByb3h5IjpmYWxzZSwidG9yIjpmYWxzZSwicmVsYXkiOmZhbHNlLCJob3N0aW5nIjpmYWxzZSwic2VydmljZSI6IiJ9LCJhYnVzZSI6eyJhZGRyZXNzIjoiIiwiY291bnRyeSI6IiIsImVtYWlsIjoiIiwibmFtZSI6IiIsIm5ldHdvcmsiOiIiLCJwaG9uZSI6IiJ9LCJkb21haW5zIjp7InRvdGFsIjowLCJkb21haW5zIjpudWxsfX19",
+              "gas_used": 265,
+              "contract_event": [
+                {
+                  "topic": "save",
+                  "tx_id": "dbf5e43286edf4870013107f1dacff42e5ecc78614c30180ab81cdc1ed09284b",
+                  "contract_name": "itinerary",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "13800000000",
+                    "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "dhMj4p4E0GXt4FR98kYQDtSVDtTPIgx5EaiA8OmEvnk="
+          }
+        },
+        "block_height": 2,
+        "block_timestamp": 1793586898,
+        "rw_set": {
+          "tx_id": "dbf5e43286edf4870013107f1dacff42e5ecc78614c30180ab81cdc1ed09284b",
+          "tx_writes": [
+            {
+              "key": "MTM4MDAwMDAwMDA=",
+              "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0=",
+              "contract_name": "itinerary"
+            }
+          ]
+        }
+      },
+      "tag": "setup-0"
+    },
+    {
+      "row": {
+        "elapsed_ns": 44285963,
+        "input": {
+          "Op": "invoke",
+          "Contract": "itinerary",
+          "Method": "queryHistory",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+          "Phase": "formal",
+          "Params": {
+            "itinerary": "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}",
+            "phone": "13800000000"
+          }
+        },
+        "request_id": "f-itinerary_queryHistory-b3-G3/f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+        "response": {
+          "contract_result": {
+            "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6ImY5NGJjZWUxYzcxZWJiOGUyMmI0NDY5YTIxNTJmOGExY2VmODUyYTFmNWY0ZDBmNTkzOGNhNWMzMDRlY2U1MTciLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjQsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+            "gas_used": 532,
+            "contract_event": [
+              {
+                "topic": "save",
+                "tx_id": "f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+                "contract_name": "itinerary",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "13800000000",
+                  "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+          "tx_timestamp": 1793586898,
+          "tx_block_height": 3
+        },
+        "sdk_end_mono_ns": 761487029,
+        "sdk_end_wall_ns": 1793586899000783861,
+        "sdk_start_mono_ns": 717201066,
+        "sdk_start_wall_ns": 1793586898956497945,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+            "timestamp": 1793586898,
+            "contract_name": "itinerary",
+            "method": "queryHistory",
+            "parameters": [
+              {
+                "key": "itinerary",
+                "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0="
+              },
+              {
+                "key": "phone",
+                "value": "MTM4MDAwMDAwMDA="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEQCIHnvN4l10ohBbXqbWKC0si8sNhV0630ggT5LqEUISv7hAiA80WNWCOodJReWhErN4X9bA1MCe+QitB3gK2W6PEHehw=="
+          },
+          "result": {
+            "contract_result": {
+              "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6ImY5NGJjZWUxYzcxZWJiOGUyMmI0NDY5YTIxNTJmOGExY2VmODUyYTFmNWY0ZDBmNTkzOGNhNWMzMDRlY2U1MTciLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjQsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+              "gas_used": 532,
+              "contract_event": [
+                {
+                  "topic": "save",
+                  "tx_id": "f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+                  "contract_name": "itinerary",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "13800000000",
+                    "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "oznYwV8wHeOKPsTyp3kIWvswren5Msi+6kysjRT22/0="
+          }
+        },
+        "block_height": 3,
+        "block_timestamp": 1793586898,
+        "rw_set": {
+          "tx_id": "f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+          "tx_reads": [
+            {
+              "key": "MTM4MDAwMDAwMDA=",
+              "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0=",
+              "contract_name": "itinerary"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "MTM4MDAwMDAwMDA=",
+              "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0=",
+              "contract_name": "itinerary"
+            }
+          ]
+        }
+      },
+      "tag": "target-0"
+    },
+    {
+      "row": {
+        "elapsed_ns": 64998888,
+        "input": {
+          "Op": "invoke",
+          "Contract": "itinerary",
+          "Method": "queryHistory",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+          "Phase": "formal",
+          "Params": {
+            "itinerary": "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}",
+            "phone": "13800000000"
+          }
+        },
+        "request_id": "f-itinerary_queryHistory-b3-G3/1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+        "response": {
+          "contract_result": {
+            "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6IjFkZjI4ZWFiMDQ3OThiZDZiOGQxYzQ2YzkyODAxYzFlYTVmMGI0OWM3YTM0NzFlZjcxMDAxMDg2MzZkMDBjMmUiLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjUsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+            "gas_used": 628,
+            "contract_event": [
+              {
+                "topic": "save",
+                "tx_id": "1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+                "contract_name": "itinerary",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "13800000000",
+                  "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+          "tx_timestamp": 1793586899,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 826495625,
+        "sdk_end_wall_ns": 1793586899065792506,
+        "sdk_start_mono_ns": 761496737,
+        "sdk_start_wall_ns": 1793586899000793588,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+            "timestamp": 1793586899,
+            "contract_name": "itinerary",
+            "method": "queryHistory",
+            "parameters": [
+              {
+                "key": "itinerary",
+                "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0="
+              },
+              {
+                "key": "phone",
+                "value": "MTM4MDAwMDAwMDA="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIQDrQHZvLR0Tsm5MW5kMOgrcc54GCgFDb2QCHwDrmwd6VwIgfbuCyEbmEQwG2Mn1adMzvMTa631SsZclZK+HhmYaTc4="
+          },
+          "result": {
+            "contract_result": {
+              "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6IjFkZjI4ZWFiMDQ3OThiZDZiOGQxYzQ2YzkyODAxYzFlYTVmMGI0OWM3YTM0NzFlZjcxMDAxMDg2MzZkMDBjMmUiLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjUsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+              "gas_used": 628,
+              "contract_event": [
+                {
+                  "topic": "save",
+                  "tx_id": "1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+                  "contract_name": "itinerary",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "13800000000",
+                    "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "oPtKQasxvRFZk1W0gZTe6Nig9h0ROwBba0zG02BfUvo="
+          }
+        },
+        "block_height": 4,
+        "block_timestamp": 1793586899,
+        "rw_set": {
+          "tx_id": "1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+          "tx_reads": [
+            {
+              "key": "MTM4MDAwMDAwMDA=",
+              "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0=",
+              "contract_name": "itinerary"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "MTM4MDAwMDAwMDA=",
+              "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0=",
+              "contract_name": "itinerary"
+            }
+          ]
+        }
+      },
+      "tag": "target-1"
+    },
+    {
+      "row": {
+        "elapsed_ns": 64971186,
+        "input": {
+          "Op": "invoke",
+          "Contract": "itinerary",
+          "Method": "queryHistory",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+          "Phase": "formal",
+          "Params": {
+            "itinerary": "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}",
+            "phone": "13800000000"
+          }
+        },
+        "request_id": "f-itinerary_queryHistory-b3-G3/6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+        "response": {
+          "contract_result": {
+            "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6IjZjYTAyYjhiZTdlY2M5YjRmMGNhOGFjY2FiMmVmMjUyYjA1YzU1NmRjM2IzN2NhMmU0OTllODk2MzIzNzhiOWUiLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjYsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+            "gas_used": 724,
+            "contract_event": [
+              {
+                "topic": "save",
+                "tx_id": "6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+                "contract_name": "itinerary",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "13800000000",
+                  "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+          "tx_timestamp": 1793586899,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 891493962,
+        "sdk_end_wall_ns": 1793586899130790855,
+        "sdk_start_mono_ns": 826522776,
+        "sdk_start_wall_ns": 1793586899065819656,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+            "timestamp": 1793586899,
+            "contract_name": "itinerary",
+            "method": "queryHistory",
+            "parameters": [
+              {
+                "key": "itinerary",
+                "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0="
+              },
+              {
+                "key": "phone",
+                "value": "MTM4MDAwMDAwMDA="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEYCIQDtQsZkSJ89flWr+wS4kGhMhloxt0qwatOPR9pXDnx0gAIhAO57O9C+ZtUqQmBxzwOanmRuXnkt5I6u85azg+dnNNJD"
+          },
+          "result": {
+            "contract_result": {
+              "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6IjZjYTAyYjhiZTdlY2M5YjRmMGNhOGFjY2FiMmVmMjUyYjA1YzU1NmRjM2IzN2NhMmU0OTllODk2MzIzNzhiOWUiLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjYsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+              "gas_used": 724,
+              "contract_event": [
+                {
+                  "topic": "save",
+                  "tx_id": "6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+                  "contract_name": "itinerary",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "13800000000",
+                    "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "g4/tIrUyGhJYbBWM7NVlVv8ijYYCIpREnm0WIr36Cdk="
+          }
+        },
+        "block_height": 5,
+        "block_timestamp": 1793586899,
+        "rw_set": {
+          "tx_id": "6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+          "tx_reads": [
+            {
+              "key": "MTM4MDAwMDAwMDA=",
+              "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0=",
+              "contract_name": "itinerary"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "MTM4MDAwMDAwMDA=",
+              "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0=",
+              "contract_name": "itinerary"
+            }
+          ]
+        }
+      },
+      "tag": "target-2"
+    },
+    {
+      "row": {
+        "elapsed_ns": 1156925535,
+        "input": {
+          "Op": "invoke",
+          "Contract": "itinerary",
+          "Method": "queryHistory",
+          "Tag": "target-3",
+          "Path": "",
+          "TxID": "6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+          "Phase": "formal",
+          "Params": {
+            "itinerary": "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}",
+            "phone": "13800000000"
+          }
+        },
+        "request_id": "f-itinerary_queryHistory-b3-G3/6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+        "response": {
+          "contract_result": {
+            "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6IjY3NTBiZGUyNjNjY2Y3N2ZhMDIwYzhkNmE5NmU2YzYxM2QwMTJjZjdkZjQwYmMwMWExY2YzOWY2MDFiMWY4MzciLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjcsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+            "gas_used": 820,
+            "contract_event": [
+              {
+                "topic": "save",
+                "tx_id": "6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+                "contract_name": "itinerary",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "13800000000",
+                  "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+          "tx_timestamp": 1793586899,
+          "tx_block_height": 6
+        },
+        "sdk_end_mono_ns": 2048436877,
+        "sdk_end_wall_ns": 1793586900287733757,
+        "sdk_start_mono_ns": 891511342,
+        "sdk_start_wall_ns": 1793586899130808238,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+            "timestamp": 1793586899,
+            "contract_name": "itinerary",
+            "method": "queryHistory",
+            "parameters": [
+              {
+                "key": "itinerary",
+                "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0="
+              },
+              {
+                "key": "phone",
+                "value": "MTM4MDAwMDAwMDA="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIQCP9qh899KJsnEx1mRqXLRq13h7UWcZYHHgEgfmHqnl0wIgPsHkrW7udgZ5jddRb1nX0F8zRrWXQsl4R4PZEZ4sBns="
+          },
+          "result": {
+            "contract_result": {
+              "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6IjY3NTBiZGUyNjNjY2Y3N2ZhMDIwYzhkNmE5NmU2YzYxM2QwMTJjZjdkZjQwYmMwMWExY2YzOWY2MDFiMWY4MzciLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjcsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+              "gas_used": 820,
+              "contract_event": [
+                {
+                  "topic": "save",
+                  "tx_id": "6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+                  "contract_name": "itinerary",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "13800000000",
+                    "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "RzLRj4xU1QOf0nwAZsxC9ERyKDdrv+pHfrnRoqFWpd8="
+          }
+        },
+        "block_height": 6,
+        "block_timestamp": 1793586900,
+        "rw_set": {
+          "tx_id": "6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+          "tx_reads": [
+            {
+              "key": "MTM4MDAwMDAwMDA=",
+              "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0=",
+              "contract_name": "itinerary"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "MTM4MDAwMDAwMDA=",
+              "value": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0=",
+              "contract_name": "itinerary"
+            }
+          ]
+        }
+      },
+      "tag": "target-3"
+    }
+  ],
+  "warmup": {
+    "attempted": 1,
+    "planned": 1,
+    "rows": [
+      {
+        "elapsed_ns": 8624694,
+        "input": {
+          "Op": "query",
+          "Contract": "itinerary",
+          "Method": "queryHistory",
+          "Tag": "warmup",
+          "Path": "",
+          "TxID": "c2c1939ae23cdd65bf710c59523e8e4419b60842dc6aebcc7f4844c29d729d06",
+          "Phase": "warmup",
+          "Params": {
+            "itinerary": "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}",
+            "phone": "13800000000"
+          }
+        },
+        "request_id": "f-itinerary_queryHistory-b3-G3/c2c1939ae23cdd65bf710c59523e8e4419b60842dc6aebcc7f4844c29d729d06",
+        "response": {
+          "message": "SUCCESS",
+          "contract_result": {
+            "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6IjE4ZTQxOWM4MjE4ODg0YThjYTFiMTc3N2YyODg1NDNlMTM4YTYyMGU5NDBhNDhhNmE5ZTNhNTVmMTdiMTAxMDQiLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjMsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+            "gas_used": 532,
+            "contract_event": [
+              {
+                "topic": "save",
+                "tx_id": "18e419c8218884a8ca1b1777f288543e138a620e940a48a6a9e3a55f17b10104",
+                "contract_name": "itinerary",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "13800000000",
+                  "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "18e419c8218884a8ca1b1777f288543e138a620e940a48a6a9e3a55f17b10104"
+        },
+        "sdk_end_mono_ns": 716309420,
+        "sdk_end_wall_ns": 1793586898955606313,
+        "sdk_start_mono_ns": 707684726,
+        "sdk_start_wall_ns": 1793586898946981623,
+        "success": true,
+        "transaction": null
+      }
+    ],
+    "serial": true,
+    "successful_responses": 1,
+    "window_end_mono_ns": 716309420,
+    "window_ns": 8624694,
+    "window_start_mono_ns": 707684726
+  },
+  "initial_projection": {
+    "itinerary|MTM4MDAwMDAwMDA=": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0="
+  },
+  "window": {
+    "attempted": 4,
+    "planned": 4,
+    "rows": [
+      {
+        "elapsed_ns": 44285963,
+        "input": {
+          "Op": "invoke",
+          "Contract": "itinerary",
+          "Method": "queryHistory",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+          "Phase": "formal",
+          "Params": {
+            "itinerary": "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}",
+            "phone": "13800000000"
+          }
+        },
+        "request_id": "f-itinerary_queryHistory-b3-G3/f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+        "response": {
+          "contract_result": {
+            "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6ImY5NGJjZWUxYzcxZWJiOGUyMmI0NDY5YTIxNTJmOGExY2VmODUyYTFmNWY0ZDBmNTkzOGNhNWMzMDRlY2U1MTciLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjQsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+            "gas_used": 532,
+            "contract_event": [
+              {
+                "topic": "save",
+                "tx_id": "f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+                "contract_name": "itinerary",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "13800000000",
+                  "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+          "tx_timestamp": 1793586898,
+          "tx_block_height": 3
+        },
+        "sdk_end_mono_ns": 761487029,
+        "sdk_end_wall_ns": 1793586899000783861,
+        "sdk_start_mono_ns": 717201066,
+        "sdk_start_wall_ns": 1793586898956497945,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 64998888,
+        "input": {
+          "Op": "invoke",
+          "Contract": "itinerary",
+          "Method": "queryHistory",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+          "Phase": "formal",
+          "Params": {
+            "itinerary": "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}",
+            "phone": "13800000000"
+          }
+        },
+        "request_id": "f-itinerary_queryHistory-b3-G3/1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+        "response": {
+          "contract_result": {
+            "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6IjFkZjI4ZWFiMDQ3OThiZDZiOGQxYzQ2YzkyODAxYzFlYTVmMGI0OWM3YTM0NzFlZjcxMDAxMDg2MzZkMDBjMmUiLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjUsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+            "gas_used": 628,
+            "contract_event": [
+              {
+                "topic": "save",
+                "tx_id": "1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+                "contract_name": "itinerary",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "13800000000",
+                  "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+          "tx_timestamp": 1793586899,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 826495625,
+        "sdk_end_wall_ns": 1793586899065792506,
+        "sdk_start_mono_ns": 761496737,
+        "sdk_start_wall_ns": 1793586899000793588,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 64971186,
+        "input": {
+          "Op": "invoke",
+          "Contract": "itinerary",
+          "Method": "queryHistory",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+          "Phase": "formal",
+          "Params": {
+            "itinerary": "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}",
+            "phone": "13800000000"
+          }
+        },
+        "request_id": "f-itinerary_queryHistory-b3-G3/6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+        "response": {
+          "contract_result": {
+            "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6IjZjYTAyYjhiZTdlY2M5YjRmMGNhOGFjY2FiMmVmMjUyYjA1YzU1NmRjM2IzN2NhMmU0OTllODk2MzIzNzhiOWUiLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjYsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+            "gas_used": 724,
+            "contract_event": [
+              {
+                "topic": "save",
+                "tx_id": "6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+                "contract_name": "itinerary",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "13800000000",
+                  "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+          "tx_timestamp": 1793586899,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 891493962,
+        "sdk_end_wall_ns": 1793586899130790855,
+        "sdk_start_mono_ns": 826522776,
+        "sdk_start_wall_ns": 1793586899065819656,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 1156925535,
+        "input": {
+          "Op": "invoke",
+          "Contract": "itinerary",
+          "Method": "queryHistory",
+          "Tag": "target-3",
+          "Path": "",
+          "TxID": "6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+          "Phase": "formal",
+          "Params": {
+            "itinerary": "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}",
+            "phone": "13800000000"
+          }
+        },
+        "request_id": "f-itinerary_queryHistory-b3-G3/6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+        "response": {
+          "contract_result": {
+            "result": "eyJjb2RlIjoyMDAsIm1zZyI6IiIsImRhdGEiOnsiQ04tU2hhbmdoYWktU2hhbmdoYWkiOnsiZmllbGQiOiIiLCJ2YWx1ZSI6eyJpcCI6IjEyNy4wLjAuMSIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIiwiY291bnRyeSI6IkNOIiwibG9jIjoiIiwib3JnIjoiIiwidGltZXpvbmUiOiIiLCJhc24iOnsiYXNuIjoiIiwibmFtZSI6IiIsImRvbWFpbiI6IiIsInJvdXRlIjoiIiwidHlwZSI6IiJ9LCJjb21wYW55Ijp7Im5hbWUiOiIiLCJkb21haW4iOiIiLCJ0eXBlIjoiIn0sInByaXZhY3kiOnsidnBuIjpmYWxzZSwicHJveHkiOmZhbHNlLCJ0b3IiOmZhbHNlLCJyZWxheSI6ZmFsc2UsImhvc3RpbmciOmZhbHNlLCJzZXJ2aWNlIjoiIn0sImFidXNlIjp7ImFkZHJlc3MiOiIiLCJjb3VudHJ5IjoiIiwiZW1haWwiOiIiLCJuYW1lIjoiIiwibmV0d29yayI6IiIsInBob25lIjoiIn0sImRvbWFpbnMiOnsidG90YWwiOjAsImRvbWFpbnMiOm51bGx9fSwidHhJZCI6IjY3NTBiZGUyNjNjY2Y3N2ZhMDIwYzhkNmE5NmU2YzYxM2QwMTJjZjdkZjQwYmMwMWExY2YzOWY2MDFiMWY4MzciLCJ0aW1lc3RhbXAiOiIwIiwiYmxvY2tIZWlnaHQiOjcsImtleSI6IjEzODAwMDAwMDAwIn19fQ==",
+            "gas_used": 820,
+            "contract_event": [
+              {
+                "topic": "save",
+                "tx_id": "6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+                "contract_name": "itinerary",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "13800000000",
+                  "{\"ip\":\"127.0.0.1\",\"country\":\"CN\",\"city\":\"Shanghai\",\"region\":\"Shanghai\"}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+          "tx_timestamp": 1793586899,
+          "tx_block_height": 6
+        },
+        "sdk_end_mono_ns": 2048436877,
+        "sdk_end_wall_ns": 1793586900287733757,
+        "sdk_start_mono_ns": 891511342,
+        "sdk_start_wall_ns": 1793586899130808238,
+        "success": true,
+        "transaction": null
+      }
+    ],
+    "serial": true,
+    "successful_responses": 4,
+    "window_end_mono_ns": 2048436877,
+    "window_ns": 1331235811,
+    "window_start_mono_ns": 717201066
+  },
+  "metadata": [
+    {
+      "tag": "setup-0",
+      "tx_id": "dbf5e43286edf4870013107f1dacff42e5ecc78614c30180ab81cdc1ed09284b",
+      "height": 2,
+      "timestamp": 1793586898
+    },
+    {
+      "tag": "target-0",
+      "tx_id": "f94bcee1c71ebb8e22b4469a2152f8a1cef852a1f5f4d0f5938ca5c304ece517",
+      "height": 3,
+      "timestamp": 1793586898
+    },
+    {
+      "tag": "target-1",
+      "tx_id": "1df28eab04798bd6b8d1c46c92801c1ea5f0b49c7a3471ef7100108636d00c2e",
+      "height": 4,
+      "timestamp": 1793586899
+    },
+    {
+      "tag": "target-2",
+      "tx_id": "6ca02b8be7ecc9b4f0ca8accab2ef252b05c556dc3b37ca2e499e89632378b9e",
+      "height": 5,
+      "timestamp": 1793586899
+    },
+    {
+      "tag": "target-3",
+      "tx_id": "6750bde263ccf77fa020c8d6a96e6c613d012cf7df40bc01a1cf39f601b1f837",
+      "height": 6,
+      "timestamp": 1793586900
+    }
+  ],
+  "projection": [
+    {
+      "Contract": "itinerary",
+      "Key": "MTM4MDAwMDAwMDA=",
+      "Expected": "eyJpcCI6IjEyNy4wLjAuMSIsImNvdW50cnkiOiJDTiIsImNpdHkiOiJTaGFuZ2hhaSIsInJlZ2lvbiI6IlNoYW5naGFpIn0="
+    }
+  ],
+  "node": {
+    "label": "f-itinerary_queryHistory-b3-G3",
+    "reason": "",
+    "peak_rss_kib": 551792,
+    "peak_threads": 27,
+    "stop_s": 0.033264539000811055,
+    "systemd": {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive"
+    },
+    "owner": {
+      "event": "owner_closed",
+      "instances_closed": 10,
+      "instances_created": 10,
+      "managed_objects": 0,
+      "managed_pending": 0,
+      "stores_closed": 11,
+      "stores_created": 11
+    },
+    "owned_pids": [
+      398753
+    ],
+    "pid_exited": true,
+    "cgroup_empty": true
+  }
+}

@@ -1,0 +1,1476 @@
+{
+  "label": "f-exchange_buyNow-b1-G0",
+  "case": "exchange_buyNow",
+  "group": "G0",
+  "phase": "formal",
+  "batch": 1,
+  "planned": 4,
+  "passed": true,
+  "status": "PASSED",
+  "records": [
+    {
+      "row": {
+        "elapsed_ns": 149521725,
+        "input": {
+          "Op": "invoke",
+          "Contract": "exchange",
+          "Method": "buyNow",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+          "Phase": "formal",
+          "Params": {
+            "from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+            "metadata": "http://chainmaker.org.cn/",
+            "to": "818fac1ac51525aeedf619a9a339b95854930159",
+            "tokenId": "1001"
+          }
+        },
+        "request_id": "f-exchange_buyNow-b1-G0/6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+        "response": {
+          "contract_result": {
+            "result": "YnV5Tm93IHN1Y2Nlc3M=",
+            "gas_used": 12620047,
+            "contract_event": [
+              {
+                "topic": "ApprovalForAll2",
+                "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                  "1"
+                ]
+              },
+              {
+                "topic": "transfer",
+                "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "818fac1ac51525aeedf619a9a339b95854930159",
+                  "1001"
+                ]
+              },
+              {
+                "topic": "buyNow",
+                "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+                "contract_name": "exchange",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                ]
+              }
+            ]
+          },
+          "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+          "tx_timestamp": 1793587650,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 2258174800,
+        "sdk_end_wall_ns": 1793587651139621572,
+        "sdk_start_mono_ns": 2108653075,
+        "sdk_start_wall_ns": 1793587650990099820,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+            "timestamp": 1793587650,
+            "contract_name": "exchange",
+            "method": "buyNow",
+            "parameters": [
+              {
+                "key": "from",
+                "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+              },
+              {
+                "key": "metadata",
+                "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+              },
+              {
+                "key": "to",
+                "value": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ=="
+              },
+              {
+                "key": "tokenId",
+                "value": "MTAwMQ=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCICxMTiME82c630tu1W7n6CEvm/2JVCo8PjGVV57UpTP1AiEAyaD+ZZf1mEVRjKXSgYwPPpj+XlC8M4BEKIa8JGH5zYM="
+          },
+          "result": {
+            "contract_result": {
+              "result": "YnV5Tm93IHN1Y2Nlc3M=",
+              "gas_used": 12620047,
+              "contract_event": [
+                {
+                  "topic": "ApprovalForAll2",
+                  "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+                  "contract_name": "erc721",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                    "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                    "1"
+                  ]
+                },
+                {
+                  "topic": "transfer",
+                  "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+                  "contract_name": "erc721",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                    "818fac1ac51525aeedf619a9a339b95854930159",
+                    "1001"
+                  ]
+                },
+                {
+                  "topic": "buyNow",
+                  "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+                  "contract_name": "exchange",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "cr6hUr+Koo8Hzj/lWNDHUespdy6UsG5L8pgy3uAFoWY="
+          }
+        },
+        "block_height": 4,
+        "block_timestamp": 1793587651,
+        "rw_set": {
+          "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+          "tx_reads": [
+            {
+              "key": "YmFsYW5jZUluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "ZXJjNzIxI2FkbWlu",
+              "value": "MGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMTAwMQ==",
+              "contract_name": "erc721"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "YWNjb3VudEluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OV8xMDAx",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8xMDAx",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "b3BlcmF0b3JBcHByb3ZlIzhhY2ZhY2E1ZWVlYzlmNmY3YzIzYzRmZmFjOTY5Yjg2ZjI3Nzk5YjBfMGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5BcHByb3ZlIzEwMDE=",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMTAwMQ==",
+              "value": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzEwMDFfbGF0ZXN0VHhJbmZv",
+              "value": "eyJUeElkIjoiNjMwM2QzYWJhMjBhNzk4ZTcwMWYwMzZjZWRlMGJjOWY0MWFiMzZjYzQwODRlODE3ZDlhNWFhNTI5ZDBkYjE2YiIsIkJsb2NrSGVpZ2h0Ijo0LCJGcm9tIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCIsIlRvIjoiODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OSJ9",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzEwMDFfbWV0YWRhdGE=",
+              "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "aWRlbnRpdHkjODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "value": "MQ==",
+              "contract_name": "identity"
+            },
+            {
+              "key": "aWRlbnRpdHkjOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MQ==",
+              "contract_name": "identity"
+            }
+          ]
+        }
+      },
+      "tag": "target-0"
+    },
+    {
+      "row": {
+        "elapsed_ns": 115014706,
+        "input": {
+          "Op": "invoke",
+          "Contract": "exchange",
+          "Method": "buyNow",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+          "Phase": "formal",
+          "Params": {
+            "from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+            "metadata": "http://chainmaker.org.cn/",
+            "to": "818fac1ac51525aeedf619a9a339b95854930159",
+            "tokenId": "1002"
+          }
+        },
+        "request_id": "f-exchange_buyNow-b1-G0/1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+        "response": {
+          "contract_result": {
+            "result": "YnV5Tm93IHN1Y2Nlc3M=",
+            "gas_used": 12620048,
+            "contract_event": [
+              {
+                "topic": "ApprovalForAll2",
+                "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                  "1"
+                ]
+              },
+              {
+                "topic": "transfer",
+                "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "818fac1ac51525aeedf619a9a339b95854930159",
+                  "1002"
+                ]
+              },
+              {
+                "topic": "buyNow",
+                "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+                "contract_name": "exchange",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                ]
+              }
+            ]
+          },
+          "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+          "tx_timestamp": 1793587651,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 2373200104,
+        "sdk_end_wall_ns": 1793587651254646886,
+        "sdk_start_mono_ns": 2258185398,
+        "sdk_start_wall_ns": 1793587651139632175,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+            "timestamp": 1793587651,
+            "contract_name": "exchange",
+            "method": "buyNow",
+            "parameters": [
+              {
+                "key": "from",
+                "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+              },
+              {
+                "key": "metadata",
+                "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+              },
+              {
+                "key": "to",
+                "value": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ=="
+              },
+              {
+                "key": "tokenId",
+                "value": "MTAwMg=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIQD7xI2NY/vFUt0vM7jDbDfDPUKKJo2imffogPecL7LVTAIgcpelWN5laAgkxYj1+o3js3gClYZHyKtDrPwYzKeycIo="
+          },
+          "result": {
+            "contract_result": {
+              "result": "YnV5Tm93IHN1Y2Nlc3M=",
+              "gas_used": 12620048,
+              "contract_event": [
+                {
+                  "topic": "ApprovalForAll2",
+                  "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+                  "contract_name": "erc721",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                    "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                    "1"
+                  ]
+                },
+                {
+                  "topic": "transfer",
+                  "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+                  "contract_name": "erc721",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                    "818fac1ac51525aeedf619a9a339b95854930159",
+                    "1002"
+                  ]
+                },
+                {
+                  "topic": "buyNow",
+                  "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+                  "contract_name": "exchange",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "y/7omtrxpbNVeSa4zoYABuQO/CiFxexEHn1quucm9TI="
+          }
+        },
+        "block_height": 5,
+        "block_timestamp": 1793587651,
+        "rw_set": {
+          "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+          "tx_reads": [
+            {
+              "key": "YmFsYW5jZUluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "ZXJjNzIxI2FkbWlu",
+              "value": "MGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMTAwMg==",
+              "contract_name": "erc721"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "YWNjb3VudEluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OV8xMDAy",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8xMDAy",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "value": "Mg==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "b3BlcmF0b3JBcHByb3ZlIzhhY2ZhY2E1ZWVlYzlmNmY3YzIzYzRmZmFjOTY5Yjg2ZjI3Nzk5YjBfMGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5BcHByb3ZlIzEwMDI=",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMTAwMg==",
+              "value": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzEwMDJfbGF0ZXN0VHhJbmZv",
+              "value": "eyJUeElkIjoiMWNhNmM0ZDFhNTM0MWE1NjM4OTk0NTE5ZjAyMDcxODZmOTExMWRiMjgwZTlmNjlmYTc2MzFmYjAwZjNkOGQyYyIsIkJsb2NrSGVpZ2h0Ijo1LCJGcm9tIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCIsIlRvIjoiODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OSJ9",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzEwMDJfbWV0YWRhdGE=",
+              "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "aWRlbnRpdHkjODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "value": "MQ==",
+              "contract_name": "identity"
+            },
+            {
+              "key": "aWRlbnRpdHkjOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MQ==",
+              "contract_name": "identity"
+            }
+          ]
+        }
+      },
+      "tag": "target-1"
+    },
+    {
+      "row": {
+        "elapsed_ns": 115037090,
+        "input": {
+          "Op": "invoke",
+          "Contract": "exchange",
+          "Method": "buyNow",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+          "Phase": "formal",
+          "Params": {
+            "from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+            "metadata": "http://chainmaker.org.cn/",
+            "to": "818fac1ac51525aeedf619a9a339b95854930159",
+            "tokenId": "1003"
+          }
+        },
+        "request_id": "f-exchange_buyNow-b1-G0/9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+        "response": {
+          "contract_result": {
+            "result": "YnV5Tm93IHN1Y2Nlc3M=",
+            "gas_used": 12620048,
+            "contract_event": [
+              {
+                "topic": "ApprovalForAll2",
+                "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                  "1"
+                ]
+              },
+              {
+                "topic": "transfer",
+                "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "818fac1ac51525aeedf619a9a339b95854930159",
+                  "1003"
+                ]
+              },
+              {
+                "topic": "buyNow",
+                "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+                "contract_name": "exchange",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                ]
+              }
+            ]
+          },
+          "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+          "tx_timestamp": 1793587651,
+          "tx_block_height": 6
+        },
+        "sdk_end_mono_ns": 2488244868,
+        "sdk_end_wall_ns": 1793587651369691636,
+        "sdk_start_mono_ns": 2373207778,
+        "sdk_start_wall_ns": 1793587651254654561,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+            "timestamp": 1793587651,
+            "contract_name": "exchange",
+            "method": "buyNow",
+            "parameters": [
+              {
+                "key": "from",
+                "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+              },
+              {
+                "key": "metadata",
+                "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+              },
+              {
+                "key": "to",
+                "value": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ=="
+              },
+              {
+                "key": "tokenId",
+                "value": "MTAwMw=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIEbp8wW2j/Ev0UnJIy3jbIYThtcgGaIJjITZD7hYwWysAiEAt2h6OW9j3YQAgBpZLvRZ3a0ImsRc6iPPXNQPX+y6k00="
+          },
+          "result": {
+            "contract_result": {
+              "result": "YnV5Tm93IHN1Y2Nlc3M=",
+              "gas_used": 12620048,
+              "contract_event": [
+                {
+                  "topic": "ApprovalForAll2",
+                  "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+                  "contract_name": "erc721",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                    "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                    "1"
+                  ]
+                },
+                {
+                  "topic": "transfer",
+                  "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+                  "contract_name": "erc721",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                    "818fac1ac51525aeedf619a9a339b95854930159",
+                    "1003"
+                  ]
+                },
+                {
+                  "topic": "buyNow",
+                  "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+                  "contract_name": "exchange",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "qfkHheayO9mFmFcjXy5NPtparxmIWMW036pgV/y8KoQ="
+          }
+        },
+        "block_height": 6,
+        "block_timestamp": 1793587651,
+        "rw_set": {
+          "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+          "tx_reads": [
+            {
+              "key": "YmFsYW5jZUluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "value": "Mg==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "ZXJjNzIxI2FkbWlu",
+              "value": "MGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMTAwMw==",
+              "contract_name": "erc721"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "YWNjb3VudEluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OV8xMDAz",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8xMDAz",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "value": "Mw==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "b3BlcmF0b3JBcHByb3ZlIzhhY2ZhY2E1ZWVlYzlmNmY3YzIzYzRmZmFjOTY5Yjg2ZjI3Nzk5YjBfMGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5BcHByb3ZlIzEwMDM=",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMTAwMw==",
+              "value": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzEwMDNfbGF0ZXN0VHhJbmZv",
+              "value": "eyJUeElkIjoiOWRmMDBkMjdiNzJhZGNmZWYzM2M1MjkyNzQzYzA5Y2VmYWEwMTYwNTM5NTlkMmZjYmFiNzg3NWQxNjUzYWRmYSIsIkJsb2NrSGVpZ2h0Ijo2LCJGcm9tIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCIsIlRvIjoiODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OSJ9",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzEwMDNfbWV0YWRhdGE=",
+              "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "aWRlbnRpdHkjODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "value": "MQ==",
+              "contract_name": "identity"
+            },
+            {
+              "key": "aWRlbnRpdHkjOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MQ==",
+              "contract_name": "identity"
+            }
+          ]
+        }
+      },
+      "tag": "target-2"
+    },
+    {
+      "row": {
+        "elapsed_ns": 122875914,
+        "input": {
+          "Op": "invoke",
+          "Contract": "exchange",
+          "Method": "buyNow",
+          "Tag": "target-3",
+          "Path": "",
+          "TxID": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+          "Phase": "formal",
+          "Params": {
+            "from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+            "metadata": "http://chainmaker.org.cn/",
+            "to": "818fac1ac51525aeedf619a9a339b95854930159",
+            "tokenId": "1004"
+          }
+        },
+        "request_id": "f-exchange_buyNow-b1-G0/0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+        "response": {
+          "contract_result": {
+            "result": "YnV5Tm93IHN1Y2Nlc3M=",
+            "gas_used": 12620048,
+            "contract_event": [
+              {
+                "topic": "ApprovalForAll2",
+                "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                  "1"
+                ]
+              },
+              {
+                "topic": "transfer",
+                "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "818fac1ac51525aeedf619a9a339b95854930159",
+                  "1004"
+                ]
+              },
+              {
+                "topic": "buyNow",
+                "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+                "contract_name": "exchange",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                ]
+              }
+            ]
+          },
+          "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+          "tx_timestamp": 1793587651,
+          "tx_block_height": 7
+        },
+        "sdk_end_mono_ns": 2611128604,
+        "sdk_end_wall_ns": 1793587651492575393,
+        "sdk_start_mono_ns": 2488252690,
+        "sdk_start_wall_ns": 1793587651369699472,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+            "timestamp": 1793587651,
+            "contract_name": "exchange",
+            "method": "buyNow",
+            "parameters": [
+              {
+                "key": "from",
+                "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+              },
+              {
+                "key": "metadata",
+                "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+              },
+              {
+                "key": "to",
+                "value": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ=="
+              },
+              {
+                "key": "tokenId",
+                "value": "MTAwNA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEQCICEmnuwYPWa+vUvtQ+bDF3z8mGzbNgzhO5hQAAxg4u4rAiAAv+n+FI6TNCC1hpgd4xgWYzg/riQizwFnwTebvt7dow=="
+          },
+          "result": {
+            "contract_result": {
+              "result": "YnV5Tm93IHN1Y2Nlc3M=",
+              "gas_used": 12620048,
+              "contract_event": [
+                {
+                  "topic": "ApprovalForAll2",
+                  "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+                  "contract_name": "erc721",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                    "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                    "1"
+                  ]
+                },
+                {
+                  "topic": "transfer",
+                  "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+                  "contract_name": "erc721",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                    "818fac1ac51525aeedf619a9a339b95854930159",
+                    "1004"
+                  ]
+                },
+                {
+                  "topic": "buyNow",
+                  "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+                  "contract_name": "exchange",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "Wf3d/O94K2HZI6xx5g5mDHr1yy9Bwu9sK//mcHBSkoQ="
+          }
+        },
+        "block_height": 7,
+        "block_timestamp": 1793587651,
+        "rw_set": {
+          "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+          "tx_reads": [
+            {
+              "key": "YmFsYW5jZUluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "value": "Mw==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "ZXJjNzIxI2FkbWlu",
+              "value": "MGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMTAwNA==",
+              "contract_name": "erc721"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "YWNjb3VudEluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OV8xMDA0",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8xMDA0",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "value": "NA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "b3BlcmF0b3JBcHByb3ZlIzhhY2ZhY2E1ZWVlYzlmNmY3YzIzYzRmZmFjOTY5Yjg2ZjI3Nzk5YjBfMGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5BcHByb3ZlIzEwMDQ=",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMTAwNA==",
+              "value": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzEwMDRfbGF0ZXN0VHhJbmZv",
+              "value": "eyJUeElkIjoiMGEwMTMwMzUxYmViYjM4OTY4MTU5ODIzMTk4MjlmNDg5ZDIwZjY1ZmFmZDQwNTBkZGNhMjNkMWI4NzExNDU4MCIsIkJsb2NrSGVpZ2h0Ijo3LCJGcm9tIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCIsIlRvIjoiODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OSJ9",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzEwMDRfbWV0YWRhdGE=",
+              "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "aWRlbnRpdHkjODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+              "value": "MQ==",
+              "contract_name": "identity"
+            },
+            {
+              "key": "aWRlbnRpdHkjOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MQ==",
+              "contract_name": "identity"
+            }
+          ]
+        }
+      },
+      "tag": "target-3"
+    }
+  ],
+  "warmup": {
+    "attempted": 1,
+    "planned": 1,
+    "rows": [
+      {
+        "elapsed_ns": 2107480573,
+        "input": {
+          "Op": "query",
+          "Contract": "exchange",
+          "Method": "buyNow",
+          "Tag": "warmup",
+          "Path": "",
+          "TxID": "621c501962bc28c9f57007044c7bd68f4a1ae75de5e13ed4fd1a8a314f7d4c06",
+          "Phase": "warmup",
+          "Params": {
+            "from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+            "metadata": "http://chainmaker.org.cn/",
+            "to": "818fac1ac51525aeedf619a9a339b95854930159",
+            "tokenId": "9001"
+          }
+        },
+        "request_id": "f-exchange_buyNow-b1-G0/621c501962bc28c9f57007044c7bd68f4a1ae75de5e13ed4fd1a8a314f7d4c06",
+        "response": {
+          "message": "SUCCESS",
+          "contract_result": {
+            "result": "YnV5Tm93IHN1Y2Nlc3M=",
+            "gas_used": 12620047,
+            "contract_event": [
+              {
+                "topic": "ApprovalForAll2",
+                "tx_id": "18e41a76bd1df2e0ca10a915f057d1d5fbb7257df4474b75a0cffe467ed099c5",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                  "1"
+                ]
+              },
+              {
+                "topic": "transfer",
+                "tx_id": "18e41a76bd1df2e0ca10a915f057d1d5fbb7257df4474b75a0cffe467ed099c5",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "818fac1ac51525aeedf619a9a339b95854930159",
+                  "9001"
+                ]
+              },
+              {
+                "topic": "buyNow",
+                "tx_id": "18e41a76bd1df2e0ca10a915f057d1d5fbb7257df4474b75a0cffe467ed099c5",
+                "contract_name": "exchange",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                ]
+              }
+            ]
+          },
+          "tx_id": "18e41a76bd1df2e0ca10a915f057d1d5fbb7257df4474b75a0cffe467ed099c5"
+        },
+        "sdk_end_mono_ns": 2107498740,
+        "sdk_end_wall_ns": 1793587650988945514,
+        "sdk_start_mono_ns": 18167,
+        "sdk_start_wall_ns": 1793587648881464953,
+        "success": true,
+        "transaction": null
+      }
+    ],
+    "serial": true,
+    "successful_responses": 1,
+    "window_end_mono_ns": 2107498740,
+    "window_ns": 2107480573,
+    "window_start_mono_ns": 18167
+  },
+  "initial_projection": {},
+  "window": {
+    "attempted": 4,
+    "planned": 4,
+    "rows": [
+      {
+        "elapsed_ns": 149521725,
+        "input": {
+          "Op": "invoke",
+          "Contract": "exchange",
+          "Method": "buyNow",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+          "Phase": "formal",
+          "Params": {
+            "from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+            "metadata": "http://chainmaker.org.cn/",
+            "to": "818fac1ac51525aeedf619a9a339b95854930159",
+            "tokenId": "1001"
+          }
+        },
+        "request_id": "f-exchange_buyNow-b1-G0/6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+        "response": {
+          "contract_result": {
+            "result": "YnV5Tm93IHN1Y2Nlc3M=",
+            "gas_used": 12620047,
+            "contract_event": [
+              {
+                "topic": "ApprovalForAll2",
+                "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                  "1"
+                ]
+              },
+              {
+                "topic": "transfer",
+                "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "818fac1ac51525aeedf619a9a339b95854930159",
+                  "1001"
+                ]
+              },
+              {
+                "topic": "buyNow",
+                "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+                "contract_name": "exchange",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                ]
+              }
+            ]
+          },
+          "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+          "tx_timestamp": 1793587650,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 2258174800,
+        "sdk_end_wall_ns": 1793587651139621572,
+        "sdk_start_mono_ns": 2108653075,
+        "sdk_start_wall_ns": 1793587650990099820,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 115014706,
+        "input": {
+          "Op": "invoke",
+          "Contract": "exchange",
+          "Method": "buyNow",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+          "Phase": "formal",
+          "Params": {
+            "from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+            "metadata": "http://chainmaker.org.cn/",
+            "to": "818fac1ac51525aeedf619a9a339b95854930159",
+            "tokenId": "1002"
+          }
+        },
+        "request_id": "f-exchange_buyNow-b1-G0/1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+        "response": {
+          "contract_result": {
+            "result": "YnV5Tm93IHN1Y2Nlc3M=",
+            "gas_used": 12620048,
+            "contract_event": [
+              {
+                "topic": "ApprovalForAll2",
+                "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                  "1"
+                ]
+              },
+              {
+                "topic": "transfer",
+                "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "818fac1ac51525aeedf619a9a339b95854930159",
+                  "1002"
+                ]
+              },
+              {
+                "topic": "buyNow",
+                "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+                "contract_name": "exchange",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                ]
+              }
+            ]
+          },
+          "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+          "tx_timestamp": 1793587651,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 2373200104,
+        "sdk_end_wall_ns": 1793587651254646886,
+        "sdk_start_mono_ns": 2258185398,
+        "sdk_start_wall_ns": 1793587651139632175,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 115037090,
+        "input": {
+          "Op": "invoke",
+          "Contract": "exchange",
+          "Method": "buyNow",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+          "Phase": "formal",
+          "Params": {
+            "from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+            "metadata": "http://chainmaker.org.cn/",
+            "to": "818fac1ac51525aeedf619a9a339b95854930159",
+            "tokenId": "1003"
+          }
+        },
+        "request_id": "f-exchange_buyNow-b1-G0/9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+        "response": {
+          "contract_result": {
+            "result": "YnV5Tm93IHN1Y2Nlc3M=",
+            "gas_used": 12620048,
+            "contract_event": [
+              {
+                "topic": "ApprovalForAll2",
+                "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                  "1"
+                ]
+              },
+              {
+                "topic": "transfer",
+                "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "818fac1ac51525aeedf619a9a339b95854930159",
+                  "1003"
+                ]
+              },
+              {
+                "topic": "buyNow",
+                "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+                "contract_name": "exchange",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                ]
+              }
+            ]
+          },
+          "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+          "tx_timestamp": 1793587651,
+          "tx_block_height": 6
+        },
+        "sdk_end_mono_ns": 2488244868,
+        "sdk_end_wall_ns": 1793587651369691636,
+        "sdk_start_mono_ns": 2373207778,
+        "sdk_start_wall_ns": 1793587651254654561,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 122875914,
+        "input": {
+          "Op": "invoke",
+          "Contract": "exchange",
+          "Method": "buyNow",
+          "Tag": "target-3",
+          "Path": "",
+          "TxID": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+          "Phase": "formal",
+          "Params": {
+            "from": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+            "metadata": "http://chainmaker.org.cn/",
+            "to": "818fac1ac51525aeedf619a9a339b95854930159",
+            "tokenId": "1004"
+          }
+        },
+        "request_id": "f-exchange_buyNow-b1-G0/0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+        "response": {
+          "contract_result": {
+            "result": "YnV5Tm93IHN1Y2Nlc3M=",
+            "gas_used": 12620048,
+            "contract_event": [
+              {
+                "topic": "ApprovalForAll2",
+                "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "0a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f",
+                  "1"
+                ]
+              },
+              {
+                "topic": "transfer",
+                "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+                "contract_name": "erc721",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+                  "818fac1ac51525aeedf619a9a339b95854930159",
+                  "1004"
+                ]
+              },
+              {
+                "topic": "buyNow",
+                "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+                "contract_name": "exchange",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0818fac1ac51525aeedf619a9a339b958549301590a5f72dc838fb652f56f2a6aa3f1990b6ba54fde538ea818f9c4cecf7aa7908f"
+                ]
+              }
+            ]
+          },
+          "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+          "tx_timestamp": 1793587651,
+          "tx_block_height": 7
+        },
+        "sdk_end_mono_ns": 2611128604,
+        "sdk_end_wall_ns": 1793587651492575393,
+        "sdk_start_mono_ns": 2488252690,
+        "sdk_start_wall_ns": 1793587651369699472,
+        "success": true,
+        "transaction": null
+      }
+    ],
+    "serial": true,
+    "successful_responses": 4,
+    "window_end_mono_ns": 2611128604,
+    "window_ns": 502475529,
+    "window_start_mono_ns": 2108653075
+  },
+  "metadata": [
+    {
+      "tag": "target-0",
+      "tx_id": "6303d3aba20a798e701f036cede0bc9f41ab36cc4084e817d9a5aa529d0db16b",
+      "height": 4,
+      "timestamp": 1793587651
+    },
+    {
+      "tag": "target-1",
+      "tx_id": "1ca6c4d1a5341a5638994519f0207186f9111db280e9f69fa7631fb00f3d8d2c",
+      "height": 5,
+      "timestamp": 1793587651
+    },
+    {
+      "tag": "target-2",
+      "tx_id": "9df00d27b72adcfef33c5292743c09cefaa016053959d2fcbab7875d1653adfa",
+      "height": 6,
+      "timestamp": 1793587651
+    },
+    {
+      "tag": "target-3",
+      "tx_id": "0a0130351bebb3896815982319829f489d20f65fafd4050ddca23d1b87114580",
+      "height": 7,
+      "timestamp": 1793587651
+    }
+  ],
+  "projection": [
+    {
+      "Contract": "erc721",
+      "Key": "YWNjb3VudEluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OV8xMDAx",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8xMDAx",
+      "Expected": null
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YmFsYW5jZUluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+      "Expected": "NA=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+      "Expected": "MA=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "b3BlcmF0b3JBcHByb3ZlIzhhY2ZhY2E1ZWVlYzlmNmY3YzIzYzRmZmFjOTY5Yjg2ZjI3Nzk5YjBfMGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5BcHByb3ZlIzEwMDE=",
+      "Expected": null
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JZHMjMTAwMQ==",
+      "Expected": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzEwMDFfbGF0ZXN0VHhJbmZv",
+      "Expected": "eyJUeElkIjoiNjMwM2QzYWJhMjBhNzk4ZTcwMWYwMzZjZWRlMGJjOWY0MWFiMzZjYzQwODRlODE3ZDlhNWFhNTI5ZDBkYjE2YiIsIkJsb2NrSGVpZ2h0Ijo0LCJGcm9tIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCIsIlRvIjoiODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OSJ9"
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzEwMDFfbWV0YWRhdGE=",
+      "Expected": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+    },
+    {
+      "Contract": "identity",
+      "Key": "aWRlbnRpdHkjODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ==",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "identity",
+      "Key": "aWRlbnRpdHkjOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YWNjb3VudEluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OV8xMDAy",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8xMDAy",
+      "Expected": null
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5BcHByb3ZlIzEwMDI=",
+      "Expected": null
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JZHMjMTAwMg==",
+      "Expected": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzEwMDJfbGF0ZXN0VHhJbmZv",
+      "Expected": "eyJUeElkIjoiMWNhNmM0ZDFhNTM0MWE1NjM4OTk0NTE5ZjAyMDcxODZmOTExMWRiMjgwZTlmNjlmYTc2MzFmYjAwZjNkOGQyYyIsIkJsb2NrSGVpZ2h0Ijo1LCJGcm9tIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCIsIlRvIjoiODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OSJ9"
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzEwMDJfbWV0YWRhdGE=",
+      "Expected": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YWNjb3VudEluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OV8xMDAz",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8xMDAz",
+      "Expected": null
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5BcHByb3ZlIzEwMDM=",
+      "Expected": null
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JZHMjMTAwMw==",
+      "Expected": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzEwMDNfbGF0ZXN0VHhJbmZv",
+      "Expected": "eyJUeElkIjoiOWRmMDBkMjdiNzJhZGNmZWYzM2M1MjkyNzQzYzA5Y2VmYWEwMTYwNTM5NTlkMmZjYmFiNzg3NWQxNjUzYWRmYSIsIkJsb2NrSGVpZ2h0Ijo2LCJGcm9tIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCIsIlRvIjoiODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OSJ9"
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzEwMDNfbWV0YWRhdGE=",
+      "Expected": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YWNjb3VudEluZm8jODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OV8xMDA0",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8xMDA0",
+      "Expected": null
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5BcHByb3ZlIzEwMDQ=",
+      "Expected": null
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JZHMjMTAwNA==",
+      "Expected": "ODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzEwMDRfbGF0ZXN0VHhJbmZv",
+      "Expected": "eyJUeElkIjoiMGEwMTMwMzUxYmViYjM4OTY4MTU5ODIzMTk4MjlmNDg5ZDIwZjY1ZmFmZDQwNTBkZGNhMjNkMWI4NzExNDU4MCIsIkJsb2NrSGVpZ2h0Ijo3LCJGcm9tIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCIsIlRvIjoiODE4ZmFjMWFjNTE1MjVhZWVkZjYxOWE5YTMzOWI5NTg1NDkzMDE1OSJ9"
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzEwMDRfbWV0YWRhdGE=",
+      "Expected": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+    }
+  ],
+  "node": {
+    "label": "f-exchange_buyNow-b1-G0",
+    "reason": "",
+    "peak_rss_kib": 1035552,
+    "peak_threads": 45,
+    "stop_s": 0.05230566298996564,
+    "systemd": {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive"
+    },
+    "owner": {
+      "event": "owner_closed",
+      "instances_closed": 35,
+      "instances_created": 35,
+      "managed_objects": 0,
+      "managed_pending": 0,
+      "stores_closed": 38,
+      "stores_created": 38
+    },
+    "owned_pids": [
+      474869
+    ],
+    "pid_exited": true,
+    "cgroup_empty": true
+  }
+}

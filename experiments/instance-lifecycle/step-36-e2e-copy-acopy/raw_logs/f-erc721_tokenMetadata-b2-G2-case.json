@@ -1,0 +1,712 @@
+{
+  "label": "f-erc721_tokenMetadata-b2-G2",
+  "case": "erc721_tokenMetadata",
+  "group": "G2",
+  "phase": "formal",
+  "batch": 2,
+  "planned": 4,
+  "passed": true,
+  "status": "PASSED",
+  "records": [
+    {
+      "row": {
+        "elapsed_ns": 717284090,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "mint",
+          "Tag": "setup-0",
+          "Path": "",
+          "TxID": "2cf82715a7d1988bb3884b5a2ddea43ae00c4a8b5191c2519ff7f9b12fa6abd2",
+          "Phase": "setup",
+          "Params": {
+            "metadata": "http://chainmaker.org.cn/",
+            "to": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+            "tokenId": "1"
+          }
+        },
+        "request_id": "f-erc721_tokenMetadata-b2-G2/2cf82715a7d1988bb3884b5a2ddea43ae00c4a8b5191c2519ff7f9b12fa6abd2",
+        "response": {
+          "contract_result": {
+            "result": "bWludCBzdWNjZXNz",
+            "gas_used": 411
+          },
+          "tx_id": "2cf82715a7d1988bb3884b5a2ddea43ae00c4a8b5191c2519ff7f9b12fa6abd2",
+          "tx_timestamp": 1793587246,
+          "tx_block_height": 2
+        },
+        "sdk_end_mono_ns": 717303366,
+        "sdk_end_wall_ns": 1793587247703302207,
+        "sdk_start_mono_ns": 19276,
+        "sdk_start_wall_ns": 1793587246986018121,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "2cf82715a7d1988bb3884b5a2ddea43ae00c4a8b5191c2519ff7f9b12fa6abd2",
+            "timestamp": 1793587246,
+            "contract_name": "erc721",
+            "method": "mint",
+            "parameters": [
+              {
+                "key": "metadata",
+                "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+              },
+              {
+                "key": "to",
+                "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+              },
+              {
+                "key": "tokenId",
+                "value": "MQ=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIQDX+gC4yqiPP9dv5zBpuMt3P07VF2eNaJ3GFHkYaNSW+wIgXu4Wr5VRn9wiLVTP61Cz82Ng55JhP8hy8CDERtTDklY="
+          },
+          "result": {
+            "contract_result": {
+              "result": "bWludCBzdWNjZXNz",
+              "gas_used": 411
+            },
+            "rw_set_hash": "O8hvQxY5K9PPZBG5rZazSjrIwcRBVqu0PhOcgHB93kA="
+          }
+        },
+        "block_height": 2,
+        "block_timestamp": 1793587246,
+        "rw_set": {
+          "tx_id": "2cf82715a7d1988bb3884b5a2ddea43ae00c4a8b5191c2519ff7f9b12fa6abd2",
+          "tx_reads": [
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "ZXJjNzIxI2FkbWlu",
+              "value": "MGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMQ==",
+              "contract_name": "erc721"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8x",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMQ==",
+              "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzFfbGF0ZXN0VHhJbmZv",
+              "value": "eyJUeElkIjoiMmNmODI3MTVhN2QxOTg4YmIzODg0YjVhMmRkZWE0M2FlMDBjNGE4YjUxOTFjMjUxOWZmN2Y5YjEyZmE2YWJkMiIsIkJsb2NrSGVpZ2h0IjoyLCJGcm9tIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsIlRvIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCJ9",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzFfbWV0YWRhdGE=",
+              "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw==",
+              "contract_name": "erc721"
+            }
+          ]
+        }
+      },
+      "tag": "setup-0"
+    },
+    {
+      "row": {
+        "elapsed_ns": 38318584,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "tokenMetadata",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "09b4fb27306b621f12f333cd8e9d0be2ba09dfd13f5b3c6d850137d508cd5cd8",
+          "Phase": "formal",
+          "Params": {
+            "tokenId": "1"
+          }
+        },
+        "request_id": "f-erc721_tokenMetadata-b2-G2/09b4fb27306b621f12f333cd8e9d0be2ba09dfd13f5b3c6d850137d508cd5cd8",
+        "response": {
+          "contract_result": {
+            "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+            "gas_used": 154
+          },
+          "tx_id": "09b4fb27306b621f12f333cd8e9d0be2ba09dfd13f5b3c6d850137d508cd5cd8",
+          "tx_timestamp": 1793587247,
+          "tx_block_height": 3
+        },
+        "sdk_end_mono_ns": 770031883,
+        "sdk_end_wall_ns": 1793587247756030727,
+        "sdk_start_mono_ns": 731713299,
+        "sdk_start_wall_ns": 1793587247717712144,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "09b4fb27306b621f12f333cd8e9d0be2ba09dfd13f5b3c6d850137d508cd5cd8",
+            "timestamp": 1793587247,
+            "contract_name": "erc721",
+            "method": "tokenMetadata",
+            "parameters": [
+              {
+                "key": "tokenId",
+                "value": "MQ=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEQCIFa+jNhSSD1dhik27nNnyWIM+OXxG5qVZlkUTTvXPpMoAiANPglKJzoQz1b87W9EUK5c6OEz0UPxHgntOhKQTS5i0w=="
+          },
+          "result": {
+            "contract_result": {
+              "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+              "gas_used": 154
+            },
+            "rw_set_hash": "Qr6TkcS7ByZAwn16AW/qZxcGHlsb3UdussfHvesK1dw="
+          }
+        },
+        "block_height": 3,
+        "block_timestamp": 1793587247,
+        "rw_set": {
+          "tx_id": "09b4fb27306b621f12f333cd8e9d0be2ba09dfd13f5b3c6d850137d508cd5cd8",
+          "tx_reads": [
+            {
+              "key": "dG9rZW5JbmZvIzFfbWV0YWRhdGE=",
+              "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw==",
+              "contract_name": "erc721"
+            }
+          ]
+        }
+      },
+      "tag": "target-0"
+    },
+    {
+      "row": {
+        "elapsed_ns": 52731570,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "tokenMetadata",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "96cb1ea70a5ab23c5cbc018dce28a58fe7ccb43601a1d46f40954f6d3439f815",
+          "Phase": "formal",
+          "Params": {
+            "tokenId": "1"
+          }
+        },
+        "request_id": "f-erc721_tokenMetadata-b2-G2/96cb1ea70a5ab23c5cbc018dce28a58fe7ccb43601a1d46f40954f6d3439f815",
+        "response": {
+          "contract_result": {
+            "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+            "gas_used": 154
+          },
+          "tx_id": "96cb1ea70a5ab23c5cbc018dce28a58fe7ccb43601a1d46f40954f6d3439f815",
+          "tx_timestamp": 1793587247,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 822801137,
+        "sdk_end_wall_ns": 1793587247808799951,
+        "sdk_start_mono_ns": 770069567,
+        "sdk_start_wall_ns": 1793587247756068416,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "96cb1ea70a5ab23c5cbc018dce28a58fe7ccb43601a1d46f40954f6d3439f815",
+            "timestamp": 1793587247,
+            "contract_name": "erc721",
+            "method": "tokenMetadata",
+            "parameters": [
+              {
+                "key": "tokenId",
+                "value": "MQ=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEQCIF0souiEvrAF9Xu9AkFrsxxuF1io2MxYFDFYbAa2VdSBAiApFYoxD0ig1+jfDtMHST0CffZ5EOFq91ne1yxLU1x3bw=="
+          },
+          "result": {
+            "contract_result": {
+              "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+              "gas_used": 154
+            },
+            "rw_set_hash": "5HmYOLtgZJZfTqdc0I/ftIvJEU86GGVxP4stdOKEL2I="
+          }
+        },
+        "block_height": 4,
+        "block_timestamp": 1793587247,
+        "rw_set": {
+          "tx_id": "96cb1ea70a5ab23c5cbc018dce28a58fe7ccb43601a1d46f40954f6d3439f815",
+          "tx_reads": [
+            {
+              "key": "dG9rZW5JbmZvIzFfbWV0YWRhdGE=",
+              "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw==",
+              "contract_name": "erc721"
+            }
+          ]
+        }
+      },
+      "tag": "target-1"
+    },
+    {
+      "row": {
+        "elapsed_ns": 53863054,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "tokenMetadata",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "d84a5ed7dc1c3d234ba3e41437df69d502e3c37214271d6522a82b37e5eeea6a",
+          "Phase": "formal",
+          "Params": {
+            "tokenId": "1"
+          }
+        },
+        "request_id": "f-erc721_tokenMetadata-b2-G2/d84a5ed7dc1c3d234ba3e41437df69d502e3c37214271d6522a82b37e5eeea6a",
+        "response": {
+          "contract_result": {
+            "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+            "gas_used": 154
+          },
+          "tx_id": "d84a5ed7dc1c3d234ba3e41437df69d502e3c37214271d6522a82b37e5eeea6a",
+          "tx_timestamp": 1793587247,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 876673646,
+        "sdk_end_wall_ns": 1793587247862672485,
+        "sdk_start_mono_ns": 822810592,
+        "sdk_start_wall_ns": 1793587247808809422,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "d84a5ed7dc1c3d234ba3e41437df69d502e3c37214271d6522a82b37e5eeea6a",
+            "timestamp": 1793587247,
+            "contract_name": "erc721",
+            "method": "tokenMetadata",
+            "parameters": [
+              {
+                "key": "tokenId",
+                "value": "MQ=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEYCIQD5zjyQdyxgQRM/4Yh/YZg4HXZX294mSH6yxly5+Ift1gIhAM714roboD/URUtKyNcrvFnxjwqCCiEUasOb90rYV+33"
+          },
+          "result": {
+            "contract_result": {
+              "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+              "gas_used": 154
+            },
+            "rw_set_hash": "NvR3e4xwz0FYRnOCbOo02eFxGVmN7YTWmapo0bOdktY="
+          }
+        },
+        "block_height": 5,
+        "block_timestamp": 1793587247,
+        "rw_set": {
+          "tx_id": "d84a5ed7dc1c3d234ba3e41437df69d502e3c37214271d6522a82b37e5eeea6a",
+          "tx_reads": [
+            {
+              "key": "dG9rZW5JbmZvIzFfbWV0YWRhdGE=",
+              "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw==",
+              "contract_name": "erc721"
+            }
+          ]
+        }
+      },
+      "tag": "target-2"
+    },
+    {
+      "row": {
+        "elapsed_ns": 1143292977,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "tokenMetadata",
+          "Tag": "target-3",
+          "Path": "",
+          "TxID": "f12aaf38fdaf7cd52074d05d7d7ef2a4153c8e9c90d2d4e9b2f0d64d34b9a0d4",
+          "Phase": "formal",
+          "Params": {
+            "tokenId": "1"
+          }
+        },
+        "request_id": "f-erc721_tokenMetadata-b2-G2/f12aaf38fdaf7cd52074d05d7d7ef2a4153c8e9c90d2d4e9b2f0d64d34b9a0d4",
+        "response": {
+          "contract_result": {
+            "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+            "gas_used": 154
+          },
+          "tx_id": "f12aaf38fdaf7cd52074d05d7d7ef2a4153c8e9c90d2d4e9b2f0d64d34b9a0d4",
+          "tx_timestamp": 1793587247,
+          "tx_block_height": 6
+        },
+        "sdk_end_mono_ns": 2019973949,
+        "sdk_end_wall_ns": 1793587249005972714,
+        "sdk_start_mono_ns": 876680972,
+        "sdk_start_wall_ns": 1793587247862679819,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "f12aaf38fdaf7cd52074d05d7d7ef2a4153c8e9c90d2d4e9b2f0d64d34b9a0d4",
+            "timestamp": 1793587247,
+            "contract_name": "erc721",
+            "method": "tokenMetadata",
+            "parameters": [
+              {
+                "key": "tokenId",
+                "value": "MQ=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIBAy5KPF22K5ghbiw8qBXNt6B05BfJMhIEauuFRwsq6OAiEA0ubdRqsYnit2u2zshcIih78lcB5ieKrPnS6vN9YKxD4="
+          },
+          "result": {
+            "contract_result": {
+              "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+              "gas_used": 154
+            },
+            "rw_set_hash": "phRvciZLhlChv0l3/bcR7/Nj9ZtLaTYVuz1aZhj812c="
+          }
+        },
+        "block_height": 6,
+        "block_timestamp": 1793587248,
+        "rw_set": {
+          "tx_id": "f12aaf38fdaf7cd52074d05d7d7ef2a4153c8e9c90d2d4e9b2f0d64d34b9a0d4",
+          "tx_reads": [
+            {
+              "key": "dG9rZW5JbmZvIzFfbWV0YWRhdGE=",
+              "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw==",
+              "contract_name": "erc721"
+            }
+          ]
+        }
+      },
+      "tag": "target-3"
+    }
+  ],
+  "warmup": {
+    "attempted": 1,
+    "planned": 1,
+    "rows": [
+      {
+        "elapsed_ns": 11412876,
+        "input": {
+          "Op": "query",
+          "Contract": "erc721",
+          "Method": "tokenMetadata",
+          "Tag": "warmup",
+          "Path": "",
+          "TxID": "3749a0f30533e28831d137d2e78e9fd43ad56c334da3af8489c4e0811bc9c9f2",
+          "Phase": "warmup",
+          "Params": {
+            "tokenId": "1"
+          }
+        },
+        "request_id": "f-erc721_tokenMetadata-b2-G2/3749a0f30533e28831d137d2e78e9fd43ad56c334da3af8489c4e0811bc9c9f2",
+        "response": {
+          "message": "SUCCESS",
+          "contract_result": {
+            "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+            "gas_used": 154
+          },
+          "tx_id": "18e41a19551fa9cfca8883de6493a0b79bb4fc6ef195491cbf6387cf7c237d1f"
+        },
+        "sdk_end_mono_ns": 730292821,
+        "sdk_end_wall_ns": 1793587247716291666,
+        "sdk_start_mono_ns": 718879945,
+        "sdk_start_wall_ns": 1793587247704878745,
+        "success": true,
+        "transaction": null
+      }
+    ],
+    "serial": true,
+    "successful_responses": 1,
+    "window_end_mono_ns": 730292821,
+    "window_ns": 11412876,
+    "window_start_mono_ns": 718879945
+  },
+  "initial_projection": {
+    "erc721|YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8x": "MQ==",
+    "erc721|YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==": "MQ==",
+    "erc721|dG9rZW5JZHMjMQ==": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+    "erc721|dG9rZW5JbmZvIzFfbGF0ZXN0VHhJbmZv": "eyJUeElkIjoiMmNmODI3MTVhN2QxOTg4YmIzODg0YjVhMmRkZWE0M2FlMDBjNGE4YjUxOTFjMjUxOWZmN2Y5YjEyZmE2YWJkMiIsIkJsb2NrSGVpZ2h0IjoyLCJGcm9tIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsIlRvIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCJ9",
+    "erc721|dG9rZW5JbmZvIzFfbWV0YWRhdGE=": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+  },
+  "window": {
+    "attempted": 4,
+    "planned": 4,
+    "rows": [
+      {
+        "elapsed_ns": 38318584,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "tokenMetadata",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "09b4fb27306b621f12f333cd8e9d0be2ba09dfd13f5b3c6d850137d508cd5cd8",
+          "Phase": "formal",
+          "Params": {
+            "tokenId": "1"
+          }
+        },
+        "request_id": "f-erc721_tokenMetadata-b2-G2/09b4fb27306b621f12f333cd8e9d0be2ba09dfd13f5b3c6d850137d508cd5cd8",
+        "response": {
+          "contract_result": {
+            "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+            "gas_used": 154
+          },
+          "tx_id": "09b4fb27306b621f12f333cd8e9d0be2ba09dfd13f5b3c6d850137d508cd5cd8",
+          "tx_timestamp": 1793587247,
+          "tx_block_height": 3
+        },
+        "sdk_end_mono_ns": 770031883,
+        "sdk_end_wall_ns": 1793587247756030727,
+        "sdk_start_mono_ns": 731713299,
+        "sdk_start_wall_ns": 1793587247717712144,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 52731570,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "tokenMetadata",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "96cb1ea70a5ab23c5cbc018dce28a58fe7ccb43601a1d46f40954f6d3439f815",
+          "Phase": "formal",
+          "Params": {
+            "tokenId": "1"
+          }
+        },
+        "request_id": "f-erc721_tokenMetadata-b2-G2/96cb1ea70a5ab23c5cbc018dce28a58fe7ccb43601a1d46f40954f6d3439f815",
+        "response": {
+          "contract_result": {
+            "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+            "gas_used": 154
+          },
+          "tx_id": "96cb1ea70a5ab23c5cbc018dce28a58fe7ccb43601a1d46f40954f6d3439f815",
+          "tx_timestamp": 1793587247,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 822801137,
+        "sdk_end_wall_ns": 1793587247808799951,
+        "sdk_start_mono_ns": 770069567,
+        "sdk_start_wall_ns": 1793587247756068416,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 53863054,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "tokenMetadata",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "d84a5ed7dc1c3d234ba3e41437df69d502e3c37214271d6522a82b37e5eeea6a",
+          "Phase": "formal",
+          "Params": {
+            "tokenId": "1"
+          }
+        },
+        "request_id": "f-erc721_tokenMetadata-b2-G2/d84a5ed7dc1c3d234ba3e41437df69d502e3c37214271d6522a82b37e5eeea6a",
+        "response": {
+          "contract_result": {
+            "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+            "gas_used": 154
+          },
+          "tx_id": "d84a5ed7dc1c3d234ba3e41437df69d502e3c37214271d6522a82b37e5eeea6a",
+          "tx_timestamp": 1793587247,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 876673646,
+        "sdk_end_wall_ns": 1793587247862672485,
+        "sdk_start_mono_ns": 822810592,
+        "sdk_start_wall_ns": 1793587247808809422,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 1143292977,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "tokenMetadata",
+          "Tag": "target-3",
+          "Path": "",
+          "TxID": "f12aaf38fdaf7cd52074d05d7d7ef2a4153c8e9c90d2d4e9b2f0d64d34b9a0d4",
+          "Phase": "formal",
+          "Params": {
+            "tokenId": "1"
+          }
+        },
+        "request_id": "f-erc721_tokenMetadata-b2-G2/f12aaf38fdaf7cd52074d05d7d7ef2a4153c8e9c90d2d4e9b2f0d64d34b9a0d4",
+        "response": {
+          "contract_result": {
+            "result": "dG9rZW5NZXRhZGF0YSBpcyBodHRwOi8vY2hhaW5tYWtlci5vcmcuY24v",
+            "gas_used": 154
+          },
+          "tx_id": "f12aaf38fdaf7cd52074d05d7d7ef2a4153c8e9c90d2d4e9b2f0d64d34b9a0d4",
+          "tx_timestamp": 1793587247,
+          "tx_block_height": 6
+        },
+        "sdk_end_mono_ns": 2019973949,
+        "sdk_end_wall_ns": 1793587249005972714,
+        "sdk_start_mono_ns": 876680972,
+        "sdk_start_wall_ns": 1793587247862679819,
+        "success": true,
+        "transaction": null
+      }
+    ],
+    "serial": true,
+    "successful_responses": 4,
+    "window_end_mono_ns": 2019973949,
+    "window_ns": 1288260650,
+    "window_start_mono_ns": 731713299
+  },
+  "metadata": [
+    {
+      "tag": "setup-0",
+      "tx_id": "2cf82715a7d1988bb3884b5a2ddea43ae00c4a8b5191c2519ff7f9b12fa6abd2",
+      "height": 2,
+      "timestamp": 1793587246
+    },
+    {
+      "tag": "target-0",
+      "tx_id": "09b4fb27306b621f12f333cd8e9d0be2ba09dfd13f5b3c6d850137d508cd5cd8",
+      "height": 3,
+      "timestamp": 1793587247
+    },
+    {
+      "tag": "target-1",
+      "tx_id": "96cb1ea70a5ab23c5cbc018dce28a58fe7ccb43601a1d46f40954f6d3439f815",
+      "height": 4,
+      "timestamp": 1793587247
+    },
+    {
+      "tag": "target-2",
+      "tx_id": "d84a5ed7dc1c3d234ba3e41437df69d502e3c37214271d6522a82b37e5eeea6a",
+      "height": 5,
+      "timestamp": 1793587247
+    },
+    {
+      "tag": "target-3",
+      "tx_id": "f12aaf38fdaf7cd52074d05d7d7ef2a4153c8e9c90d2d4e9b2f0d64d34b9a0d4",
+      "height": 6,
+      "timestamp": 1793587248
+    }
+  ],
+  "projection": [
+    {
+      "Contract": "erc721",
+      "Key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8x",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JZHMjMQ==",
+      "Expected": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzFfbGF0ZXN0VHhJbmZv",
+      "Expected": "eyJUeElkIjoiMmNmODI3MTVhN2QxOTg4YmIzODg0YjVhMmRkZWE0M2FlMDBjNGE4YjUxOTFjMjUxOWZmN2Y5YjEyZmE2YWJkMiIsIkJsb2NrSGVpZ2h0IjoyLCJGcm9tIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsIlRvIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCJ9"
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzFfbWV0YWRhdGE=",
+      "Expected": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+    }
+  ],
+  "node": {
+    "label": "f-erc721_tokenMetadata-b2-G2",
+    "reason": "",
+    "peak_rss_kib": 534212,
+    "peak_threads": 26,
+    "stop_s": 0.03481698299583513,
+    "systemd": {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive"
+    },
+    "owner": {
+      "event": "owner_closed",
+      "instances_closed": 6,
+      "instances_created": 6,
+      "managed_objects": 0,
+      "managed_pending": 0,
+      "stores_closed": 7,
+      "stores_created": 7
+    },
+    "owned_pids": [
+      432560
+    ],
+    "pid_exited": true,
+    "cgroup_empty": true
+  }
+}

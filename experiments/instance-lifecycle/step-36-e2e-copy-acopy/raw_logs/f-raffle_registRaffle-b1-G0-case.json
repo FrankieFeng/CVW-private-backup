@@ -1,0 +1,751 @@
+{
+  "label": "f-raffle_registRaffle-b1-G0",
+  "case": "raffle_registRaffle",
+  "group": "G0",
+  "phase": "formal",
+  "batch": 1,
+  "planned": 4,
+  "passed": true,
+  "status": "PASSED",
+  "records": [
+    {
+      "row": {
+        "elapsed_ns": 43024834,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "registRaffle",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+          "Phase": "formal",
+          "Params": {
+            "level": "1",
+            "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "f-raffle_registRaffle-b1-G0/ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+            "gas_used": 448,
+            "contract_event": [
+              {
+                "topic": "peoples",
+                "tx_id": "ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+                "contract_name": "raffle",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+          "tx_timestamp": 1793587011,
+          "tx_block_height": 2
+        },
+        "sdk_end_mono_ns": 692156483,
+        "sdk_end_wall_ns": 1793587011615751781,
+        "sdk_start_mono_ns": 649131649,
+        "sdk_start_wall_ns": 1793587011572726947,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+            "timestamp": 1793587011,
+            "contract_name": "raffle",
+            "method": "registRaffle",
+            "parameters": [
+              {
+                "key": "level",
+                "value": "MQ=="
+              },
+              {
+                "key": "peoples",
+                "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0="
+              },
+              {
+                "key": "timestamp",
+                "value": "MTcwMDAwMDAwMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEQCIAbOO/MoUCJirmT8i5l9335Gc6evJXBvB59z3BuyeV46AiAFh+6sQDtZs095KeleyGv3W8A8/B1+c+P8OFEFvCLSgw=="
+          },
+          "result": {
+            "contract_result": {
+              "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+              "gas_used": 448,
+              "contract_event": [
+                {
+                  "topic": "peoples",
+                  "tx_id": "ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+                  "contract_name": "raffle",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "PnRV1PAgKDjKRU5P6rFA6fc2VXSTxHmVpIFkBA8/QlY="
+          }
+        },
+        "block_height": 2,
+        "block_timestamp": 1793587011,
+        "rw_set": {
+          "tx_id": "ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+          "tx_writes": [
+            {
+              "key": "cGVvcGxlcw==",
+              "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn1dfQ==",
+              "contract_name": "raffle"
+            }
+          ]
+        }
+      },
+      "tag": "target-0"
+    },
+    {
+      "row": {
+        "elapsed_ns": 46197275,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "registRaffle",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+          "Phase": "formal",
+          "Params": {
+            "level": "1",
+            "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "f-raffle_registRaffle-b1-G0/bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+            "gas_used": 448,
+            "contract_event": [
+              {
+                "topic": "peoples",
+                "tx_id": "bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+                "contract_name": "raffle",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+          "tx_timestamp": 1793587011,
+          "tx_block_height": 3
+        },
+        "sdk_end_mono_ns": 738360761,
+        "sdk_end_wall_ns": 1793587011661956050,
+        "sdk_start_mono_ns": 692163486,
+        "sdk_start_wall_ns": 1793587011615758790,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+            "timestamp": 1793587011,
+            "contract_name": "raffle",
+            "method": "registRaffle",
+            "parameters": [
+              {
+                "key": "level",
+                "value": "MQ=="
+              },
+              {
+                "key": "peoples",
+                "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0="
+              },
+              {
+                "key": "timestamp",
+                "value": "MTcwMDAwMDAwMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIQCN/bJE38eMoN1VJZKrp+UvubNCmcMjqVya2xCrSyE63gIgetgf9670ij+7ga5s30w3Ya1ilNyl/x/d/AaZPfm5/xo="
+          },
+          "result": {
+            "contract_result": {
+              "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+              "gas_used": 448,
+              "contract_event": [
+                {
+                  "topic": "peoples",
+                  "tx_id": "bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+                  "contract_name": "raffle",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "ZSxCMk7hZKrrKq4fEeV076t8AT/Q9QcwjA4vFNhqObA="
+          }
+        },
+        "block_height": 3,
+        "block_timestamp": 1793587011,
+        "rw_set": {
+          "tx_id": "bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+          "tx_writes": [
+            {
+              "key": "cGVvcGxlcw==",
+              "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn1dfQ==",
+              "contract_name": "raffle"
+            }
+          ]
+        }
+      },
+      "tag": "target-1"
+    },
+    {
+      "row": {
+        "elapsed_ns": 56654500,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "registRaffle",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+          "Phase": "formal",
+          "Params": {
+            "level": "1",
+            "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "f-raffle_registRaffle-b1-G0/363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+            "gas_used": 448,
+            "contract_event": [
+              {
+                "topic": "peoples",
+                "tx_id": "363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+                "contract_name": "raffle",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+          "tx_timestamp": 1793587011,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 795059178,
+        "sdk_end_wall_ns": 1793587011718654458,
+        "sdk_start_mono_ns": 738404678,
+        "sdk_start_wall_ns": 1793587011661999964,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+            "timestamp": 1793587011,
+            "contract_name": "raffle",
+            "method": "registRaffle",
+            "parameters": [
+              {
+                "key": "level",
+                "value": "MQ=="
+              },
+              {
+                "key": "peoples",
+                "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0="
+              },
+              {
+                "key": "timestamp",
+                "value": "MTcwMDAwMDAwMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEYCIQDgeY60vSeOMeO1JS6YqtOnFa0JkVMVtBcPxLVb2D/aLAIhAM8IjXJIbAggV/cJFXlU5WjHbiLykstW3OIxyWjxo4Zl"
+          },
+          "result": {
+            "contract_result": {
+              "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+              "gas_used": 448,
+              "contract_event": [
+                {
+                  "topic": "peoples",
+                  "tx_id": "363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+                  "contract_name": "raffle",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "UnQBJPXDLTPZuaLiNHwA3qsjFAH1nTgJ+hBT7J4X/CY="
+          }
+        },
+        "block_height": 4,
+        "block_timestamp": 1793587011,
+        "rw_set": {
+          "tx_id": "363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+          "tx_writes": [
+            {
+              "key": "cGVvcGxlcw==",
+              "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn1dfQ==",
+              "contract_name": "raffle"
+            }
+          ]
+        }
+      },
+      "tag": "target-2"
+    },
+    {
+      "row": {
+        "elapsed_ns": 58876751,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "registRaffle",
+          "Tag": "target-3",
+          "Path": "",
+          "TxID": "6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+          "Phase": "formal",
+          "Params": {
+            "level": "1",
+            "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "f-raffle_registRaffle-b1-G0/6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+            "gas_used": 448,
+            "contract_event": [
+              {
+                "topic": "peoples",
+                "tx_id": "6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+                "contract_name": "raffle",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+          "tx_timestamp": 1793587011,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 854032658,
+        "sdk_end_wall_ns": 1793587011777627948,
+        "sdk_start_mono_ns": 795155907,
+        "sdk_start_wall_ns": 1793587011718751160,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+            "timestamp": 1793587011,
+            "contract_name": "raffle",
+            "method": "registRaffle",
+            "parameters": [
+              {
+                "key": "level",
+                "value": "MQ=="
+              },
+              {
+                "key": "peoples",
+                "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0="
+              },
+              {
+                "key": "timestamp",
+                "value": "MTcwMDAwMDAwMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEQCICfLTTshGPHT2sKBWCC93Tgbtu00Hsz3Zmx00wLk5HeVAiB5AXZJY2khgFE8lm+aXLCzH74+Klb0ZXiN2asWM8eE9g=="
+          },
+          "result": {
+            "contract_result": {
+              "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+              "gas_used": 448,
+              "contract_event": [
+                {
+                  "topic": "peoples",
+                  "tx_id": "6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+                  "contract_name": "raffle",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "jXpuoQwhxTHCY7EiL9cryEm0AS+dOhtI8anKiIFU9Qk="
+          }
+        },
+        "block_height": 5,
+        "block_timestamp": 1793587011,
+        "rw_set": {
+          "tx_id": "6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+          "tx_writes": [
+            {
+              "key": "cGVvcGxlcw==",
+              "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn1dfQ==",
+              "contract_name": "raffle"
+            }
+          ]
+        }
+      },
+      "tag": "target-3"
+    }
+  ],
+  "warmup": {
+    "attempted": 1,
+    "planned": 1,
+    "rows": [
+      {
+        "elapsed_ns": 648071098,
+        "input": {
+          "Op": "query",
+          "Contract": "raffle",
+          "Method": "registRaffle",
+          "Tag": "warmup",
+          "Path": "",
+          "TxID": "8df7799919c6fcea8d9d322be6319a23345f9ab776771666c2d18feff4ed115d",
+          "Phase": "warmup",
+          "Params": {
+            "level": "1",
+            "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "f-raffle_registRaffle-b1-G0/8df7799919c6fcea8d9d322be6319a23345f9ab776771666c2d18feff4ed115d",
+        "response": {
+          "message": "SUCCESS",
+          "contract_result": {
+            "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+            "gas_used": 448,
+            "contract_event": [
+              {
+                "topic": "peoples",
+                "tx_id": "18e419e233ddd80bca9fc07a39c6619c78fff4c41f884a80a3a99a678bdad08c",
+                "contract_name": "raffle",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "18e419e233ddd80bca9fc07a39c6619c78fff4c41f884a80a3a99a678bdad08c"
+        },
+        "sdk_end_mono_ns": 648089957,
+        "sdk_end_wall_ns": 1793587011571685250,
+        "sdk_start_mono_ns": 18859,
+        "sdk_start_wall_ns": 1793587010923614154,
+        "success": true,
+        "transaction": null
+      }
+    ],
+    "serial": true,
+    "successful_responses": 1,
+    "window_end_mono_ns": 648089957,
+    "window_ns": 648071098,
+    "window_start_mono_ns": 18859
+  },
+  "initial_projection": {},
+  "window": {
+    "attempted": 4,
+    "planned": 4,
+    "rows": [
+      {
+        "elapsed_ns": 43024834,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "registRaffle",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+          "Phase": "formal",
+          "Params": {
+            "level": "1",
+            "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "f-raffle_registRaffle-b1-G0/ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+            "gas_used": 448,
+            "contract_event": [
+              {
+                "topic": "peoples",
+                "tx_id": "ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+                "contract_name": "raffle",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+          "tx_timestamp": 1793587011,
+          "tx_block_height": 2
+        },
+        "sdk_end_mono_ns": 692156483,
+        "sdk_end_wall_ns": 1793587011615751781,
+        "sdk_start_mono_ns": 649131649,
+        "sdk_start_wall_ns": 1793587011572726947,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 46197275,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "registRaffle",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+          "Phase": "formal",
+          "Params": {
+            "level": "1",
+            "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "f-raffle_registRaffle-b1-G0/bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+            "gas_used": 448,
+            "contract_event": [
+              {
+                "topic": "peoples",
+                "tx_id": "bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+                "contract_name": "raffle",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+          "tx_timestamp": 1793587011,
+          "tx_block_height": 3
+        },
+        "sdk_end_mono_ns": 738360761,
+        "sdk_end_wall_ns": 1793587011661956050,
+        "sdk_start_mono_ns": 692163486,
+        "sdk_start_wall_ns": 1793587011615758790,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 56654500,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "registRaffle",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+          "Phase": "formal",
+          "Params": {
+            "level": "1",
+            "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "f-raffle_registRaffle-b1-G0/363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+            "gas_used": 448,
+            "contract_event": [
+              {
+                "topic": "peoples",
+                "tx_id": "363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+                "contract_name": "raffle",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+          "tx_timestamp": 1793587011,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 795059178,
+        "sdk_end_wall_ns": 1793587011718654458,
+        "sdk_start_mono_ns": 738404678,
+        "sdk_start_wall_ns": 1793587011661999964,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 58876751,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "registRaffle",
+          "Tag": "target-3",
+          "Path": "",
+          "TxID": "6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+          "Phase": "formal",
+          "Params": {
+            "level": "1",
+            "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "f-raffle_registRaffle-b1-G0/6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+            "gas_used": 448,
+            "contract_event": [
+              {
+                "topic": "peoples",
+                "tx_id": "6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+                "contract_name": "raffle",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+          "tx_timestamp": 1793587011,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 854032658,
+        "sdk_end_wall_ns": 1793587011777627948,
+        "sdk_start_mono_ns": 795155907,
+        "sdk_start_wall_ns": 1793587011718751160,
+        "success": true,
+        "transaction": null
+      }
+    ],
+    "serial": true,
+    "successful_responses": 4,
+    "window_end_mono_ns": 854032658,
+    "window_ns": 204901009,
+    "window_start_mono_ns": 649131649
+  },
+  "metadata": [
+    {
+      "tag": "target-0",
+      "tx_id": "ac0192bae86a598403c63cad80b62192e49c4db81ab53e40cad9154fc750dfa8",
+      "height": 2,
+      "timestamp": 1793587011
+    },
+    {
+      "tag": "target-1",
+      "tx_id": "bb0e07665421e544b7e89d8d79d4e581d4ec633794e8f3475ba9e32eebc06feb",
+      "height": 3,
+      "timestamp": 1793587011
+    },
+    {
+      "tag": "target-2",
+      "tx_id": "363834a44f23ea400d89b43573305cc3d82544b35ff98792a17470e95c92b7c8",
+      "height": 4,
+      "timestamp": 1793587011
+    },
+    {
+      "tag": "target-3",
+      "tx_id": "6c12c7ac3da6cd88f77d7418be19cd56489afbe91dfbe571ef1ceada70ad979c",
+      "height": 5,
+      "timestamp": 1793587011
+    }
+  ],
+  "projection": [
+    {
+      "Contract": "raffle",
+      "Key": "cGVvcGxlcw==",
+      "Expected": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn1dfQ=="
+    }
+  ],
+  "node": {
+    "label": "f-raffle_registRaffle-b1-G0",
+    "reason": "",
+    "peak_rss_kib": 577284,
+    "peak_threads": 27,
+    "stop_s": 0.03039043200260494,
+    "systemd": {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive"
+    },
+    "owner": {
+      "event": "owner_closed",
+      "instances_closed": 5,
+      "instances_created": 5,
+      "managed_objects": 0,
+      "managed_pending": 0,
+      "stores_closed": 6,
+      "stores_created": 6
+    },
+    "owned_pids": [
+      410414
+    ],
+    "pid_exited": true,
+    "cgroup_empty": true
+  }
+}

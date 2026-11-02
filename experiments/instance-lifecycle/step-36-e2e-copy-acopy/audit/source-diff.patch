@@ -1,0 +1,74 @@
+
+diff --git a/home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/store/blockstore_impl.go b/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/blockstore_impl.go
+index e8419d37..9dd96949 100644
+--- a/home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/store/blockstore_impl.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/blockstore_impl.go
+@@ -233,6 +233,14 @@ func NewBlockStoreImpl(chainId string,
+ 		blockStore.waitG.Join(blockStore.WriteBatchFromChanToDB)
+ 	}
+ 
++	trace35c.RegisterStateReader(func(c string, k []byte) ([]byte, error) {
++		end, e := blockStore.drain35c.Begin()
++		if e != nil {
++			return nil, e
++		}
++		defer end()
++		return blockStore.ReadObject(c, k)
++	})
+ 	return blockStore, nil
+ }
+ 
+diff --git a/home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/store/step35c/trace.go b/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/step35c/trace.go
+index 043b4b93..1cf26aff 100644
+--- a/home/frankie/mygitprojects/.worktrees/cvw-step35c/experiments/instance-lifecycle/step-35c-node-shutdown-drain/source/store/step35c/trace.go
++++ b/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/step35c/trace.go
+@@ -23,6 +23,13 @@ var server35c *http.Server
+ var listener35c net.Listener
+ var done35c chan struct{}
+ var close35c sync.Once
++var stateReader func(string, []byte) ([]byte, error)
++
++func RegisterStateReader(f func(string, []byte) ([]byte, error)) {
++	mu.Lock()
++	defer mu.Unlock()
++	stateReader = f
++}
+ 
+ func Mono() int64 { var t unix.Timespec; unix.ClockGettime(unix.CLOCK_MONOTONIC, &t); return t.Nano() }
+ func Event(event string, x map[string]interface{}) {
+@@ -51,6 +58,35 @@ func Start() {
+ 		}
+ 		os.Chmod(p, 0600)
+ 		mux := http.NewServeMux()
++		mux.HandleFunc("/verify-state", func(w http.ResponseWriter, r *http.Request) {
++			type item struct {
++				Contract string
++				Key      []byte
++				Expected []byte
++			}
++			var req []item
++			if e := json.NewDecoder(http.MaxBytesReader(w, r.Body, 4<<20)).Decode(&req); e != nil {
++				http.Error(w, e.Error(), 400)
++				return
++			}
++			if len(req) > 4096 {
++				http.Error(w, "too many keys", 400)
++				return
++			}
++			mu.Lock()
++			read := stateReader
++			mu.Unlock()
++			if read == nil {
++				http.Error(w, "reader unavailable", 409)
++				return
++			}
++			out := []map[string]interface{}{}
++			for _, q := range req {
++				v, e := read(q.Contract, q.Key)
++				out = append(out, map[string]interface{}{"contract": q.Contract, "key": q.Key, "actual": v, "match": string(v) == string(q.Expected), "error": fmt.Sprint(e)})
++			}
++			json.NewEncoder(w).Encode(out)
++		})
+ 		mux.HandleFunc("/state", func(w http.ResponseWriter, r *http.Request) {
+ 			mu.Lock()
+ 			defer mu.Unlock()
