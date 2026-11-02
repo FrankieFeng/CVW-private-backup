@@ -1,0 +1,19 @@
+COMMAND ["rg", "-n", "-i", "\\brenew\\b|wasm_memory_reset|func .*Reset", "/home/frankie/mygitprojects/.worktrees/native-step35b/lib", "/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/vm", "--glob", "*.rs", "--glob", "*.go"]
+/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/vm/step34_owner.go:139:func (o *SafeFreshOwner) Reset(ctx context.Context, reset func() error) error {
+/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/vm/vm_instances_manager.go:183:func (m *InstancesManager) ResetAVmPool(contractId *commonPb.Contract) {
+/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/vm/vm_instances_manager.go:202:func (m *InstancesManager) ResetAllPool() {
+/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/vm/step35a_control.go:46:func (m *InstancesManager) tracked35aReset() error {
+/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/vm/step35a_owner_test.go:11:func TestStep35AResetStop(t *testing.T) {
+/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/vm/step35a_owner_test.go:60:func TestStep35AStopThenReset(t *testing.T) {
+/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/vm/step35_node.go:120:func (m *nodeFreshManager) reset() error {
+/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/vm/wasmer-go/memory.go:139:func (self *Memory) Reset() bool {
+/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/vm/wasmer-go/memory.go:140:	return bool(C.wasm_memory_reset(self.inner()))
+/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/vm/vm_pool.go:1388:func (p *vmPool) reset() {
+/home/frankie/mygitprojects/.worktrees/native-step35b/lib/wasix/src/fs/fd.rs:140:    pub fn renew(&mut self) {
+/home/frankie/mygitprojects/.worktrees/native-step35b/lib/wasix/src/fs/fd.rs:152:                tracing::trace!(fd, "join renew already woken");
+/home/frankie/mygitprojects/.worktrees/native-step35b/lib/c-api/src/wasm_c_api/externals/memory.rs:108:pub unsafe extern "C" fn wasm_memory_reset(memory: &mut wasm_memory_t) -> bool {
+/home/frankie/mygitprojects/.worktrees/native-step35b/lib/wasix/src/syscalls/wasix/epoll_wait.rs:88:                        // We have to renew any joins that have now been spent
+/home/frankie/mygitprojects/.worktrees/native-step35b/lib/wasix/src/syscalls/wasix/epoll_wait.rs:91:                                join.renew();
+
+Broad API substring/header/Chenhang snapshot search: ["rg", "-n", "-i", "renew", "/home/frankie/mygitprojects/.worktrees/native-step35b/lib/c-api", "/home/frankie/mygitprojects/.worktrees/native-step35b/lib/vm", "/home/frankie/mygitprojects/.worktrees/native-step35b/lib/api", "/home/frankie/mygitprojects/CVW/experiments/instance-lifecycle/step-31-chenhang-store-audit/remote", "--glob", "*.rs", "--glob", "*.go", "--glob", "*.h"]
+(no matches)
