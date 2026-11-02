@@ -1,0 +1,21 @@
+package wasmer
+import("fmt";"os";"runtime";"sync";"sync/atomic";"time";"encoding/json")
+type e38Mark struct{begin time.Time;mem runtime.MemStats;id uint64;name string;bytes int}
+type e38Cost struct{ID uint64 `json:"call_id"`;Name string `json:"stage"`;Bytes int `json:"input_bytes"`;NS int64 `json:"ns"`;Allocs uint64 `json:"allocs"`;AllocBytes uint64 `json:"alloc_bytes"`;AllocationDiagnostic bool `json:"allocation_diagnostic"`}
+var e38Mu sync.Mutex
+var e38Costs=make([]e38Cost,0,4096)
+var e38Seq uint64
+var e38Current uint64
+func e38Begin(id uint64,name string,n int)e38Mark{m:=e38Mark{id:id,name:name,bytes:n};if e38Instrument{if os.Getenv("E38_ALLOC")=="1"{runtime.ReadMemStats(&m.mem)};m.begin=time.Now()};return m}
+func e38End(m e38Mark){if !e38Instrument{return};ns:=time.Since(m.begin).Nanoseconds();x:=e38Cost{ID:m.id,Name:m.name,Bytes:m.bytes,NS:ns,AllocationDiagnostic:os.Getenv("E38_ALLOC")=="1"};if x.AllocationDiagnostic{var end runtime.MemStats;runtime.ReadMemStats(&end);x.Allocs=end.Mallocs-m.mem.Mallocs;x.AllocBytes=end.TotalAlloc-m.mem.TotalAlloc};e38Mu.Lock();e38Costs=append(e38Costs,x);e38Mu.Unlock()}
+func e38NewID()uint64{return atomic.AddUint64(&e38Seq,1)}
+func e38Drain()[]e38Cost{e38Mu.Lock();defer e38Mu.Unlock();x:=append([]e38Cost(nil),e38Costs...);e38Costs=e38Costs[:0];return x}
+func e38Emit(x interface{}){b,e:=json.Marshal(x);if e!=nil{panic(e)};fmt.Printf("STEP38 %s\n",b)}
+func e38Coalesce(p *staticMemoryPlan,strategy string)error{
+ if len(p.Ranges)==0{p.e38CopyBytes=0;return nil};gap:=0
+ switch strategy{case "C0":gap=0;case "C1":gap=16;case "C2":gap=64;case "C3":gap=256;case "C4":gap=int(^uint(0)>>1);default:return fmt.Errorf("unknown strategy %s",strategy)}
+ if strategy!="C0"{out:=make([]staticRange,0,len(p.Ranges));for _,r:=range p.Ranges{n:=len(out);if n>0&&r.Begin-out[n-1].End<=gap{for _,b:=range p.Image[out[n-1].End:r.Begin]{if b!=0{return fmt.Errorf("nonzero uncovered gap")}};out[n-1].End=r.End}else{out=append(out,r)}};p.Ranges=out}
+ p.e38CopyBytes=0;for _,r:=range p.Ranges{p.e38CopyBytes+=r.End-r.Begin};return nil
+}
+
+const e38Instrument = true

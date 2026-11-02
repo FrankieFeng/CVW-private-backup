@@ -1,0 +1,112 @@
+--- Step36/step35_node.go
++++ Step38A/step35_node.go
+@@ -2,6 +2,7 @@
+ 
+ // Explicitly opted-in bounded real-node adapter. No old pool/grow/async-close path.
+ import (
++ "bytes"
+ 	"chainmaker.org/chainmaker/logger/v2"
+ 	common "chainmaker.org/chainmaker/pb-go/v2/common"
+ 	"chainmaker.org/chainmaker/protocol/v2"
+@@ -169,6 +170,9 @@
+ 	module.Exports()
+ 	if plan != nil {
+ 		plan.Module = module
++ strategy := "C0"
++strategy = os.Getenv("E38_STRATEGY")
++if e := e38Coalesce(plan,strategy); e != nil { return nil,e }
+ 	}
+ 	rec = &nodeFreshCache{scope: scope, store: store, module: module, plan: plan, source: nodeSHA(raw)}
+ 	m.caches[key] = rec
+@@ -274,7 +278,9 @@
+ 		}
+ 		fields["copy_ns"] = time.Since(cb).Nanoseconds()
+ 	}
+-	fields["s1_ns"] = time.Since(begin).Nanoseconds()
++	if rec.plan != nil { fields["range_count"]=len(rec.plan.Ranges);fields["copy_bytes"]=rec.plan.e38CopyBytes }
++ if os.Getenv("E38_VERIFY_MEMORY")=="1" { image:=[]byte(nil);if rec.plan!=nil { image=rec.plan.Image } else { checkPlan,err:=prepareStaticMemory(raw,c,m.config);if err!=nil{return err};image=checkPlan.Image };checkMem,err:=inst.Exports.GetMemory("memory");if err!=nil{return err};if !bytes.Equal(checkMem.Data(),image){return errors.New("initial full Memory mismatch")};fields["initial_memory_match"]=true }
++ fields["s1_ns"] = time.Since(begin).Nanoseconds()
+ 	if e = envWasi.Initialize(store, inst); e != nil {
+ 		return e
+ 	}
+--- Step36/step35_static.go
++++ Step38A/step35_static.go
+@@ -15,6 +15,7 @@
+ type staticMemoryPlan struct {
+ 	Key, SourceSHA, ConfigID string
+ 	Image                    []byte
++ e38CopyBytes int
+ 	Ranges                   []staticRange
+ 	Module                   *wasm.Module
+ 	NoData                   []byte
+--- Step36/step38_correctness_test.go
++++ Step38A/step38_correctness_test.go
+@@ -0,0 +1,26 @@
++package wasmer
++import("bytes";"context";"fmt";"testing";"time";common "chainmaker.org/chainmaker/pb-go/v2/common";w "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go")
++func TestStep38Memory(t *testing.T){
++ ctx,cancel:=context.WithTimeout(context.Background(),30*time.Second);defer cancel();o,e:=NewSafeFreshOwner(4,nil);if e!=nil{t.Fatal(e)};defer func(){if e:=o.Stop(ctx);e!=nil{t.Error(e)}}()
++ err:=o.Do(ctx,func()error{
++  cases:=[]struct{name,wat string;bad bool}{
++   {"zero",`(module (memory (export "memory") 2 4) (data (i32.const 20) "\00\00\00"))`,false},
++   {"nonzero_short_long_gap",`(module (memory (export "memory") 2 4) (data (i32.const 10) "ABC") (data (i32.const 18) "XYZ") (data (i32.const 70000) "Q"))`,false},
++   {"overlap_zero_override",`(module (memory (export "memory") 2 4) (data (i32.const 0) "ABCDEF") (data (i32.const 2) "\00\00") (data (i32.const 5) "XY"))`,false},
++   {"adjacent",`(module (memory (export "memory") 2 4) (data (i32.const 0) "AB") (data (i32.const 2) "CD") (data (i32.const 4) "EF"))`,false},
++   {"automatic_start_trap",`(module (memory (export "memory") 1 4) (func $bad unreachable) (start $bad))`,true},
++   {"out_of_bounds",`(module (memory (export "memory") 1 4) (data (i32.const 65535) "AB"))`,true},
++  }
++  for _,tc:=range cases{scope:=w.ManagedOpen("correctness-"+tc.name);raw,e:=w.Wat2Wasm(tc.wat);if e!=nil{return e};engine:=w.NewEngine();cs:=w.NewStore(engine);mod,e:=w.NewModule(cs,raw,nil);if e!=nil{return e};mod.Imports();mod.Exports()
++   baselineScope:=w.ManagedOpen("baseline");st:=w.NewStore(engine);inst,e:=w.NewInstanceInStore(mod,w.NewImportObject(),st)
++   if tc.bad{if e==nil{return fmt.Errorf("OOB native did not trap")};if p,err:=prepareStaticMemory(raw,&common.Contract{Name:"test",Version:"1"},"e38");err==nil||p!=nil{return fmt.Errorf("OOB transform accepted")};baselineScope.Close();scope.Close();e38Emit(map[string]interface{}{"event":"memory_check","case":tc.name,"passed":true,"native_trap":true,"transform_rejected_fallback_required":true});continue}
++   if e!=nil{return e};mem,e:=inst.Exports.GetMemory("memory");if e!=nil{return e};want:=append([]byte(nil),mem.Data()...);if !mem.Grow(1){return fmt.Errorf("baseline grow")};wantGrown:=append([]byte(nil),mem.Data()...);if e=baselineScope.Close();e!=nil{return e}
++   for _,strategy:=range []string{"C0","C1","C2","C3","C4"}{p,e:=prepareStaticMemory(raw,&common.Contract{Name:"test",Version:"1"},"e38");if e!=nil{return e};if e=e38Coalesce(p,strategy);e!=nil{return e};no,e:=w.NewModule(cs,p.NoData,nil);if e!=nil{return e};no.Imports();no.Exports();p.Module=no
++    req:=w.ManagedOpen("fresh-check");target:=w.NewStore(engine);a,e:=w.NewInstanceInStore(no,w.NewImportObject(),target);if e!=nil{return e};am,e:=a.Exports.GetMemory("memory");if e!=nil{return e};for _,b:=range am.Data(){if b!=0{return fmt.Errorf("NoData target not zero")}}
++    c:=&common.Contract{Name:"test",Version:"1"};if e=p.restore(no,a,raw,c,"e38");e!=nil{return e};if !bytes.Equal(want,am.Data()){return fmt.Errorf("full memory mismatch %s %s",tc.name,strategy)}
++    am.Data()[0]^=127;otherStore:=w.NewStore(engine);other,e:=w.NewInstanceInStore(no,w.NewImportObject(),otherStore);if e!=nil{return e};if e=p.restore(no,other,raw,c,"e38");e!=nil{return e};om,_:=other.Exports.GetMemory("memory");if !bytes.Equal(want,om.Data())||am.Data()[0]==om.Data()[0]{return fmt.Errorf("instance isolation")}
++    if !om.Grow(1)||!bytes.Equal(wantGrown,om.Data()){return fmt.Errorf("growth semantics")};if e=p.restore(no,other,raw,c,"e38");e==nil{return fmt.Errorf("grew target accepted by fixed template")};am.Data()[100000]=90;if e=p.restore(no,a,raw,c,"e38");e!=nil{return e};if am.Data()[100000]!=90{return fmt.Errorf("nonfresh negative control unexpectedly reset hole")};if bytes.Equal(want,am.Data()){return fmt.Errorf("nonfresh target falsely restored")};if e=req.Close();e!=nil{return e};e38Emit(map[string]interface{}{"event":"memory_check","case":tc.name,"strategy":strategy,"passed":true,"bytes":p.e38CopyBytes,"ranges":len(p.Ranges),"full_initial_memory":true,"growth_and_isolation":true,"nonfresh_reuse_not_supported":true,"dirty_target_not_reset_proven":true})
++   };if e:=scope.Close();e!=nil{return e}
++  };return nil
++ });if err!=nil{t.Fatal(err)}
++}
+--- Step36/step38_driver_test.go
++++ Step38A/step38_driver_test.go
+@@ -0,0 +1,15 @@
++package wasmer
++import("testing";"os";"encoding/json";"crypto/sha256";"encoding/hex";"fmt";"runtime";"strings";common "chainmaker.org/chainmaker/pb-go/v2/common";vm "chainmaker.org/chainmaker/vm/v2")
++type e38Case struct{Case,Contract,Method,Expected string;Params map[string]string;Setup []struct{Method string;Params map[string]string}}
++func TestStep38VM(t *testing.T){
++ var cfg e38Case;b,e:=os.ReadFile(os.Getenv("E38_CASE_FILE"));if e!=nil||json.Unmarshal(b,&cfg)!=nil{t.Fatal("case")}
++ f:=s21cPrepare(t,os.Getenv("D_MANIFEST"),os.Getenv("D_OUTPUT"));m:=NewInstancesManager(ChainId);if m.safeErr!=nil||m.safe==nil{t.Fatalf("safe owner: %v",m.safeErr)};f.manager.(*vm.VmManagerImpl).InstanceManagers[common.RuntimeType_WASMER]=m
++ defer func(){if e:=m.StopVM();e!=nil{t.Error(e)}}()
++ names:=[]string{cfg.Contract};if cfg.Contract=="exchange"{names=[]string{"identity","erc721","exchange"}}
++ for _,c:=range names{args:=map[string]string{};if c=="erc721"{args=map[string]string{"name":"huanletoken","symbol":"hlt","tokenURI":"https://chainmaker.org.cn"}};r:=f.run("init-"+c,c,"init_contract","e38-init-"+c,args);if r.Result.Code!=0||r.Status!=0{t.Fatalf("init: %+v",r.Result)}}
++ for i,s:=range cfg.Setup{r:=f.run(fmt.Sprint("setup-",i),cfg.Contract,s.Method,fmt.Sprint("e38-setup-",i),s.Params);if r.Result.Code!=0||r.Status!=0{t.Fatalf("setup: %+v",r.Result)}}
++ initial:=e22Clone(f.snapshot.ledger);beforeHash:=f.snapshot.hash();e38Drain()
++ run:=func(phase string,i int){f.snapshot.ledger=e22Clone(initial);token:=sha256.Sum256([]byte(cfg.Case+"|"+os.Getenv("E38_BATCH")+"|"+phase+fmt.Sprint(i)));tx:=hex.EncodeToString(token[:]);var a,b runtime.MemStats;runtime.ReadMemStats(&a);r:=f.run(fmt.Sprintf("%s-%d",phase,i),cfg.Contract,cfg.Method,tx,cfg.Params);runtime.ReadMemStats(&b);if r.Status!=0||r.Result.Code!=0{t.Fatalf("business %s: %+v",phase,r.Result)};if cfg.Expected!=""&&!strings.HasPrefix(string(r.Result.Result),cfg.Expected){t.Fatalf("result %s",string(r.Result.Result))};if r.BeforeHash!=beforeHash{t.Fatal("initial ledger mismatch")};e38Emit(map[string]interface{}{"event":"target","phase":phase,"slot":i,"tx_id":tx,"case":cfg.Case,"strategy":os.Getenv("E38_STRATEGY"),"result":r.Result,"rwset":r.RWSet,"before_hash":r.BeforeHash,"after_hash":r.AfterHash,"runcontract_ns":r.RunContractWallNS,"host_envelope_allocs":b.Mallocs-a.Mallocs,"host_envelope_alloc_bytes":b.TotalAlloc-a.TotalAlloc,"host_heap":b.HeapAlloc,"host_gc":b.NumGC,"costs":e38Drain()})}
++ for i:=0;i<2;i++{run("warmup",i)}
++ for i:=0;i<2;i++{run("formal",i)}
++}
+--- Step36/step38_support.go
++++ Step38A/step38_support.go
+@@ -0,0 +1,21 @@
++package wasmer
++import("fmt";"os";"runtime";"sync";"sync/atomic";"time";"encoding/json")
++type e38Mark struct{begin time.Time;mem runtime.MemStats;id uint64;name string;bytes int}
++type e38Cost struct{ID uint64 `json:"call_id"`;Name string `json:"stage"`;Bytes int `json:"input_bytes"`;NS int64 `json:"ns"`;Allocs uint64 `json:"allocs"`;AllocBytes uint64 `json:"alloc_bytes"`;AllocationDiagnostic bool `json:"allocation_diagnostic"`}
++var e38Mu sync.Mutex
++var e38Costs=make([]e38Cost,0,4096)
++var e38Seq uint64
++var e38Current uint64
++func e38Begin(id uint64,name string,n int)e38Mark{m:=e38Mark{id:id,name:name,bytes:n};if e38Instrument{if os.Getenv("E38_ALLOC")=="1"{runtime.ReadMemStats(&m.mem)};m.begin=time.Now()};return m}
++func e38End(m e38Mark){if !e38Instrument{return};ns:=time.Since(m.begin).Nanoseconds();x:=e38Cost{ID:m.id,Name:m.name,Bytes:m.bytes,NS:ns,AllocationDiagnostic:os.Getenv("E38_ALLOC")=="1"};if x.AllocationDiagnostic{var end runtime.MemStats;runtime.ReadMemStats(&end);x.Allocs=end.Mallocs-m.mem.Mallocs;x.AllocBytes=end.TotalAlloc-m.mem.TotalAlloc};e38Mu.Lock();e38Costs=append(e38Costs,x);e38Mu.Unlock()}
++func e38NewID()uint64{return atomic.AddUint64(&e38Seq,1)}
++func e38Drain()[]e38Cost{e38Mu.Lock();defer e38Mu.Unlock();x:=append([]e38Cost(nil),e38Costs...);e38Costs=e38Costs[:0];return x}
++func e38Emit(x interface{}){b,e:=json.Marshal(x);if e!=nil{panic(e)};fmt.Printf("STEP38 %s\n",b)}
++func e38Coalesce(p *staticMemoryPlan,strategy string)error{
++ if len(p.Ranges)==0{p.e38CopyBytes=0;return nil};gap:=0
++ switch strategy{case "C0":gap=0;case "C1":gap=16;case "C2":gap=64;case "C3":gap=256;case "C4":gap=int(^uint(0)>>1);default:return fmt.Errorf("unknown strategy %s",strategy)}
++ if strategy!="C0"{out:=make([]staticRange,0,len(p.Ranges));for _,r:=range p.Ranges{n:=len(out);if n>0&&r.Begin-out[n-1].End<=gap{for _,b:=range p.Image[out[n-1].End:r.Begin]{if b!=0{return fmt.Errorf("nonzero uncovered gap")}};out[n-1].End=r.End}else{out=append(out,r)}};p.Ranges=out}
++ p.e38CopyBytes=0;for _,r:=range p.Ranges{p.e38CopyBytes+=r.End-r.Begin};return nil
++}
++
++const e38Instrument = false
