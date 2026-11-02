@@ -1553,3 +1553,6 @@ Postcheck post-raffle_raffle-G3 PASS; committed tx/readback + genuine error roll
 - 762份/proc加载maps均指向冻结Selector修复库；源码/二进制/环境/配置审计已保存。
 - 剩余收尾：记录独立分支提交、生成文件清单与镜像供IDE阅读。无待补跑的正式方法。
 - 不再执行experiment.py/retry_raffle.py/postcheck_all.py；如需复算仅执行analyze.py、report.py、stages.py，均不启动节点。
+
+### 收尾完成
+正式数据与报告已提交独立CVW分支，数据提交c095285b；节点集成提交c28bfa8。未推送。所有测试进程退出。镜像到CVW同名新实验目录仅供阅读，不覆盖历史目录。后续只需读取RESULTS.md和CSV，无待执行性能实验。
