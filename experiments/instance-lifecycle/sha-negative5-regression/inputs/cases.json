@@ -1,0 +1,128 @@
+{
+  "identity_address": {
+    "case": "identity_address",
+    "contract": "identity",
+    "method": "address",
+    "params": {},
+    "setup": [],
+    "expected": "",
+    "kind": "identity_address",
+    "contains": "",
+    "formal_n": 5,
+    "business": true,
+    "status": "PASSED",
+    "reason": "3batches all four groups passed; exploratory lowN",
+    "attempted": true,
+    "actual_batches": 3,
+    "actual_per_group": 12,
+    "precheck_n": 1
+  },
+  "identity_callerAddress": {
+    "case": "identity_callerAddress",
+    "contract": "identity",
+    "method": "callerAddress",
+    "params": {},
+    "setup": [],
+    "expected": "",
+    "kind": "caller_address",
+    "formal_n": 5,
+    "business": true,
+    "status": "PASSED",
+    "reason": "3batches all four groups passed; exploratory lowN",
+    "attempted": true,
+    "actual_batches": 3,
+    "actual_per_group": 12,
+    "precheck_n": 1
+  },
+  "erc721_balanceOf": {
+    "case": "erc721_balanceOf",
+    "contract": "erc721",
+    "method": "balanceOf",
+    "params": {
+      "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+    },
+    "setup": [
+      {
+        "method": "mint",
+        "params": {
+          "to": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+          "tokenId": "1",
+          "metadata": "http://chainmaker.org.cn/"
+        }
+      }
+    ],
+    "expected": "1",
+    "kind": "",
+    "contains": "",
+    "formal_n": 5,
+    "business": true,
+    "status": "PASSED",
+    "reason": "3batches all four groups passed; exploratory lowN",
+    "attempted": true,
+    "actual_batches": 3,
+    "actual_per_group": 12,
+    "precheck_n": 1
+  },
+  "erc721_tokenLatestTxInfo": {
+    "case": "erc721_tokenLatestTxInfo",
+    "contract": "erc721",
+    "method": "tokenLatestTxInfo",
+    "params": {
+      "tokenId": "1"
+    },
+    "setup": [
+      {
+        "method": "mint",
+        "params": {
+          "to": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+          "tokenId": "1",
+          "metadata": "http://chainmaker.org.cn/"
+        }
+      }
+    ],
+    "expected": "",
+    "kind": "erc_latest",
+    "contains": "",
+    "formal_n": 5,
+    "business": true,
+    "status": "PASSED",
+    "reason": "3batches all four groups passed; exploratory lowN",
+    "attempted": true,
+    "actual_batches": 3,
+    "actual_per_group": 12,
+    "precheck_n": 1
+  },
+  "raffle_raffle": {
+    "case": "raffle_raffle",
+    "contract": "raffle",
+    "method": "raffle",
+    "params": {
+      "level": "1",
+      "timestamp": "1700000000"
+    },
+    "setup": [
+      {
+        "method": "registerAll",
+        "params": {
+          "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+        }
+      }
+    ],
+    "expected": "num: 3, name: Carol, level: 1",
+    "kind": "raffle_draw",
+    "contains": "",
+    "formal_n": 3,
+    "business": true,
+    "status": "PASSED",
+    "reason": "revision1 actual3draw sequence correct, old failure retained",
+    "attempted": true,
+    "precheck_n": 1,
+    "expected_sequence": [
+      "num: 3, name: Carol, level: 1",
+      "num: 1, name: Alice, level: 1",
+      "num: 2, name: Bob, level: 1"
+    ],
+    "actual_batches": 3,
+    "actual_per_group": 9
+  }
+}

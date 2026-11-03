@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/home/frankie/mygitprojects/.worktrees/cvw-sha-negative5/experiments/instance-lifecycle/sha-negative5-regression/scripts/seed.py", line 4, in <module>
+    clone(SOURCE,H,True);node=Node(label,'G0');client=Client(label);deps=['identity','erc721','exchange']if contract=='exchange'else[contract]
+    ^^^^^^^^^^^^^^^^^^^^
+  File "/home/frankie/mygitprojects/.worktrees/cvw-sha-negative5/experiments/instance-lifecycle/sha-negative5-regression/scripts/harness.py", line 46, in clone
+    dest.mkdir();shutil.copytree(source/'config',dest/'config');shutil.copytree(source/'network',dest/'network')
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/shutil.py", line 598, in copytree
+    with os.scandir(src) as itr:
+         ^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/cvw-shaneg5-template/config'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/frankie/mygitprojects/.worktrees/cvw-sha-negative5/experiments/instance-lifecycle/sha-negative5-regression/scripts/seed.py", line 13, in <module>
+    (P/'raw_logs'/f'{label}-seed.json').write_text(json.dumps(out,indent=2));assert out['passed'],out
+                                                                                    ~~~^^^^^^^^^^
+AssertionError: {'contract': 'identity', 'flavor': 'plain', 'seed': '/tmp/cvw-shaneg5-seed-identity-plain', 'passed': False}

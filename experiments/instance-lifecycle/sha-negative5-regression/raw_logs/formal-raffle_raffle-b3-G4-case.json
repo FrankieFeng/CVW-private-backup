@@ -1,0 +1,4194 @@
+{
+  "label": "formal-raffle_raffle-b3-G4",
+  "case": "raffle_raffle",
+  "group": "G4",
+  "phase": "formal",
+  "batch": 3,
+  "planned": 3,
+  "passed": true,
+  "setups": [
+    {
+      "row": {
+        "elapsed_ns": 662819556,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "registerAll",
+          "Tag": "setup-0",
+          "Path": "",
+          "TxID": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+          }
+        },
+        "request_id": "formal-raffle_raffle-b3-G4/efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+        "response": {
+          "contract_result": {
+            "result": "b2s=",
+            "gas_used": 209,
+            "contract_event": [
+              {
+                "topic": "peoples",
+                "tx_id": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+                "contract_name": "raffle",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                ]
+              }
+            ]
+          },
+          "tx_id": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+          "tx_timestamp": 1793718049,
+          "tx_block_height": 2
+        },
+        "sdk_end_mono_ns": 662844659,
+        "sdk_end_wall_ns": 1793718050289923042,
+        "sdk_start_mono_ns": 25103,
+        "sdk_start_wall_ns": 1793718049627103500,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+            "timestamp": 1793718049,
+            "contract_name": "raffle",
+            "method": "registerAll",
+            "parameters": [
+              {
+                "key": "peoples",
+                "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIQCiIwc4NMgdMeyuYVlwv+mNbva9+4A0gAiMRrkVc8FkCQIgKApDhrI0wv50z1WHnMbDkmhUTAxUiZVezzO5tZco+kY="
+          },
+          "result": {
+            "contract_result": {
+              "result": "b2s=",
+              "gas_used": 209,
+              "contract_event": [
+                {
+                  "topic": "peoples",
+                  "tx_id": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+                  "contract_name": "raffle",
+                  "contract_version": "1.0.0",
+                  "event_data": [
+                    "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                  ]
+                }
+              ]
+            },
+            "rw_set_hash": "ZCTErMnZy2pjY6a+ti/Rcp+eGZHbPW7QxZs7X1cutes="
+          }
+        },
+        "block_height": 2,
+        "block_timestamp": 1793718049,
+        "rw_set": {
+          "tx_id": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+          "tx_writes": [
+            {
+              "key": "cGVvcGxlcw==",
+              "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0=",
+              "contract_name": "raffle"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "records": [
+    {
+      "row": {
+        "elapsed_ns": 32913552,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "raffle",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "6f69148c2338cc0a50f189558620236692cd0999142de6daf63d3a706f7427aa",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "level": "1",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "formal-raffle_raffle-b3-G4/6f69148c2338cc0a50f189558620236692cd0999142de6daf63d3a706f7427aa",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+            "gas_used": 373
+          },
+          "tx_id": "6f69148c2338cc0a50f189558620236692cd0999142de6daf63d3a706f7427aa",
+          "tx_timestamp": 1793718050,
+          "tx_block_height": 3
+        },
+        "sdk_end_mono_ns": 707937967,
+        "sdk_end_wall_ns": 1793718050335016339,
+        "sdk_start_mono_ns": 675024415,
+        "sdk_start_wall_ns": 1793718050302102813,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "6f69148c2338cc0a50f189558620236692cd0999142de6daf63d3a706f7427aa",
+            "timestamp": 1793718050,
+            "contract_name": "raffle",
+            "method": "raffle",
+            "parameters": [
+              {
+                "key": "level",
+                "value": "MQ=="
+              },
+              {
+                "key": "timestamp",
+                "value": "MTcwMDAwMDAwMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEYCIQDWl+4WzM+myGIbICsQ/Rp0ldhhF+VhXNXIDzcKTqy8zAIhAKRNOfS2behjxkqgnvhCNQRlUQ6Og/YVsqBMlEmgIbtr"
+          },
+          "result": {
+            "contract_result": {
+              "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+              "gas_used": 373
+            },
+            "rw_set_hash": "fq384G5udBdFqpZF1YPF1NtqPLMpjVVjBbbfFtIFCok="
+          }
+        },
+        "block_height": 3,
+        "block_timestamp": 1793718050,
+        "rw_set": {
+          "tx_id": "6f69148c2338cc0a50f189558620236692cd0999142de6daf63d3a706f7427aa",
+          "tx_reads": [
+            {
+              "key": "cGVvcGxlcw==",
+              "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0=",
+              "contract_name": "raffle"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "cGVvcGxlcw==",
+              "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn1dfQ==",
+              "contract_name": "raffle"
+            }
+          ]
+        }
+      },
+      "expected_checked": true,
+      "decoded_result": "num: 3, name: Carol, level: 1"
+    },
+    {
+      "row": {
+        "elapsed_ns": 53043474,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "raffle",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "d4c130b234649b5c969be30c8115fdfc7a953c814981713dc07bb9851c9cb854",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "level": "1",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "formal-raffle_raffle-b3-G4/d4c130b234649b5c969be30c8115fdfc7a953c814981713dc07bb9851c9cb854",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAxLCBuYW1lOiBBbGljZSwgbGV2ZWw6IDE=",
+            "gas_used": 397
+          },
+          "tx_id": "d4c130b234649b5c969be30c8115fdfc7a953c814981713dc07bb9851c9cb854",
+          "tx_timestamp": 1793718050,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 760995417,
+        "sdk_end_wall_ns": 1793718050388073784,
+        "sdk_start_mono_ns": 707951943,
+        "sdk_start_wall_ns": 1793718050335030329,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "d4c130b234649b5c969be30c8115fdfc7a953c814981713dc07bb9851c9cb854",
+            "timestamp": 1793718050,
+            "contract_name": "raffle",
+            "method": "raffle",
+            "parameters": [
+              {
+                "key": "level",
+                "value": "MQ=="
+              },
+              {
+                "key": "timestamp",
+                "value": "MTcwMDAwMDAwMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIQDtri37LHoYgGupupgYh+NlKyc0l9nw81l4ofEGwai46QIgWSXPkNFATMdxeQr+xXVjmYUEtp54tSSpg1f/Rj9apt4="
+          },
+          "result": {
+            "contract_result": {
+              "result": "bnVtOiAxLCBuYW1lOiBBbGljZSwgbGV2ZWw6IDE=",
+              "gas_used": 397
+            },
+            "rw_set_hash": "Y/7ZHAT4djYpNTgkMQIZTRR2IlDLfWryR9gcCihyEo8="
+          }
+        },
+        "block_height": 4,
+        "block_timestamp": 1793718050,
+        "rw_set": {
+          "tx_id": "d4c130b234649b5c969be30c8115fdfc7a953c814981713dc07bb9851c9cb854",
+          "tx_reads": [
+            {
+              "key": "cGVvcGxlcw==",
+              "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn1dfQ==",
+              "contract_name": "raffle"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "cGVvcGxlcw==",
+              "value": "eyJwZW9wbGVzIjpbeyJudW0iOjIsIm5hbWUiOiJCb2IifV19",
+              "contract_name": "raffle"
+            }
+          ]
+        }
+      },
+      "expected_checked": true,
+      "decoded_result": "num: 1, name: Alice, level: 1"
+    },
+    {
+      "row": {
+        "elapsed_ns": 49033824,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "raffle",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "9beb5ec54f9749c583430110cabf38ede15e6fcaaec747e4fa50a1b02a4de518",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "level": "1",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "formal-raffle_raffle-b3-G4/9beb5ec54f9749c583430110cabf38ede15e6fcaaec747e4fa50a1b02a4de518",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAyLCBuYW1lOiBCb2IsIGxldmVsOiAx",
+            "gas_used": 363
+          },
+          "tx_id": "9beb5ec54f9749c583430110cabf38ede15e6fcaaec747e4fa50a1b02a4de518",
+          "tx_timestamp": 1793718050,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 810043589,
+        "sdk_end_wall_ns": 1793718050437121988,
+        "sdk_start_mono_ns": 761009765,
+        "sdk_start_wall_ns": 1793718050388088146,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "9beb5ec54f9749c583430110cabf38ede15e6fcaaec747e4fa50a1b02a4de518",
+            "timestamp": 1793718050,
+            "contract_name": "raffle",
+            "method": "raffle",
+            "parameters": [
+              {
+                "key": "level",
+                "value": "MQ=="
+              },
+              {
+                "key": "timestamp",
+                "value": "MTcwMDAwMDAwMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEQCIGRCBrPZjvaYFuNrdHkltHrjOSYFcHZ2uuenw1BtX1SUAiADPafIdVgRnlUrlIQwYIzOpkYZV4GhFtWHjkSC9aXybA=="
+          },
+          "result": {
+            "contract_result": {
+              "result": "bnVtOiAyLCBuYW1lOiBCb2IsIGxldmVsOiAx",
+              "gas_used": 363
+            },
+            "rw_set_hash": "eNz7hizZEq1Di1cGWh8nM0cpOMo1pcYEYdeyLhvhwyE="
+          }
+        },
+        "block_height": 5,
+        "block_timestamp": 1793718050,
+        "rw_set": {
+          "tx_id": "9beb5ec54f9749c583430110cabf38ede15e6fcaaec747e4fa50a1b02a4de518",
+          "tx_reads": [
+            {
+              "key": "cGVvcGxlcw==",
+              "value": "eyJwZW9wbGVzIjpbeyJudW0iOjIsIm5hbWUiOiJCb2IifV19",
+              "contract_name": "raffle"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "cGVvcGxlcw==",
+              "value": "eyJwZW9wbGVzIjpudWxsfQ==",
+              "contract_name": "raffle"
+            }
+          ]
+        }
+      },
+      "expected_checked": true,
+      "decoded_result": "num: 2, name: Bob, level: 1"
+    }
+  ],
+  "preflight": {
+    "passed": true,
+    "observations": [
+      {
+        "handler_ns": 23150,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046741378778,
+          "since_chain_start_ns": 49382711
+        }
+      },
+      {
+        "handler_ns": 8481,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046762484741,
+          "since_chain_start_ns": 70488453
+        }
+      },
+      {
+        "handler_ns": 10111,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046783447816,
+          "since_chain_start_ns": 91451593
+        }
+      },
+      {
+        "handler_ns": 8480,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046804337107,
+          "since_chain_start_ns": 112340743
+        }
+      },
+      {
+        "handler_ns": 8500,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046825105988,
+          "since_chain_start_ns": 133109807
+        }
+      },
+      {
+        "handler_ns": 41862,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046846278647,
+          "since_chain_start_ns": 154282524
+        }
+      },
+      {
+        "handler_ns": 10864,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046867318841,
+          "since_chain_start_ns": 175322735
+        }
+      },
+      {
+        "handler_ns": 10468,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046888142419,
+          "since_chain_start_ns": 196146214
+        }
+      },
+      {
+        "handler_ns": 9217,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046909056411,
+          "since_chain_start_ns": 217060112
+        }
+      },
+      {
+        "handler_ns": 37970,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046929905449,
+          "since_chain_start_ns": 237909098
+        }
+      },
+      {
+        "handler_ns": 11459,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046950576526,
+          "since_chain_start_ns": 258580200
+        }
+      },
+      {
+        "handler_ns": 14065,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046971590015,
+          "since_chain_start_ns": 279593819
+        }
+      },
+      {
+        "handler_ns": 8709,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718046992381498,
+          "since_chain_start_ns": 300385399
+        }
+      },
+      {
+        "handler_ns": 8469,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047013289181,
+          "since_chain_start_ns": 321292919
+        }
+      },
+      {
+        "handler_ns": 7976,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047034139513,
+          "since_chain_start_ns": 342143416
+        }
+      },
+      {
+        "handler_ns": 10980,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047055191347,
+          "since_chain_start_ns": 363195141
+        }
+      },
+      {
+        "handler_ns": 10418,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047076152107,
+          "since_chain_start_ns": 384155748
+        }
+      },
+      {
+        "handler_ns": 10233,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047097254797,
+          "since_chain_start_ns": 405258420
+        }
+      },
+      {
+        "handler_ns": 12844,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047118547217,
+          "since_chain_start_ns": 426550848
+        }
+      },
+      {
+        "handler_ns": 10058,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047139467329,
+          "since_chain_start_ns": 447470940
+        }
+      },
+      {
+        "handler_ns": 8604,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047160372958,
+          "since_chain_start_ns": 468376558
+        }
+      },
+      {
+        "handler_ns": 12006,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047181218759,
+          "since_chain_start_ns": 489222298
+        }
+      },
+      {
+        "handler_ns": 12663,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047202491485,
+          "since_chain_start_ns": 510495187
+        }
+      },
+      {
+        "handler_ns": 8549,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047223587521,
+          "since_chain_start_ns": 531591083
+        }
+      },
+      {
+        "handler_ns": 48332,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047244479801,
+          "since_chain_start_ns": 552483578
+        }
+      },
+      {
+        "handler_ns": 8575,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047265301598,
+          "since_chain_start_ns": 573305152
+        }
+      },
+      {
+        "handler_ns": 9530,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047285987743,
+          "since_chain_start_ns": 593991350
+        }
+      },
+      {
+        "handler_ns": 10269,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047306804120,
+          "since_chain_start_ns": 614807931
+        }
+      },
+      {
+        "handler_ns": 8340,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047327548273,
+          "since_chain_start_ns": 635552128
+        }
+      },
+      {
+        "handler_ns": 7981,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047348269863,
+          "since_chain_start_ns": 656273685
+        }
+      },
+      {
+        "handler_ns": 10122,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047369053489,
+          "since_chain_start_ns": 677057394
+        }
+      },
+      {
+        "handler_ns": 10878,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047390126274,
+          "since_chain_start_ns": 698130181
+        }
+      },
+      {
+        "handler_ns": 38294,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047411063393,
+          "since_chain_start_ns": 719067157
+        }
+      },
+      {
+        "handler_ns": 35368,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047431848779,
+          "since_chain_start_ns": 739852493
+        }
+      },
+      {
+        "handler_ns": 9785,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047452584481,
+          "since_chain_start_ns": 760588294
+        }
+      },
+      {
+        "handler_ns": 11051,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047473308528,
+          "since_chain_start_ns": 781312528
+        }
+      },
+      {
+        "handler_ns": 7266,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047494092517,
+          "since_chain_start_ns": 802096333
+        }
+      },
+      {
+        "handler_ns": 9830,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047514975784,
+          "since_chain_start_ns": 822979722
+        }
+      },
+      {
+        "handler_ns": 10780,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047535787949,
+          "since_chain_start_ns": 843791902
+        }
+      },
+      {
+        "handler_ns": 7652,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047556840722,
+          "since_chain_start_ns": 864844455
+        }
+      },
+      {
+        "handler_ns": 16647,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047577998355,
+          "since_chain_start_ns": 886002195
+        }
+      },
+      {
+        "handler_ns": 6962,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047598998388,
+          "since_chain_start_ns": 907002066
+        }
+      },
+      {
+        "handler_ns": 34300,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047619852546,
+          "since_chain_start_ns": 927856330
+        }
+      },
+      {
+        "handler_ns": 7409,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047640689866,
+          "since_chain_start_ns": 948693619
+        }
+      },
+      {
+        "handler_ns": 8781,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047661486901,
+          "since_chain_start_ns": 969490669
+        }
+      },
+      {
+        "handler_ns": 8489,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047682308224,
+          "since_chain_start_ns": 990311965
+        }
+      },
+      {
+        "handler_ns": 10831,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047703335544,
+          "since_chain_start_ns": 1011339319
+        }
+      },
+      {
+        "handler_ns": 11267,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047724272872,
+          "since_chain_start_ns": 1032276687
+        }
+      },
+      {
+        "handler_ns": 9153,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047745193068,
+          "since_chain_start_ns": 1053196683
+        }
+      },
+      {
+        "handler_ns": 21875,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047766131788,
+          "since_chain_start_ns": 1074135587
+        }
+      },
+      {
+        "handler_ns": 7511,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047787118472,
+          "since_chain_start_ns": 1095122388
+        }
+      },
+      {
+        "handler_ns": 8873,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047808025804,
+          "since_chain_start_ns": 1116029635
+        }
+      },
+      {
+        "handler_ns": 14005,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047828915097,
+          "since_chain_start_ns": 1136918878
+        }
+      },
+      {
+        "handler_ns": 8336,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047849811860,
+          "since_chain_start_ns": 1157815686
+        }
+      },
+      {
+        "handler_ns": 12034,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047870814719,
+          "since_chain_start_ns": 1178818582
+        }
+      },
+      {
+        "handler_ns": 13100,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047891728580,
+          "since_chain_start_ns": 1199732650
+        }
+      },
+      {
+        "handler_ns": 31514,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047912718309,
+          "since_chain_start_ns": 1220722225
+        }
+      },
+      {
+        "handler_ns": 9969,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047933628204,
+          "since_chain_start_ns": 1241631990
+        }
+      },
+      {
+        "handler_ns": 9427,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047954616456,
+          "since_chain_start_ns": 1262620147
+        }
+      },
+      {
+        "handler_ns": 8708,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047975501716,
+          "since_chain_start_ns": 1283505261
+        }
+      },
+      {
+        "handler_ns": 10511,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718047996415313,
+          "since_chain_start_ns": 1304418937
+        }
+      },
+      {
+        "handler_ns": 8156,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048017232129,
+          "since_chain_start_ns": 1325235762
+        }
+      },
+      {
+        "handler_ns": 9813,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048038140927,
+          "since_chain_start_ns": 1346144744
+        }
+      },
+      {
+        "handler_ns": 7702,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048059065633,
+          "since_chain_start_ns": 1367069327
+        }
+      },
+      {
+        "handler_ns": 35788,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048080067975,
+          "since_chain_start_ns": 1388071707
+        }
+      },
+      {
+        "handler_ns": 9681,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048100916323,
+          "since_chain_start_ns": 1408920073
+        }
+      },
+      {
+        "handler_ns": 12246,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048121887273,
+          "since_chain_start_ns": 1429891171
+        }
+      },
+      {
+        "handler_ns": 11179,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048142789961,
+          "since_chain_start_ns": 1450793825
+        }
+      },
+      {
+        "handler_ns": 51768,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048163795394,
+          "since_chain_start_ns": 1471799381
+        }
+      },
+      {
+        "handler_ns": 8237,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048184596183,
+          "since_chain_start_ns": 1492599850
+        }
+      },
+      {
+        "handler_ns": 12189,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048206128531,
+          "since_chain_start_ns": 1514132379
+        }
+      },
+      {
+        "handler_ns": 6930,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048227086034,
+          "since_chain_start_ns": 1535089717
+        }
+      },
+      {
+        "handler_ns": 8989,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048247994879,
+          "since_chain_start_ns": 1555998629
+        }
+      },
+      {
+        "handler_ns": 10848,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048268876912,
+          "since_chain_start_ns": 1576880823
+        }
+      },
+      {
+        "handler_ns": 13273,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048289848989,
+          "since_chain_start_ns": 1597852740
+        }
+      },
+      {
+        "handler_ns": 9729,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048310857784,
+          "since_chain_start_ns": 1618861590
+        }
+      },
+      {
+        "handler_ns": 9650,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048331731202,
+          "since_chain_start_ns": 1639734817
+        }
+      },
+      {
+        "handler_ns": 9590,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048352627158,
+          "since_chain_start_ns": 1660630939
+        }
+      },
+      {
+        "handler_ns": 8961,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048373509086,
+          "since_chain_start_ns": 1681512852
+        }
+      },
+      {
+        "handler_ns": 22502,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048394271071,
+          "since_chain_start_ns": 1702274638
+        }
+      },
+      {
+        "handler_ns": 12357,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048415053818,
+          "since_chain_start_ns": 1723057509
+        }
+      },
+      {
+        "handler_ns": 6704,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048435854957,
+          "since_chain_start_ns": 1743858657
+        }
+      },
+      {
+        "handler_ns": 9310,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048456593433,
+          "since_chain_start_ns": 1764597180
+        }
+      },
+      {
+        "handler_ns": 10502,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048477469733,
+          "since_chain_start_ns": 1785473682
+        }
+      },
+      {
+        "handler_ns": 8664,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048498630854,
+          "since_chain_start_ns": 1806634581
+        }
+      },
+      {
+        "handler_ns": 8438,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048519335994,
+          "since_chain_start_ns": 1827339702
+        }
+      },
+      {
+        "handler_ns": 7528,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718048540175139,
+          "since_chain_start_ns": 1848178983
+        }
+      },
+      {
+        "handler_ns": 9670,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718049466905683,
+          "since_chain_start_ns": 1869074282
+        }
+      },
+      {
+        "handler_ns": 8970,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718049487822410,
+          "since_chain_start_ns": 1889990978
+        }
+      },
+      {
+        "handler_ns": 14316,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718049508784555,
+          "since_chain_start_ns": 1910953174
+        }
+      },
+      {
+        "handler_ns": 9469,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718049529810615,
+          "since_chain_start_ns": 1931979055
+        }
+      },
+      {
+        "handler_ns": 13573,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718049550826853,
+          "since_chain_start_ns": 1952995598
+        }
+      },
+      {
+        "handler_ns": 10677,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718049571512453,
+          "since_chain_start_ns": 1973681022
+        }
+      },
+      {
+        "handler_ns": 10580,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793718049592527757,
+          "since_chain_start_ns": 1994696230
+        }
+      },
+      {
+        "fence_ids": [
+          1,
+          2
+        ],
+        "handler_ns": 121116,
+        "min_height": 0,
+        "passed": true,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "chain_started": 2009889410,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663,
+            "provider_returned": 2009739692,
+            "registry_returned": 2009598500,
+            "sync_started": 2009834533
+          },
+          "registry_returned": true,
+          "provider_returned": true,
+          "sync_started": true,
+          "chain_started": true,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": true,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": true,
+          "fence_count": 2,
+          "wall_ns": 1793718049613967591,
+          "since_chain_start_ns": 2016135992
+        }
+      }
+    ],
+    "final": {
+      "fence_ids": [
+        1,
+        2
+      ],
+      "handler_ns": 121116,
+      "min_height": 0,
+      "passed": true,
+      "scope": "components_and_safe_queue_only; SDK probe still required",
+      "state": {
+        "run": "formal-raffle_raffle-b3-G4",
+        "chain": "step35",
+        "stages_ns": {
+          "chain_start_enter": 76,
+          "chain_started": 2009889410,
+          "consensus_start_return": 467001,
+          "core_start_return": 434663,
+          "provider_returned": 2009739692,
+          "registry_returned": 2009598500,
+          "sync_started": 2009834533
+        },
+        "registry_returned": true,
+        "provider_returned": true,
+        "sync_started": true,
+        "chain_started": true,
+        "core_started": true,
+        "consensus_started": true,
+        "proposer_ready": true,
+        "consumer_started": true,
+        "consumer_active": false,
+        "notified": 0,
+        "taken": 0,
+        "completed": 0,
+        "last_notified_height": 0,
+        "last_completed_height": 0,
+        "closing": false,
+        "ready": true,
+        "fence_count": 2,
+        "wall_ns": 1793718049613967591,
+        "since_chain_start_ns": 2016135992
+      }
+    },
+    "launch_to_gate_ns": 2453944315
+  },
+  "artifact_initial": {
+    "bytes": 0,
+    "closed": false,
+    "entries": 0,
+    "hits": 0,
+    "items": [],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 0,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "probe": {
+    "row": {
+      "elapsed_ns": 662819556,
+      "input": {
+        "Op": "invoke",
+        "Contract": "raffle",
+        "Method": "registerAll",
+        "Tag": "setup-0",
+        "Path": "",
+        "TxID": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+        "Phase": "formal",
+        "Version": "",
+        "Params": {
+          "peoples": "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+        }
+      },
+      "request_id": "formal-raffle_raffle-b3-G4/efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+      "response": {
+        "contract_result": {
+          "result": "b2s=",
+          "gas_used": 209,
+          "contract_event": [
+            {
+              "topic": "peoples",
+              "tx_id": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+              "contract_name": "raffle",
+              "contract_version": "1.0.0",
+              "event_data": [
+                "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+              ]
+            }
+          ]
+        },
+        "tx_id": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+        "tx_timestamp": 1793718049,
+        "tx_block_height": 2
+      },
+      "sdk_end_mono_ns": 662844659,
+      "sdk_end_wall_ns": 1793718050289923042,
+      "sdk_start_mono_ns": 25103,
+      "sdk_start_wall_ns": 1793718049627103500,
+      "success": true,
+      "transaction": null
+    },
+    "committed": {
+      "transaction": {
+        "payload": {
+          "chain_id": "step35",
+          "tx_id": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+          "timestamp": 1793718049,
+          "contract_name": "raffle",
+          "method": "registerAll",
+          "parameters": [
+            {
+              "key": "peoples",
+              "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0="
+            }
+          ]
+        },
+        "sender": {
+          "signer": {
+            "org_id": "wx-org1.chainmaker.org",
+            "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+          },
+          "signature": "MEUCIQCiIwc4NMgdMeyuYVlwv+mNbva9+4A0gAiMRrkVc8FkCQIgKApDhrI0wv50z1WHnMbDkmhUTAxUiZVezzO5tZco+kY="
+        },
+        "result": {
+          "contract_result": {
+            "result": "b2s=",
+            "gas_used": 209,
+            "contract_event": [
+              {
+                "topic": "peoples",
+                "tx_id": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+                "contract_name": "raffle",
+                "contract_version": "1.0.0",
+                "event_data": [
+                  "{\"peoples\":[{\"num\":1,\"name\":\"Alice\"},{\"num\":2,\"name\":\"Bob\"},{\"num\":3,\"name\":\"Carol\"}]}"
+                ]
+              }
+            ]
+          },
+          "rw_set_hash": "ZCTErMnZy2pjY6a+ti/Rcp+eGZHbPW7QxZs7X1cutes="
+        }
+      },
+      "block_height": 2,
+      "block_timestamp": 1793718049,
+      "rw_set": {
+        "tx_id": "efa49c7e29ab96792f70bff87c5ef199fe5a17309a05dc52013349f31ccc900f",
+        "tx_writes": [
+          {
+            "key": "cGVvcGxlcw==",
+            "value": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0=",
+            "contract_name": "raffle"
+          }
+        ]
+      }
+    }
+  },
+  "post_probe_gate": {
+    "passed": true,
+    "observations": [
+      {
+        "fence_ids": [
+          3,
+          4
+        ],
+        "handler_ns": 56770,
+        "min_height": 2,
+        "passed": true,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "chain_started": 2009889410,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663,
+            "provider_returned": 2009739692,
+            "readiness_fence_complete": 2016136937,
+            "registry_returned": 2009598500,
+            "sync_started": 2009834533
+          },
+          "registry_returned": true,
+          "provider_returned": true,
+          "sync_started": true,
+          "chain_started": true,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": true,
+          "consumer_active": false,
+          "notified": 1,
+          "taken": 1,
+          "completed": 1,
+          "last_notified_height": 2,
+          "last_completed_height": 2,
+          "closing": false,
+          "ready": true,
+          "fence_count": 4,
+          "wall_ns": 1793718050292628323,
+          "since_chain_start_ns": 2694796669
+        }
+      }
+    ],
+    "final": {
+      "fence_ids": [
+        3,
+        4
+      ],
+      "handler_ns": 56770,
+      "min_height": 2,
+      "passed": true,
+      "scope": "components_and_safe_queue_only; SDK probe still required",
+      "state": {
+        "run": "formal-raffle_raffle-b3-G4",
+        "chain": "step35",
+        "stages_ns": {
+          "chain_start_enter": 76,
+          "chain_started": 2009889410,
+          "consensus_start_return": 467001,
+          "core_start_return": 434663,
+          "provider_returned": 2009739692,
+          "readiness_fence_complete": 2016136937,
+          "registry_returned": 2009598500,
+          "sync_started": 2009834533
+        },
+        "registry_returned": true,
+        "provider_returned": true,
+        "sync_started": true,
+        "chain_started": true,
+        "core_started": true,
+        "consensus_started": true,
+        "proposer_ready": true,
+        "consumer_started": true,
+        "consumer_active": false,
+        "notified": 1,
+        "taken": 1,
+        "completed": 1,
+        "last_notified_height": 2,
+        "last_completed_height": 2,
+        "closing": false,
+        "ready": true,
+        "fence_count": 4,
+        "wall_ns": 1793718050292628323,
+        "since_chain_start_ns": 2694796669
+      }
+    }
+  },
+  "warmup": {
+    "elapsed_ns": 7291643,
+    "input": {
+      "Op": "query",
+      "Contract": "raffle",
+      "Method": "raffle",
+      "Tag": "warmup",
+      "Path": "",
+      "TxID": "87c867c14aa7adec6361ad05388b8e86ca5a411ad8ab19a9ccc4985fd3359e4c",
+      "Phase": "formal",
+      "Version": "",
+      "Params": {
+        "level": "1",
+        "timestamp": "1700000000"
+      }
+    },
+    "request_id": "formal-raffle_raffle-b3-G4/87c867c14aa7adec6361ad05388b8e86ca5a411ad8ab19a9ccc4985fd3359e4c",
+    "response": {
+      "message": "SUCCESS",
+      "contract_result": {
+        "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+        "gas_used": 373
+      },
+      "tx_id": "18e491102eef959cca7f5cd0961fc858066674f3d8c2409591628ce1a96a96d5"
+    },
+    "sdk_end_mono_ns": 673406043,
+    "sdk_end_wall_ns": 1793718050300484438,
+    "sdk_start_mono_ns": 666114400,
+    "sdk_start_wall_ns": 1793718050293192787,
+    "success": true,
+    "transaction": null
+  },
+  "artifact_before": {
+    "bytes": 5136919,
+    "closed": false,
+    "entries": 1,
+    "hits": 1,
+    "items": [
+      {
+        "bytes": 5136919,
+        "chain": "step35",
+        "config": "native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36",
+        "name": "raffle",
+        "sha": "f0e00136b97d3d4033e079e5cfaeebfe2b1b8fe78eb8472fa84f52bb8f20d531",
+        "version": "1.0.0"
+      }
+    ],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 1,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "before_window_gate": {
+    "passed": true,
+    "observations": [
+      {
+        "fence_ids": [
+          5,
+          6
+        ],
+        "handler_ns": 55996,
+        "min_height": 2,
+        "passed": true,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "chain_started": 2009889410,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663,
+            "provider_returned": 2009739692,
+            "readiness_fence_complete": 2694797162,
+            "registry_returned": 2009598500,
+            "sync_started": 2009834533
+          },
+          "registry_returned": true,
+          "provider_returned": true,
+          "sync_started": true,
+          "chain_started": true,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": true,
+          "consumer_active": false,
+          "notified": 1,
+          "taken": 1,
+          "completed": 1,
+          "last_notified_height": 2,
+          "last_completed_height": 2,
+          "closing": false,
+          "ready": true,
+          "fence_count": 6,
+          "wall_ns": 1793718050301433485,
+          "since_chain_start_ns": 2703601832
+        }
+      }
+    ],
+    "final": {
+      "fence_ids": [
+        5,
+        6
+      ],
+      "handler_ns": 55996,
+      "min_height": 2,
+      "passed": true,
+      "scope": "components_and_safe_queue_only; SDK probe still required",
+      "state": {
+        "run": "formal-raffle_raffle-b3-G4",
+        "chain": "step35",
+        "stages_ns": {
+          "chain_start_enter": 76,
+          "chain_started": 2009889410,
+          "consensus_start_return": 467001,
+          "core_start_return": 434663,
+          "provider_returned": 2009739692,
+          "readiness_fence_complete": 2694797162,
+          "registry_returned": 2009598500,
+          "sync_started": 2009834533
+        },
+        "registry_returned": true,
+        "provider_returned": true,
+        "sync_started": true,
+        "chain_started": true,
+        "core_started": true,
+        "consensus_started": true,
+        "proposer_ready": true,
+        "consumer_started": true,
+        "consumer_active": false,
+        "notified": 1,
+        "taken": 1,
+        "completed": 1,
+        "last_notified_height": 2,
+        "last_completed_height": 2,
+        "closing": false,
+        "ready": true,
+        "fence_count": 6,
+        "wall_ns": 1793718050301433485,
+        "since_chain_start_ns": 2703601832
+      }
+    }
+  },
+  "initial_projection": [
+    {
+      "Contract": "raffle",
+      "Key": "cGVvcGxlcw==",
+      "Expected": "eyJwZW9wbGVzIjpbeyJudW0iOjEsIm5hbWUiOiJBbGljZSJ9LHsibnVtIjoyLCJuYW1lIjoiQm9iIn0seyJudW0iOjMsIm5hbWUiOiJDYXJvbCJ9XX0="
+    }
+  ],
+  "window": {
+    "attempted": 3,
+    "planned": 3,
+    "rows": [
+      {
+        "elapsed_ns": 32913552,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "raffle",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "6f69148c2338cc0a50f189558620236692cd0999142de6daf63d3a706f7427aa",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "level": "1",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "formal-raffle_raffle-b3-G4/6f69148c2338cc0a50f189558620236692cd0999142de6daf63d3a706f7427aa",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAzLCBuYW1lOiBDYXJvbCwgbGV2ZWw6IDE=",
+            "gas_used": 373
+          },
+          "tx_id": "6f69148c2338cc0a50f189558620236692cd0999142de6daf63d3a706f7427aa",
+          "tx_timestamp": 1793718050,
+          "tx_block_height": 3
+        },
+        "sdk_end_mono_ns": 707937967,
+        "sdk_end_wall_ns": 1793718050335016339,
+        "sdk_start_mono_ns": 675024415,
+        "sdk_start_wall_ns": 1793718050302102813,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 53043474,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "raffle",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "d4c130b234649b5c969be30c8115fdfc7a953c814981713dc07bb9851c9cb854",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "level": "1",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "formal-raffle_raffle-b3-G4/d4c130b234649b5c969be30c8115fdfc7a953c814981713dc07bb9851c9cb854",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAxLCBuYW1lOiBBbGljZSwgbGV2ZWw6IDE=",
+            "gas_used": 397
+          },
+          "tx_id": "d4c130b234649b5c969be30c8115fdfc7a953c814981713dc07bb9851c9cb854",
+          "tx_timestamp": 1793718050,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 760995417,
+        "sdk_end_wall_ns": 1793718050388073784,
+        "sdk_start_mono_ns": 707951943,
+        "sdk_start_wall_ns": 1793718050335030329,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 49033824,
+        "input": {
+          "Op": "invoke",
+          "Contract": "raffle",
+          "Method": "raffle",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "9beb5ec54f9749c583430110cabf38ede15e6fcaaec747e4fa50a1b02a4de518",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "level": "1",
+            "timestamp": "1700000000"
+          }
+        },
+        "request_id": "formal-raffle_raffle-b3-G4/9beb5ec54f9749c583430110cabf38ede15e6fcaaec747e4fa50a1b02a4de518",
+        "response": {
+          "contract_result": {
+            "result": "bnVtOiAyLCBuYW1lOiBCb2IsIGxldmVsOiAx",
+            "gas_used": 363
+          },
+          "tx_id": "9beb5ec54f9749c583430110cabf38ede15e6fcaaec747e4fa50a1b02a4de518",
+          "tx_timestamp": 1793718050,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 810043589,
+        "sdk_end_wall_ns": 1793718050437121988,
+        "sdk_start_mono_ns": 761009765,
+        "sdk_start_wall_ns": 1793718050388088146,
+        "success": true,
+        "transaction": null
+      }
+    ],
+    "serial": true,
+    "successful_responses": 3,
+    "window_end_mono_ns": 810043589,
+    "window_ns": 135019174,
+    "window_start_mono_ns": 675024415
+  },
+  "final_projection": [
+    {
+      "Contract": "raffle",
+      "Key": "cGVvcGxlcw==",
+      "Expected": "eyJwZW9wbGVzIjpudWxsfQ=="
+    }
+  ],
+  "after_window_gate": {
+    "passed": true,
+    "observations": [
+      {
+        "fence_ids": [
+          7,
+          8
+        ],
+        "handler_ns": 91528,
+        "min_height": 5,
+        "passed": true,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-raffle_raffle-b3-G4",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 76,
+            "chain_started": 2009889410,
+            "consensus_start_return": 467001,
+            "core_start_return": 434663,
+            "provider_returned": 2009739692,
+            "readiness_fence_complete": 2703602268,
+            "registry_returned": 2009598500,
+            "sync_started": 2009834533
+          },
+          "registry_returned": true,
+          "provider_returned": true,
+          "sync_started": true,
+          "chain_started": true,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": true,
+          "consumer_active": false,
+          "notified": 4,
+          "taken": 4,
+          "completed": 4,
+          "last_notified_height": 5,
+          "last_completed_height": 5,
+          "closing": false,
+          "ready": true,
+          "fence_count": 8,
+          "wall_ns": 1793718050442745067,
+          "since_chain_start_ns": 2844913451
+        }
+      }
+    ],
+    "final": {
+      "fence_ids": [
+        7,
+        8
+      ],
+      "handler_ns": 91528,
+      "min_height": 5,
+      "passed": true,
+      "scope": "components_and_safe_queue_only; SDK probe still required",
+      "state": {
+        "run": "formal-raffle_raffle-b3-G4",
+        "chain": "step35",
+        "stages_ns": {
+          "chain_start_enter": 76,
+          "chain_started": 2009889410,
+          "consensus_start_return": 467001,
+          "core_start_return": 434663,
+          "provider_returned": 2009739692,
+          "readiness_fence_complete": 2703602268,
+          "registry_returned": 2009598500,
+          "sync_started": 2009834533
+        },
+        "registry_returned": true,
+        "provider_returned": true,
+        "sync_started": true,
+        "chain_started": true,
+        "core_started": true,
+        "consensus_started": true,
+        "proposer_ready": true,
+        "consumer_started": true,
+        "consumer_active": false,
+        "notified": 4,
+        "taken": 4,
+        "completed": 4,
+        "last_notified_height": 5,
+        "last_completed_height": 5,
+        "closing": false,
+        "ready": true,
+        "fence_count": 8,
+        "wall_ns": 1793718050442745067,
+        "since_chain_start_ns": 2844913451
+      }
+    }
+  },
+  "artifact_after": {
+    "bytes": 5136919,
+    "closed": false,
+    "entries": 1,
+    "hits": 4,
+    "items": [
+      {
+        "bytes": 5136919,
+        "chain": "step35",
+        "config": "native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36",
+        "name": "raffle",
+        "sha": "f0e00136b97d3d4033e079e5cfaeebfe2b1b8fe78eb8472fa84f52bb8f20d531",
+        "version": "1.0.0"
+      }
+    ],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 1,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "owner_after": {
+    "accepted": 5,
+    "closing": false,
+    "inflight": 0,
+    "limit": 32,
+    "resetting": false
+  },
+  "node": {
+    "label": "formal-raffle_raffle-b3-G4",
+    "reason": "",
+    "peak_rss_kib": 547600,
+    "peak_threads": 26,
+    "stop_s": 0.03450534600051469,
+    "systemd": {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive"
+    },
+    "owner": {
+      "event": "owner_closed",
+      "instances_closed": 5,
+      "instances_created": 5,
+      "managed_objects": 0,
+      "managed_pending": 0,
+      "stores_closed": 6,
+      "stores_created": 6
+    },
+    "owned_pids": [
+      66818
+    ],
+    "pid_exited": true,
+    "cgroup_empty": true
+  }
+}

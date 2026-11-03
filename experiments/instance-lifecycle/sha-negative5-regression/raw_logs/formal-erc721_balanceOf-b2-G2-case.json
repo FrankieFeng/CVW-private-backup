@@ -1,0 +1,4477 @@
+{
+  "label": "formal-erc721_balanceOf-b2-G2",
+  "case": "erc721_balanceOf",
+  "group": "G2",
+  "phase": "formal",
+  "batch": 2,
+  "planned": 5,
+  "passed": true,
+  "setups": [
+    {
+      "row": {
+        "elapsed_ns": 668588788,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "mint",
+          "Tag": "setup-0",
+          "Path": "",
+          "TxID": "be5c346b001c68d75e6c585efb303e95cba90c5df5a0a13133efb24e5127881d",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "metadata": "http://chainmaker.org.cn/",
+            "to": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+            "tokenId": "1"
+          }
+        },
+        "request_id": "formal-erc721_balanceOf-b2-G2/be5c346b001c68d75e6c585efb303e95cba90c5df5a0a13133efb24e5127881d",
+        "response": {
+          "contract_result": {
+            "result": "bWludCBzdWNjZXNz",
+            "gas_used": 411
+          },
+          "tx_id": "be5c346b001c68d75e6c585efb303e95cba90c5df5a0a13133efb24e5127881d",
+          "tx_timestamp": 1793717915,
+          "tx_block_height": 2
+        },
+        "sdk_end_mono_ns": 668624365,
+        "sdk_end_wall_ns": 1793717915768136119,
+        "sdk_start_mono_ns": 35577,
+        "sdk_start_wall_ns": 1793717915099547329,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "be5c346b001c68d75e6c585efb303e95cba90c5df5a0a13133efb24e5127881d",
+            "timestamp": 1793717915,
+            "contract_name": "erc721",
+            "method": "mint",
+            "parameters": [
+              {
+                "key": "metadata",
+                "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+              },
+              {
+                "key": "to",
+                "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+              },
+              {
+                "key": "tokenId",
+                "value": "MQ=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIBW9Ql+/eeVIGECR3Gxw077uDw3CWL/XSOVOzJC7Id9TAiEA6g7jTEmTtkG4jqi6i7zNsci/OqFdzPULa50ox3V9Tl8="
+          },
+          "result": {
+            "contract_result": {
+              "result": "bWludCBzdWNjZXNz",
+              "gas_used": 411
+            },
+            "rw_set_hash": "RnzJRypOTG0LCKrj1mlHv8SC/Uykjujugep1ur7VBe8="
+          }
+        },
+        "block_height": 2,
+        "block_timestamp": 1793717915,
+        "rw_set": {
+          "tx_id": "be5c346b001c68d75e6c585efb303e95cba90c5df5a0a13133efb24e5127881d",
+          "tx_reads": [
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "ZXJjNzIxI2FkbWlu",
+              "value": "MGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMQ==",
+              "contract_name": "erc721"
+            }
+          ],
+          "tx_writes": [
+            {
+              "key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8x",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JZHMjMQ==",
+              "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzFfbGF0ZXN0VHhJbmZv",
+              "value": "eyJUeElkIjoiYmU1YzM0NmIwMDFjNjhkNzVlNmM1ODVlZmIzMDNlOTVjYmE5MGM1ZGY1YTBhMTMxMzNlZmIyNGU1MTI3ODgxZCIsIkJsb2NrSGVpZ2h0IjoyLCJGcm9tIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsIlRvIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCJ9",
+              "contract_name": "erc721"
+            },
+            {
+              "key": "dG9rZW5JbmZvIzFfbWV0YWRhdGE=",
+              "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw==",
+              "contract_name": "erc721"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "records": [
+    {
+      "row": {
+        "elapsed_ns": 54316822,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "balanceOf",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "1a5c79799117793c6eaffa10f01c705de6364d5277b853cda46640204f41f857",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+          }
+        },
+        "request_id": "formal-erc721_balanceOf-b2-G2/1a5c79799117793c6eaffa10f01c705de6364d5277b853cda46640204f41f857",
+        "response": {
+          "contract_result": {
+            "result": "MQ==",
+            "gas_used": 156
+          },
+          "tx_id": "1a5c79799117793c6eaffa10f01c705de6364d5277b853cda46640204f41f857",
+          "tx_timestamp": 1793717915,
+          "tx_block_height": 3
+        },
+        "sdk_end_mono_ns": 740336996,
+        "sdk_end_wall_ns": 1793717915839848753,
+        "sdk_start_mono_ns": 686020174,
+        "sdk_start_wall_ns": 1793717915785531931,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "1a5c79799117793c6eaffa10f01c705de6364d5277b853cda46640204f41f857",
+            "timestamp": 1793717915,
+            "contract_name": "erc721",
+            "method": "balanceOf",
+            "parameters": [
+              {
+                "key": "account",
+                "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIDUasy9+nFmmmbgjGtG1pydS28hMT5kA7q1SjMcIiwtIAiEAv9PGhfiL9hbiQlQIoKP4hd6xLMbJnkF7ok+/gEj7jvo="
+          },
+          "result": {
+            "contract_result": {
+              "result": "MQ==",
+              "gas_used": 156
+            },
+            "rw_set_hash": "lCanvxJ29t2ETbr8BojcC7uWcthDEYmdaU6CshMLzQs="
+          }
+        },
+        "block_height": 3,
+        "block_timestamp": 1793717915,
+        "rw_set": {
+          "tx_id": "1a5c79799117793c6eaffa10f01c705de6364d5277b853cda46640204f41f857",
+          "tx_reads": [
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            }
+          ]
+        }
+      },
+      "expected_checked": true,
+      "decoded_result": "1"
+    },
+    {
+      "row": {
+        "elapsed_ns": 51708002,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "balanceOf",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "af68242e0036437a8c57750aad1af92a4a6ec1c5e4930d166f8d2e1edc6def59",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+          }
+        },
+        "request_id": "formal-erc721_balanceOf-b2-G2/af68242e0036437a8c57750aad1af92a4a6ec1c5e4930d166f8d2e1edc6def59",
+        "response": {
+          "contract_result": {
+            "result": "MQ==",
+            "gas_used": 156
+          },
+          "tx_id": "af68242e0036437a8c57750aad1af92a4a6ec1c5e4930d166f8d2e1edc6def59",
+          "tx_timestamp": 1793717915,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 792065603,
+        "sdk_end_wall_ns": 1793717915891577362,
+        "sdk_start_mono_ns": 740357601,
+        "sdk_start_wall_ns": 1793717915839869364,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "af68242e0036437a8c57750aad1af92a4a6ec1c5e4930d166f8d2e1edc6def59",
+            "timestamp": 1793717915,
+            "contract_name": "erc721",
+            "method": "balanceOf",
+            "parameters": [
+              {
+                "key": "account",
+                "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEYCIQD56Sy/0m0tnSSxzEDsDXAQgWVPWLDfH9bh27joPZHSFwIhAN2M+DbapeYgFbfZICPNEq0wd0XjanTSuDJfz0kWo8wa"
+          },
+          "result": {
+            "contract_result": {
+              "result": "MQ==",
+              "gas_used": 156
+            },
+            "rw_set_hash": "ZuRTgAAq8mg6PQarPrMSInqWlJet0S9iRWw14DLFvA8="
+          }
+        },
+        "block_height": 4,
+        "block_timestamp": 1793717915,
+        "rw_set": {
+          "tx_id": "af68242e0036437a8c57750aad1af92a4a6ec1c5e4930d166f8d2e1edc6def59",
+          "tx_reads": [
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            }
+          ]
+        }
+      },
+      "expected_checked": true,
+      "decoded_result": "1"
+    },
+    {
+      "row": {
+        "elapsed_ns": 51400926,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "balanceOf",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "293b3f34922dc8e33b7491734fc9ae4ef1d9940d1985c5e6bc42511716478dc6",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+          }
+        },
+        "request_id": "formal-erc721_balanceOf-b2-G2/293b3f34922dc8e33b7491734fc9ae4ef1d9940d1985c5e6bc42511716478dc6",
+        "response": {
+          "contract_result": {
+            "result": "MQ==",
+            "gas_used": 156
+          },
+          "tx_id": "293b3f34922dc8e33b7491734fc9ae4ef1d9940d1985c5e6bc42511716478dc6",
+          "tx_timestamp": 1793717915,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 843474639,
+        "sdk_end_wall_ns": 1793717915942986377,
+        "sdk_start_mono_ns": 792073713,
+        "sdk_start_wall_ns": 1793717915891585476,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "293b3f34922dc8e33b7491734fc9ae4ef1d9940d1985c5e6bc42511716478dc6",
+            "timestamp": 1793717915,
+            "contract_name": "erc721",
+            "method": "balanceOf",
+            "parameters": [
+              {
+                "key": "account",
+                "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEQCIDmmrmGhuBSRotcpuWjwMJhE2IOx39R1M23psvFbjePPAiBqV+6wTCPYc938SU6KxkBCcQJsKfdgA3RDGswuGfzrLw=="
+          },
+          "result": {
+            "contract_result": {
+              "result": "MQ==",
+              "gas_used": 156
+            },
+            "rw_set_hash": "sshEMSxsgQUJ8ltoOn+uHic5rP5jXiPifc8Ym6M8NKA="
+          }
+        },
+        "block_height": 5,
+        "block_timestamp": 1793717915,
+        "rw_set": {
+          "tx_id": "293b3f34922dc8e33b7491734fc9ae4ef1d9940d1985c5e6bc42511716478dc6",
+          "tx_reads": [
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            }
+          ]
+        }
+      },
+      "expected_checked": true,
+      "decoded_result": "1"
+    },
+    {
+      "row": {
+        "elapsed_ns": 53324213,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "balanceOf",
+          "Tag": "target-3",
+          "Path": "",
+          "TxID": "82a37130cb467e8b03259bde072a328bcc3ae1e01f021bed3068a0cec7804178",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+          }
+        },
+        "request_id": "formal-erc721_balanceOf-b2-G2/82a37130cb467e8b03259bde072a328bcc3ae1e01f021bed3068a0cec7804178",
+        "response": {
+          "contract_result": {
+            "result": "MQ==",
+            "gas_used": 156
+          },
+          "tx_id": "82a37130cb467e8b03259bde072a328bcc3ae1e01f021bed3068a0cec7804178",
+          "tx_timestamp": 1793717915,
+          "tx_block_height": 6
+        },
+        "sdk_end_mono_ns": 896808682,
+        "sdk_end_wall_ns": 1793717915996320426,
+        "sdk_start_mono_ns": 843484469,
+        "sdk_start_wall_ns": 1793717915942996231,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "82a37130cb467e8b03259bde072a328bcc3ae1e01f021bed3068a0cec7804178",
+            "timestamp": 1793717915,
+            "contract_name": "erc721",
+            "method": "balanceOf",
+            "parameters": [
+              {
+                "key": "account",
+                "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEUCIERaKEsNRZv1/uK9NRR70ZjulxZxQ3XRg7V1gaI3FyRoAiEAtukp5Ze8LM7uNLimLet/cOEBJFQtqQrEPuaP90oWs1c="
+          },
+          "result": {
+            "contract_result": {
+              "result": "MQ==",
+              "gas_used": 156
+            },
+            "rw_set_hash": "lhRnBeEemo9MuuhKZ+q//nT8sG74kih6DRSyW1+BYPg="
+          }
+        },
+        "block_height": 6,
+        "block_timestamp": 1793717915,
+        "rw_set": {
+          "tx_id": "82a37130cb467e8b03259bde072a328bcc3ae1e01f021bed3068a0cec7804178",
+          "tx_reads": [
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            }
+          ]
+        }
+      },
+      "expected_checked": true,
+      "decoded_result": "1"
+    },
+    {
+      "row": {
+        "elapsed_ns": 53642543,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "balanceOf",
+          "Tag": "target-4",
+          "Path": "",
+          "TxID": "f1843f3acd406e89328fd76564feb9e3a32fb401c5176372c3505b20fd1403e9",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+          }
+        },
+        "request_id": "formal-erc721_balanceOf-b2-G2/f1843f3acd406e89328fd76564feb9e3a32fb401c5176372c3505b20fd1403e9",
+        "response": {
+          "contract_result": {
+            "result": "MQ==",
+            "gas_used": 156
+          },
+          "tx_id": "f1843f3acd406e89328fd76564feb9e3a32fb401c5176372c3505b20fd1403e9",
+          "tx_timestamp": 1793717915,
+          "tx_block_height": 7
+        },
+        "sdk_end_mono_ns": 950461009,
+        "sdk_end_wall_ns": 1793717916049972764,
+        "sdk_start_mono_ns": 896818466,
+        "sdk_start_wall_ns": 1793717915996330224,
+        "success": true,
+        "transaction": null
+      },
+      "committed": {
+        "transaction": {
+          "payload": {
+            "chain_id": "step35",
+            "tx_id": "f1843f3acd406e89328fd76564feb9e3a32fb401c5176372c3505b20fd1403e9",
+            "timestamp": 1793717915,
+            "contract_name": "erc721",
+            "method": "balanceOf",
+            "parameters": [
+              {
+                "key": "account",
+                "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+              }
+            ]
+          },
+          "sender": {
+            "signer": {
+              "org_id": "wx-org1.chainmaker.org",
+              "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+            },
+            "signature": "MEQCIBIhq/LggR61qMQWpSQJIJ3yWjY1IbmQcSLv8w5XTRvuAiAbc6KFBK4z0CGkMxZU9PC1f8f9AsQrMaGx/VjjlLqWOw=="
+          },
+          "result": {
+            "contract_result": {
+              "result": "MQ==",
+              "gas_used": 156
+            },
+            "rw_set_hash": "wRQc4KAIEyHa9IijxSUhM1HCzDdSkWFtZBzTFua/wGc="
+          }
+        },
+        "block_height": 7,
+        "block_timestamp": 1793717916,
+        "rw_set": {
+          "tx_id": "f1843f3acd406e89328fd76564feb9e3a32fb401c5176372c3505b20fd1403e9",
+          "tx_reads": [
+            {
+              "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+              "value": "MQ==",
+              "contract_name": "erc721"
+            }
+          ]
+        }
+      },
+      "expected_checked": true,
+      "decoded_result": "1"
+    }
+  ],
+  "preflight": {
+    "passed": true,
+    "observations": [
+      {
+        "handler_ns": 11010,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912090628013,
+          "since_chain_start_ns": 34187028
+        }
+      },
+      {
+        "handler_ns": 5734,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912111521538,
+          "since_chain_start_ns": 55080202
+        }
+      },
+      {
+        "handler_ns": 12270,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912132474709,
+          "since_chain_start_ns": 76033553
+        }
+      },
+      {
+        "handler_ns": 10258,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912153496112,
+          "since_chain_start_ns": 97054887
+        }
+      },
+      {
+        "handler_ns": 11431,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912174443589,
+          "since_chain_start_ns": 118002483
+        }
+      },
+      {
+        "handler_ns": 10608,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912195495155,
+          "since_chain_start_ns": 139053986
+        }
+      },
+      {
+        "handler_ns": 14159,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912216423256,
+          "since_chain_start_ns": 159982217
+        }
+      },
+      {
+        "handler_ns": 8112,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912237292756,
+          "since_chain_start_ns": 180851716
+        }
+      },
+      {
+        "handler_ns": 9226,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912258150562,
+          "since_chain_start_ns": 201709397
+        }
+      },
+      {
+        "handler_ns": 11100,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912279175723,
+          "since_chain_start_ns": 222734606
+        }
+      },
+      {
+        "handler_ns": 11030,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912300157846,
+          "since_chain_start_ns": 243716711
+        }
+      },
+      {
+        "handler_ns": 9180,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912320998593,
+          "since_chain_start_ns": 264557449
+        }
+      },
+      {
+        "handler_ns": 19806,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912341943285,
+          "since_chain_start_ns": 285502133
+        }
+      },
+      {
+        "handler_ns": 10634,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912363140014,
+          "since_chain_start_ns": 306698802
+        }
+      },
+      {
+        "handler_ns": 18405,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912384135398,
+          "since_chain_start_ns": 327694163
+        }
+      },
+      {
+        "handler_ns": 36763,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912404967159,
+          "since_chain_start_ns": 348526018
+        }
+      },
+      {
+        "handler_ns": 14115,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912426342311,
+          "since_chain_start_ns": 369901112
+        }
+      },
+      {
+        "handler_ns": 10455,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912447369910,
+          "since_chain_start_ns": 390928693
+        }
+      },
+      {
+        "handler_ns": 5772,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912468156682,
+          "since_chain_start_ns": 411715336
+        }
+      },
+      {
+        "handler_ns": 9534,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912489260629,
+          "since_chain_start_ns": 432819391
+        }
+      },
+      {
+        "handler_ns": 14919,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912510135007,
+          "since_chain_start_ns": 453693909
+        }
+      },
+      {
+        "handler_ns": 12627,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912531228098,
+          "since_chain_start_ns": 474787048
+        }
+      },
+      {
+        "handler_ns": 12865,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912552283380,
+          "since_chain_start_ns": 495842230
+        }
+      },
+      {
+        "handler_ns": 12220,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912573273225,
+          "since_chain_start_ns": 516832057
+        }
+      },
+      {
+        "handler_ns": 13269,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912594386958,
+          "since_chain_start_ns": 537945857
+        }
+      },
+      {
+        "handler_ns": 13810,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912615598033,
+          "since_chain_start_ns": 559156887
+        }
+      },
+      {
+        "handler_ns": 12334,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912636764346,
+          "since_chain_start_ns": 580323222
+        }
+      },
+      {
+        "handler_ns": 6198,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912657617057,
+          "since_chain_start_ns": 601175741
+        }
+      },
+      {
+        "handler_ns": 11337,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912678342265,
+          "since_chain_start_ns": 621901029
+        }
+      },
+      {
+        "handler_ns": 11426,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912699381300,
+          "since_chain_start_ns": 642940140
+        }
+      },
+      {
+        "handler_ns": 12584,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912720371284,
+          "since_chain_start_ns": 663930304
+        }
+      },
+      {
+        "handler_ns": 36982,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912741316068,
+          "since_chain_start_ns": 684874958
+        }
+      },
+      {
+        "handler_ns": 13259,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912762347452,
+          "since_chain_start_ns": 705906309
+        }
+      },
+      {
+        "handler_ns": 8502,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912783200776,
+          "since_chain_start_ns": 726759415
+        }
+      },
+      {
+        "handler_ns": 7351,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912803955766,
+          "since_chain_start_ns": 747514424
+        }
+      },
+      {
+        "handler_ns": 7426,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912824742325,
+          "since_chain_start_ns": 768300966
+        }
+      },
+      {
+        "handler_ns": 17008,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912845595043,
+          "since_chain_start_ns": 789153880
+        }
+      },
+      {
+        "handler_ns": 7035,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912866260895,
+          "since_chain_start_ns": 809819515
+        }
+      },
+      {
+        "handler_ns": 7094,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912887032413,
+          "since_chain_start_ns": 830591047
+        }
+      },
+      {
+        "handler_ns": 5540,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912907735925,
+          "since_chain_start_ns": 851294709
+        }
+      },
+      {
+        "handler_ns": 14607,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912928456795,
+          "since_chain_start_ns": 872015512
+        }
+      },
+      {
+        "handler_ns": 5803,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912949293772,
+          "since_chain_start_ns": 892852387
+        }
+      },
+      {
+        "handler_ns": 5461,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912969847493,
+          "since_chain_start_ns": 913406114
+        }
+      },
+      {
+        "handler_ns": 9936,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717912990599481,
+          "since_chain_start_ns": 934158195
+        }
+      },
+      {
+        "handler_ns": 9044,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913011632562,
+          "since_chain_start_ns": 955191370
+        }
+      },
+      {
+        "handler_ns": 7882,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913032500557,
+          "since_chain_start_ns": 976059195
+        }
+      },
+      {
+        "handler_ns": 13760,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913053184751,
+          "since_chain_start_ns": 996743541
+        }
+      },
+      {
+        "handler_ns": 6433,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913074071827,
+          "since_chain_start_ns": 1017630447
+        }
+      },
+      {
+        "handler_ns": 9447,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913094714552,
+          "since_chain_start_ns": 1038273183
+        }
+      },
+      {
+        "handler_ns": 14393,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913115530619,
+          "since_chain_start_ns": 1059089410
+        }
+      },
+      {
+        "handler_ns": 14304,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913136547312,
+          "since_chain_start_ns": 1080106103
+        }
+      },
+      {
+        "handler_ns": 17564,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913157669876,
+          "since_chain_start_ns": 1101228738
+        }
+      },
+      {
+        "handler_ns": 12776,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913178560231,
+          "since_chain_start_ns": 1122119235
+        }
+      },
+      {
+        "handler_ns": 15587,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913199750889,
+          "since_chain_start_ns": 1143309759
+        }
+      },
+      {
+        "handler_ns": 9545,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913220596988,
+          "since_chain_start_ns": 1164155673
+        }
+      },
+      {
+        "handler_ns": 8664,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913241385031,
+          "since_chain_start_ns": 1184943788
+        }
+      },
+      {
+        "handler_ns": 10934,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913262280003,
+          "since_chain_start_ns": 1205838857
+        }
+      },
+      {
+        "handler_ns": 10681,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913283463848,
+          "since_chain_start_ns": 1227022702
+        }
+      },
+      {
+        "handler_ns": 9759,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913304394042,
+          "since_chain_start_ns": 1247952937
+        }
+      },
+      {
+        "handler_ns": 11888,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913325422147,
+          "since_chain_start_ns": 1268980989
+        }
+      },
+      {
+        "handler_ns": 54777,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913346651169,
+          "since_chain_start_ns": 1290209958
+        }
+      },
+      {
+        "handler_ns": 15589,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717913368089785,
+          "since_chain_start_ns": 1311648711
+        }
+      },
+      {
+        "handler_ns": 14827,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914389061645,
+          "since_chain_start_ns": 1332543904
+        }
+      },
+      {
+        "handler_ns": 18231,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914410281518,
+          "since_chain_start_ns": 1353763978
+        }
+      },
+      {
+        "handler_ns": 12088,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914431479616,
+          "since_chain_start_ns": 1374961832
+        }
+      },
+      {
+        "handler_ns": 11950,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914452564507,
+          "since_chain_start_ns": 1396046724
+        }
+      },
+      {
+        "handler_ns": 13682,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914473882298,
+          "since_chain_start_ns": 1417364588
+        }
+      },
+      {
+        "handler_ns": 13471,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914495226709,
+          "since_chain_start_ns": 1438708965
+        }
+      },
+      {
+        "handler_ns": 50655,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914516323044,
+          "since_chain_start_ns": 1459805298
+        }
+      },
+      {
+        "handler_ns": 12378,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914537300786,
+          "since_chain_start_ns": 1480783049
+        }
+      },
+      {
+        "handler_ns": 11121,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914558319271,
+          "since_chain_start_ns": 1501801712
+        }
+      },
+      {
+        "handler_ns": 25033,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914579375240,
+          "since_chain_start_ns": 1522857570
+        }
+      },
+      {
+        "handler_ns": 9952,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914600342161,
+          "since_chain_start_ns": 1543824421
+        }
+      },
+      {
+        "handler_ns": 33036,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914621304303,
+          "since_chain_start_ns": 1564786591
+        }
+      },
+      {
+        "handler_ns": 9834,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914642465187,
+          "since_chain_start_ns": 1585947409
+        }
+      },
+      {
+        "handler_ns": 11596,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914663552857,
+          "since_chain_start_ns": 1607035175
+        }
+      },
+      {
+        "handler_ns": 12863,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914684446448,
+          "since_chain_start_ns": 1627928814
+        }
+      },
+      {
+        "handler_ns": 11184,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914705644712,
+          "since_chain_start_ns": 1649127016
+        }
+      },
+      {
+        "handler_ns": 9796,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914726529862,
+          "since_chain_start_ns": 1670012184
+        }
+      },
+      {
+        "handler_ns": 10610,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914747624718,
+          "since_chain_start_ns": 1691106946
+        }
+      },
+      {
+        "handler_ns": 21815,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914768732824,
+          "since_chain_start_ns": 1712215126
+        }
+      },
+      {
+        "handler_ns": 10040,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914789691485,
+          "since_chain_start_ns": 1733173790
+        }
+      },
+      {
+        "handler_ns": 11242,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914810497835,
+          "since_chain_start_ns": 1753980359
+        }
+      },
+      {
+        "handler_ns": 8517,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914831585787,
+          "since_chain_start_ns": 1775067875
+        }
+      },
+      {
+        "handler_ns": 11725,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914852598465,
+          "since_chain_start_ns": 1796080748
+        }
+      },
+      {
+        "handler_ns": 9262,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914873509900,
+          "since_chain_start_ns": 1816992211
+        }
+      },
+      {
+        "handler_ns": 8694,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914894454485,
+          "since_chain_start_ns": 1837936568
+        }
+      },
+      {
+        "handler_ns": 12519,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914915666061,
+          "since_chain_start_ns": 1859148455
+        }
+      },
+      {
+        "handler_ns": 39870,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914936951952,
+          "since_chain_start_ns": 1880434262
+        }
+      },
+      {
+        "handler_ns": 10750,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914957664733,
+          "since_chain_start_ns": 1901147134
+        }
+      },
+      {
+        "handler_ns": 62144,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914978727570,
+          "since_chain_start_ns": 1922209926
+        }
+      },
+      {
+        "handler_ns": 11037,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717914999976800,
+          "since_chain_start_ns": 1943459173
+        }
+      },
+      {
+        "handler_ns": 32866,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717915020996092,
+          "since_chain_start_ns": 1964478449
+        }
+      },
+      {
+        "handler_ns": 12019,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717915042121591,
+          "since_chain_start_ns": 1985604148
+        }
+      },
+      {
+        "handler_ns": 10230,
+        "passed": false,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400
+          },
+          "registry_returned": false,
+          "provider_returned": false,
+          "sync_started": false,
+          "chain_started": false,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": false,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": false,
+          "fence_count": 0,
+          "wall_ns": 1793717915063293855,
+          "since_chain_start_ns": 2006776178
+        }
+      },
+      {
+        "fence_ids": [
+          1,
+          2
+        ],
+        "handler_ns": 161542,
+        "min_height": 0,
+        "passed": true,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "chain_started": 2010596539,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400,
+            "provider_returned": 2010527650,
+            "registry_returned": 2010404303,
+            "sync_started": 2010556657
+          },
+          "registry_returned": true,
+          "provider_returned": true,
+          "sync_started": true,
+          "chain_started": true,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": true,
+          "consumer_active": false,
+          "notified": 0,
+          "taken": 0,
+          "completed": 0,
+          "last_notified_height": 0,
+          "last_completed_height": 0,
+          "closing": false,
+          "ready": true,
+          "fence_count": 2,
+          "wall_ns": 1793717915084542918,
+          "since_chain_start_ns": 2028024963
+        }
+      }
+    ],
+    "final": {
+      "fence_ids": [
+        1,
+        2
+      ],
+      "handler_ns": 161542,
+      "min_height": 0,
+      "passed": true,
+      "scope": "components_and_safe_queue_only; SDK probe still required",
+      "state": {
+        "run": "formal-erc721_balanceOf-b2-G2",
+        "chain": "step35",
+        "stages_ns": {
+          "chain_start_enter": 127,
+          "chain_started": 2010596539,
+          "consensus_start_return": 415989,
+          "core_start_return": 401400,
+          "provider_returned": 2010527650,
+          "registry_returned": 2010404303,
+          "sync_started": 2010556657
+        },
+        "registry_returned": true,
+        "provider_returned": true,
+        "sync_started": true,
+        "chain_started": true,
+        "core_started": true,
+        "consensus_started": true,
+        "proposer_ready": true,
+        "consumer_started": true,
+        "consumer_active": false,
+        "notified": 0,
+        "taken": 0,
+        "completed": 0,
+        "last_notified_height": 0,
+        "last_completed_height": 0,
+        "closing": false,
+        "ready": true,
+        "fence_count": 2,
+        "wall_ns": 1793717915084542918,
+        "since_chain_start_ns": 2028024963
+      }
+    },
+    "launch_to_gate_ns": 2519602178
+  },
+  "artifact_initial": {
+    "bytes": 0,
+    "closed": false,
+    "entries": 0,
+    "hits": 0,
+    "items": [],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 0,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "probe": {
+    "row": {
+      "elapsed_ns": 668588788,
+      "input": {
+        "Op": "invoke",
+        "Contract": "erc721",
+        "Method": "mint",
+        "Tag": "setup-0",
+        "Path": "",
+        "TxID": "be5c346b001c68d75e6c585efb303e95cba90c5df5a0a13133efb24e5127881d",
+        "Phase": "formal",
+        "Version": "",
+        "Params": {
+          "metadata": "http://chainmaker.org.cn/",
+          "to": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0",
+          "tokenId": "1"
+        }
+      },
+      "request_id": "formal-erc721_balanceOf-b2-G2/be5c346b001c68d75e6c585efb303e95cba90c5df5a0a13133efb24e5127881d",
+      "response": {
+        "contract_result": {
+          "result": "bWludCBzdWNjZXNz",
+          "gas_used": 411
+        },
+        "tx_id": "be5c346b001c68d75e6c585efb303e95cba90c5df5a0a13133efb24e5127881d",
+        "tx_timestamp": 1793717915,
+        "tx_block_height": 2
+      },
+      "sdk_end_mono_ns": 668624365,
+      "sdk_end_wall_ns": 1793717915768136119,
+      "sdk_start_mono_ns": 35577,
+      "sdk_start_wall_ns": 1793717915099547329,
+      "success": true,
+      "transaction": null
+    },
+    "committed": {
+      "transaction": {
+        "payload": {
+          "chain_id": "step35",
+          "tx_id": "be5c346b001c68d75e6c585efb303e95cba90c5df5a0a13133efb24e5127881d",
+          "timestamp": 1793717915,
+          "contract_name": "erc721",
+          "method": "mint",
+          "parameters": [
+            {
+              "key": "metadata",
+              "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+            },
+            {
+              "key": "to",
+              "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+            },
+            {
+              "key": "tokenId",
+              "value": "MQ=="
+            }
+          ]
+        },
+        "sender": {
+          "signer": {
+            "org_id": "wx-org1.chainmaker.org",
+            "member_info": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWg2Z0F3SUJBZ0lEQmRkQU1Bb0dDQ3FHU000OUJBTUNNSUdLTVFzd0NRWURWUVFHRXdKRFRqRVEKTUE0R0ExVUVDQk1IUW1WcGFtbHVaekVRTUE0R0ExVUVCeE1IUW1WcGFtbHVaekVmTUIwR0ExVUVDaE1XZDNndApiM0puTVM1amFHRnBibTFoYTJWeUxtOXlaekVTTUJBR0ExVUVDeE1KY205dmRDMWpaWEowTVNJd0lBWURWUVFECkV4bGpZUzUzZUMxdmNtY3hMbU5vWVdsdWJXRnJaWEl1YjNKbk1CNFhEVEkyTURrd09EQXhNemcxTkZvWERUTXgKTURrd056QXhNemcxTkZvd2daRXhDekFKQmdOVkJBWVRBa05PTVJBd0RnWURWUVFJRXdkQ1pXbHFhVzVuTVJBdwpEZ1lEVlFRSEV3ZENaV2xxYVc1bk1SOHdIUVlEVlFRS0V4WjNlQzF2Y21jeExtTm9ZV2x1YldGclpYSXViM0puCk1ROHdEUVlEVlFRTEV3WmpiR2xsYm5ReExEQXFCZ05WQkFNVEkyTnNhV1Z1ZERFdWMybG5iaTUzZUMxdmNtY3gKTG1Ob1lXbHViV0ZyWlhJdWIzSm5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVobHU3TE1CMApodnZzZVlpYXV1SThtWmNOUURkRVQ4aGcvSkdyS01CMzRHUTZOTEx1amk2TlQwamhOS2xjVW51QjV5di9ucElECnpZTWVDWC9sRFRaWlg2TnFNR2d3RGdZRFZSMFBBUUgvQkFRREFnYkFNQ2tHQTFVZERnUWlCQ0FLWDNMY2c0KzIKVXZWdkttcWo4WmtMYTZWUDNsT09xQmo1eE03UGVxZVFqekFyQmdOVkhTTUVKREFpZ0NCRHlSVG1jNG0vdG5yZQpHVittdE8xZnNxU3ZtRmsrZTRQUHBqT1cxMkZuTVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQW10VWptVHlSCmlzTFRxb3UwNFRwWW40Q1ZuM0JUYkNaRXYxU0VlZzRTMEswQ0lRRE8xUThwVHNJcDd3Wk5pQ0FQVGFBdnBJL1MKUTBIalpsbVRoL29pUUEybzZnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+          },
+          "signature": "MEUCIBW9Ql+/eeVIGECR3Gxw077uDw3CWL/XSOVOzJC7Id9TAiEA6g7jTEmTtkG4jqi6i7zNsci/OqFdzPULa50ox3V9Tl8="
+        },
+        "result": {
+          "contract_result": {
+            "result": "bWludCBzdWNjZXNz",
+            "gas_used": 411
+          },
+          "rw_set_hash": "RnzJRypOTG0LCKrj1mlHv8SC/Uykjujugep1ur7VBe8="
+        }
+      },
+      "block_height": 2,
+      "block_timestamp": 1793717915,
+      "rw_set": {
+        "tx_id": "be5c346b001c68d75e6c585efb303e95cba90c5df5a0a13133efb24e5127881d",
+        "tx_reads": [
+          {
+            "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+            "contract_name": "erc721"
+          },
+          {
+            "key": "ZXJjNzIxI2FkbWlu",
+            "value": "MGE1ZjcyZGM4MzhmYjY1MmY1NmYyYTZhYTNmMTk5MGI2YmE1NGZkZTUzOGVhODE4ZjljNGNlY2Y3YWE3OTA4Zg==",
+            "contract_name": "erc721"
+          },
+          {
+            "key": "dG9rZW5JZHMjMQ==",
+            "contract_name": "erc721"
+          }
+        ],
+        "tx_writes": [
+          {
+            "key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8x",
+            "value": "MQ==",
+            "contract_name": "erc721"
+          },
+          {
+            "key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+            "value": "MQ==",
+            "contract_name": "erc721"
+          },
+          {
+            "key": "dG9rZW5JZHMjMQ==",
+            "value": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+            "contract_name": "erc721"
+          },
+          {
+            "key": "dG9rZW5JbmZvIzFfbGF0ZXN0VHhJbmZv",
+            "value": "eyJUeElkIjoiYmU1YzM0NmIwMDFjNjhkNzVlNmM1ODVlZmIzMDNlOTVjYmE5MGM1ZGY1YTBhMTMxMzNlZmIyNGU1MTI3ODgxZCIsIkJsb2NrSGVpZ2h0IjoyLCJGcm9tIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsIlRvIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCJ9",
+            "contract_name": "erc721"
+          },
+          {
+            "key": "dG9rZW5JbmZvIzFfbWV0YWRhdGE=",
+            "value": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw==",
+            "contract_name": "erc721"
+          }
+        ]
+      }
+    }
+  },
+  "post_probe_gate": {
+    "passed": true,
+    "observations": [
+      {
+        "fence_ids": [
+          3,
+          4
+        ],
+        "handler_ns": 88570,
+        "min_height": 2,
+        "passed": true,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "chain_started": 2010596539,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400,
+            "provider_returned": 2010527650,
+            "readiness_fence_complete": 2028026092,
+            "registry_returned": 2010404303,
+            "sync_started": 2010556657
+          },
+          "registry_returned": true,
+          "provider_returned": true,
+          "sync_started": true,
+          "chain_started": true,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": true,
+          "consumer_active": false,
+          "notified": 1,
+          "taken": 1,
+          "completed": 1,
+          "last_notified_height": 2,
+          "last_completed_height": 2,
+          "closing": false,
+          "ready": true,
+          "fence_count": 4,
+          "wall_ns": 1793717915770520722,
+          "since_chain_start_ns": 2714002724
+        }
+      }
+    ],
+    "final": {
+      "fence_ids": [
+        3,
+        4
+      ],
+      "handler_ns": 88570,
+      "min_height": 2,
+      "passed": true,
+      "scope": "components_and_safe_queue_only; SDK probe still required",
+      "state": {
+        "run": "formal-erc721_balanceOf-b2-G2",
+        "chain": "step35",
+        "stages_ns": {
+          "chain_start_enter": 127,
+          "chain_started": 2010596539,
+          "consensus_start_return": 415989,
+          "core_start_return": 401400,
+          "provider_returned": 2010527650,
+          "readiness_fence_complete": 2028026092,
+          "registry_returned": 2010404303,
+          "sync_started": 2010556657
+        },
+        "registry_returned": true,
+        "provider_returned": true,
+        "sync_started": true,
+        "chain_started": true,
+        "core_started": true,
+        "consensus_started": true,
+        "proposer_ready": true,
+        "consumer_started": true,
+        "consumer_active": false,
+        "notified": 1,
+        "taken": 1,
+        "completed": 1,
+        "last_notified_height": 2,
+        "last_completed_height": 2,
+        "closing": false,
+        "ready": true,
+        "fence_count": 4,
+        "wall_ns": 1793717915770520722,
+        "since_chain_start_ns": 2714002724
+      }
+    }
+  },
+  "warmup": {
+    "elapsed_ns": 12161375,
+    "input": {
+      "Op": "query",
+      "Contract": "erc721",
+      "Method": "balanceOf",
+      "Tag": "warmup",
+      "Path": "",
+      "TxID": "2e8a713af2831a0f20ddf80e0ed7b69e6a1f3586e0d346f06c1a1b8bd590ce94",
+      "Phase": "formal",
+      "Version": "",
+      "Params": {
+        "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+      }
+    },
+    "request_id": "formal-erc721_balanceOf-b2-G2/2e8a713af2831a0f20ddf80e0ed7b69e6a1f3586e0d346f06c1a1b8bd590ce94",
+    "response": {
+      "message": "SUCCESS",
+      "contract_result": {
+        "result": "MQ==",
+        "gas_used": 156
+      },
+      "tx_id": "18e490f0dccf367cca7e4e3f66b2209b44f6bd1a2218448ab21fed74db069069"
+    },
+    "sdk_end_mono_ns": 684022303,
+    "sdk_end_wall_ns": 1793717915783534057,
+    "sdk_start_mono_ns": 671860928,
+    "sdk_start_wall_ns": 1793717915771372672,
+    "success": true,
+    "transaction": null
+  },
+  "artifact_before": {
+    "bytes": 0,
+    "closed": false,
+    "entries": 0,
+    "hits": 0,
+    "items": [],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 0,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "before_window_gate": {
+    "passed": true,
+    "observations": [
+      {
+        "fence_ids": [
+          5,
+          6
+        ],
+        "handler_ns": 64623,
+        "min_height": 2,
+        "passed": true,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "chain_started": 2010596539,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400,
+            "provider_returned": 2010527650,
+            "readiness_fence_complete": 2714003616,
+            "registry_returned": 2010404303,
+            "sync_started": 2010556657
+          },
+          "registry_returned": true,
+          "provider_returned": true,
+          "sync_started": true,
+          "chain_started": true,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": true,
+          "consumer_active": false,
+          "notified": 1,
+          "taken": 1,
+          "completed": 1,
+          "last_notified_height": 2,
+          "last_completed_height": 2,
+          "closing": false,
+          "ready": true,
+          "fence_count": 6,
+          "wall_ns": 1793717915784570551,
+          "since_chain_start_ns": 2728052514
+        }
+      }
+    ],
+    "final": {
+      "fence_ids": [
+        5,
+        6
+      ],
+      "handler_ns": 64623,
+      "min_height": 2,
+      "passed": true,
+      "scope": "components_and_safe_queue_only; SDK probe still required",
+      "state": {
+        "run": "formal-erc721_balanceOf-b2-G2",
+        "chain": "step35",
+        "stages_ns": {
+          "chain_start_enter": 127,
+          "chain_started": 2010596539,
+          "consensus_start_return": 415989,
+          "core_start_return": 401400,
+          "provider_returned": 2010527650,
+          "readiness_fence_complete": 2714003616,
+          "registry_returned": 2010404303,
+          "sync_started": 2010556657
+        },
+        "registry_returned": true,
+        "provider_returned": true,
+        "sync_started": true,
+        "chain_started": true,
+        "core_started": true,
+        "consensus_started": true,
+        "proposer_ready": true,
+        "consumer_started": true,
+        "consumer_active": false,
+        "notified": 1,
+        "taken": 1,
+        "completed": 1,
+        "last_notified_height": 2,
+        "last_completed_height": 2,
+        "closing": false,
+        "ready": true,
+        "fence_count": 6,
+        "wall_ns": 1793717915784570551,
+        "since_chain_start_ns": 2728052514
+      }
+    }
+  },
+  "initial_projection": [
+    {
+      "Contract": "erc721",
+      "Key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8x",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JZHMjMQ==",
+      "Expected": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzFfbGF0ZXN0VHhJbmZv",
+      "Expected": "eyJUeElkIjoiYmU1YzM0NmIwMDFjNjhkNzVlNmM1ODVlZmIzMDNlOTVjYmE5MGM1ZGY1YTBhMTMxMzNlZmIyNGU1MTI3ODgxZCIsIkJsb2NrSGVpZ2h0IjoyLCJGcm9tIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsIlRvIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCJ9"
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzFfbWV0YWRhdGE=",
+      "Expected": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+    }
+  ],
+  "window": {
+    "attempted": 5,
+    "planned": 5,
+    "rows": [
+      {
+        "elapsed_ns": 54316822,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "balanceOf",
+          "Tag": "target-0",
+          "Path": "",
+          "TxID": "1a5c79799117793c6eaffa10f01c705de6364d5277b853cda46640204f41f857",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+          }
+        },
+        "request_id": "formal-erc721_balanceOf-b2-G2/1a5c79799117793c6eaffa10f01c705de6364d5277b853cda46640204f41f857",
+        "response": {
+          "contract_result": {
+            "result": "MQ==",
+            "gas_used": 156
+          },
+          "tx_id": "1a5c79799117793c6eaffa10f01c705de6364d5277b853cda46640204f41f857",
+          "tx_timestamp": 1793717915,
+          "tx_block_height": 3
+        },
+        "sdk_end_mono_ns": 740336996,
+        "sdk_end_wall_ns": 1793717915839848753,
+        "sdk_start_mono_ns": 686020174,
+        "sdk_start_wall_ns": 1793717915785531931,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 51708002,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "balanceOf",
+          "Tag": "target-1",
+          "Path": "",
+          "TxID": "af68242e0036437a8c57750aad1af92a4a6ec1c5e4930d166f8d2e1edc6def59",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+          }
+        },
+        "request_id": "formal-erc721_balanceOf-b2-G2/af68242e0036437a8c57750aad1af92a4a6ec1c5e4930d166f8d2e1edc6def59",
+        "response": {
+          "contract_result": {
+            "result": "MQ==",
+            "gas_used": 156
+          },
+          "tx_id": "af68242e0036437a8c57750aad1af92a4a6ec1c5e4930d166f8d2e1edc6def59",
+          "tx_timestamp": 1793717915,
+          "tx_block_height": 4
+        },
+        "sdk_end_mono_ns": 792065603,
+        "sdk_end_wall_ns": 1793717915891577362,
+        "sdk_start_mono_ns": 740357601,
+        "sdk_start_wall_ns": 1793717915839869364,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 51400926,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "balanceOf",
+          "Tag": "target-2",
+          "Path": "",
+          "TxID": "293b3f34922dc8e33b7491734fc9ae4ef1d9940d1985c5e6bc42511716478dc6",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+          }
+        },
+        "request_id": "formal-erc721_balanceOf-b2-G2/293b3f34922dc8e33b7491734fc9ae4ef1d9940d1985c5e6bc42511716478dc6",
+        "response": {
+          "contract_result": {
+            "result": "MQ==",
+            "gas_used": 156
+          },
+          "tx_id": "293b3f34922dc8e33b7491734fc9ae4ef1d9940d1985c5e6bc42511716478dc6",
+          "tx_timestamp": 1793717915,
+          "tx_block_height": 5
+        },
+        "sdk_end_mono_ns": 843474639,
+        "sdk_end_wall_ns": 1793717915942986377,
+        "sdk_start_mono_ns": 792073713,
+        "sdk_start_wall_ns": 1793717915891585476,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 53324213,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "balanceOf",
+          "Tag": "target-3",
+          "Path": "",
+          "TxID": "82a37130cb467e8b03259bde072a328bcc3ae1e01f021bed3068a0cec7804178",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+          }
+        },
+        "request_id": "formal-erc721_balanceOf-b2-G2/82a37130cb467e8b03259bde072a328bcc3ae1e01f021bed3068a0cec7804178",
+        "response": {
+          "contract_result": {
+            "result": "MQ==",
+            "gas_used": 156
+          },
+          "tx_id": "82a37130cb467e8b03259bde072a328bcc3ae1e01f021bed3068a0cec7804178",
+          "tx_timestamp": 1793717915,
+          "tx_block_height": 6
+        },
+        "sdk_end_mono_ns": 896808682,
+        "sdk_end_wall_ns": 1793717915996320426,
+        "sdk_start_mono_ns": 843484469,
+        "sdk_start_wall_ns": 1793717915942996231,
+        "success": true,
+        "transaction": null
+      },
+      {
+        "elapsed_ns": 53642543,
+        "input": {
+          "Op": "invoke",
+          "Contract": "erc721",
+          "Method": "balanceOf",
+          "Tag": "target-4",
+          "Path": "",
+          "TxID": "f1843f3acd406e89328fd76564feb9e3a32fb401c5176372c3505b20fd1403e9",
+          "Phase": "formal",
+          "Version": "",
+          "Params": {
+            "account": "8acfaca5eeec9f6f7c23c4ffac969b86f27799b0"
+          }
+        },
+        "request_id": "formal-erc721_balanceOf-b2-G2/f1843f3acd406e89328fd76564feb9e3a32fb401c5176372c3505b20fd1403e9",
+        "response": {
+          "contract_result": {
+            "result": "MQ==",
+            "gas_used": 156
+          },
+          "tx_id": "f1843f3acd406e89328fd76564feb9e3a32fb401c5176372c3505b20fd1403e9",
+          "tx_timestamp": 1793717915,
+          "tx_block_height": 7
+        },
+        "sdk_end_mono_ns": 950461009,
+        "sdk_end_wall_ns": 1793717916049972764,
+        "sdk_start_mono_ns": 896818466,
+        "sdk_start_wall_ns": 1793717915996330224,
+        "success": true,
+        "transaction": null
+      }
+    ],
+    "serial": true,
+    "successful_responses": 5,
+    "window_end_mono_ns": 950461009,
+    "window_ns": 264440835,
+    "window_start_mono_ns": 686020174
+  },
+  "final_projection": [
+    {
+      "Contract": "erc721",
+      "Key": "YWNjb3VudEluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMF8x",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "YmFsYW5jZUluZm8jOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA==",
+      "Expected": "MQ=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JZHMjMQ==",
+      "Expected": "OGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMA=="
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzFfbGF0ZXN0VHhJbmZv",
+      "Expected": "eyJUeElkIjoiYmU1YzM0NmIwMDFjNjhkNzVlNmM1ODVlZmIzMDNlOTVjYmE5MGM1ZGY1YTBhMTMxMzNlZmIyNGU1MTI3ODgxZCIsIkJsb2NrSGVpZ2h0IjoyLCJGcm9tIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsIlRvIjoiOGFjZmFjYTVlZWVjOWY2ZjdjMjNjNGZmYWM5NjliODZmMjc3OTliMCJ9"
+    },
+    {
+      "Contract": "erc721",
+      "Key": "dG9rZW5JbmZvIzFfbWV0YWRhdGE=",
+      "Expected": "aHR0cDovL2NoYWlubWFrZXIub3JnLmNuLw=="
+    }
+  ],
+  "after_window_gate": {
+    "passed": true,
+    "observations": [
+      {
+        "fence_ids": [
+          7,
+          8
+        ],
+        "handler_ns": 41309,
+        "min_height": 7,
+        "passed": true,
+        "scope": "components_and_safe_queue_only; SDK probe still required",
+        "state": {
+          "run": "formal-erc721_balanceOf-b2-G2",
+          "chain": "step35",
+          "stages_ns": {
+            "chain_start_enter": 127,
+            "chain_started": 2010596539,
+            "consensus_start_return": 415989,
+            "core_start_return": 401400,
+            "provider_returned": 2010527650,
+            "readiness_fence_complete": 2728053006,
+            "registry_returned": 2010404303,
+            "sync_started": 2010556657
+          },
+          "registry_returned": true,
+          "provider_returned": true,
+          "sync_started": true,
+          "chain_started": true,
+          "core_started": true,
+          "consensus_started": true,
+          "proposer_ready": true,
+          "consumer_started": true,
+          "consumer_active": false,
+          "notified": 6,
+          "taken": 6,
+          "completed": 6,
+          "last_notified_height": 7,
+          "last_completed_height": 7,
+          "closing": false,
+          "ready": true,
+          "fence_count": 8,
+          "wall_ns": 1793717916055125719,
+          "since_chain_start_ns": 2998607685
+        }
+      }
+    ],
+    "final": {
+      "fence_ids": [
+        7,
+        8
+      ],
+      "handler_ns": 41309,
+      "min_height": 7,
+      "passed": true,
+      "scope": "components_and_safe_queue_only; SDK probe still required",
+      "state": {
+        "run": "formal-erc721_balanceOf-b2-G2",
+        "chain": "step35",
+        "stages_ns": {
+          "chain_start_enter": 127,
+          "chain_started": 2010596539,
+          "consensus_start_return": 415989,
+          "core_start_return": 401400,
+          "provider_returned": 2010527650,
+          "readiness_fence_complete": 2728053006,
+          "registry_returned": 2010404303,
+          "sync_started": 2010556657
+        },
+        "registry_returned": true,
+        "provider_returned": true,
+        "sync_started": true,
+        "chain_started": true,
+        "core_started": true,
+        "consensus_started": true,
+        "proposer_ready": true,
+        "consumer_started": true,
+        "consumer_active": false,
+        "notified": 6,
+        "taken": 6,
+        "completed": 6,
+        "last_notified_height": 7,
+        "last_completed_height": 7,
+        "closing": false,
+        "ready": true,
+        "fence_count": 8,
+        "wall_ns": 1793717916055125719,
+        "since_chain_start_ns": 2998607685
+      }
+    }
+  },
+  "artifact_after": {
+    "bytes": 0,
+    "closed": false,
+    "entries": 0,
+    "hits": 0,
+    "items": [],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 0,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "owner_after": {
+    "accepted": 7,
+    "closing": false,
+    "inflight": 0,
+    "limit": 32,
+    "resetting": false
+  },
+  "node": {
+    "label": "formal-erc721_balanceOf-b2-G2",
+    "reason": "",
+    "peak_rss_kib": 608784,
+    "peak_threads": 25,
+    "stop_s": 0.04167306099952839,
+    "systemd": {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive"
+    },
+    "owner": {
+      "event": "owner_closed",
+      "instances_closed": 7,
+      "instances_created": 7,
+      "managed_objects": 0,
+      "managed_pending": 0,
+      "stores_closed": 8,
+      "stores_created": 8
+    },
+    "owned_pids": [
+      56352
+    ],
+    "pid_exited": true,
+    "cgroup_empty": true
+  }
+}

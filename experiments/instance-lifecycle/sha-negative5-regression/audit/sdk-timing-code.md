@@ -1,0 +1,1 @@
+Unchanged39Cclient3: source/client.go lines70–98; InvokeContract(...,60,true)→SendRequestSync; PutBlock→BlockInfo→dispatcher result. Source/source-evidence andoriginalclient3 hashes inStep39C audit; readiness protocolStep39E READINESS.md.

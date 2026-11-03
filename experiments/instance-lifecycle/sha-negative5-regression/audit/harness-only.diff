@@ -1,0 +1,46 @@
+--- Step39E/harness.py
++++ NEGATIVE5/harness.py
+@@ -1,17 +1,17 @@
+ from pathlib import Path
+ import os,sys,json,time,socket,select,subprocess,threading,hashlib,shutil,http.client,base64,yaml
+-P=Path(__file__).resolve().parents[1];R=Path('/home/frankie/mygitprojects');H=Path(os.environ.get('STEP36_HOME','/tmp/cvw-step36-empty'));LIB=R/'.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/libraries/patched';SOURCE=Path('/tmp/cvw-step39e-template');GUARD_R=1536*1024;GUARD_T=220
++P=Path(__file__).resolve().parents[1];R=Path('/home/frankie/mygitprojects');H=Path(os.environ.get('STEP36_HOME','/tmp/cvw-step36-empty'));LIB=R/'.worktrees/cvw-step35b/experiments/instance-lifecycle/step-35b-native-wasi-thread/libraries/patched';SOURCE=Path('/tmp/cvw-shaneg5-template');GUARD_R=1536*1024;GUARD_T=220
+ # Reuse proven monitor and shutdown checks, not the original pool.
+ import importlib.util
+ spec=importlib.util.spec_from_file_location('owner_monitor',P/'scripts/monitor.py');old=importlib.util.module_from_spec(spec);spec.loader.exec_module(old)
+ class Node(old.Node):
+- def __init__(self,label,group='E0',ready=True):
++ def __init__(self,label,group='G0',ready=True):
+   launch_begin=time.monotonic_ns()
+   assert not (P/'STOP_SHARED.json').exists(), 'shared infrastructure stop retained'
+   # Port/config/file policy remains the inherited isolated monitor; override its module constants only in this process.
+-  old.P=P;old.H=H;old.LIB=LIB;os.environ['E39_MODE']='B'if group=='E3'else'A'
++  old.P=P;old.H=H;old.LIB=LIB;os.environ['E39_MODE']='B'if group=='G4'else'A'
+   os.environ['STEP35_NODE_BINARY']='node-ready'
+-  try:super().__init__(label,int(group in ['E1','E2','E3']))
++  try:super().__init__(label,int(group in ['G1','G3','G4']))
+   except BaseException as e:(P/'STOP_SHARED.json').write_text(json.dumps({'label':label,'error':repr(e),'stage':'node_startup'}));raise
+   self.launch_begin_ns=launch_begin
+   if not ready:return
+--- Step39E/monitor.py
++++ NEGATIVE5/monitor.py
+@@ -4,7 +4,7 @@
+ class Node:
+  def __init__(self,label,copy=0):
+   assert not (P/'STOP.json').exists(), 'Retained Step35C stop: audit ledger shutdown before any new node run'
+-  self.label=label;self.unit='step39e-node-'+label;self.log=P/'raw_logs'/f'{label}-node.log';assert not self.log.exists();self.stopmon=threading.Event();self.reason='';self.peakR=self.peakT=0;self.pid=0;self.pids=set();self.cgroup=''
++  self.label=label;self.unit='shaneg5-node-'+label;self.log=P/'raw_logs'/f'{label}-node.log';assert not self.log.exists();self.stopmon=threading.Event();self.reason='';self.peakR=self.peakT=0;self.pid=0;self.pids=set();self.cgroup=''
+   native=LIB/'libwasmer.so';assert native.exists(); native_sha=hashlib.sha256(native.read_bytes()).hexdigest(); assert native_sha=='56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc'
+   env={'CM_SAFE_FRESH_NODE':'1','CM_SAFE_FRESH_CONFIG':'native6.0.1/'+native_sha+'/compiler-locked/gas-step34/maxpages512/v36','CM_STATIC_MEMORY_COPY':str(copy),'CM_REUSE_EXPERIMENT':'R1','CM_STEP21A_POOL':'capacity','CM_STEP21A_STORE_GUARD':'1','CM_STEP21_OBSERVE':'1','LD_LIBRARY_PATH':str(LIB),'GOMAXPROCS':'2','GOGC':'100','CM_STEP35A_CONTROL':str(H/'manager.sock'),'CM35C_TRACE':'1','CM35C_SOCKET':str(H/('drain-'+label+'.sock')),'CM35C_HOLD':os.environ.get('CM35C_HOLD',''),'CM39E_READINESS':'1','CM39E_CHAIN':'step35','CM39E_RUN':label,'CM39E_SOCKET':str(H/'readiness.sock'),'E38_STRATEGY':'C0','E39_MODE':os.environ.get('E39_MODE','A'),'CM39C_DIAGNOSTIC':os.environ.get('CM39C_DIAGNOSTIC','0')}
+   self.argv=['systemd-run','--user','--unit='+self.unit,'-p','MemoryMax=2G','-p','TasksMax=256','-p','RuntimeMaxSec=180s','-p','TimeoutStopSec=10s','-p','KillMode=control-group','-p','RemainAfterExit=yes','-p','StandardOutput=append:'+str(self.log),'-p','StandardError=inherit','--working-directory='+str(H)]+['--setenv='+k+'='+v for k,v in env.items()]+[str(P/'binaries'/os.environ.get('STEP35_NODE_BINARY','observe')),'start','-c',str(H/'config/wx-org1.chainmaker.org/chainmaker.yml')]
+--- Step39E/seed.py
++++ NEGATIVE5/seed.py
+@@ -1,7 +1,7 @@
+ from harness import *
+ label,contract,flavor=sys.argv[1:];group='G0'if flavor=='plain'else'G2';vs=json.loads((P/'inputs/variants.json').read_text());node=None;client=None;out={'contract':contract,'flavor':flavor,'seed':str(H),'passed':False}
+ try:
+- clone(SOURCE,H,True);node=Node(label,'E0');client=Client(label);deps=['identity','erc721','exchange']if contract=='exchange'else[contract]
++ clone(SOURCE,H,True);node=Node(label,'G0');client=Client(label);deps=['identity','erc721','exchange']if contract=='exchange'else[contract]
+  for c in deps:
+   params={'name':'huanletoken','symbol':'hlt','tokenURI':'https://chainmaker.org.cn'}if c=='erc721'else{}
+   res=client.batch([{'Op':'deploy','Contract':c,'Path':vs[c+'-'+group]['path'],'Params':params,'Tag':'deploy-'+c,'Phase':'deployment'}]);assert len(res['rows'])==1;good(res['rows'][0]);print('DEPLOYED',contract,flavor,c,flush=True)
