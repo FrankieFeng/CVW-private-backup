@@ -1,0 +1,83 @@
+--- timing/step35_node.go
++++ lean/step35_node.go
+@@ -98,10 +98,10 @@
+ 	if c == nil || c.Name == "" || c.Version == "" || len(raw) == 0 {
+ 		return nil, errors.New("invalid contract/bytecode")
+ 	}
+-	begin:=time.Now();r:=&nodeFreshRuntime{m:m,contract:*c,rid:e39Next.Add(1)}
++	r:=&nodeFreshRuntime{m:m,contract:*c,rid:e39Next.Add(1)}
+  if e39Mode!="A" { a,err:=m.artifacts.acquire(m.chain,m.config,c,raw,&r.costs);if err!=nil{return nil,err};r.artifact=a }
+- if e39Mode=="C"||e39Mode=="D" { r.raw=r.artifact.raw } else { b:=time.Now();r.raw=append([]byte(nil),raw...);r.costs=append(r.costs,e39Cost{"runtime_clone",time.Since(b).Nanoseconds(),1,len(raw)}) }
+- r.costs=append(r.costs,e39Cost{"runtime_create",time.Since(begin).Nanoseconds(),0,len(raw)})
++ if e39Mode=="C"||e39Mode=="D" { r.raw=r.artifact.raw } else { r.raw=append([]byte(nil),raw...) }
++
+  return r,nil
+ }
+ func (m *nodeFreshManager) clear() error {
+@@ -141,7 +141,7 @@
+ 	}
+ 	restore := m.cacheScope.Activate()
+ 	defer restore()
+-	prepBegin:=time.Now();defer func(){r.costs=append(r.costs,e39Cost{"prepare_total",time.Since(prepBegin).Nanoseconds(),0,len(raw)})}()
++	
+  digest:="";if e39Mode=="B"||e39Mode=="D"{digest=r.artifact.digest}else{digest=r.hash("prepare_sha",raw)}
+  key := m.chain + "/" + c.Name + "/" + c.Version + "/" + digest + "/" + m.config + fmt.Sprint("/copy=", m.copy)
+ 	if rec = m.caches[key]; rec != nil {
+@@ -198,7 +198,7 @@
+ func (r *nodeFreshRuntime) Invoke(c *common.Contract, method string, raw []byte, params map[string][]byte, tx protocol.TxSimContext, gasUsed uint64) (result *common.ContractResult, order protocol.ExecOrderTxType) {
+ 	result = &common.ContractResult{Code: 1}
+ 	order = protocol.ExecOrderTxTypeNormal
+-	defer func(){e39Emit(map[string]interface{}{"event":"artifact_costs","tx_id":tx.GetTx().Payload.TxId,"contract":r.contract.Name,"rid":r.rid,"mode":e39Mode,"costs":r.costs})}()
++	
+  if c == nil || c.Name != r.contract.Name || c.Version != r.contract.Version {result.Message="runtime contract/hash mismatch";return}
+  incoming:=r.hash("invoke_input_sha",raw);expected:="";if e39Mode=="B"||e39Mode=="D"{expected=r.artifact.digest}else{expected=r.hash("invoke_snapshot_sha",r.raw)}
+  if incoming!=expected {
+--- timing/step39_artifact.go
++++ lean/step39_artifact.go
+@@ -11,7 +11,7 @@
+ 	"os"
+ 	"sync"
+ 	"sync/atomic"
+-	"time"
++	
+ )
+ 
+ type e39Key struct{ Chain, Config, Name, Version string }
+@@ -42,16 +42,14 @@
+ 	fmt.Printf("STEP39 %s\n", b)
+ }
+ func (r *nodeFreshRuntime) hash(stage string, b []byte) string {
+-	begin := time.Now()
++	
+ 	s := nodeSHA(b)
+-	r.costs = append(r.costs, e39Cost{stage, time.Since(begin).Nanoseconds(), 1, len(b)})
++	
+ 	return s
+ }
+ func (g *e39Registry) acquire(chain, config string, c *common.Contract, raw []byte, costs *[]e39Cost) (*e39Artifact, error) {
+-	begin := time.Now()
+-	defer func() {
+-		*costs = append(*costs, e39Cost{"artifact_acquire", time.Since(begin).Nanoseconds(), 1, len(raw)})
+-	}()
++	
++	
+ 	if c == nil || c.Name == "" || c.Version == "" || len(raw) == 0 {
+ 		return nil, errors.New("invalid artifact")
+ 	}
+@@ -67,12 +65,12 @@
+ 	if _, ok := g.entries[k]; !ok && len(g.entries) >= 8 {
+ 		return nil, errors.New("bounded artifact registry full")
+ 	}
+-	b := time.Now()
++	
+ 	owned := append([]byte(nil), raw...)
+-	*costs = append(*costs, e39Cost{"artifact_cold_clone", time.Since(b).Nanoseconds(), 1, len(raw)})
+-	b = time.Now()
++	
++	
+ 	digest := nodeSHA(owned)
+-	*costs = append(*costs, e39Cost{"artifact_cold_sha", time.Since(b).Nanoseconds(), 1, len(owned)})
++	
+ 	a := &e39Artifact{key: k, raw: owned, digest: digest}
+ 	g.entries[k] = a
+ 	return a, nil

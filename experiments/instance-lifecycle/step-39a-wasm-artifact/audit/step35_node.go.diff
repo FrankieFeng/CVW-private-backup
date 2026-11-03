@@ -1,0 +1,94 @@
+--- Step38/step35_node.go
++++ Step39/step35_node.go
+@@ -28,6 +28,8 @@
+ 	source string
+ }
+ type nodeFreshManager struct {
++ artifacts e39Registry
++
+ 	control35a    *control35a
+ 	owner         *SafeFreshOwner
+ 	caches        map[string]*nodeFreshCache
+@@ -40,6 +42,10 @@
+ 	inflight      atomic.Int64
+ }
+ type nodeFreshRuntime struct {
++ artifact *e39Artifact
++ costs []e39Cost
++ rid uint64
++
+ 	m        *nodeFreshManager
+ 	contract common.Contract
+ 	raw      []byte
+@@ -92,7 +98,11 @@
+ 	if c == nil || c.Name == "" || c.Version == "" || len(raw) == 0 {
+ 		return nil, errors.New("invalid contract/bytecode")
+ 	}
+-	return &nodeFreshRuntime{m: m, contract: *c, raw: append([]byte(nil), raw...)}, nil
++	begin:=time.Now();r:=&nodeFreshRuntime{m:m,contract:*c,rid:e39Next.Add(1)}
++ if e39Mode!="A" { a,err:=m.artifacts.acquire(m.chain,m.config,c,raw,&r.costs);if err!=nil{return nil,err};r.artifact=a }
++ if e39Mode=="C"||e39Mode=="D" { r.raw=r.artifact.raw } else { b:=time.Now();r.raw=append([]byte(nil),raw...);r.costs=append(r.costs,e39Cost{"runtime_clone",time.Since(b).Nanoseconds(),1,len(raw)}) }
++ r.costs=append(r.costs,e39Cost{"runtime_create",time.Since(begin).Nanoseconds(),0,len(raw)})
++ return r,nil
+ }
+ func (m *nodeFreshManager) clear() error {
+ 	trace35c.Hold("reset_cleanup")
+@@ -123,7 +133,7 @@
+ 	defer cancel()
+ 	return m.owner.Reset(ctx, m.clear)
+ }
+-func (m *nodeFreshManager) prepare(c *common.Contract, raw []byte) (rec *nodeFreshCache, err error) {
++func (m *nodeFreshManager) prepare(c *common.Contract, raw []byte, r *nodeFreshRuntime) (rec *nodeFreshCache, err error) {
+ 	w.ManagedAssert()
+ 	if m.cacheScope == nil {
+ 		m.cacheScope = w.ManagedOpen("node-cache-root")
+@@ -131,7 +141,9 @@
+ 	}
+ 	restore := m.cacheScope.Activate()
+ 	defer restore()
+-	key := m.chain + "/" + c.Name + "/" + c.Version + "/" + nodeSHA(raw) + "/" + m.config + fmt.Sprint("/copy=", m.copy)
++	prepBegin:=time.Now();defer func(){r.costs=append(r.costs,e39Cost{"prepare_total",time.Since(prepBegin).Nanoseconds(),0,len(raw)})}()
++ digest:="";if e39Mode=="B"||e39Mode=="D"{digest=r.artifact.digest}else{digest=r.hash("prepare_sha",raw)}
++ key := m.chain + "/" + c.Name + "/" + c.Version + "/" + digest + "/" + m.config + fmt.Sprint("/copy=", m.copy)
+ 	if rec = m.caches[key]; rec != nil {
+ 		nodeEvent("module_hit", map[string]interface{}{"contract": c.Name, "key": key})
+ 		return rec, nil
+@@ -174,7 +186,8 @@
+ strategy = os.Getenv("E38_STRATEGY")
+ if e := e38Coalesce(plan,strategy); e != nil { return nil,e }
+ 	}
+-	rec = &nodeFreshCache{scope: scope, store: store, module: module, plan: plan, source: nodeSHA(raw)}
++	if e39Mode=="A"||e39Mode=="C"{digest=r.hash("cold_source_sha",raw)}
++ rec = &nodeFreshCache{scope: scope, store: store, module: module, plan: plan, source: digest}
+ 	m.caches[key] = rec
+ 	m.order = append(m.order, key)
+ 	m.cacheObjects += w.ManagedCount() - baseObjects
+@@ -185,14 +198,17 @@
+ func (r *nodeFreshRuntime) Invoke(c *common.Contract, method string, raw []byte, params map[string][]byte, tx protocol.TxSimContext, gasUsed uint64) (result *common.ContractResult, order protocol.ExecOrderTxType) {
+ 	result = &common.ContractResult{Code: 1}
+ 	order = protocol.ExecOrderTxTypeNormal
+-	if c == nil || c.Name != r.contract.Name || c.Version != r.contract.Version || nodeSHA(raw) != nodeSHA(r.raw) {
++	defer func(){e39Emit(map[string]interface{}{"event":"artifact_costs","tx_id":tx.GetTx().Payload.TxId,"contract":r.contract.Name,"rid":r.rid,"mode":e39Mode,"costs":r.costs})}()
++ if c == nil || c.Name != r.contract.Name || c.Version != r.contract.Version {result.Message="runtime contract/hash mismatch";return}
++ incoming:=r.hash("invoke_input_sha",raw);expected:="";if e39Mode=="B"||e39Mode=="D"{expected=r.artifact.digest}else{expected=r.hash("invoke_snapshot_sha",r.raw)}
++ if incoming!=expected {
+ 		result.Message = "runtime contract/hash mismatch"
+ 		return
+ 	}
+ 	// No request deadline returns while tx context is still being accessed: cancellation is admission-only.
+ 	e := r.m.owner.Do(context.Background(), func() error {
+ 		nodeOwnerTID.Store(int64(syscallTID()))
+-		return r.invoke(c, method, raw, params, tx, gasUsed, result, &order)
++		code:=raw;if e39Mode!="A"{code=r.raw};return r.invoke(c, method, code, params, tx, gasUsed, result, &order)
+ 	})
+ 	if e != nil {
+ 		result.Code = 1
+@@ -224,7 +240,7 @@
+ 		fields["error"] = fmt.Sprint(err)
+ 		nodeEvent("invoke_end", fields)
+ 	}()
+-	rec, e := m.prepare(c, raw)
++	rec, e := m.prepare(c, raw, r)
+ 	if e != nil {
+ 		return e
+ 	}
