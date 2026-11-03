@@ -1,0 +1,185 @@
+--- Step39A/step35_node.go
++++ Step39B/step35_node.go
+@@ -98,7 +98,9 @@
+ 	if c == nil || c.Name == "" || c.Version == "" || len(raw) == 0 {
+ 		return nil, errors.New("invalid contract/bytecode")
+ 	}
+-	begin:=time.Now();r:=&nodeFreshRuntime{m:m,contract:*c,rid:e39Next.Add(1)}
++	// Admission uses the existing Owner state. Same-owner children finish accepted roots.
++ if m.owner!=nil && int64(syscallTID())!=m.owner.tid.Load(){m.owner.mu.Lock();defer m.owner.mu.Unlock();if m.owner.closing||m.owner.resetting||m.owner.poisoned||m.owner.accepted>=m.owner.limit{return nil,ErrOwnerClosed}}
++ begin:=time.Now();r:=&nodeFreshRuntime{m:m,contract:*c,rid:e39Next.Add(1)}
+  if e39Mode!="A" { a,err:=m.artifacts.acquire(m.chain,m.config,c,raw,&r.costs);if err!=nil{return nil,err};r.artifact=a }
+  if e39Mode=="C"||e39Mode=="D" { r.raw=r.artifact.raw } else { b:=time.Now();r.raw=append([]byte(nil),raw...);r.costs=append(r.costs,e39Cost{"runtime_clone",time.Since(b).Nanoseconds(),1,len(raw)}) }
+  r.costs=append(r.costs,e39Cost{"runtime_create",time.Since(begin).Nanoseconds(),0,len(raw)})
+@@ -125,7 +127,8 @@
+ 		}
+ 		m.cacheScope = nil
+ 	}
+-	nodeEvent("cache_closed", nil)
++ closing:=false;if m.owner!=nil{m.owner.mu.Lock();closing=m.owner.closing;m.owner.mu.Unlock()};m.artifacts.clear(closing)
++ nodeEvent("cache_closed", nil)
+ 	return errors.Join(errs...)
+ }
+ func (m *nodeFreshManager) reset() error {
+@@ -178,7 +181,8 @@
+ 	if e != nil {
+ 		return nil, e
+ 	}
+-	module.Imports()
++ if e39bDiagnostic && e39bFault=="after_compile" {return nil,errors.New("step39b injected after_compile")}
++ module.Imports()
+ 	module.Exports()
+ 	if plan != nil {
+ 		plan.Module = module
+@@ -198,7 +202,7 @@
+ func (r *nodeFreshRuntime) Invoke(c *common.Contract, method string, raw []byte, params map[string][]byte, tx protocol.TxSimContext, gasUsed uint64) (result *common.ContractResult, order protocol.ExecOrderTxType) {
+ 	result = &common.ContractResult{Code: 1}
+ 	order = protocol.ExecOrderTxTypeNormal
+-	defer func(){e39Emit(map[string]interface{}{"event":"artifact_costs","tx_id":tx.GetTx().Payload.TxId,"contract":r.contract.Name,"rid":r.rid,"mode":e39Mode,"costs":r.costs})}()
++	defer func(){e39bCollect(r,tx.GetTx().Payload.TxId)}()
+  if c == nil || c.Name != r.contract.Name || c.Version != r.contract.Version {result.Message="runtime contract/hash mismatch";return}
+  incoming:=r.hash("invoke_input_sha",raw);expected:="";if e39Mode=="B"||e39Mode=="D"{expected=r.artifact.digest}else{expected=r.hash("invoke_snapshot_sha",r.raw)}
+  if incoming!=expected {
+@@ -241,9 +245,7 @@
+ 		nodeEvent("invoke_end", fields)
+ 	}()
+ 	rec, e := m.prepare(c, raw, r)
+-	if e != nil {
+-		return e
+-	}
++ if e!=nil {m.artifacts.discard(r.artifact);return e}
+ 	restore := rec.scope.Activate()
+ 	defer restore()
+ 	before := w.ManagedCount() - m.cacheObjects
+--- Step39A/step39_artifact.go
++++ Step39B/step39_artifact.go
+@@ -23,6 +23,8 @@
+ type e39Registry struct {
+ 	mu      sync.Mutex
+ 	entries map[e39Key]*e39Artifact
++	bytes   int
++	closed  bool
+ }
+ type e39Cost struct {
+ 	Stage string `json:"stage"`
+@@ -58,14 +60,30 @@
+ 	k := e39Key{chain, config, c.Name, c.Version}
+ 	g.mu.Lock()
+ 	defer g.mu.Unlock()
++	if g.closed {
++		return nil, ErrOwnerClosed
++	}
++	if len(raw) > e39bMaxBytes {
++		return nil, errors.New("artifact byte limit")
++	}
+ 	if g.entries == nil {
+ 		g.entries = make(map[e39Key]*e39Artifact)
+ 	}
+ 	if a := g.entries[k]; a != nil && bytes.Equal(a.raw, raw) {
++		if e39bDiagnostic {
++			*costs = append(*costs, e39Cost{"artifact_hit", 0, 1, len(raw)})
++		}
+ 		return a, nil
+ 	}
+ 	if _, ok := g.entries[k]; !ok && len(g.entries) >= 8 {
+ 		return nil, errors.New("bounded artifact registry full")
++	}
++	oldBytes := 0
++	if old := g.entries[k]; old != nil {
++		oldBytes = len(old.raw)
++	}
++	if g.bytes-oldBytes+len(raw) > e39bMaxBytes {
++		return nil, errors.New("artifact byte limit")
+ 	}
+ 	b := time.Now()
+ 	owned := append([]byte(nil), raw...)
+@@ -75,5 +93,6 @@
+ 	*costs = append(*costs, e39Cost{"artifact_cold_sha", time.Since(b).Nanoseconds(), 1, len(owned)})
+ 	a := &e39Artifact{key: k, raw: owned, digest: digest}
+ 	g.entries[k] = a
++	g.bytes = g.bytes - oldBytes + len(owned)
+ 	return a, nil
+ }
+--- Step39A/step38_driver_test.go
++++ Step39B/step38_driver_test.go
+@@ -8,8 +8,8 @@
+  names:=[]string{cfg.Contract};if cfg.Contract=="exchange"{names=[]string{"identity","erc721","exchange"}}
+  for _,c:=range names{args:=map[string]string{};if c=="erc721"{args=map[string]string{"name":"huanletoken","symbol":"hlt","tokenURI":"https://chainmaker.org.cn"}};r:=f.run("init-"+c,c,"init_contract","e38-init-"+c,args);if r.Result.Code!=0||r.Status!=0{t.Fatalf("init: %+v",r.Result)}}
+  for i,s:=range cfg.Setup{r:=f.run(fmt.Sprint("setup-",i),cfg.Contract,s.Method,fmt.Sprint("e38-setup-",i),s.Params);if r.Result.Code!=0||r.Status!=0{t.Fatalf("setup: %+v",r.Result)}}
+- initial:=e22Clone(f.snapshot.ledger);beforeHash:=f.snapshot.hash();e38Drain()
+- run:=func(phase string,i int){f.snapshot.ledger=e22Clone(initial);token:=sha256.Sum256([]byte(cfg.Case+"|"+os.Getenv("E38_BATCH")+"|"+phase+fmt.Sprint(i)));tx:=hex.EncodeToString(token[:]);var a,b runtime.MemStats;runtime.ReadMemStats(&a);r:=f.run(fmt.Sprintf("%s-%d",phase,i),cfg.Contract,cfg.Method,tx,cfg.Params);runtime.ReadMemStats(&b);if r.Status!=0||r.Result.Code!=0{t.Fatalf("business %s: %+v",phase,r.Result)};if cfg.Expected!=""&&!strings.HasPrefix(string(r.Result.Result),cfg.Expected){t.Fatalf("result %s",string(r.Result.Result))};if r.BeforeHash!=beforeHash{t.Fatal("initial ledger mismatch")};e38Emit(map[string]interface{}{"event":"target","phase":phase,"slot":i,"tx_id":tx,"case":cfg.Case,"strategy":os.Getenv("E38_STRATEGY"),"result":r.Result,"rwset":r.RWSet,"before_hash":r.BeforeHash,"after_hash":r.AfterHash,"runcontract_ns":r.RunContractWallNS,"host_envelope_allocs":b.Mallocs-a.Mallocs,"host_envelope_alloc_bytes":b.TotalAlloc-a.TotalAlloc,"host_heap":b.HeapAlloc,"host_gc":b.NumGC,"costs":e38Drain()})}
++ initial:=e22Clone(f.snapshot.ledger);beforeHash:=f.snapshot.hash();e38Drain();e39bDrain()
++ run:=func(phase string,i int){f.snapshot.ledger=e22Clone(initial);token:=sha256.Sum256([]byte(cfg.Case+"|"+os.Getenv("E38_BATCH")+"|"+phase+fmt.Sprint(i)));tx:=hex.EncodeToString(token[:]);var a,b runtime.MemStats;runtime.ReadMemStats(&a);r:=f.run(fmt.Sprintf("%s-%d",phase,i),cfg.Contract,cfg.Method,tx,cfg.Params);runtime.ReadMemStats(&b);if r.Status!=0||r.Result.Code!=0{t.Fatalf("business %s: %+v",phase,r.Result)};if cfg.Expected!=""&&!strings.HasPrefix(string(r.Result.Result),cfg.Expected){t.Fatalf("result %s",string(r.Result.Result))};if r.BeforeHash!=beforeHash{t.Fatal("initial ledger mismatch")};e38Emit(map[string]interface{}{"event":"target","phase":phase,"slot":i,"tx_id":tx,"case":cfg.Case,"strategy":os.Getenv("E38_STRATEGY"),"result":r.Result,"rwset":r.RWSet,"before_hash":r.BeforeHash,"after_hash":r.AfterHash,"runcontract_ns":r.RunContractWallNS,"host_envelope_allocs":b.Mallocs-a.Mallocs,"host_envelope_alloc_bytes":b.TotalAlloc-a.TotalAlloc,"host_heap":b.HeapAlloc,"host_gc":b.NumGC,"costs":e38Drain(),"artifact_costs":e39bDrain(),"group":os.Getenv("E39B_GROUP")})}
+  for i:=0;i<2;i++{run("warmup",i)}
+  for i:=0;i<2;i++{run("formal",i)}
+ }
+--- Step39A/step39b_cache.go
++++ Step39B/step39b_cache.go
+@@ -0,0 +1,61 @@
++package wasmer
++
++import (
++	"os"
++	"sync"
++)
++
++const e39bMaxBytes = 64 << 20
++
++var e39bFault = os.Getenv("E39B_FAULT")
++
++type e39bSnapshot struct {
++	Entries, Bytes int
++	Closed         bool
++}
++
++func (g *e39Registry) snapshot() e39bSnapshot {
++	g.mu.Lock()
++	defer g.mu.Unlock()
++	return e39bSnapshot{len(g.entries), g.bytes, g.closed}
++}
++func (g *e39Registry) clear(closing bool) {
++	g.mu.Lock()
++	defer g.mu.Unlock()
++	g.entries = nil
++	g.bytes = 0
++	g.closed = g.closed || closing
++}
++func (g *e39Registry) discard(a *e39Artifact) {
++	if a == nil {
++		return
++	}
++	g.mu.Lock()
++	defer g.mu.Unlock()
++	if g.entries[a.key] == a {
++		delete(g.entries, a.key)
++		g.bytes -= len(a.raw)
++	}
++}
++
++type e39bObservation struct {
++	TxID, Contract, Mode string
++	RID                  uint64
++	Costs                []e39Cost
++}
++
++var e39bObsMu sync.Mutex
++var e39bObs []e39bObservation
++
++func e39bCollect(r *nodeFreshRuntime, tx string) {
++	e39bObsMu.Lock()
++	defer e39bObsMu.Unlock()
++	e39bObs = append(e39bObs, e39bObservation{tx, r.contract.Name, e39Mode, r.rid, r.costs})
++}
++func e39bDrain() []e39bObservation {
++	e39bObsMu.Lock()
++	defer e39bObsMu.Unlock()
++	r := e39bObs
++	e39bObs = nil
++	return r
++}
+--- Step39A/step39b_flags.go
++++ Step39B/step39b_flags.go
+@@ -0,0 +1,3 @@
++package wasmer
++
++const e39bDiagnostic = false

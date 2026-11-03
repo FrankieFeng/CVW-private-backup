@@ -1,0 +1,319 @@
+package wasmer
+
+import (
+	"bytes"
+ "encoding/json"
+ "crypto/sha256"
+ "encoding/hex"
+	"chainmaker.org/chainmaker/logger/v2"
+	common "chainmaker.org/chainmaker/pb-go/v2/common"
+	"chainmaker.org/chainmaker/protocol/v2"
+	vm "chainmaker.org/chainmaker/vm/v2"
+	"context"
+	"fmt"
+	"os"
+	"runtime"
+	"sync"
+	"testing"
+	"time"
+	"weak"
+)
+
+func e39bCheck(t *testing.T, name string, condition bool, detail interface{}) {
+	t.Helper()
+	e39Emit(map[string]interface{}{"event": "lifecycle_check", "name": name, "passed": condition, "detail": detail})
+	if !condition {
+		t.Fatal(name)
+	}
+}
+func TestStep39BRegistry(t *testing.T) {
+	var g e39Registry
+	var cost []e39Cost
+	c := &common.Contract{Name: "x", Version: "1"}
+	raw := []byte{1, 2, 3}
+	a, e := g.acquire("c", "cfg", c, raw, &cost)
+	e39bCheck(t, "first", e == nil, a.digest)
+	hit, e := g.acquire("c", "cfg", c, raw, &cost)
+	e39bCheck(t, "hit", e == nil && hit == a, g.snapshot())
+	raw[0] = 9
+	e39bCheck(t, "owns_immutable_snapshot", bytes.Equal(a.raw, []byte{1, 2, 3}), a.digest)
+	newer, e := g.acquire("c", "cfg", c, raw, &cost)
+	g.discard(a)
+	e39bCheck(t, "replace_keeps_old_and_discard_cannot_delete_new", e == nil && newer != a && g.snapshot().Entries == 1 && a.raw[0] == 1, g.snapshot())
+	for i := 0; i < 7; i++ {
+		d := *c
+		d.Version = fmt.Sprint(i + 2)
+		_, e = g.acquire("c", "cfg", &d, raw, &cost)
+		if e != nil {
+			t.Fatal(e)
+		}
+	}
+	d := *c
+	d.Name = "ninth"
+	_, e = g.acquire("c", "cfg", &d, raw, &cost)
+	e39bCheck(t, "capacity_rejects_ninth", e != nil && g.snapshot().Entries == 8, g.snapshot())
+	g.clear(false)
+	e39bCheck(t, "reset_detaches_and_reopens_capacity", g.snapshot().Entries == 0 && g.snapshot().Bytes == 0 && !g.snapshot().Closed, g.snapshot())
+	_, e = g.acquire("c", "cfg", &d, raw, &cost)
+	e39bCheck(t, "registration_after_reset", e == nil, g.snapshot())
+	large := make([]byte, e39bMaxBytes+1)
+	_, e = g.acquire("c", "cfg", c, large, &cost)
+	e39bCheck(t, "byte_limit_rejects_before_owned_clone", e != nil && g.snapshot().Bytes == 3, g.snapshot())
+	large = nil
+	g.clear(true)
+	_, e = g.acquire("c", "cfg", c, raw, &cost)
+	e39bCheck(t, "stop_detaches_and_permanently_rejects", e != nil && g.snapshot().Closed && g.snapshot().Bytes == 0, g.snapshot())
+	e39bCheck(t, "old_snapshot_survives_reset_stop", nodeSHA(a.raw) == a.digest, a.digest)
+	// Race test covers multiple distinct Runtime objects reading the same immutable artifact.
+	m := &nodeFreshManager{chain: "c", config: "cfg"}
+	base, _ := m.runtime(c, raw)
+	var wg sync.WaitGroup
+	for i := 0; i < 8; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for j := 0; j < 20; j++ {
+				r, err := m.runtime(c, raw)
+				if err != nil || r.(*nodeFreshRuntime).artifact != base.(*nodeFreshRuntime).artifact || nodeSHA(r.(*nodeFreshRuntime).raw) != r.(*nodeFreshRuntime).artifact.digest {
+					t.Error("runtime immutable read")
+				}
+			}
+		}()
+	}
+	wg.Wait()
+	e39bCheck(t, "multiple_runtime_readers", !t.Failed(), map[string]int{"readers": 8, "calls_each": 20})
+}
+
+var e39bChurn []byte
+
+// Natural GC only. No runtime.GC, FreeOSMemory, sleeps, or production GC parameter change.
+func TestStep39BCollectible(t *testing.T) {
+	var ref weak.Pointer[e39Artifact]
+	func() {
+		var g e39Registry
+		var costs []e39Cost
+		a, e := g.acquire("c", "cfg", &common.Contract{Name: "weak", Version: "1"}, make([]byte, 1<<20), &costs)
+		if e != nil {
+			t.Fatal(e)
+		}
+		ref = weak.Make(a)
+		g.clear(true)
+	}()
+	var before, after runtime.MemStats
+	runtime.ReadMemStats(&before)
+	n := 0
+	for ; n < 32; n++ {
+		e39bChurn = make([]byte, 4<<20)
+		e39bChurn[0] = byte(n)
+		if ref.Value() == nil {
+			break
+		}
+	}
+	runtime.ReadMemStats(&after)
+	e39bCheck(t, "artifact_collectible_after_stop_detach", ref.Value() == nil, map[string]interface{}{"bounded_churn_allocated_bytes": (n + 1) * (4 << 20), "natural_gc_count": after.NumGC - before.NumGC})
+	e39bChurn = nil
+}
+
+type e39bProxy struct {
+	*InstancesManager
+	pinned protocol.RuntimeInstance
+}
+
+func (p *e39bProxy) NewRuntimeInstance(tx protocol.TxSimContext, chain, method, path string, c *common.Contract, raw []byte, l protocol.Logger) (protocol.RuntimeInstance, error) {
+	if p.pinned != nil {
+		r := p.pinned
+		p.pinned = nil
+		return r, nil
+	}
+	return p.InstancesManager.NewRuntimeInstance(tx, chain, method, path, c, raw, l)
+}
+func e39bPinned(t *testing.T, f *s21cFixture, m *InstancesManager, c *common.Contract, raw []byte, r protocol.RuntimeInstance, label string) *common.ContractResult {
+	t.Helper()
+	mgr := f.manager.(*vm.VmManagerImpl)
+	mgr.InstanceManagers[common.RuntimeType_WASMER] = &e39bProxy{m, r}
+	defer func() { mgr.InstanceManagers[common.RuntimeType_WASMER] = m }()
+	tx := &common.Transaction{Payload: &common.Payload{ChainId: ChainId, TxType: common.TxType_INVOKE_CONTRACT, TxId: label, Timestamp: 1700000000, ContractName: c.Name, Method: "hashCal"}, Sender: &common.EndorsementEntry{Signer: f.member.member}}
+	ctx := vm.NewTxSimContext(f.manager, f.snapshot, tx, BlockVersion, logger.GetLogger("step39b-lifecycle"))
+	result, _, status := f.manager.RunContract(c, "hashCal", raw, map[string][]byte{}, ctx, 0, common.TxType_INVOKE_CONTRACT)
+	rw := ctx.GetTxRWSet(result.Code == 0 && status == 0)
+	if result.Code == 0 && status == 0 {
+		f.snapshot.commit(rw)
+	}
+	e39Emit(map[string]interface{}{"event": "pinned_business", "label": label, "version": c.Version, "result": result, "rwset": rw, "state": f.snapshot.hash()})
+	if status != 0 || result.Code != 0 {
+		t.Fatalf("pinned %s: %v %+v", label, status, result)
+	}
+	return result
+}
+func e39bManagerFixture(t *testing.T) (*s21cFixture, *InstancesManager) {
+	f := s21cPrepare(t, os.Getenv("D_MANIFEST"), os.Getenv("D_OUTPUT"))
+	m := NewInstancesManager(ChainId)
+	if m.safeErr != nil || m.safe == nil {
+		t.Fatal(m.safeErr)
+	}
+	f.manager.(*vm.VmManagerImpl).InstanceManagers[common.RuntimeType_WASMER] = m
+	return f, m
+}
+func TestStep39BUpgrade(t *testing.T) {
+	f, m := e39bManagerFixture(t)
+	defer func() {
+		if err := m.StopVM(); err != nil {
+			t.Error(err)
+		}
+	}()
+	c, _ := f.snapshot.store.GetContractByName("compute")
+	raw := f.snapshot.store.code["compute"]
+	r, e := m.safe.runtime(c, raw)
+	if e != nil {
+		t.Fatal(e)
+	}
+	first := e39bPinned(t, f, m, c, raw, r, "upgrade-old-first")
+	oldRec := m.safe.caches[m.safe.order[0]]
+	oldRuntime, e := m.safe.runtime(c, raw)
+	if e != nil {
+		t.Fatal(e)
+	}
+	next := *c
+	next.Version = "2.0.0"
+	f.snapshot.store.contracts["compute"] = &next
+	v := f.run("version-upgrade", "compute", "hashCal", "version-upgrade", map[string]string{})
+	e39bCheck(t, "real_version_upgrade_executes_new_module", v.Status == 0 && v.Result.Code == 0 && len(m.safe.caches) == 2 && len(m.safe.order) == 2, m.safe.artifacts.snapshot())
+	aligned, e := os.ReadFile(os.Getenv("E39B_A_WASM"))
+	if e != nil {
+		t.Fatal(e)
+	}
+	f.snapshot.store.code["compute"] = aligned
+	vv := f.run("same-version-new-content", "compute", "hashCal", "same-version-new-content", map[string]string{})
+	e39bCheck(t, "real_same_version_code_change", vv.Status == 0 && vv.Result.Code == 0 && len(m.safe.caches) == 3 && nodeSHA(aligned) != nodeSHA(raw), m.safe.artifacts.snapshot())
+	oldResult := e39bPinned(t, f, m, c, raw, oldRuntime, "pinned-old-after-upgrade")
+	e39bCheck(t, "old_runtime_after_upgrade", oldResult.GasUsed == first.GasUsed && bytes.Equal(oldResult.Result, first.Result), oldResult)
+	m.ResetAllPool()
+	e39bCheck(t, "manager_reset_clears_module_and_artifact", len(m.safe.caches) == 0 && m.safe.artifacts.snapshot().Entries == 0 && m.safe.artifacts.snapshot().Bytes == 0, m.safe.artifacts.snapshot())
+	latest := f.run("after-manager-reset", "compute", "hashCal", "after-manager-reset", map[string]string{})
+	e39bCheck(t, "real_business_after_reset_new_module_store", latest.Status == 0 && latest.Result.Code == 0 && len(m.safe.caches) == 1 && m.safe.caches[m.safe.order[0]] != oldRec, m.safe.artifacts.snapshot())
+	held, _ := m.safe.runtime(&next, aligned)
+ ref:=weak.Make(held.(*nodeFreshRuntime).artifact)
+	if e = m.StopVM(); e != nil {
+		t.Fatal(e)
+	}
+	e39bCheck(t, "manager_stop_detaches_artifacts", m.safe.artifacts.snapshot().Closed && m.safe.artifacts.snapshot().Entries == 0, m.safe.artifacts.snapshot())
+	_, e = m.safe.runtime(&next, aligned)
+	e39bCheck(t, "runtime_creation_after_stop_rejected", e != nil, fmt.Sprint(e))
+	res, _ := held.Invoke(&next, "hashCal", aligned, nil, e39Tx{}, 0)
+	e39bCheck(t, "held_runtime_after_stop_rejected_without_native_use", res.Code != 0, res)
+ held=nil
+ var beforeGC,afterGC runtime.MemStats;runtime.ReadMemStats(&beforeGC);attempts:=0
+ for ;attempts<32;attempts++{e39bChurn=make([]byte,4<<20);e39bChurn[0]=byte(attempts);if ref.Value()==nil{break}}
+ runtime.ReadMemStats(&afterGC);runtime.KeepAlive(m)
+ e39bCheck(t,"manager_alive_but_stopped_artifact_collectible",ref.Value()==nil,map[string]interface{}{"bounded_churn_bytes":(attempts+1)*(4<<20),"natural_gc":afterGC.NumGC-beforeGC.NumGC});e39bChurn=nil
+
+}
+func TestStep39BFailure(t *testing.T) {
+	f, m := e39bManagerFixture(t)
+	defer func() {
+		if err := m.StopVM(); err != nil {
+			t.Error(err)
+		}
+	}()
+	good := f.snapshot.store.code["compute"]
+	f.snapshot.store.code["compute"] = []byte{1, 2, 3}
+	bad := f.run("invalid-module", "compute", "hashCal", "invalid-module", nil)
+	e39bCheck(t, "invalid_wasm_rejected_and_artifact_rolled_back", bad.Result.Code != 0 && m.safe.artifacts.snapshot().Entries == 0 && len(m.safe.caches) == 0, m.safe.artifacts.snapshot())
+	f.snapshot.store.code["compute"] = good
+	e39bFault = "after_compile"
+	failed := f.run("injected-after-compile", "compute", "hashCal", "injected-after-compile", nil)
+	e39bFault = ""
+	e39bCheck(t, "compiled_module_failure_rolled_back", failed.Result.Code != 0 && m.safe.artifacts.snapshot().Entries == 0 && len(m.safe.caches) == 0, m.safe.artifacts.snapshot())
+	ok := f.run("recover", "compute", "hashCal", "recover", nil)
+	e39bCheck(t, "business_after_failure", ok.Status == 0 && ok.Result.Code == 0, ok.Result)
+}
+func e39bWait(t *testing.T, ch <-chan struct{}, name string) {
+	t.Helper()
+	select {
+	case <-ch:
+	case <-time.After(5 * time.Second):
+		t.Fatal("timeout " + name)
+	}
+}
+func TestStep39BResetStop(t *testing.T) {
+	f, m := e39bManagerFixture(t)
+	defer func() {
+		if e := m.StopVM(); e != nil {
+			t.Error(e)
+		}
+	}()
+	entered := make(chan struct{})
+	release := make(chan struct{})
+	done := make(chan struct{})
+	var callErr error
+	go func() {
+		defer close(done)
+		callErr = m.safe.owner.Do(context.Background(), func() error {
+			close(entered)
+			<-release
+			// Same-owner real descendants must remain permitted while Reset/Stop drain this accepted root.
+			r := f.run("draining-real-business", "compute", "hashCal", "draining-real-business", nil)
+			if r.Status != 0 || r.Result.Code != 0 {
+				return fmt.Errorf("drain business %+v", r.Result)
+			}
+			return nil
+		})
+	}()
+	e39bWait(t, entered, "entered")
+	resetDone := make(chan struct{})
+	go func() { defer close(resetDone); m.ResetAllPool() }()
+	// Synchronize on actual Owner resetting state, without Sleep or a timing assumption.
+	until := time.Now().Add(3 * time.Second)
+	for {
+		m.safe.owner.mu.Lock()
+		resetting := m.safe.owner.resetting
+		m.safe.owner.mu.Unlock()
+		if resetting {
+			break
+		}
+		if time.Now().After(until) {
+			t.Fatal("reset did not start")
+		}
+		runtime.Gosched()
+	}
+	c, _ := f.snapshot.store.GetContractByName("compute")
+	_, e := m.safe.runtime(c, f.snapshot.store.code["compute"])
+	e39bCheck(t, "new_runtime_rejected_during_reset", e != nil, fmt.Sprint(e))
+	stopDone := make(chan struct{})
+	var stopErr error
+	go func() { defer close(stopDone); stopErr = m.StopVM() }()
+	close(release)
+	e39bWait(t, done, "accepted business")
+	e39bWait(t, resetDone, "reset")
+	e39bWait(t, stopDone, "stop")
+	e39bCheck(t, "inflight_reset_stop_drained", callErr == nil && stopErr == nil && m.safe.artifacts.snapshot().Closed && m.safe.artifacts.snapshot().Entries == 0, map[string]interface{}{"call_error": fmt.Sprint(callErr), "stop_error": fmt.Sprint(stopErr), "registry": m.safe.artifacts.snapshot()})
+}
+
+func TestStep39BByteBudget(t *testing.T){
+ var g e39Registry;var costs []e39Cost;raw:=make([]byte,32<<20)
+ a,e:=g.acquire("c","cfg",&common.Contract{Name:"a",Version:"1"},raw,&costs);if e!=nil{t.Fatal(e)}
+ _,e=g.acquire("c","cfg",&common.Contract{Name:"b",Version:"1"},raw,&costs);if e!=nil{t.Fatal(e)}
+ _,e=g.acquire("c","cfg",&common.Contract{Name:"c",Version:"1"},[]byte{1},&costs);e39bCheck(t,"aggregate_64MiB_budget",e!=nil&&g.snapshot().Entries==2&&g.snapshot().Bytes==e39bMaxBytes,g.snapshot())
+ g.clear(false);_,e=g.acquire("c","cfg",&common.Contract{Name:"c",Version:"1"},[]byte{1},&costs);e39bCheck(t,"byte_budget_reset_and_pinned_snapshot_valid",e==nil&&g.snapshot().Bytes==1&&nodeSHA(a.raw)==a.digest,g.snapshot())
+}
+
+func TestStep39BPinnedLifetime(t *testing.T){
+ f,m:=e39bManagerFixture(t);defer func(){if e:=m.StopVM();e!=nil{t.Error(e)}}();c,_:=f.snapshot.store.GetContractByName("compute");plain:=f.snapshot.store.code["compute"];aligned,e:=os.ReadFile(os.Getenv("E39B_A_WASM"));if e!=nil{t.Fatal(e)};old,e:=m.safe.runtime(c,plain);if e!=nil{t.Fatal(e)}
+ entered:=make(chan struct{});release:=make(chan struct{});done:=make(chan struct{});var oldResult *common.ContractResult;var callErr error
+ go func(){defer close(done);callErr=m.safe.owner.Do(context.Background(),func()error{close(entered);<-release;oldResult=e39bPinned(t,f,m,c,plain,old,"live-old-during-replace");return nil})}();e39bWait(t,entered,"old admitted")
+ next,e:=m.safe.runtime(c,aligned);e39bCheck(t,"new_content_registered_while_old_owner_job_active",e==nil&&next.(*nodeFreshRuntime).artifact!=old.(*nodeFreshRuntime).artifact,m.safe.artifacts.snapshot());close(release);e39bWait(t,done,"old call");e39bCheck(t,"old_call_completes_after_replacement",callErr==nil&&oldResult!=nil,fmt.Sprint(callErr))
+ newResult:=e39bPinned(t,f,m,c,aligned,next,"new-after-old");e39bCheck(t,"new_content_real_execution",newResult.GasUsed==oldResult.GasUsed&&bytes.Equal(newResult.Result,oldResult.Result),newResult)
+ held,e:=m.safe.runtime(c,aligned);if e!=nil{t.Fatal(e)};before:=m.safe.caches[m.safe.order[len(m.safe.order)-1]];m.ResetAllPool();e39bCheck(t,"explicit_cache_invalidation_with_held_runtime",m.safe.artifacts.snapshot().Entries==0&&len(m.safe.caches)==0,m.safe.artifacts.snapshot())
+ after:=e39bPinned(t,f,m,c,aligned,held,"held-after-reset");e39bCheck(t,"held_runtime_executes_fresh_after_reset",after.GasUsed==newResult.GasUsed&&bytes.Equal(after.Result,newResult.Result)&&len(m.safe.caches)==1&&m.safe.caches[m.safe.order[0]]!=before,m.safe.artifacts.snapshot())
+}
+
+func TestStep39BDrainBuyNow(t *testing.T){
+ var cfg e38Case;b,e:=os.ReadFile(os.Getenv("E38_CASE_FILE"));if e!=nil||json.Unmarshal(b,&cfg)!=nil{t.Fatal("case")};f,m:=e39bManagerFixture(t);defer func(){if e:=m.StopVM();e!=nil{t.Error(e)}}()
+ for _,con:=range []string{"identity","erc721","exchange"}{args:=map[string]string{};if con=="erc721"{args=map[string]string{"name":"huanletoken","symbol":"hlt","tokenURI":"https://chainmaker.org.cn"}};r:=f.run("init-"+con,con,"init_contract","e38-init-"+con,args);if r.Status!=0||r.Result.Code!=0{t.Fatal(r.Result)}}
+ for i,s:=range cfg.Setup{r:=f.run(fmt.Sprint("setup-",i),cfg.Contract,s.Method,fmt.Sprint("e38-setup-",i),s.Params);if r.Status!=0||r.Result.Code!=0{t.Fatal(r.Result)}}
+ entered:=make(chan struct{});release:=make(chan struct{});done:=make(chan struct{});var callErr error;var receipt *s21cReceipt
+ go func(){defer close(done);callErr=m.safe.owner.Do(context.Background(),func()error{close(entered);<-release;h:=sha256.Sum256([]byte(cfg.Case+"|pre|formal0"));receipt=f.run("drain-buyNow",cfg.Contract,cfg.Method,hex.EncodeToString(h[:]),cfg.Params);if receipt.Status!=0||receipt.Result.Code!=0{return fmt.Errorf("buyNow failed %+v",receipt.Result)};return nil})}();e39bWait(t,entered,"buyNow accepted")
+ stopped:=make(chan struct{});var stopErr error;go func(){defer close(stopped);stopErr=m.StopVM()}();deadline:=time.Now().Add(3*time.Second);for{m.safe.owner.mu.Lock();closing:=m.safe.owner.closing;m.safe.owner.mu.Unlock();if closing{break};if time.Now().After(deadline){t.Fatal("Stop did not start")};runtime.Gosched()}
+ c,_:=f.snapshot.store.GetContractByName("exchange");_,e=m.safe.runtime(c,f.snapshot.store.code["exchange"]);e39bCheck(t,"external_runtime_rejected_while_buyNow_drains",e!=nil,fmt.Sprint(e));close(release);e39bWait(t,done,"buyNow result");e39bWait(t,stopped,"Stop drain")
+ e39bCheck(t,"six_real_children_complete_after_stop_begins",callErr==nil&&stopErr==nil&&receipt!=nil&&receipt.Result.Code==0&&m.safe.artifacts.snapshot().Closed&&m.safe.artifacts.snapshot().Entries==0,map[string]interface{}{"call_error":fmt.Sprint(callErr),"stop_error":fmt.Sprint(stopErr),"registry":m.safe.artifacts.snapshot()})
+}

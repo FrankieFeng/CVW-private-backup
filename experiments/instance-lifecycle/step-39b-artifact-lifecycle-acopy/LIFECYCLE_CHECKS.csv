@@ -1,0 +1,55 @@
+run,detail,event,name,passed
+lifecycle-Collectible,"{'bounded_churn_allocated_bytes': 33554432, 'natural_gc_count': 3}",lifecycle_check,artifact_collectible_after_stop_detach,True
+lifecycle-Failure,"{'Entries': 0, 'Bytes': 0, 'Closed': False}",lifecycle_check,invalid_wasm_rejected_and_artifact_rolled_back,True
+lifecycle-Failure,"{'Entries': 0, 'Bytes': 0, 'Closed': False}",lifecycle_check,compiled_module_failure_rolled_back,True
+lifecycle-Failure,"{'result': 'c3VjY2VzcyBoYXNoQ2FsIDJmNDlmZDc1Zjk1MGYyZjUxM2RlNTgzZjAxMDVlY2U0MTljMzRlMDkyNjNkYjg3MDEzZTYyNzI0ZWVhOGI0NGQ=', 'gas_used': 120019}",lifecycle_check,business_after_failure,True
+lifecycle-Registry,039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81,lifecycle_check,first,True
+lifecycle-Registry,"{'Entries': 1, 'Bytes': 3, 'Closed': False}",lifecycle_check,hit,True
+lifecycle-Registry,039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81,lifecycle_check,owns_immutable_snapshot,True
+lifecycle-Registry,"{'Entries': 1, 'Bytes': 3, 'Closed': False}",lifecycle_check,replace_keeps_old_and_discard_cannot_delete_new,True
+lifecycle-Registry,"{'Entries': 8, 'Bytes': 24, 'Closed': False}",lifecycle_check,capacity_rejects_ninth,True
+lifecycle-Registry,"{'Entries': 0, 'Bytes': 0, 'Closed': False}",lifecycle_check,reset_detaches_and_reopens_capacity,True
+lifecycle-Registry,"{'Entries': 1, 'Bytes': 3, 'Closed': False}",lifecycle_check,registration_after_reset,True
+lifecycle-Registry,"{'Entries': 1, 'Bytes': 3, 'Closed': False}",lifecycle_check,byte_limit_rejects_before_owned_clone,True
+lifecycle-Registry,"{'Entries': 0, 'Bytes': 0, 'Closed': True}",lifecycle_check,stop_detaches_and_permanently_rejects,True
+lifecycle-Registry,039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81,lifecycle_check,old_snapshot_survives_reset_stop,True
+lifecycle-Registry,"{'calls_each': 20, 'readers': 8}",lifecycle_check,multiple_runtime_readers,True
+lifecycle-ResetStop,owner closed/resetting,lifecycle_check,new_runtime_rejected_during_reset,True
+lifecycle-ResetStop,"{'call_error': '<nil>', 'registry': {'Entries': 0, 'Bytes': 0, 'Closed': True}, 'stop_error': '<nil>'}",lifecycle_check,inflight_reset_stop_drained,True
+lifecycle-Upgrade,"{'Entries': 2, 'Bytes': 9161366, 'Closed': False}",lifecycle_check,real_version_upgrade_executes_new_module,True
+lifecycle-Upgrade,"{'Entries': 2, 'Bytes': 9162031, 'Closed': False}",lifecycle_check,real_same_version_code_change,True
+lifecycle-Upgrade,"{'result': 'c3VjY2VzcyBoYXNoQ2FsIDJmNDlmZDc1Zjk1MGYyZjUxM2RlNTgzZjAxMDVlY2U0MTljMzRlMDkyNjNkYjg3MDEzZTYyNzI0ZWVhOGI0NGQ=', 'gas_used': 120019}",lifecycle_check,old_runtime_after_upgrade,True
+lifecycle-Upgrade,"{'Entries': 0, 'Bytes': 0, 'Closed': False}",lifecycle_check,manager_reset_clears_module_and_artifact,True
+lifecycle-Upgrade,"{'Entries': 1, 'Bytes': 4581348, 'Closed': False}",lifecycle_check,real_business_after_reset_new_module_store,True
+lifecycle-Upgrade,"{'Entries': 0, 'Bytes': 0, 'Closed': True}",lifecycle_check,manager_stop_detaches_artifacts,True
+lifecycle-Upgrade,owner closed/resetting,lifecycle_check,runtime_creation_after_stop_rejected,True
+lifecycle-Upgrade,"{'code': 1, 'message': 'owner closed/resetting'}",lifecycle_check,held_runtime_after_stop_rejected_without_native_use,True
+race-registry-runtime,039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81,lifecycle_check,first,True
+race-registry-runtime,"{'Entries': 1, 'Bytes': 3, 'Closed': False}",lifecycle_check,hit,True
+race-registry-runtime,039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81,lifecycle_check,owns_immutable_snapshot,True
+race-registry-runtime,"{'Entries': 1, 'Bytes': 3, 'Closed': False}",lifecycle_check,replace_keeps_old_and_discard_cannot_delete_new,True
+race-registry-runtime,"{'Entries': 8, 'Bytes': 24, 'Closed': False}",lifecycle_check,capacity_rejects_ninth,True
+race-registry-runtime,"{'Entries': 0, 'Bytes': 0, 'Closed': False}",lifecycle_check,reset_detaches_and_reopens_capacity,True
+race-registry-runtime,"{'Entries': 1, 'Bytes': 3, 'Closed': False}",lifecycle_check,registration_after_reset,True
+race-registry-runtime,"{'Entries': 1, 'Bytes': 3, 'Closed': False}",lifecycle_check,byte_limit_rejects_before_owned_clone,True
+race-registry-runtime,"{'Entries': 0, 'Bytes': 0, 'Closed': True}",lifecycle_check,stop_detaches_and_permanently_rejects,True
+race-registry-runtime,039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81,lifecycle_check,old_snapshot_survives_reset_stop,True
+race-registry-runtime,"{'calls_each': 20, 'readers': 8}",lifecycle_check,multiple_runtime_readers,True
+supplement-ByteBudget,"{'Entries': 2, 'Bytes': 67108864, 'Closed': False}",lifecycle_check,aggregate_64MiB_budget,True
+supplement-ByteBudget,"{'Entries': 1, 'Bytes': 1, 'Closed': False}",lifecycle_check,byte_budget_reset_and_pinned_snapshot_valid,True
+supplement-DrainBuyNow,owner closed/resetting,lifecycle_check,external_runtime_rejected_while_buyNow_drains,True
+supplement-DrainBuyNow,"{'call_error': '<nil>', 'registry': {'Entries': 0, 'Bytes': 0, 'Closed': True}, 'stop_error': '<nil>'}",lifecycle_check,six_real_children_complete_after_stop_begins,True
+supplement-PinnedLifetime,"{'Entries': 1, 'Bytes': 4581348, 'Closed': False}",lifecycle_check,new_content_registered_while_old_owner_job_active,True
+supplement-PinnedLifetime,<nil>,lifecycle_check,old_call_completes_after_replacement,True
+supplement-PinnedLifetime,"{'result': 'c3VjY2VzcyBoYXNoQ2FsIDJmNDlmZDc1Zjk1MGYyZjUxM2RlNTgzZjAxMDVlY2U0MTljMzRlMDkyNjNkYjg3MDEzZTYyNzI0ZWVhOGI0NGQ=', 'gas_used': 120019}",lifecycle_check,new_content_real_execution,True
+supplement-PinnedLifetime,"{'Entries': 0, 'Bytes': 0, 'Closed': False}",lifecycle_check,explicit_cache_invalidation_with_held_runtime,True
+supplement-PinnedLifetime,"{'Entries': 0, 'Bytes': 0, 'Closed': False}",lifecycle_check,held_runtime_executes_fresh_after_reset,True
+supplement-UpgradeWeak,"{'Entries': 2, 'Bytes': 9161366, 'Closed': False}",lifecycle_check,real_version_upgrade_executes_new_module,True
+supplement-UpgradeWeak,"{'Entries': 2, 'Bytes': 9162031, 'Closed': False}",lifecycle_check,real_same_version_code_change,True
+supplement-UpgradeWeak,"{'result': 'c3VjY2VzcyBoYXNoQ2FsIDJmNDlmZDc1Zjk1MGYyZjUxM2RlNTgzZjAxMDVlY2U0MTljMzRlMDkyNjNkYjg3MDEzZTYyNzI0ZWVhOGI0NGQ=', 'gas_used': 120019}",lifecycle_check,old_runtime_after_upgrade,True
+supplement-UpgradeWeak,"{'Entries': 0, 'Bytes': 0, 'Closed': False}",lifecycle_check,manager_reset_clears_module_and_artifact,True
+supplement-UpgradeWeak,"{'Entries': 1, 'Bytes': 4581348, 'Closed': False}",lifecycle_check,real_business_after_reset_new_module_store,True
+supplement-UpgradeWeak,"{'Entries': 0, 'Bytes': 0, 'Closed': True}",lifecycle_check,manager_stop_detaches_artifacts,True
+supplement-UpgradeWeak,owner closed/resetting,lifecycle_check,runtime_creation_after_stop_rejected,True
+supplement-UpgradeWeak,"{'code': 1, 'message': 'owner closed/resetting'}",lifecycle_check,held_runtime_after_stop_rejected_without_native_use,True
+supplement-UpgradeWeak,"{'bounded_churn_bytes': 29360128, 'natural_gc': 2}",lifecycle_check,manager_alive_but_stopped_artifact_collectible,True

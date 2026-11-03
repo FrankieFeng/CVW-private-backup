@@ -1,0 +1,21 @@
+Running as unit: step39b-lifecycle-Registry.service; invocation ID: 4ff786de4d964cd5b76fc45022282237
+=== RUN   TestStep39BRegistry
+STEP39 {"detail":"039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81","event":"lifecycle_check","name":"first","passed":true}
+STEP39 {"detail":{"Entries":1,"Bytes":3,"Closed":false},"event":"lifecycle_check","name":"hit","passed":true}
+STEP39 {"detail":"039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81","event":"lifecycle_check","name":"owns_immutable_snapshot","passed":true}
+STEP39 {"detail":{"Entries":1,"Bytes":3,"Closed":false},"event":"lifecycle_check","name":"replace_keeps_old_and_discard_cannot_delete_new","passed":true}
+STEP39 {"detail":{"Entries":8,"Bytes":24,"Closed":false},"event":"lifecycle_check","name":"capacity_rejects_ninth","passed":true}
+STEP39 {"detail":{"Entries":0,"Bytes":0,"Closed":false},"event":"lifecycle_check","name":"reset_detaches_and_reopens_capacity","passed":true}
+STEP39 {"detail":{"Entries":1,"Bytes":3,"Closed":false},"event":"lifecycle_check","name":"registration_after_reset","passed":true}
+STEP39 {"detail":{"Entries":1,"Bytes":3,"Closed":false},"event":"lifecycle_check","name":"byte_limit_rejects_before_owned_clone","passed":true}
+STEP39 {"detail":{"Entries":0,"Bytes":0,"Closed":true},"event":"lifecycle_check","name":"stop_detaches_and_permanently_rejects","passed":true}
+STEP39 {"detail":"039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81","event":"lifecycle_check","name":"old_snapshot_survives_reset_stop","passed":true}
+STEP39 {"detail":{"calls_each":20,"readers":8},"event":"lifecycle_check","name":"multiple_runtime_readers","passed":true}
+--- PASS: TestStep39BRegistry (0.00s)
+PASS
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 210ms
+CPU time consumed: 17ms
+Memory peak: 256.0K
+Memory swap peak: 0B
