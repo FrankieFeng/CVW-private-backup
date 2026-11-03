@@ -1,0 +1,69 @@
+from pathlib import Path
+import json,csv,statistics as st,hashlib,subprocess
+P=Path(__file__).resolve().parents[1];N=Path('/home/frankie/mygitprojects/.worktrees/node-step39e')
+def read(n):return list(csv.DictReader((P/n).open()))
+def fmt(x):return f'{float(x):.3f}'
+def table(h,rs):return '| '+' | '.join(h)+' |\n|'+'|'.join(['---']*len(h))+'|\n'+'\n'.join('| '+' | '.join(map(str,r))+' |'for r in rs)+'\n'
+def write(n,s):(P/n).write_text(s.strip()+'\n')
+su=read('SUMMARY.csv');pe=read('PAIRED_EFFECTS.csv');ws=read('WINDOWS.csv');cold=read('STARTUP_COLD.csv');resource=read('RESOURCES.csv');results=read('RESULTS.csv');work=json.loads((P/'evidence/workset.json').read_text());formal=[r for r in results if r['phase']=='formal'];assert len(formal)==72
+absolute=[];pairs=[];startup=[];batches=[]
+for case,name in [('compute_hashCal','hashCal'),('bigInput_inputSize','bigInput.inputSize')]:
+ for g in ['E0','E3']:
+  r=next(r for r in su if r['case']==case and r['group']==g and r['metric']=='e2e_ms');absolute.append([name,g,r['N'],fmt(r['mean']),fmt(r['p50']),fmt(r['p95']),fmt(r['pooled_submit_tps'])]);r=[r for r in cold if r['case']==case and r['group']==g and r['phase']=='formal'];startup.append([name,g]+[fmt(st.median(float(z[k])for z in r))for k in ['harness_launch_to_component_gate_ms','node_chain_start_to_chain_started_ms','node_chain_start_to_business_gate_ms','cold_first_business_sdk_ms','cold_module_template_prepare_ms','warmup_query_sdk_ms']])
+ r=next(r for r in pe if r['case']==case and r['metric']=='e2e_ms');a=next(r for r in su if r['case']==case and r['group']=='E0'and r['metric']=='e2e_ms');b=next(r for r in su if r['case']==case and r['group']=='E3'and r['metric']=='e2e_ms');pairs.append([name,fmt(r['saving_median']),f"[{fmt(r['ci95_low'])}, {fmt(r['ci95_high'])}]",f"{float(r['paired_percent_median']):.2f}%",f"{float(r['positive_fraction'])*100:.1f}%",f"{(float(b['pooled_submit_tps'])/float(a['pooled_submit_tps'])-1)*100:+.2f}%",'/'.join(fmt(r['batch'+str(i)])for i in [1,2,3])])
+ for batch in [1,2,3]:
+  a=next(r for r in ws if r['phase']=='formal'and r['case']==case and r['group']=='E0'and r['batch']==str(batch));b=next(r for r in ws if r['phase']=='formal'and r['case']==case and r['group']=='E3'and r['batch']==str(batch));batches.append([name,batch,fmt(a['mean_ms']),fmt(b['mean_ms']),fmt(a['p95_ms']),fmt(b['p95_ms']),fmt(a['submit_tps']),fmt(b['submit_tps'])])
+validation=[r for r in ws if r['phase']=='validation']
+write('README.md','''# Step-39E：Sync V2全链就绪屏障与稳态E2E准入
+
+**就绪屏障已实现并通过有界验证，建议Step-40在相同单节点、同步单客户端、分方法/分组独立进程条件下准入。** 本轮不自动启动Step-40。屏障是实验Harness协议，不是生产请求准入改造。
+
+先完成3个独立启动验证，之后才运行E0 Fresh/E3 A+Copy+SHA的小规模预检（2方法×3批×2组×6笔=72笔正式交易）。旧Step-39D的故障及序号移动证据只读复用，没有重新制造旧阻塞。全部90笔目标交易（含18笔启动验证）无秒级慢笔、无失败/超时；其中最大SDK延迟76.417ms、RPC→Owner VM入口最大41.005ms。目标第5笔和高度6均检查，不将首笔/慢笔删除。
+
+## 全链就绪的客观判定
+
+1. 记录Registry.Start已返回、Provider.Start已返回、Sync已标记started、整条Blockchain.Start已返回，Core/Consensus启动调用完成。
+2. 由实际watchNewBlock循环报告consumer_started，记录通知Notified/Taken/Completed；必须不在处理中且Notified=Completed。Completed只在上一通知的全部规则处理完成、循环重新等待下一项时增加，不把成功入队当完成。
+3. 在**原串行safeMessageC队列**插入带运行身份的诊断标记并等待ACK；ACK由原消费循环依次处理到此标记后发出。再等待规则通知计数配平、Core proposer_ready=true，并做第二次标记确认。这只证明标记前的回调和已通知的规则处理已完成，不宣称全节点所有异步任务永远为空。
+4. HTTP端只报告组件/队列预检；Harness还必须实际完成一笔真实SDK同步提交、查回TxID/高度/结果，再要求对应高度的规则处理完成及双标记通过，才准许稳态窗口。
+
+不是RPC端口可连接、第一次proposer_ready或固定Sleep。原Registry两秒发现等待、3格通知channel、共识参数及业务消息发送逻辑均保留。详细源码、超时和事件顺序见READINESS.md。
+
+## 三个独立启动验证
+
+每行6笔真实目标交易，均在真实提交探针及完整屏障后开始。\n\n'''+table(['启动','方法','最大SDK(ms)','第5笔(ms)','高度6(ms)','启动→组件屏障(ms)'],[[r['run'],r['case'],fmt(max(float(x['e2e_ms'])for x in results if x['run']==r['run'])),fmt(r['fifth_ms']),fmt(r['height6_ms']),fmt(next(x['harness_launch_to_component_gate_ms']for x in cold if x['run']==r['run']))]for r in validation])+'''
+探针本身提交一块，因此本轮高度6对应第4笔目标交易；第5笔对应高度7，两个条件均覆盖。VALIDATION_GATE.json保存验证在正式预检前完成、当时formal数量0的证据。
+
+## 稳态E0/E3小规模结果
+
+单位ms；每组18笔、3个独立批次，每批6笔。TPS=18/三批实际SDK窗口秒数之和，不是节点最大TPS；P99样本不足，不报告。\n\n'''+table(['方法','配置','N','Mean','P50','P95','同步提交TPS'],absolute)+'''
+直接按同方法/批次/请求位置配对，正值表示E3更快；百分比为逐对(E0−E3)/E0的中位数。CI枚举3³=27个批次有放回组合，保留批内6笔相关性，仅属探索性结果，未作多重比较校正。\n\n'''+table(['方法','配对节省Median(ms)','95%探索性CI','逐对下降比例Median','正向比例','合并TPS变化','三批配对Median(ms)'],pairs)+'''
+三批绝对结果：\n\n'''+table(['方法','批次','E0 Mean','E3 Mean','E0 P95','E3 P95','E0 TPS','E3 TPS'],batches)+'''
+hashCal三批配对中位数均正，但第二批TPS反向；bigInput第三批配对和TPS反向、总体CI跨零。不能宣称E3所有批次都更快。该小规模任务首先验证稳态准入，并非重新证明Copy/A/SHA三个因素各自收益，也未把旧39C/39D数据拼入新配对。
+
+## 启动与首次缓存准备成本仍单独保留
+
+以下为三批各阶段的中位数，单位ms。\n\n'''+table(['方法','配置','Harness发起启动→组件屏障','节点Chain.Start→组件完成','节点Chain.Start→真实业务准入','首次真实业务SDK冷调用','首次Module/模板prepare','随后预热Query'],startup)+'''
+节点内部组件启动约2.0秒、含真实冷探针的业务准入约2.58～2.64秒，均真实记录；Harness启动指标约2.4～2.6秒，还包含systemd派发、节点初始化及屏障确认。首次业务冷调用约0.5～0.6秒，Module/模板准备是其嵌套窗口，不能相加。上述阶段及GetTx验证、预热、关闭均未混入稳态TPS，也没有删除原记录；本轮没有统一精确测量整个进程生命周期墙钟，因此不构造“全生命周期TPS”或把阶段Median相加冒充完整生命周期成本。
+
+## 正确性、Reset/Stop和资源
+
+- 72笔正式及18笔验证目标交易全部真实提交，逐笔核对TxID、区块高度、结果、Gas与读写集；所有根调用仅执行一次。hashCal Gas120127，bigInput.inputSize Gas52562。执行时核对成功码和提交收据，复算还独立核对了所有冷探针、预热、正式及Reset/重启调用的期望业务输出：hashCal为固定输入的SHA256，inputSize为524288。全部通过。六个E0/E3方法×批次的返回值、Gas、事件和完整读写集精确一致（仅排序集合顺序），无归一化删字段。
+- 两个方法均为无业务写入路径，写集为空；不能把它们的成功推广为buyNow或所有状态型方法的正确性。旧39C真实buyNow及39B缓存证据继续保留。
+- 2次验证结束后的Manager Reset，以及4个正常关闭/新进程重启节点中的Reset，共6次均通过；预算不被Reset刷新，Reset后真实交易可继续。4个重启节点查回24笔正式交易的高度/结果，并重新提交业务。未把“本轮所有72笔均重启查回”作为结论。
+- 23个节点进程全部exit0、PID退出/cgroup空；Store创建/关闭163/163，Instance134/134，native managed_pending0。RSS峰值679.215MiB、OS线程峰值29，正常关闭最长约35.4ms。1536MiB/220线、Owner32及原Owner/Selector/Core排空均未改。
+- 本轮覆盖正常关闭和新进程重启、空闲Manager Reset后继续交易。35C在途Stop协议源码保持，沿用历史证据；未新增并发readiness请求与Stop/Reset竞态认证，不支持同进程多链或反复Blockchain.Start。
+
+## 37方法工作集与Step-40限制
+
+历史Step-36有37个PASSED业务方法，来自8个独立部署合约；盘点文件另含辅助/重复/未部署源码，不能算作本轮已验证方法。冻结产物核查：8份plain共37629814字节，8份A共37635443字节（约35.9MiB），同一家族原WASM总量低于64MiB；8项正好等于条数上限，没有额外合约/版本的条数余量。
+
+Step-40应按方法/配置独立节点进程，普通方法最多1项，buyNow真实依赖最多3项，原Artifact8项/64MiB和Module8项限制均保留，满容量明确拒绝。不得在同一Manager混合plain/A、Copy策略及版本升级来规避缓存限制；原WASM容量合规不证明全部native Module同时驻留能满足RSS。每个方法的部署/状态准备、真实就绪探针、预热、正式调用总根预算必须预先≤32；不靠Reset刷新预算。
+
+**建议准入Step-40的有限全量覆盖，但必须逐方法做真实夹具、Gas/状态及预算预检。** 状态型方法需明确真实就绪探针对账本的影响，保证各组等价；本轮不代其完成37方法验证。若再出现秒级请求，保留完整窗口并按阶段重新判断，不能自动归于同一启动问题或继续扩大样本。
+
+## 复算与交付
+
+只读复算：`python3 scripts/analyze.py`、`python3 scripts/report.py`。RESULTS.csv含90笔目标，主性能筛phase=formal为72笔；WINDOWS/STARTUP_COLD/GATE_EVIDENCE/RESOURCES与原始case/client/node日志分别保留窗口、启动、探针、通知、关闭数据。原始运行命令见evidence/*-command.json，构建失败及修正日志也保留；没有试验样本被静默排除。实现仅在独立分支，未推送，不自动开始后续实验。
+''')
+print('README generated')

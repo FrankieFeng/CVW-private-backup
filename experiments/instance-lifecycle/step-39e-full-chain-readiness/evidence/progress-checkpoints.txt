@@ -1,0 +1,62 @@
+# Step-39E
+
+Base CVW7a9b3b82, real node8ff98d6 (39D RPC stack watchdog not used). Isolated branchexperiment/step39e-full-chain-readiness; original production and historical results untouched.
+
+Audit: server.readyC closes before asynchronous Blockchain.Start completes. Registry2s wait precedesProvider/RuleManager.Start. Need actualconsumer_running+notified/completed counts, Sync/whole-chain startup milestones, and bounded acknowledged marker on the original serialized safe message queue. Real SDK commit probe must follow component/fence preflight before formal admission.
+
+Plan:3 independent startup validation nodes(hash,bigInput,hash), each6 targetrequests; only after allpass,3batches×2methods×E0/E3×6 steadyrequests. Deployment/real commitprobe/cachecold/prewarm alloutside formal andsaved. Reset andread-onlyrestart checks separately. Limits1536MiB/220threads/32rootcalls unchanged; Artifact8/64MiB unchanged. No fixed requestSleep/GC/Resetbudgetrefresh. Stop on failure.
+
+Buildattemptnodefailedbeforecompile: Go1.25 refuses overlays beneathGOMODCACHE. Preservedbuildlog. Isolated97MiB pinnedcommon module copy in.worktrees/cvw-step39e-deps/common; onlymsgbusfile hasoptionalboundeddiagnosticenqueue helper. ExistingbusinessPublishSafe/notify/Close remainunchanged, allothercopiedfilesSHAverified. Activebuildnode-r1useslocalreplace, notoverlay.
+Buildnode-r1requiredgo.modupdatebecauseobservermoduledeclaredGo1.25whilefrozenmainGo1.24.0. ObserverusesstandardAPIsavailablebaseline; setitsgodirective1.24.0 toretainmaindirective/toolchain, noexternaldependencyversionchanges.
+
+Seed seed-compute-plain PASS, deployment only, no performance samples.
+
+Seed seed-compute-A PASS, deployment only, no performance samples.
+
+Seed seed-bigInput-plain PASS, deployment only, no performance samples.
+
+Seed seed-bigInput-A PASS, deployment only, no performance samples.
+
+validate-b1-compute_hashCal True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+validate-b2-bigInput_inputSize True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+validate-b3-compute_hashCal True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-compute_hashCal-b1-E0 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-compute_hashCal-b1-E3 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-bigInput_inputSize-b1-E3 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-bigInput_inputSize-b1-E0 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-compute_hashCal-b2-E3 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-compute_hashCal-b2-E0 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-bigInput_inputSize-b2-E0 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-bigInput_inputSize-b2-E3 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-compute_hashCal-b3-E0 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-compute_hashCal-b3-E3 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-bigInput_inputSize-b3-E3 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+formal-bigInput_inputSize-b3-E0 True ; logs/receipts/ready/probe/cold/formal/close saved.
+
+
+## Final — complete
+
+- Implemented experiment-onlycomponentstages, realruleconsumer counters andsame-safe-queue boundedACKmarker; original2s/channel3/consensus/VMlogic retained. Hostnodebase8ff98d6, not39Dstackwatchdog; nodeintegrationcommitc6382c3babff6841f33f68a993a372761aa50c66.
+-4deploymentseedprocesses;3independentstartupvalidationnodes(18targets)passedbeforeVALIDATION_GATE formalcount0. Target5/height6nolongerseconds-level. Rootbudget8pervalidation, Resetafterfirst2doesnotresetaccepted.
+-12steadycomparisonnodes:2methods×3batches×E0/E3×6=72formaltransactions. Allsuccess/committed, nofailures/timeouts/exclusions.6pairedmethod-batches haveexactGas/result/events/RWsetparity; expectedbusinessoutputsindependentlyrecomputedfromall130SDKbusinessInvokes/Queries, allpass.
+-4normalrestartnodes readback24formaltransactions, continueactualbusiness, ManagerResetthennewbusinessallpass.6totalManagerResetchecksbudgetunchanged.23nodesexit0, Store163/163,Instance134/134,nativepending0, maxRSS679.215MiB,maxthreads29, stopmax35.4ms.
+-Noactiveworkers/nodes.3startupvalidationruns+72formalkeptdistinct. Per-runtimecommands/identities/probes/receipts/node/client/resource records saved. Nativehash56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc.
+-Formalpairedsavinghash7.269ms CI[0.411,15.577], bigInput3.286ms CI[-1.498,12.070]; batchreversalsretained. Startupnodeinternal~2s, harness~2.4–2.6s; coldsubmit~0.5–0.6s recordedseparately. Nofull-lifecycleTPSfabricated.
+-37historicalPASSEDmethods/8contractsworksetverified:plain37629814bytes,A37635443bytes;8/64MiBcapsunchanged. Step40mustisolatepermethod/configandbudgetallrootcalls≤32, statefulprobeeffectsrequireequivalentfixture.
+-Recomputeonly: python3scripts/analyze.py; python3scripts/report.py. Derivedanalysisinitialduplicate-run-keyerrorfixedwithoutalteringrawrecords. Addedpost-windowseconds-levelreviewguardbeforeformal, independentlycheckedall3priorvalidationrecordsbeforeadmission. Nooriginalsamplewasdiscarded.
+
+Next action: manual reviewREADME.md/READINESS.md/RESULTS.csv. RecommendStep40withinverifiedboundedserialscopeandper-methodprechecks, but donotlaunchitautomatically. No remote push. Preserveold39C/39Dresultsandallbuildfailurelogs.

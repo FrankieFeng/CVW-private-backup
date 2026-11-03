@@ -1,0 +1,23 @@
+--- common39C/message_bus.go
++++ common39E/message_bus.go
+@@ -9,6 +9,8 @@
+ 
+ import (
+ 	"sync"
++ "context"
++ "fmt"
+ )
+ 
+ const (
+@@ -281,3 +283,11 @@
+ func (DefaultSubscriber) OnQuit() {
+ 	// just for mock
+ }
++
++// Diagnostic39EFence enqueues a marker on the ORIGINAL safe queue with bounded admission.
++// Existing Publish/PublishSafe/notify/Close behavior is unchanged.
++func (b *messageBusImpl) Diagnostic39EFence(ctx context.Context,topic Topic,payload interface{})error{
++ b.mu.RLock();defer b.mu.RUnlock()
++ if b.closed{return fmt.Errorf("message bus closed")}
++ select{case b.safeMessageC<-&Message{Topic:topic,Payload:payload}:return nil;case<-ctx.Done():return ctx.Err()}
++}

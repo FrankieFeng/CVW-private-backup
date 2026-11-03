@@ -1,0 +1,65 @@
+--- sync39C/block_sync_service.go
++++ sync39E/block_sync_service.go
+@@ -11,6 +11,7 @@
+ package sync
+ 
+ import (
++ rd39e "experiment.local/readiness39e"
+ 	"sync"
+ 	"time"
+ 
+@@ -150,11 +151,13 @@
+ 	if err := s.nodeRegistry.Start(); err != nil {
+ 		return err
+ 	}
+-	// 启动数据提供者
++	rd39e.Mark("registry_returned")
++ // 启动数据提供者
+ 	if err := s.provider.Start(); err != nil {
+ 		return err
+ 	}
+-	// 启动数据接收器
++	rd39e.Mark("provider_returned")
++ // 启动数据接收器
+ 	if err := s.receptor.Start(); err != nil {
+ 		return err
+ 	}
+@@ -172,6 +175,7 @@
+ 
+ 	// 标记状态started
+ 	s.syncStatus = started
++ rd39e.Mark("sync_started")
+ 	return nil
+ }
+ 
+--- sync39C/rule/manager/rule_manager.go
++++ sync39E/rule/manager/rule_manager.go
+@@ -9,6 +9,7 @@
+ 
+ import (
+ 	"fmt"
++ rd39e "experiment.local/readiness39e"
+ 	"strings"
+ 	"sync"
+ 
+@@ -105,12 +106,18 @@
+ 
+ // NotifyNewBlock 新块落块通知
+ func (m *RuleManager) NotifyNewBlock(block *common.Block) {
+-	m.newBlockC <- block
++	if block!=nil&&block.Header!=nil{rd39e.Notify(block.Header.BlockHeight)}else{rd39e.Notify(0)}
++ m.newBlockC <- block
+ }
+ 
+ // watchNewBlock 监听新的区块被提交
+ func (m *RuleManager) watchNewBlock() {
+-	for block := range m.newBlockC {
++	defer rd39e.Mark("rule_consumer_exit")
++ for {
++  rd39e.Waiting()
++  block,ok:=<-m.newBlockC
++  if !ok{return}
++  h:=uint64(0);if block!=nil&&block.Header!=nil{h=block.Header.BlockHeight};rd39e.Taken(h)
+ 		// 判断只有一条交易
+ 		if block == nil || len(block.Txs) != 1 || block.Txs[0] == nil || block.Txs[0].Payload == nil {
+ 			continue
