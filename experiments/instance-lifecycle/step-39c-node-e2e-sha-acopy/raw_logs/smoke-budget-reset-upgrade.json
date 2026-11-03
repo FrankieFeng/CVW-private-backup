@@ -1,0 +1,145 @@
+{
+  "label": "smoke-budget-reset",
+  "mode": "restart",
+  "passed": true,
+  "rows": [
+    {
+      "elapsed_ns": 603443585,
+      "input": {
+        "Op": "query",
+        "Contract": "compute",
+        "Method": "hashCal",
+        "Tag": "before",
+        "Path": "",
+        "TxID": "f6aa5fc944ba0cbb3a2b58e66d5bea6e116e02244b1801b037ebc9b9dc04582a",
+        "Phase": "lifecycle",
+        "Version": "",
+        "Params": {}
+      },
+      "request_id": "smoke-budget-reset/f6aa5fc944ba0cbb3a2b58e66d5bea6e116e02244b1801b037ebc9b9dc04582a",
+      "response": {
+        "message": "SUCCESS",
+        "contract_result": {
+          "result": "c3VjY2VzcyBoYXNoQ2FsIDJmNDlmZDc1Zjk1MGYyZjUxM2RlNTgzZjAxMDVlY2U0MTljMzRlMDkyNjNkYjg3MDEzZTYyNzI0ZWVhOGI0NGQ=",
+          "gas_used": 120127
+        },
+        "tx_id": "18e47eeb1ec05485caa6598e0a685be7bffa4ea2678e4a8984e9fb09e3e95427"
+      },
+      "sdk_end_mono_ns": 603488330,
+      "sdk_end_wall_ns": 1793698100501770981,
+      "sdk_start_mono_ns": 44745,
+      "sdk_start_wall_ns": 1793698099898327405,
+      "success": true,
+      "transaction": null
+    },
+    {
+      "elapsed_ns": 546253605,
+      "input": {
+        "Op": "query",
+        "Contract": "compute",
+        "Method": "hashCal",
+        "Tag": "after-budget-preserving-reset",
+        "Path": "",
+        "TxID": "dcc0a4731f5567615b3d18415a57493f46526bdf087cd670a8a645d8dc7aa1d6",
+        "Phase": "lifecycle",
+        "Version": "",
+        "Params": {}
+      },
+      "request_id": "smoke-budget-reset/dcc0a4731f5567615b3d18415a57493f46526bdf087cd670a8a645d8dc7aa1d6",
+      "response": {
+        "message": "SUCCESS",
+        "contract_result": {
+          "result": "c3VjY2VzcyBoYXNoQ2FsIDJmNDlmZDc1Zjk1MGYyZjUxM2RlNTgzZjAxMDVlY2U0MTljMzRlMDkyNjNkYjg3MDEzZTYyNzI0ZWVhOGI0NGQ=",
+          "gas_used": 120127
+        },
+        "tx_id": "18e47eeb43133aa1ca806ad4b13b7c5beb7267cfe4ad4b9d8772688f6e15aa3a"
+      },
+      "sdk_end_mono_ns": 1155932382,
+      "sdk_end_wall_ns": 1793698101778755984,
+      "sdk_start_mono_ns": 609678777,
+      "sdk_start_wall_ns": 1793698100507961419,
+      "success": true,
+      "transaction": null
+    }
+  ],
+  "initial": {
+    "bytes": 0,
+    "closed": false,
+    "entries": 0,
+    "hits": 0,
+    "items": [],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 0,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "before": {
+    "bytes": 4581348,
+    "closed": false,
+    "entries": 1,
+    "hits": 0,
+    "items": [
+      {
+        "bytes": 4581348,
+        "chain": "step35",
+        "config": "native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36",
+        "name": "compute",
+        "sha": "8a856bd4e823df05ab4e8ae619c1389ef10bbde735c6b3b3f0f05567c2f4e1a5",
+        "version": "2.0.0"
+      }
+    ],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 1,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "owner_before_reset": {
+    "accepted": 1,
+    "closing": false,
+    "inflight": 0,
+    "limit": 32,
+    "resetting": false
+  },
+  "budget_reset": {
+    "error": "<nil>",
+    "manager_entry": "ResetAllPool",
+    "seq": 1
+  },
+  "owner_after_reset": {
+    "accepted": 1,
+    "closing": false,
+    "inflight": 0,
+    "limit": 32,
+    "resetting": false
+  },
+  "node": {
+    "label": "smoke-budget-reset",
+    "reason": "",
+    "peak_rss_kib": 620848,
+    "peak_threads": 25,
+    "stop_s": 0.03238003899969044,
+    "systemd": {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive"
+    },
+    "owner": {
+      "event": "owner_closed",
+      "instances_closed": 2,
+      "instances_created": 2,
+      "managed_objects": 0,
+      "managed_pending": 0,
+      "stores_closed": 4,
+      "stores_created": 4
+    },
+    "owned_pids": [
+      154242
+    ],
+    "pid_exited": true,
+    "cgroup_empty": true
+  }
+}

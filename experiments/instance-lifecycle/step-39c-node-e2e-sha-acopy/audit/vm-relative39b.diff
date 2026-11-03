@@ -1,0 +1,92 @@
+--- step39b/step35_node.go
++++ step39c/step35_node.go
+@@ -128,7 +128,7 @@
+ 		m.cacheScope = nil
+ 	}
+  closing:=false;if m.owner!=nil{m.owner.mu.Lock();closing=m.owner.closing;m.owner.mu.Unlock()};m.artifacts.clear(closing)
+- nodeEvent("cache_closed", nil)
++ nodeEvent("cache_closed", map[string]interface{}{"artifact":m.artifacts.snapshot()})
+ 	return errors.Join(errs...)
+ }
+ func (m *nodeFreshManager) reset() error {
+--- step39b/step35a_control.go
++++ step39c/step35a_control.go
+@@ -85,7 +85,8 @@
+ 		o.mu.Unlock()
+ 		json.NewEncoder(rw).Encode(s)
+ 	})
+-	mux.HandleFunc("/reset", func(rw http.ResponseWriter, r *http.Request) {
++	mux.HandleFunc("/artifact",func(rw http.ResponseWriter,r *http.Request){g:=&m.safe.artifacts;g.mu.Lock();out:=map[string]interface{}{"entries":len(g.entries),"bytes":g.bytes,"closed":g.closed,"hits":g.hits,"registrations":g.registrations,"replacements":g.replacements,"rejects":g.rejects,"max_entries":8,"max_bytes":e39bMaxBytes};items:=[]map[string]interface{}{};for k,a:=range g.entries{items=append(items,map[string]interface{}{"chain":k.Chain,"config":k.Config,"name":k.Name,"version":k.Version,"sha":a.digest,"bytes":len(a.raw)})};out["items"]=items;g.mu.Unlock();json.NewEncoder(rw).Encode(out)})
++ mux.HandleFunc("/reset", func(rw http.ResponseWriter, r *http.Request) {
+ 		if r.Method != "POST" {
+ 			rw.WriteHeader(405)
+ 			return
+--- step39b/step39_artifact.go
++++ step39c/step39_artifact.go
+@@ -25,6 +25,7 @@
+ 	entries map[e39Key]*e39Artifact
+ 	bytes   int
+ 	closed  bool
++ hits, registrations, replacements, rejects uint64
+ }
+ type e39Cost struct {
+ 	Stage string `json:"stage"`
+@@ -61,21 +62,25 @@
+ 	g.mu.Lock()
+ 	defer g.mu.Unlock()
+ 	if g.closed {
++ g.rejects++
+ 		return nil, ErrOwnerClosed
+ 	}
+ 	if len(raw) > e39bMaxBytes {
++ g.rejects++
+ 		return nil, errors.New("artifact byte limit")
+ 	}
+ 	if g.entries == nil {
+ 		g.entries = make(map[e39Key]*e39Artifact)
+ 	}
+ 	if a := g.entries[k]; a != nil && bytes.Equal(a.raw, raw) {
++ g.hits++
+ 		if e39bDiagnostic {
+ 			*costs = append(*costs, e39Cost{"artifact_hit", 0, 1, len(raw)})
+ 		}
+ 		return a, nil
+ 	}
+ 	if _, ok := g.entries[k]; !ok && len(g.entries) >= 8 {
++ g.rejects++
+ 		return nil, errors.New("bounded artifact registry full")
+ 	}
+ 	oldBytes := 0
+@@ -83,6 +88,7 @@
+ 		oldBytes = len(old.raw)
+ 	}
+ 	if g.bytes-oldBytes+len(raw) > e39bMaxBytes {
++ g.rejects++
+ 		return nil, errors.New("artifact byte limit")
+ 	}
+ 	b := time.Now()
+@@ -92,7 +98,8 @@
+ 	digest := nodeSHA(owned)
+ 	*costs = append(*costs, e39Cost{"artifact_cold_sha", time.Since(b).Nanoseconds(), 1, len(owned)})
+ 	a := &e39Artifact{key: k, raw: owned, digest: digest}
+-	g.entries[k] = a
++	if g.entries[k]!=nil{g.replacements++};g.registrations++
++ g.entries[k] = a
+ 	g.bytes = g.bytes - oldBytes + len(owned)
+ 	return a, nil
+ }
+--- step39b/step39b_cache.go
++++ step39c/step39b_cache.go
+@@ -47,11 +47,7 @@
+ var e39bObsMu sync.Mutex
+ var e39bObs []e39bObservation
+ 
+-func e39bCollect(r *nodeFreshRuntime, tx string) {
+-	e39bObsMu.Lock()
+-	defer e39bObsMu.Unlock()
+-	e39bObs = append(e39bObs, e39bObservation{tx, r.contract.Name, e39Mode, r.rid, r.costs})
+-}
++func e39bCollect(r *nodeFreshRuntime,tx string){if os.Getenv("CM39C_DIAGNOSTIC")=="1"{e39Emit(map[string]interface{}{"event":"artifact_costs","tx_id":tx,"contract":r.contract.Name,"rid":r.rid,"costs":r.costs})}}
+ func e39bDrain() []e39bObservation {
+ 	e39bObsMu.Lock()
+ 	defer e39bObsMu.Unlock()

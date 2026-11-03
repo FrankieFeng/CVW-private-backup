@@ -1,0 +1,317 @@
+{
+  "label": "smoke-upgrade-r3",
+  "mode": "resume",
+  "passed": true,
+  "rows": [
+    {
+      "elapsed_ns": 597239272,
+      "input": {
+        "Op": "query",
+        "Contract": "compute",
+        "Method": "hashCal",
+        "Tag": "before",
+        "Path": "",
+        "TxID": "f9ccc323dc79d490d06b36f0e1fa174f8ae260d22ae77b20d48aad3b46a18d68",
+        "Phase": "lifecycle",
+        "Version": "",
+        "Params": {}
+      },
+      "request_id": "smoke-upgrade-r3/f9ccc323dc79d490d06b36f0e1fa174f8ae260d22ae77b20d48aad3b46a18d68",
+      "response": {
+        "message": "SUCCESS",
+        "contract_result": {
+          "result": "c3VjY2VzcyBoYXNoQ2FsIDJmNDlmZDc1Zjk1MGYyZjUxM2RlNTgzZjAxMDVlY2U0MTljMzRlMDkyNjNkYjg3MDEzZTYyNzI0ZWVhOGI0NGQ=",
+          "gas_used": 120127
+        },
+        "tx_id": "18e47e6aba7c99f6ca4f2246f1fe2031aed8c6acde8143edabe670bc2ab18252"
+      },
+      "sdk_end_mono_ns": 597282365,
+      "sdk_end_wall_ns": 1793697549057568124,
+      "sdk_start_mono_ns": 43093,
+      "sdk_start_wall_ns": 1793697548460328851,
+      "success": true,
+      "transaction": null
+    },
+    {
+      "elapsed_ns": 9588807,
+      "input": {
+        "Op": "query",
+        "Contract": "compute",
+        "Method": "hashCal",
+        "Tag": "after-version-upgrade",
+        "Path": "",
+        "TxID": "ceba3615acd0be7ccfb5e64696fa96c5e4896192d2dbb8b8eb56c68bcc1ff7f9",
+        "Phase": "lifecycle",
+        "Version": "",
+        "Params": {}
+      },
+      "request_id": "smoke-upgrade-r3/ceba3615acd0be7ccfb5e64696fa96c5e4896192d2dbb8b8eb56c68bcc1ff7f9",
+      "response": {
+        "message": "SUCCESS",
+        "contract_result": {
+          "result": "c3VjY2VzcyBoYXNoQ2FsIDJmNDlmZDc1Zjk1MGYyZjUxM2RlNTgzZjAxMDVlY2U0MTljMzRlMDkyNjNkYjg3MDEzZTYyNzI0ZWVhOGI0NGQ=",
+          "gas_used": 120127
+        },
+        "tx_id": "18e47e6ade202f20ca05793d2251a8d7921295a636e8454c86744f2021c0a851"
+      },
+      "sdk_end_mono_ns": 607818295,
+      "sdk_end_wall_ns": 1793697549068104053,
+      "sdk_start_mono_ns": 598229488,
+      "sdk_start_wall_ns": 1793697549058515238,
+      "success": true,
+      "transaction": null
+    },
+    {
+      "elapsed_ns": 136754366,
+      "input": {
+        "Op": "upgrade",
+        "Contract": "compute",
+        "Method": "",
+        "Tag": "same-version-different-code",
+        "Path": "/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/inputs/compute-G0.wasm",
+        "TxID": "58a22b217c5697a9ae32e6b72ea7317e03cdc5fe3b822449d8cb29fab606a8a6",
+        "Phase": "expected-rejection",
+        "Version": "2.0.0",
+        "Params": {}
+      },
+      "request_id": "smoke-upgrade-r3/58a22b217c5697a9ae32e6b72ea7317e03cdc5fe3b822449d8cb29fab606a8a6",
+      "response": {
+        "code": 4,
+        "contract_result": {
+          "code": 1,
+          "message": "contract version exist",
+          "gas_used": 14581
+        },
+        "tx_id": "18e47e6adfb3498acabf9a823190d12ff83041ffdad0439fb2f10364a8bd9536",
+        "tx_timestamp": 1793697549,
+        "tx_block_height": 4
+      },
+      "sdk_end_mono_ns": 747009220,
+      "sdk_end_wall_ns": 1793697549207294975,
+      "sdk_start_mono_ns": 610254854,
+      "sdk_start_wall_ns": 1793697549070540552,
+      "success": false,
+      "transaction": null
+    },
+    {
+      "elapsed_ns": 13117032,
+      "input": {
+        "Op": "query",
+        "Contract": "compute",
+        "Method": "hashCal",
+        "Tag": "after-rejected-upgrade",
+        "Path": "",
+        "TxID": "0b6de7e978de840f710fb4ef242bc30c51f5ebe6ee065d7263966832725c9d17",
+        "Phase": "lifecycle",
+        "Version": "",
+        "Params": {}
+      },
+      "request_id": "smoke-upgrade-r3/0b6de7e978de840f710fb4ef242bc30c51f5ebe6ee065d7263966832725c9d17",
+      "response": {
+        "message": "SUCCESS",
+        "contract_result": {
+          "result": "c3VjY2VzcyBoYXNoQ2FsIDJmNDlmZDc1Zjk1MGYyZjUxM2RlNTgzZjAxMDVlY2U0MTljMzRlMDkyNjNkYjg3MDEzZTYyNzI0ZWVhOGI0NGQ=",
+          "gas_used": 120127
+        },
+        "tx_id": "18e47e6ae70c13e6cafe168547975b58f0d83aa788994a38a70b610be5892507"
+      },
+      "sdk_end_mono_ns": 761004888,
+      "sdk_end_wall_ns": 1793697549221290646,
+      "sdk_start_mono_ns": 747887856,
+      "sdk_start_wall_ns": 1793697549208173599,
+      "success": true,
+      "transaction": null
+    },
+    {
+      "elapsed_ns": 553487600,
+      "input": {
+        "Op": "query",
+        "Contract": "compute",
+        "Method": "hashCal",
+        "Tag": "after-reset",
+        "Path": "",
+        "TxID": "c43a27b0a3298c816d2f137c490599817e8c66fb5d0cde824e7376aace54185b",
+        "Phase": "lifecycle",
+        "Version": "",
+        "Params": {}
+      },
+      "request_id": "smoke-upgrade-r3/c43a27b0a3298c816d2f137c490599817e8c66fb5d0cde824e7376aace54185b",
+      "response": {
+        "message": "SUCCESS",
+        "contract_result": {
+          "result": "c3VjY2VzcyBoYXNoQ2FsIDJmNDlmZDc1Zjk1MGYyZjUxM2RlNTgzZjAxMDVlY2U0MTljMzRlMDkyNjNkYjg3MDEzZTYyNzI0ZWVhOGI0NGQ=",
+          "gas_used": 120127
+        },
+        "tx_id": "18e47e6ae847c350ca7f6994ee15eb1792d78f2ff746423dba8efd1691e09aa8"
+      },
+      "sdk_end_mono_ns": 1322073036,
+      "sdk_end_wall_ns": 1793697549782358794,
+      "sdk_start_mono_ns": 768585436,
+      "sdk_start_wall_ns": 1793697549228871182,
+      "success": true,
+      "transaction": null
+    }
+  ],
+  "initial": {
+    "bytes": 0,
+    "closed": false,
+    "entries": 0,
+    "hits": 0,
+    "items": [],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 0,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "before": {
+    "bytes": 4581348,
+    "closed": false,
+    "entries": 1,
+    "hits": 0,
+    "items": [
+      {
+        "bytes": 4581348,
+        "chain": "step35",
+        "config": "native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36",
+        "name": "compute",
+        "sha": "8a856bd4e823df05ab4e8ae619c1389ef10bbde735c6b3b3f0f05567c2f4e1a5",
+        "version": "2.0.0"
+      }
+    ],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 1,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "upgraded": {
+    "bytes": 4581348,
+    "closed": false,
+    "entries": 1,
+    "hits": 1,
+    "items": [
+      {
+        "bytes": 4581348,
+        "chain": "step35",
+        "config": "native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36",
+        "name": "compute",
+        "sha": "8a856bd4e823df05ab4e8ae619c1389ef10bbde735c6b3b3f0f05567c2f4e1a5",
+        "version": "2.0.0"
+      }
+    ],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 1,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "rejected": {
+    "bytes": 4581348,
+    "closed": false,
+    "entries": 1,
+    "hits": 1,
+    "items": [
+      {
+        "bytes": 4581348,
+        "chain": "step35",
+        "config": "native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36",
+        "name": "compute",
+        "sha": "8a856bd4e823df05ab4e8ae619c1389ef10bbde735c6b3b3f0f05567c2f4e1a5",
+        "version": "2.0.0"
+      }
+    ],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 1,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "after_rejection": {
+    "bytes": 4581348,
+    "closed": false,
+    "entries": 1,
+    "hits": 2,
+    "items": [
+      {
+        "bytes": 4581348,
+        "chain": "step35",
+        "config": "native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36",
+        "name": "compute",
+        "sha": "8a856bd4e823df05ab4e8ae619c1389ef10bbde735c6b3b3f0f05567c2f4e1a5",
+        "version": "2.0.0"
+      }
+    ],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 1,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "reset": {
+    "error": "<nil>",
+    "manager_entry": "ResetAllPool",
+    "seq": 1
+  },
+  "reset_state": {
+    "bytes": 0,
+    "closed": false,
+    "entries": 0,
+    "hits": 2,
+    "items": [],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 1,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "after_reset": {
+    "bytes": 4581348,
+    "closed": false,
+    "entries": 1,
+    "hits": 2,
+    "items": [
+      {
+        "bytes": 4581348,
+        "chain": "step35",
+        "config": "native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36",
+        "name": "compute",
+        "sha": "8a856bd4e823df05ab4e8ae619c1389ef10bbde735c6b3b3f0f05567c2f4e1a5",
+        "version": "2.0.0"
+      }
+    ],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 2,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "node": {
+    "label": "smoke-upgrade-r3",
+    "reason": "",
+    "peak_rss_kib": 703176,
+    "peak_threads": 25,
+    "stop_s": 0.045556181998108514,
+    "systemd": {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive"
+    },
+    "owner": {
+      "event": "owner_closed",
+      "instances_closed": 4,
+      "instances_created": 4,
+      "managed_objects": 0,
+      "managed_pending": 0,
+      "stores_closed": 6,
+      "stores_created": 6
+    },
+    "owned_pids": [
+      151735
+    ],
+    "pid_exited": true,
+    "cgroup_empty": true
+  }
+}

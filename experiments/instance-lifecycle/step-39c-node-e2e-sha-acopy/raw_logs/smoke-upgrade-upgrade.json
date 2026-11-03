@@ -1,0 +1,123 @@
+{
+  "label": "smoke-upgrade",
+  "mode": "upgrade",
+  "passed": false,
+  "rows": [
+    {
+      "elapsed_ns": 521762796,
+      "input": {
+        "Op": "query",
+        "Contract": "compute",
+        "Method": "hashCal",
+        "Tag": "before",
+        "Path": "",
+        "TxID": "11150fa68fb913f323ed9dfb0cbf632b6234e11d27ebfa23f6354ae6f1a32006",
+        "Phase": "lifecycle",
+        "Version": "",
+        "Params": {}
+      },
+      "request_id": "smoke-upgrade/11150fa68fb913f323ed9dfb0cbf632b6234e11d27ebfa23f6354ae6f1a32006",
+      "response": {
+        "message": "SUCCESS",
+        "contract_result": {
+          "result": "c3VjY2VzcyBoYXNoQ2FsIDJmNDlmZDc1Zjk1MGYyZjUxM2RlNTgzZjAxMDVlY2U0MTljMzRlMDkyNjNkYjg3MDEzZTYyNzI0ZWVhOGI0NGQ=",
+          "gas_used": 120127
+        },
+        "tx_id": "18e47df554a1ace8ca0d4320cc2f64ac28ddbaa18d95459e944521e554b37e0d"
+      },
+      "sdk_end_mono_ns": 521805844,
+      "sdk_end_wall_ns": 1793697044762221040,
+      "sdk_start_mono_ns": 43048,
+      "sdk_start_wall_ns": 1793697044240458248,
+      "success": true,
+      "transaction": null
+    },
+    {
+      "elapsed_ns": 25795597,
+      "input": {
+        "Op": "upgrade",
+        "Contract": "compute",
+        "Method": "",
+        "Tag": "upgrade-v2",
+        "Path": "/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/inputs/compute-G2.wasm",
+        "TxID": "9247c34f67b1216ac63888531484685af4cf06352322655a969550cef2bd642e",
+        "Phase": "upgrade",
+        "Version": "2.0.0",
+        "Params": {}
+      },
+      "request_id": "smoke-upgrade/9247c34f67b1216ac63888531484685af4cf06352322655a969550cef2bd642e",
+      "response": {
+        "code": 5,
+        "message": "tx verify failed, verify tx authentation failed, [verifyEndorsementsPrincipal]authentication error for CONTRACT_MANAGE-UPGRADE_CONTRACT: authentication fail: not enough participants support this action: 3 valid endorsements required, 1 valid endorsements received, txId:18e47df573fd2b38caa303f6645adec1c5218fc4e3044a498fd570e2f8ab93a1, sender:-----BEGIN CERTIFICATE-----\nMIICeTCCAh6gAwIBAgIDBddAMAoGCCqGSM49BAMCMIGKMQswCQYDVQQGEwJDTjEQ\nMA4GA1UECBMHQmVpamluZzEQMA4GA1UEBxMHQmVpamluZzEfMB0GA1UEChMWd3gt\nb3JnMS5jaGFpbm1ha2VyLm9yZzESMBAGA1UECxMJcm9vdC1jZXJ0MSIwIAYDVQQD\nExljYS53eC1vcmcxLmNoYWlubWFrZXIub3JnMB4XDTI2MDkwODAxMzg1NFoXDTMx\nMDkwNzAxMzg1NFowgZExCzAJBgNVBAYTAkNOMRAwDgYDVQQIEwdCZWlqaW5nMRAw\nDgYDVQQHEwdCZWlqaW5nMR8wHQYDVQQKExZ3eC1vcmcxLmNoYWlubWFrZXIub3Jn\nMQ8wDQYDVQQLEwZjbGllbnQxLDAqBgNVBAMTI2NsaWVudDEuc2lnbi53eC1vcmcx\nLmNoYWlubWFrZXIub3JnMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEhlu7LMB0\nhvvseYiauuI8mZcNQDdET8hg/JGrKMB34GQ6NLLuji6NT0jhNKlcUnuB5yv/npID\nzYMeCX/lDTZZX6NqMGgwDgYDVR0PAQH/BAQDAgbAMCkGA1UdDgQiBCAKX3Lcg4+2\nUvVvKmqj8ZkLa6VP3lOOqBj5xM7PeqeQjzArBgNVHSMEJDAigCBDyRTmc4m/tnre\nGV+mtO1fsqSvmFk+e4PPpjOW12FnMTAKBggqhkjOPQQDAgNJADBGAiEAmtUjmTyR\nisLTqou04TpYn4CVn3BTbCZEv1SEeg4S0K0CIQDO1Q8pTsIp7wZNiCAPTaAvpI/S\nQ0HjZlmTh/oiQA2o6g==\n-----END CERTIFICATE-----\n, endorsers-len:1,\nendorsers:\n-----BEGIN CERTIFICATE-----\nMIICdjCCAhygAwIBAgIDBwTGMAoGCCqGSM49BAMCMIGKMQswCQYDVQQGEwJDTjEQ\nMA4GA1UECBMHQmVpamluZzEQMA4GA1UEBxMHQmVpamluZzEfMB0GA1UEChMWd3gt\nb3JnMS5jaGFpbm1ha2VyLm9yZzESMBAGA1UECxMJcm9vdC1jZXJ0MSIwIAYDVQQD\nExljYS53eC1vcmcxLmNoYWlubWFrZXIub3JnMB4XDTI2MDkwODAxMzg1NFoXDTMx\nMDkwNzAxMzg1NFowgY8xCzAJBgNVBAYTAkNOMRAwDgYDVQQIEwdCZWlqaW5nMRAw\nDgYDVQQHEwdCZWlqaW5nMR8wHQYDVQQKExZ3eC1vcmcxLmNoYWlubWFrZXIub3Jn\nMQ4wDAYDVQQLEwVhZG1pbjErMCkGA1UEAxMiYWRtaW4xLnNpZ24ud3gtb3JnMS5j\naGFpbm1ha2VyLm9yZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABCFZGFxTBbQ7\nssJ17ARHjaDZDly5m3ItzA79gTKfzBsvWbQxROcGopWnFtF/FzGvVTqs1deeJwx9\nBed2KyExvoyjajBoMA4GA1UdDwEB/wQEAwIGwDApBgNVHQ4EIgQgc2MuFzaxXGYr\nZHzWM7M04NNnFVRok8+GHoXitfGvAVEwKwYDVR0jBCQwIoAgQ8kU5nOJv7Z63hlf\nprTtX7Kkr5hZPnuDz6YzltdhZzEwCgYIKoZIzj0EAwIDSAAwRQIhAPHyTFHOMbaU\nIiBF8QzaSN50wu6lkUSArl7EHyGCnWUuAiAZiY23KlSwZqb3mehJODJPbGgtQyZe\nP/4wgTbortr7cQ==\n-----END CERTIFICATE-----\n ",
+        "tx_id": "18e47df573fd2b38caa303f6645adec1c5218fc4e3044a498fd570e2f8ab93a1"
+      },
+      "sdk_end_mono_ns": 548493486,
+      "sdk_end_wall_ns": 1793697044788908685,
+      "sdk_start_mono_ns": 522697889,
+      "sdk_start_wall_ns": 1793697044763113087,
+      "success": false,
+      "transaction": null
+    }
+  ],
+  "initial": {
+    "bytes": 0,
+    "closed": false,
+    "entries": 0,
+    "hits": 0,
+    "items": [],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 0,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "before": {
+    "bytes": 4580683,
+    "closed": false,
+    "entries": 1,
+    "hits": 0,
+    "items": [
+      {
+        "bytes": 4580683,
+        "chain": "step35",
+        "config": "native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36",
+        "name": "compute",
+        "sha": "9907a5b55641b1b0e9a52dd951d19cf9278c60a58f966aad2d865cfad3dfaa87",
+        "version": "1.0.0"
+      }
+    ],
+    "max_bytes": 67108864,
+    "max_entries": 8,
+    "registrations": 1,
+    "rejects": 0,
+    "replacements": 0
+  },
+  "node": {
+    "label": "smoke-upgrade",
+    "reason": "",
+    "peak_rss_kib": 530864,
+    "peak_threads": 25,
+    "stop_s": 0.03296310599762364,
+    "systemd": {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive"
+    },
+    "owner": {
+      "event": "owner_closed",
+      "instances_closed": 1,
+      "instances_created": 1,
+      "managed_objects": 0,
+      "managed_pending": 0,
+      "stores_closed": 2,
+      "stores_created": 2
+    },
+    "owned_pids": [
+      149635
+    ],
+    "pid_exited": true,
+    "cgroup_empty": true
+  }
+}
