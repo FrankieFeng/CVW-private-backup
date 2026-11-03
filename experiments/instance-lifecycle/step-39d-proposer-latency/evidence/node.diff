@@ -1,0 +1,27 @@
+diff --git a/module/rpcserver/api_service.go b/module/rpcserver/api_service.go
+index e745d74..3a392a2 100644
+--- a/module/rpcserver/api_service.go
++++ b/module/rpcserver/api_service.go
+@@ -14,6 +14,8 @@ import (
+ 	"encoding/json"
+ 	"fmt"
+ 	"strings"
++ "os"
++ "runtime"
+ 	"time"
+ 
+ 	pbac "chainmaker.org/chainmaker/pb-go/v2/accesscontrol"
+@@ -145,6 +147,13 @@ func (s *ApiService) SendRequest(ctx context.Context, req *commonPb.TxRequest) (
+ 
+ // SendRequestSync - deal received TxRequest, sync tx result and send response
+ func (s *ApiService) SendRequestSync(ctx context.Context, req *commonPb.TxRequest) (*commonPb.TxResponse, error) {
++ // Step39D diagnostic only: preserve execution, capture all goroutines on a slow sync RPC.
++ if os.Getenv("CM39D_STACK")=="1" && req!=nil && req.Payload!=nil {
++  txid:=req.Payload.TxId
++  timer:=time.AfterFunc(300*time.Millisecond,func(){b:=make([]byte,1024*1024);n:=runtime.Stack(b,true);trace35c.Event("step39d_slow_stack",map[string]interface{}{"tx_id":txid,"bytes":n});fmt.Printf("STEP39D_STACK_BEGIN %s\n%s\nSTEP39D_STACK_END %s\n",txid,string(b[:n]),txid)})
++  defer timer.Stop()
++ }
++
+ 	if req != nil && req.Payload != nil {
+ 		trace35c.Event("rpc_tx_begin", map[string]interface{}{"tx_id": req.Payload.TxId, "method": "SendRequestSync"})
+ 		defer trace35c.Event("rpc_tx_end", map[string]interface{}{"tx_id": req.Payload.TxId, "method": "SendRequestSync"})

@@ -1,0 +1,75 @@
+goroutine 65 [chan send]:
+chainmaker.org/chainmaker/sync/v2/rule/manager.(*RuleManager).NotifyNewBlock(...)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/rule/manager/rule_manager.go:108
+chainmaker.org/chainmaker/sync/v2/types.(*messageBusSubscriber).OnMessage(0xc000d58150, 0xc01891b020)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/types/message_bus.go:43 +0x11e
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).notify(0xc024cc4fa8?, 0xc01891b020, 0x1)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:255 +0xb4
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).handleMessageLooping.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:219 +0x31
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).handleMessageLooping in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:215 +0x4f
+
+goroutine 179 [sleep]:
+time.Sleep(0x77359400)
+	/usr/local/go/src/runtime/time.go:363 +0x165
+chainmaker.org/chainmaker/sync/v2/noderegistry.(*Registry).Start(0xc00fdcaaa0)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/noderegistry/registry.go:114 +0x21b
+chainmaker.org/chainmaker/sync/v2.(*BlockSyncService).Start(0xc000aa0340)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/block_sync_service.go:150 +0x17c
+chainmaker.org/chainmaker-go/module/sync.(*BlockSyncServiceV2).Start(0xc000839e60)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/sync/sync_server_aggregation.go:92 +0x30
+chainmaker.org/chainmaker-go/module/sync.(*ServerAggregator).Start(0xc00fe281c0)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/sync/sync_server_aggregation.go:386 +0x12b
+chainmaker.org/chainmaker-go/module/blockchain.(*Blockchain).startSyncService(0xc000182d80)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/blockchain_start.go:137 +0x2e
+chainmaker.org/chainmaker-go/module/blockchain.(*Blockchain).Start(0xc000182d80)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/blockchain_start.go:54 +0xe34
+chainmaker.org/chainmaker-go/module/blockchain.startBlockchain(0xc000182d80)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:430 +0x27
+created by chainmaker.org/chainmaker-go/module/blockchain.(*ChainMakerServer).Start.func1 in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:460 +0x68
+
+goroutine 580 [select]:
+chainmaker.org/chainmaker-go/module/rpcserver.(*ApiService).dealTransact(0xc000a97280, {0x3cfea88, 0xc018ffc660}, 0xc00fea6e40, 0x0, 0x1)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/api_service.go:648 +0x592
+chainmaker.org/chainmaker-go/module/rpcserver.(*ApiService).invoke(0xc000a97280, {0x3cfea88, 0xc018ffc660}, 0xc00fea6e40, 0x0, 0x1)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/api_service.go:284 +0x1fe
+chainmaker.org/chainmaker-go/module/rpcserver.(*ApiService).SendRequestSync(0xc000a97280, {0x3cfea88, 0xc018ffc660}, 0xc018ffc690)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/api_service.go:167 +0x485
+chainmaker.org/chainmaker/pb-go/v2/api._RpcNode_SendRequestSync_Handler.func1({0x3cfea88?, 0xc018ffc660?}, {0x3672220?, 0xc018ffc690?})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/pb-go/v2@v2.4.0/api/rpc_node.pb.go:454 +0xcb
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.RateLimitInterceptor.func6({0x3cfea88?, 0xc018ffc660?}, {0x3672220?, 0xc018ffc690?}, 0x0?, 0x3672220?)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/middleware.go:183 +0xdf
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.WithUnaryServerChain.ChainUnaryServer.func20.1.1({0x3cfea88?, 0xc018ffc660?}, {0x3672220?, 0xc018ffc690?})
+	/home/frankie/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.3.0/chain.go:25 +0x34
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.BlackListInterceptor.func5({0x3cfea88, 0xc018ffc660}, {0x3672220, 0xc018ffc690}, 0xc017ddfaa0, 0xc017ddfac0)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/middleware.go:204 +0x1d2
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.WithUnaryServerChain.ChainUnaryServer.func20.1.1({0x3cfea88?, 0xc018ffc660?}, {0x3672220?, 0xc018ffc690?})
+	/home/frankie/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.3.0/chain.go:25 +0x34
+chainmaker.org/chainmaker-go/module/rpcserver.LoggingInterceptor({0x3cfea88, 0xc018ffc660}, {0x3672220, 0xc018ffc690}, 0xc017ddfaa0, 0xc017ddfae0)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/middleware.go:78 +0x175
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.WithUnaryServerChain.ChainUnaryServer.func20.1.1({0x3cfea88?, 0xc018ffc660?}, {0x3672220?, 0xc018ffc690?})
+	/home/frankie/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.3.0/chain.go:25 +0x34
+chainmaker.org/chainmaker-go/module/rpcserver.RecoveryInterceptor({0x3cfea88?, 0xc018ffc660?}, {0x3672220?, 0xc018ffc690?}, 0xc0004f9808?, 0xc017ddfaa0?)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/middleware.go:96 +0x71
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.WithUnaryServerChain.ChainUnaryServer.func20.1.1({0x3cfea88?, 0xc018ffc660?}, {0x3672220?, 0xc018ffc690?})
+	/home/frankie/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.3.0/chain.go:25 +0x34
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.WithUnaryServerChain.ChainUnaryServer.func20({0x3cfea88, 0xc018ffc660}, {0x3672220, 0xc018ffc690}, 0x1216a25?, 0x60?)
+	/home/frankie/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.3.0/chain.go:34 +0xaa
+chainmaker.org/chainmaker/pb-go/v2/api._RpcNode_SendRequestSync_Handler({0x3719f60, 0xc000a97280}, {0x3cfea88, 0xc018ffc660}, 0xc017dcf560, 0xc000d599b0)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/pb-go/v2@v2.4.0/api/rpc_node.pb.go:456 +0x143
+google.golang.org/grpc.(*Server).processUnaryRPC(0xc000beb6c0, {0x3d120a0, 0xc02635f290}, 0xc018ffe480, 0xc0100022d0, 0x53ec5f8, 0x0)
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/server.go:1283 +0xca7
+google.golang.org/grpc.(*Server).handleStream(0xc000beb6c0, {0x3d120a0, 0xc02635f290}, 0xc018ffe480, 0x0)
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/server.go:1620 +0x9c8
+google.golang.org/grpc.(*Server).serveStreams.func1.2()
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/server.go:922 +0x87
+created by google.golang.org/grpc.(*Server).serveStreams.func1 in goroutine 570
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/server.go:920 +0x226
+
+goroutine 232 [select]:
+chainmaker.org/chainmaker/consensus-tbft/v2.(*ConsensusTBFTImpl).handle(0xc00fe96000)
+	/home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/consensus-tbft/v2@v2.4.0/consensus_tbft_impl.go:770 +0x2ae
+created by chainmaker.org/chainmaker/consensus-tbft/v2.(*ConsensusTBFTImpl).Start.func1 in goroutine 223
+	/home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/consensus-tbft/v2@v2.4.0/consensus_tbft_impl.go:429 +0x36e

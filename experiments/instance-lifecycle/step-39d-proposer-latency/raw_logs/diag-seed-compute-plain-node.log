@@ -1,0 +1,1349 @@
+using crypto CryptoEngine = tjfoc
+using crypto CryptoEngine = tjfoc
+STEP35C {"event":"proposer_ready","mono_ns":2070809267326,"ready":true,"seq":1,"wall_ns":1793706130126901826}
+STEP35C {"event":"rpc_request_begin","method":"/api.RpcNode/SendRequestSync","mono_ns":2070907411849,"seq":2,"wall_ns":1793706130225046711}
+STEP35C {"event":"rpc_tx_begin","method":"SendRequestSync","mono_ns":2070917349956,"seq":3,"tx_id":"18e48638d2ed722fca3b8406110331a1f41123a7f0264475a75d70b39983bb38","wall_ns":1793706130234985258}
+STEP35 {"contract":"compute","depth":1,"event":"invoke_begin","go_heap":461608632,"go_heap_released":5611520,"go_heap_sys":468680704,"go_num_gc":6,"instance_id":1,"instances_closed":0,"instances_created":0,"managed_pending":0,"method":"init_contract","stores_closed":0,"stores_created":0,"tx_id":"18e48638d2ed722fca3b8406110331a1f41123a7f0264475a75d70b39983bb38","wall_ns":1793706130254038008}
+STEP35C {"contract":"compute","depth":1,"event":"vm_invoke_begin","go_heap":461608632,"go_heap_released":5611520,"go_heap_sys":468680704,"go_num_gc":6,"instance_id":1,"instances_closed":0,"instances_created":0,"managed_pending":0,"method":"init_contract","mono_ns":2070936530675,"seq":4,"stores_closed":0,"stores_created":0,"tx_id":"18e48638d2ed722fca3b8406110331a1f41123a7f0264475a75d70b39983bb38","wall_ns":1793706130254165523}
+opmap length 216 
+Total function bodies: 2811
+STEP35C {"bytes":92518,"event":"step39d_slow_stack","mono_ns":2071218894913,"seq":5,"tx_id":"18e48638d2ed722fca3b8406110331a1f41123a7f0264475a75d70b39983bb38","wall_ns":1793706130536530353}
+STEP39D_STACK_BEGIN 18e48638d2ed722fca3b8406110331a1f41123a7f0264475a75d70b39983bb38
+goroutine 483 [running]:
+chainmaker.org/chainmaker-go/module/rpcserver.(*ApiService).SendRequestSync.func1()
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/api_service.go:153 +0x5c
+created by time.goFunc
+	/usr/local/go/src/time/sleep.go:215 +0x2d
+
+goroutine 1 [chan receive]:
+chainmaker.org/chainmaker-go/main/cmd.mainStart()
+	/home/frankie/mygitprojects/.worktrees/node-step39d/main/cmd/cli_start.go:103 +0x19d
+chainmaker.org/chainmaker-go/main/cmd.StartCMD.func1(0xc00010cf00?, {0x372f14c?, 0x4?, 0x372f150?})
+	/home/frankie/mygitprojects/.worktrees/node-step39d/main/cmd/cli_start.go:40 +0x18
+github.com/spf13/cobra.(*Command).execute(0xc0007d8848, {0xc000988dc0, 0x2, 0x2})
+	/home/frankie/go/pkg/mod/github.com/spf13/cobra@v1.1.3/command.go:852 +0x6aa
+github.com/spf13/cobra.(*Command).ExecuteC(0xc0007d8588)
+	/home/frankie/go/pkg/mod/github.com/spf13/cobra@v1.1.3/command.go:960 +0x385
+github.com/spf13/cobra.(*Command).Execute(...)
+	/home/frankie/go/pkg/mod/github.com/spf13/cobra@v1.1.3/command.go:897
+main.main()
+	/home/frankie/mygitprojects/.worktrees/node-step39d/main/main.go:24 +0x112
+
+goroutine 6 [select]:
+github.com/ipfs/go-log/writer.(*MirrorWriter).logRoutine(0xc0000c4db0)
+	/home/frankie/go/pkg/mod/github.com/ipfs/go-log@v1.0.4/writer/writer.go:71 +0x105
+created by github.com/ipfs/go-log/writer.NewMirrorWriter in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/ipfs/go-log@v1.0.4/writer/writer.go:36 +0xbf
+
+goroutine 7 [chan receive]:
+github.com/panjf2000/ants/v2.(*Pool).purgePeriodically(0xc00010e070)
+	/home/frankie/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.8/pool.go:69 +0x77
+created by github.com/panjf2000/ants/v2.NewPool in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.8/pool.go:137 +0x319
+
+goroutine 8 [chan receive]:
+github.com/golang/glog.(*loggingT).flushDaemon(0x5afb9a0)
+	/home/frankie/go/pkg/mod/github.com/golang/glog@v0.0.0-20160126235308-23def4e6c14b/glog.go:882 +0x66
+created by github.com/golang/glog.init.0 in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/golang/glog@v0.0.0-20160126235308-23def4e6c14b/glog.go:410 +0x1ae
+
+goroutine 19 [select]:
+go.opencensus.io/stats/view.(*worker).start(0xc000176a00)
+	/home/frankie/go/pkg/mod/go.opencensus.io@v0.23.0/stats/view/worker.go:276 +0x9f
+created by go.opencensus.io/stats/view.init.0 in goroutine 1
+	/home/frankie/go/pkg/mod/go.opencensus.io@v0.23.0/stats/view/worker.go:34 +0x8d
+
+goroutine 78 [sleep]:
+time.Sleep(0xb2d05e00)
+	/usr/local/go/src/runtime/time.go:363 +0x165
+chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).expandRWC(0xc0004dc000, 0x3)
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/rolling_window_cache/rolling_window_cache_impl.go:483 +0x2f
+chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).scaling.func1()
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/rolling_window_cache/rolling_window_cache_impl.go:411 +0x1b
+created by chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).scaling in goroutine 92
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/rolling_window_cache/rolling_window_cache_impl.go:408 +0x5e
+
+goroutine 72 [select]:
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*bell).start(0xc000990b58, {0x3cfeac0, 0xc0009b32c0})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/alarm_bell.go:28 +0xa5
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.NewLibP2pNet in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:151 +0x6b6
+
+goroutine 73 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).handleMessageLooping.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:217 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).handleMessageLooping in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:215 +0x4f
+
+goroutine 74 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 75 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 76 [select]:
+github.com/syndtr/goleveldb/leveldb/util.(*BufferPool).drain(0xc000aa62a0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/util/buffer_pool.go:206 +0xc8
+created by github.com/syndtr/goleveldb/leveldb/util.NewBufferPool in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/util/buffer_pool.go:237 +0x17a
+
+goroutine 21 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).compactionError(0xc0004f0340)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:90 +0x149
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:142 +0x447
+
+goroutine 22 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).mpoolDrain(0xc0004f0340)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_state.go:101 +0x9c
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:143 +0x485
+
+goroutine 23 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).tCompaction(0xc0004f0340)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:825 +0x6b7
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:149 +0x4ee
+
+goroutine 24 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).mCompaction(0xc0004f0340)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:762 +0xf3
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:150 +0x52a
+
+goroutine 25 [select]:
+github.com/syndtr/goleveldb/leveldb/util.(*BufferPool).drain(0xc000aa60e0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/util/buffer_pool.go:206 +0xc8
+created by github.com/syndtr/goleveldb/leveldb/util.NewBufferPool in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/util/buffer_pool.go:237 +0x17a
+
+goroutine 26 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).compactionError(0xc0004f09c0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:90 +0x149
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:142 +0x447
+
+goroutine 27 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).mpoolDrain(0xc0004f09c0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_state.go:101 +0x9c
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:143 +0x485
+
+goroutine 28 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).tCompaction(0xc0004f09c0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:825 +0x6b7
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:149 +0x4ee
+
+goroutine 29 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).mCompaction(0xc0004f09c0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:762 +0xf3
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:150 +0x52a
+
+goroutine 77 [select]:
+github.com/syndtr/goleveldb/leveldb/util.(*BufferPool).drain(0xc000001b20)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/util/buffer_pool.go:206 +0xc8
+created by github.com/syndtr/goleveldb/leveldb/util.NewBufferPool in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/util/buffer_pool.go:237 +0x17a
+
+goroutine 30 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).compactionError(0xc0004f04e0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:90 +0x149
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:142 +0x447
+
+goroutine 31 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).mpoolDrain(0xc0004f04e0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_state.go:101 +0x9c
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:143 +0x485
+
+goroutine 32 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).tCompaction(0xc0004f04e0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:825 +0x6b7
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:149 +0x4ee
+
+goroutine 33 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).mCompaction(0xc0004f04e0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:762 +0xf3
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:150 +0x52a
+
+goroutine 82 [select]:
+github.com/syndtr/goleveldb/leveldb/util.(*BufferPool).drain(0xc000aa6460)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/util/buffer_pool.go:206 +0xc8
+created by github.com/syndtr/goleveldb/leveldb/util.NewBufferPool in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/util/buffer_pool.go:237 +0x17a
+
+goroutine 83 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).compactionError(0xc0004f0ea0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:90 +0x149
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:142 +0x447
+
+goroutine 84 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).mpoolDrain(0xc0004f0ea0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_state.go:101 +0x9c
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:143 +0x485
+
+goroutine 85 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).tCompaction(0xc0004f0ea0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:825 +0x6b7
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:149 +0x4ee
+
+goroutine 86 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).mCompaction(0xc0004f0ea0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:762 +0xf3
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:150 +0x52a
+
+goroutine 87 [select]:
+github.com/syndtr/goleveldb/leveldb/util.(*BufferPool).drain(0xc000aa6620)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/util/buffer_pool.go:206 +0xc8
+created by github.com/syndtr/goleveldb/leveldb/util.NewBufferPool in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/util/buffer_pool.go:237 +0x17a
+
+goroutine 88 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).compactionError(0xc0004f11e0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:90 +0x149
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:142 +0x447
+
+goroutine 89 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).mpoolDrain(0xc0004f11e0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_state.go:101 +0x9c
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:143 +0x485
+
+goroutine 90 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).tCompaction(0xc0004f11e0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:825 +0x6b7
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:149 +0x4ee
+
+goroutine 91 [select]:
+github.com/syndtr/goleveldb/leveldb.(*DB).mCompaction(0xc0004f11e0)
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db_compaction.go:762 +0xf3
+created by github.com/syndtr/goleveldb/leveldb.openDB in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/third_party/goleveldb@v1.1.0/leveldb/db.go:150 +0x52a
+
+goroutine 114 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 79 [sleep]:
+time.Sleep(0x2540be400)
+	/usr/local/go/src/runtime/time.go:363 +0x165
+chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).narrowRWC(0xc0004dc000, 0x3, 0xa)
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/rolling_window_cache/rolling_window_cache_impl.go:525 +0x34
+chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).scaling.func2()
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/rolling_window_cache/rolling_window_cache_impl.go:418 +0x1f
+created by chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).scaling in goroutine 92
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/rolling_window_cache/rolling_window_cache_impl.go:415 +0xaa
+
+goroutine 80 [sleep]:
+time.Sleep(0x2540be400)
+	/usr/local/go/src/runtime/time.go:363 +0x165
+chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).scaling.func3()
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/rolling_window_cache/rolling_window_cache_impl.go:425 +0x65
+created by chainmaker.org/chainmaker/store/v2/rolling_window_cache.(*RollingWindowCacher).scaling in goroutine 92
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/rolling_window_cache/rolling_window_cache_impl.go:422 +0xee
+
+goroutine 93 [select]:
+chainmaker.org/chainmaker/store/v2/archive.(*ArchiveMgr).moveFDBFiles(0xc000a7e120)
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/archive/manager.go:511 +0x1f0
+chainmaker.org/chainmaker/store/v2/archive.NewArchiveMgr.func1()
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/archive/manager.go:146 +0x45
+created by chainmaker.org/chainmaker/store/v2/archive.NewArchiveMgr in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/archive/manager.go:146 +0x5c5
+
+goroutine 94 [chan receive]:
+github.com/panjf2000/ants/v2.(*Pool).purgePeriodically(0xc000a22d90)
+	/home/frankie/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.8/pool.go:69 +0x77
+created by github.com/panjf2000/ants/v2.NewPool in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.8/pool.go:137 +0x319
+
+goroutine 81 [IO wait]:
+internal/poll.runtime_pollWait(0x769999c9a400, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc0007dd080?, 0x76999b7aa5c0?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc0007dd080)
+	/usr/local/go/src/internal/poll/fd_unix.go:613 +0x28c
+net.(*netFD).accept(0xc0007dd080)
+	/usr/local/go/src/net/fd_unix.go:161 +0x29
+net.(*UnixListener).accept(0xc00010c201?)
+	/usr/local/go/src/net/unixsock_posix.go:172 +0x16
+net.(*UnixListener).Accept(0xc013860c30)
+	/usr/local/go/src/net/unixsock.go:260 +0x30
+net/http.(*Server).Serve(0xc00010c200, {0x3cf4df8, 0xc013860c30})
+	/usr/local/go/src/net/http/server.go:3463 +0x30c
+chainmaker.org/chainmaker/vm-wasmer/v2.(*InstancesManager).start35aControl.func7()
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/step35a_control.go:129 +0x26
+created by chainmaker.org/chainmaker/vm-wasmer/v2.(*InstancesManager).start35aControl in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/step35a_control.go:128 +0x375
+
+goroutine 101 [chan receive]:
+github.com/panjf2000/ants/v2.(*goWorker).run.func1()
+	/home/frankie/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.8/worker.go:66 +0x6a
+created by github.com/panjf2000/ants/v2.(*goWorker).run in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.8/worker.go:48 +0x5c
+
+goroutine 103 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 104 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 105 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 106 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 107 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 108 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 109 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 110 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 111 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 112 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 113 [syscall, locked to thread]:
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go._Cfunc_to_wasm_module_new(0x769944000cc0, 0xc01c800000, 0x45e54b)
+	_cgo_gotypes.go:532 +0x47
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.NewModule.func1.1(...)
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/wasmer-go/module.go:106
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.NewModule.func1()
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/wasmer-go/module.go:106 +0x1ea
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.maybeNewErrorFromWasmer(0xc0192ab570)
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/wasmer-go/error.go:45 +0x4c
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.NewModule(0xc01a6c89e0, {0xc019e00000?, 0x45e54b?, 0x460000?}, 0xc000276070)
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/wasmer-go/module.go:100 +0x145
+chainmaker.org/chainmaker/vm-wasmer/v2.dCompile(0xc00136a840, {0xc019e00000, 0x45e54b, 0x460000}, 0xc000276070)
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/step21d_compile.go:260 +0x4b8
+chainmaker.org/chainmaker/vm-wasmer/v2.(*nodeFreshManager).prepare(0xc0004dcc00, 0xc00136a840, {0xc019e00000, 0x45e54b, 0x460000}, 0xc01387d3b0)
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/step35_node.go:180 +0x7c8
+chainmaker.org/chainmaker/vm-wasmer/v2.(*nodeFreshRuntime).invoke(0xc01387d3b0, 0xc00136a840, {0x375d531, 0xd}, {0xc019e00000, 0x45e54b, 0x460000}, 0xc019cfdc80, {0x3d2b060, 0xc018e75900}, ...)
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/step35_node.go:247 +0x466
+chainmaker.org/chainmaker/vm-wasmer/v2.(*nodeFreshRuntime).Invoke.func2()
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/step35_node.go:215 +0x1a5
+chainmaker.org/chainmaker/vm-wasmer/v2.(*SafeFreshOwner).loop.func2({{0x3cfe970, 0x5b280a0}, 0xc0009bee00, 0xc0009bee70, 0x0}, 0xc0007d18f0)
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/step34_owner.go:101 +0x14b
+chainmaker.org/chainmaker/vm-wasmer/v2.(*SafeFreshOwner).loop(0xc0007d18f0, 0xc017d1aa80)
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/step34_owner.go:102 +0x1eb
+created by chainmaker.org/chainmaker/vm-wasmer/v2.NewSafeFreshOwner in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/step34_owner.go:50 +0x139
+
+goroutine 115 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 116 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 117 [select]:
+chainmaker.org/chainmaker/sync/v2/net.(*handlerWithMQ).consume(0xc018dd38c0)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/net/msg_bus.go:228 +0xee
+created by chainmaker.org/chainmaker/sync/v2/net.newHandlerWithMQ in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/net/msg_bus.go:222 +0x106
+
+goroutine 118 [select]:
+chainmaker.org/chainmaker/sync/v2/net.(*handlerWithMQ).consume(0xc018dd3a10)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/net/msg_bus.go:228 +0xee
+created by chainmaker.org/chainmaker/sync/v2/net.newHandlerWithMQ in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/net/msg_bus.go:222 +0x106
+
+goroutine 119 [select]:
+chainmaker.org/chainmaker/lws.(*Lws).cleanStartUp(0xc0004f6c80)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/lws@v1.2.1/lws.go:545 +0x90
+created by chainmaker.org/chainmaker/lws.OpenWithDSL in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/lws@v1.2.1/lws.go:107 +0x309
+
+goroutine 122 [chan receive]:
+chainmaker.org/chainmaker-go/module/blockchain.(*ChainMakerServer).newBlockchainTaskListener(0xc0009b3270)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:315 +0x57
+created by chainmaker.org/chainmaker-go/module/blockchain.(*ChainMakerServer).initBlockchains in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:283 +0x173
+
+goroutine 123 [chan receive]:
+chainmaker.org/chainmaker-go/module/blockchain.(*ChainMakerServer).deleteBlockchainTaskListener(0xc0009b3270)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:336 +0x54
+created by chainmaker.org/chainmaker-go/module/blockchain.(*ChainMakerServer).initBlockchains in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:284 +0x1b9
+
+goroutine 124 [chan receive]:
+chainmaker.org/chainmaker-go/module/blockchain.(*ChainMakerServer).updateSeedsTaskListerer(0xc0009b3270)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:352 +0x58
+created by chainmaker.org/chainmaker-go/module/blockchain.(*ChainMakerServer).initBlockchains in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:285 +0x1fb
+
+goroutine 125 [chan receive]:
+chainmaker.org/chainmaker-go/module/blockchain.(*ChainMakerServer).updateCustomChainTrustRootsTaskListerer(0xc0009b3270)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:369 +0x57
+created by chainmaker.org/chainmaker-go/module/blockchain.(*ChainMakerServer).initBlockchains in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:286 +0x23d
+
+goroutine 126 [select]:
+chainmaker.org/chainmaker-go/module/rpcserver.(*RootDispatcher).loggingStatistics(0xc018e2e810)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/tx_result_dispatcher.go:208 +0x1bd
+created by chainmaker.org/chainmaker-go/module/rpcserver.(*RootDispatcher).Start in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/tx_result_dispatcher.go:80 +0x65
+
+goroutine 127 [select]:
+chainmaker.org/chainmaker-go/module/rpcserver.(*childDispatcher).start(0xc0004f3c70)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/tx_result_dispatcher.go:270 +0x119
+created by chainmaker.org/chainmaker-go/module/rpcserver.(*RootDispatcher).Start in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/tx_result_dispatcher.go:85 +0xf7
+
+goroutine 128 [chan receive]:
+chainmaker.org/chainmaker-go/main/cmd.handleExitSignal(0xc0007d71f0)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/main/cmd/cli_start.go:121 +0x16b
+created by chainmaker.org/chainmaker-go/main/cmd.mainStart in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step39d/main/cmd/cli_start.go:78 +0xe8
+
+goroutine 129 [select]:
+github.com/libp2p/go-libp2p-peerstore/pstoremem.(*memoryAddrBook).background(0xc0007ced08)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-peerstore@v0.2.6/pstoremem/addr_book.go:93 +0xde
+created by github.com/libp2p/go-libp2p-peerstore/pstoremem.NewAddrBook in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-peerstore@v0.2.6/pstoremem/addr_book.go:83 +0x245
+
+goroutine 131 [syscall]:
+os/signal.signal_recv()
+	/usr/local/go/src/runtime/sigqueue.go:152 +0x29
+os/signal.loop()
+	/usr/local/go/src/os/signal/signal_unix.go:23 +0x13
+created by os/signal.Notify.func1.1 in goroutine 128
+	/usr/local/go/src/os/signal/signal.go:152 +0x1f
+
+goroutine 146 [select]:
+github.com/jbenet/goprocess/context.CloseAfterContext.func1()
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/context/context.go:65 +0x85
+created by github.com/jbenet/goprocess/context.CloseAfterContext in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/context/context.go:64 +0xda
+
+goroutine 142 [select]:
+chainmaker.org/chainmaker/consensus-tbft/v2.(*ConsensusTBFTImpl).handle(0xc018e32000)
+	/home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/consensus-tbft/v2@v2.4.0/consensus_tbft_impl.go:770 +0x2ae
+created by chainmaker.org/chainmaker/consensus-tbft/v2.(*ConsensusTBFTImpl).Start.func1 in goroutine 235
+	/home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/consensus-tbft/v2@v2.4.0/consensus_tbft_impl.go:429 +0x36e
+
+goroutine 148 [select]:
+github.com/libp2p/go-libp2p-swarm.(*DialBackoff).background(0xc00011b610, {0x3cfeac0, 0xc018e46870})
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-swarm@v0.2.8/swarm_dial.go:126 +0xcd
+created by github.com/libp2p/go-libp2p-swarm.(*DialBackoff).init in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-swarm@v0.2.8/swarm_dial.go:119 +0xac
+
+goroutine 149 [select]:
+github.com/libp2p/go-libp2p/p2p/protocol/identify.(*ObservedAddrManager).worker(0xc018de9620, {0x3cfeac0, 0xc018e47860})
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p@v0.11.0/p2p/protocol/identify/obsaddr.go:236 +0x1c5
+created by github.com/libp2p/go-libp2p/p2p/protocol/identify.NewObservedAddrManager in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p@v0.11.0/p2p/protocol/identify/obsaddr.go:127 +0x186
+
+goroutine 150 [select]:
+github.com/libp2p/go-libp2p/p2p/protocol/identify.(*IDService).loop(0xc018e40c30)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p@v0.11.0/p2p/protocol/identify/id.go:204 +0x4bc
+created by github.com/libp2p/go-libp2p/p2p/protocol/identify.NewIDService in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p@v0.11.0/p2p/protocol/identify/id.go:151 +0x2bb
+
+goroutine 151 [select]:
+github.com/libp2p/go-libp2p-circuit.(*RelayListener).Accept(0xc018de9680)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-circuit@v0.3.1/listen.go:27 +0x135
+github.com/libp2p/go-libp2p-transport-upgrader.(*listener).handleIncoming(0xc018de96e0)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-transport-upgrader@v0.3.0/listener.go:77 +0xe3
+created by github.com/libp2p/go-libp2p-transport-upgrader.(*Upgrader).UpgradeListener in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-transport-upgrader@v0.3.0/upgrader.go:49 +0x19f
+
+goroutine 158 [IO wait]:
+internal/poll.runtime_pollWait(0x769999c9a200, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000a86800?, 0x0?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc000a86800)
+	/usr/local/go/src/internal/poll/fd_unix.go:613 +0x28c
+net.(*netFD).accept(0xc000a86800)
+	/usr/local/go/src/net/fd_unix.go:161 +0x29
+net.(*TCPListener).accept(0xc018e76600)
+	/usr/local/go/src/net/tcpsock_posix.go:159 +0x1b
+net.(*TCPListener).Accept(0xc018e76600)
+	/usr/local/go/src/net/tcpsock.go:380 +0x30
+github.com/multiformats/go-multiaddr/net.(*maListener).Accept(0x0?)
+	/home/frankie/go/pkg/mod/github.com/multiformats/go-multiaddr@v0.3.2/net/net.go:243 +0x1f
+github.com/libp2p/go-tcp-transport.(*lingerListener).Accept(0xc018e45278)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-tcp-transport@v0.2.1/tcp.go:42 +0x24
+github.com/libp2p/go-libp2p-transport-upgrader.(*listener).handleIncoming(0xc018de99e0)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-transport-upgrader@v0.3.0/listener.go:77 +0xe3
+created by github.com/libp2p/go-libp2p-transport-upgrader.(*Upgrader).UpgradeListener in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-transport-upgrader@v0.3.0/upgrader.go:49 +0x19f
+
+goroutine 157 [chan receive]:
+github.com/libp2p/go-libp2p-transport-upgrader.(*listener).Accept(0xc018de96e0)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-transport-upgrader@v0.3.0/listener.go:155 +0x3a
+github.com/libp2p/go-libp2p-swarm.(*Swarm).AddListenAddr.func2()
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-swarm@v0.2.8/swarm_listen.go:84 +0xc2
+created by github.com/libp2p/go-libp2p-swarm.(*Swarm).AddListenAddr in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-swarm@v0.2.8/swarm_listen.go:69 +0x1ef
+
+goroutine 141 [chan receive]:
+chainmaker.org/chainmaker/consensus-utils/v2/consistent_service.(*StatusConsistentEngineV1).tickerHandle(0xc018d52780, {0x3d07dd8, 0xc018d31d40}, {0x35d7800?, 0xc00b6117d8?})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/consensus-utils/v2@v2.4.0/consistent_service/consistent_service_v1.go:248 +0xda
+created by chainmaker.org/chainmaker/consensus-utils/v2/consistent_service.(*StatusConsistentEngineV1).handle in goroutine 235
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/consensus-utils/v2@v2.4.0/consistent_service/consistent_service_v1.go:286 +0x217
+
+goroutine 140 [chan receive]:
+chainmaker.org/chainmaker/consensus-tbft/v2.(*TbftConsistentMessage).Receive(0xc018d31c50)
+	/home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/consensus-tbft/v2@v2.4.0/tbft_status_broadcaster.go:453 +0xb0
+chainmaker.org/chainmaker/consensus-utils/v2/consistent_service.(*StatusConsistentEngineV1).handleReceiveMessage(0xc018d52780)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/consensus-utils/v2@v2.4.0/consistent_service/consistent_service_v1.go:175 +0xbc
+created by chainmaker.org/chainmaker/consensus-utils/v2/consistent_service.(*StatusConsistentEngineV1).Start in goroutine 235
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/consensus-utils/v2@v2.4.0/consistent_service/consistent_service_v1.go:229 +0xed
+
+goroutine 162 [chan receive]:
+github.com/libp2p/go-libp2p-transport-upgrader.(*listener).Accept(0xc018de99e0)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-transport-upgrader@v0.3.0/listener.go:155 +0x3a
+github.com/libp2p/go-libp2p-swarm.(*Swarm).AddListenAddr.func2()
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-swarm@v0.2.8/swarm_listen.go:84 +0xc2
+created by github.com/libp2p/go-libp2p-swarm.(*Swarm).AddListenAddr in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-swarm@v0.2.8/swarm_listen.go:69 +0x1ef
+
+goroutine 133 [sleep]:
+time.Sleep(0x2540be400)
+	/usr/local/go/src/runtime/time.go:363 +0x165
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).handlePubSubWhiteListOnRemoveC.func1.1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:1036 +0x31
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).handlePubSubWhiteListOnRemoveC.func1 in goroutine 168
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:1034 +0xa5
+
+goroutine 165 [select]:
+github.com/libp2p/go-libp2p-autonat.(*AmbientAutoNAT).background(0xc018e41110)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-autonat@v0.3.2/autonat.go:175 +0x2af
+created by github.com/libp2p/go-libp2p-autonat.New in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-autonat@v0.3.2/autonat.go:125 +0x696
+
+goroutine 166 [select]:
+github.com/libp2p/go-libp2p/p2p/host/basic.(*BasicHost).background(0xc018d80420)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p@v0.11.0/p2p/host/basic/basic_host.go:520 +0x3f4
+created by github.com/libp2p/go-libp2p/p2p/host/basic.(*BasicHost).Start in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p@v0.11.0/p2p/host/basic/basic_host.go:368 +0x65
+
+goroutine 167 [chan receive]:
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).handlePubSubWhiteListOnAddC.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:1008 +0xc5
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).handlePubSubWhiteListOnAddC in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:998 +0x4f
+
+goroutine 168 [chan receive]:
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).handlePubSubWhiteListOnRemoveC.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:1040 +0xc5
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).handlePubSubWhiteListOnRemoveC in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:1031 +0x4f
+
+goroutine 169 [select]:
+github.com/jbenet/goprocess/context.CloseAfterContext.func1()
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/context/context.go:65 +0x85
+created by github.com/jbenet/goprocess/context.CloseAfterContext in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/context/context.go:64 +0xda
+
+goroutine 139 [select]:
+chainmaker.org/chainmaker/consensus-tbft/v2.(*timeScheduler).handle(0xc013862ec0)
+	/home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/consensus-tbft/v2@v2.4.0/timesched.go:79 +0x1df
+created by chainmaker.org/chainmaker/consensus-tbft/v2.(*timeScheduler).Start in goroutine 235
+	/home/frankie/mygitprojects/.worktrees/cvw-step17/chainmaker/chainmaker-vm-wasmer/consensus-tbft/v2@v2.4.0/timesched.go:50 +0x4f
+
+goroutine 171 [select]:
+github.com/jbenet/goprocess/context.CloseAfterContext.func1()
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/context/context.go:65 +0x85
+created by github.com/jbenet/goprocess/context.CloseAfterContext in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/context/context.go:64 +0xda
+
+goroutine 138 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 235
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 137 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 235
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 174 [select]:
+github.com/libp2p/go-libp2p-kad-dht/providers.(*ProviderManager).run(0xc018e76700, {0x3d13148, 0xc018de9b60})
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-kad-dht@v0.10.0/providers/providers_manager.go:134 +0x25c
+github.com/jbenet/goprocess.(*process).Go.func1()
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/impl-mutex.go:134 +0x30
+created by github.com/jbenet/goprocess.(*process).Go in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/impl-mutex.go:133 +0x1f0
+
+goroutine 136 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 235
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 135 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 235
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 134 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*Subscription).Next(0xc018d468c0, {0x3cfeac0, 0xc0009b32c0})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/subscription.go:24 +0x85
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).topicSubLoop(0xc0009e4500, {0xc00134aea0, 0x6}, 0xc018d468c0, {0xc00b611780, 0xd}, 0xc0009cef90)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:303 +0x7e
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).SubscribeWithChainId.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:290 +0x85
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).SubscribeWithChainId in goroutine 221
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:281 +0x3a8
+
+goroutine 132 [sleep]:
+time.Sleep(0x2540be400)
+	/usr/local/go/src/runtime/time.go:363 +0x165
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).handlePubSubWhiteListOnAddC.func1.1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:1003 +0x31
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).handlePubSubWhiteListOnAddC.func1 in goroutine 167
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:1001 +0xa5
+
+goroutine 198 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).connector(0xc018e74c80)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:873 +0xc5
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).Attach in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:457 +0x1c5
+
+goroutine 180 [select]:
+github.com/libp2p/go-libp2p-kad-dht.(*subscriberNotifee).subscribe(0xc018e45470, {0x3d13148, 0xc018de9c20})
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-kad-dht@v0.10.0/subscriber_notifee.go:75 +0x188
+github.com/jbenet/goprocess.(*process).Go.func1()
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/impl-mutex.go:134 +0x30
+created by github.com/jbenet/goprocess.(*process).Go in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/impl-mutex.go:133 +0x1f0
+
+goroutine 197 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).connector(0xc018e74c80)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:873 +0xc5
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).Attach in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:457 +0x1c5
+
+goroutine 182 [select]:
+github.com/libp2p/go-libp2p-kad-dht/rtrefresh.(*RtRefreshManager).loop(0xc018db1d60)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-kad-dht@v0.10.0/rtrefresh/rt_refresh_manager.go:143 +0x225
+created by github.com/libp2p/go-libp2p-kad-dht/rtrefresh.(*RtRefreshManager).Start in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-kad-dht@v0.10.0/rtrefresh/rt_refresh_manager.go:88 +0x65
+
+goroutine 183 [select]:
+github.com/libp2p/go-libp2p-kad-dht.(*IpfsDHT).persistRTPeersInPeerStore(0xc018d82a88)
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-kad-dht@v0.10.0/dht.go:498 +0xed
+created by github.com/libp2p/go-libp2p-kad-dht.New in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-kad-dht@v0.10.0/dht.go:225 +0x4ab
+
+goroutine 196 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).connector(0xc018e74c80)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:873 +0xc5
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).Attach in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:457 +0x1c5
+
+goroutine 195 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).connector(0xc018e74c80)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:873 +0xc5
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).Attach in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:457 +0x1c5
+
+goroutine 186 [select]:
+github.com/libp2p/go-libp2p-kad-dht.(*IpfsDHT).fixLowPeersRoutine(0xc018d82a88, {0x3d13148, 0xc018de9ce0})
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-kad-dht@v0.10.0/dht.go:426 +0x12d
+github.com/jbenet/goprocess.(*process).Go.func1()
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/impl-mutex.go:134 +0x30
+created by github.com/jbenet/goprocess.(*process).Go in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/impl-mutex.go:133 +0x1f0
+
+goroutine 194 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).connector(0xc018e74c80)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:873 +0xc5
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).Attach in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:457 +0x1c5
+
+goroutine 193 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).heartbeatTimer(0xc018e74c80)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:1265 +0x1c5
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).Attach in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:453 +0x1b6
+
+goroutine 189 [select]:
+github.com/libp2p/go-libp2p-kad-dht.(*IpfsDHT).rtPeerLoop(0xc018d82a88, {0x3d13148, 0xc018de9da0})
+	/home/frankie/go/pkg/mod/github.com/libp2p/go-libp2p-kad-dht@v0.10.0/dht.go:607 +0x11f
+github.com/jbenet/goprocess.(*process).Go.func1()
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/impl-mutex.go:134 +0x30
+created by github.com/jbenet/goprocess.(*process).Go in goroutine 1
+	/home/frankie/go/pkg/mod/github.com/jbenet/goprocess@v0.1.4/impl-mutex.go:133 +0x1f0
+
+goroutine 190 [sleep]:
+time.Sleep(0x12a05f200)
+	/usr/local/go/src/runtime/time.go:363 +0x165
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*ConnSupervisor).startSupervising.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_connection_supervisor.go:104 +0xc8
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*ConnSupervisor).startSupervising in goroutine 1
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_connection_supervisor.go:88 +0x76
+
+goroutine 191 [sleep]:
+time.Sleep(0x77359400)
+	/usr/local/go/src/runtime/time.go:363 +0x165
+chainmaker.org/chainmaker/sync/v2/noderegistry.(*Registry).Start(0xc018db0b40)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/noderegistry/registry.go:114 +0x21b
+chainmaker.org/chainmaker/sync/v2.(*BlockSyncService).Start(0xc01386b6c0)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/block_sync_service.go:150 +0x17c
+chainmaker.org/chainmaker-go/module/sync.(*BlockSyncServiceV2).Start(0xc018e00510)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/sync/sync_server_aggregation.go:92 +0x30
+chainmaker.org/chainmaker-go/module/sync.(*ServerAggregator).Start(0xc000001ea0)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/sync/sync_server_aggregation.go:386 +0x12b
+chainmaker.org/chainmaker-go/module/blockchain.(*Blockchain).startSyncService(0xc00011af00)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/blockchain_start.go:137 +0x2e
+chainmaker.org/chainmaker-go/module/blockchain.(*Blockchain).Start(0xc00011af00)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/blockchain_start.go:54 +0xe34
+chainmaker.org/chainmaker-go/module/blockchain.startBlockchain(0xc00011af00)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:430 +0x27
+created by chainmaker.org/chainmaker-go/module/blockchain.(*ChainMakerServer).Start.func1 in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/blockchain/chainmaker_server.go:460 +0x68
+
+goroutine 192 [IO wait]:
+internal/poll.runtime_pollWait(0x769999c9a000, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000a86900?, 0x900000036?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc000a86900)
+	/usr/local/go/src/internal/poll/fd_unix.go:613 +0x28c
+net.(*netFD).accept(0xc000a86900)
+	/usr/local/go/src/net/fd_unix.go:161 +0x29
+net.(*TCPListener).accept(0xc018e76800)
+	/usr/local/go/src/net/tcpsock_posix.go:159 +0x1b
+net.(*TCPListener).Accept(0xc018e76800)
+	/usr/local/go/src/net/tcpsock.go:380 +0x30
+net/http.(*Server).Serve(0xc018e30100, {0x3cf4e28, 0xc018e76800})
+	/usr/local/go/src/net/http/server.go:3463 +0x30c
+chainmaker.org/chainmaker-go/module/rpcserver.(*RPCServer).startServer(0xc0007d7030, {0x3cf4e28, 0xc018e76800}, 0x0)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/rpc_server.go:280 +0x71
+created by chainmaker.org/chainmaker-go/module/rpcserver.(*RPCServer).Start in goroutine 1
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/rpc_server.go:147 +0x1eb
+
+goroutine 199 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).connector(0xc018e74c80)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:873 +0xc5
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).Attach in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:457 +0x1c5
+
+goroutine 200 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).connector(0xc018e74c80)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:873 +0xc5
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).Attach in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:457 +0x1c5
+
+goroutine 201 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).connector(0xc018e74c80)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:873 +0xc5
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*GossipSubRouter).Attach in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/gossipsub.go:457 +0x1c5
+
+goroutine 202 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 203 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 204 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 205 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 206 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 207 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 208 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 209 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 210 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 211 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 212 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 213 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 214 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 215 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 216 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 217 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*validation).validateWorker(0xc018e7f380)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:231 +0xb9
+created by chainmaker.org/chainmaker/libp2p-pubsub.(*validation).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/validation.go:120 +0x65
+
+goroutine 218 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*PubSub).processLoop(0xc018fd48c0, {0x3cfeac0, 0xc018e47db0})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/pubsub.go:575 +0x55f
+created by chainmaker.org/chainmaker/libp2p-pubsub.NewPubSub in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/pubsub.go:318 +0xdf4
+
+goroutine 219 [select]:
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).reloadChainPubSubWhiteListLoop(0xc0009e4500, {0xc00134aea0, 0x6}, 0xc018fd6720)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:872 +0x137
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).InitPubSub in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:207 +0x1f5
+
+goroutine 220 [select]:
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).checkPubsubWhitelistLoop(0xc0009e4500, {0xc00134aea0, 0x6}, 0xc018fd6720)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:902 +0xc5
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).InitPubSub in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:211 +0x27c
+
+goroutine 221 [select]:
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).checkCertId(0xc0009e4500, {0xc00134aea0, 0x6})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_certid.go:58 +0x1cb
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).InitPubSub in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:213 +0x2d6
+
+goroutine 222 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 223 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 224 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*Subscription).Next(0xc018ff5c00, {0x3cfeac0, 0xc0009b32c0})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/subscription.go:24 +0x85
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).topicSubLoop(0xc0009e4500, {0xc00134aea0, 0x6}, 0xc018ff5c00, {0xc00b6685a0, 0x10}, 0xc018e45b18)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:303 +0x7e
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).SubscribeWithChainId.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:290 +0x85
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).SubscribeWithChainId in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:281 +0x3a8
+
+goroutine 225 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 226 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*Subscription).Next(0xc018ff5c80, {0x3cfeac0, 0xc0009b32c0})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/subscription.go:24 +0x85
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).topicSubLoop(0xc0009e4500, {0xc00134aea0, 0x6}, 0xc018ff5c80, {0xc00090bc50, 0x23}, 0xc018e45b90)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:303 +0x7e
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).SubscribeWithChainId.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:290 +0x85
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).SubscribeWithChainId in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:281 +0x3a8
+
+goroutine 227 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 228 [IO wait]:
+internal/poll.runtime_pollWait(0x769999c99e00, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc018ffc800?, 0x76999b7aa5c0?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc018ffc800)
+	/usr/local/go/src/internal/poll/fd_unix.go:613 +0x28c
+net.(*netFD).accept(0xc018ffc800)
+	/usr/local/go/src/net/fd_unix.go:161 +0x29
+net.(*UnixListener).accept(0xc018e78a01?)
+	/usr/local/go/src/net/unixsock_posix.go:172 +0x16
+net.(*UnixListener).Accept(0xc01906a0f0)
+	/usr/local/go/src/net/unixsock.go:260 +0x30
+net/http.(*Server).Serve(0xc018e78a00, {0x3cf4df8, 0xc01906a0f0})
+	/usr/local/go/src/net/http/server.go:3463 +0x30c
+chainmaker.org/chainmaker/store/v2/step35c.Start.func1.4()
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/step35c/trace.go:109 +0x59
+created by chainmaker.org/chainmaker/store/v2/step35c.Start.func1 in goroutine 191
+	/home/frankie/mygitprojects/.worktrees/cvw-step36/experiments/instance-lifecycle/step-36-e2e-copy-acopy/source/store/step35c/trace.go:107 +0x1d8
+
+goroutine 229 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 230 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 231 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 232 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 233 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 234 [select]:
+chainmaker.org/chainmaker-go/module/core/syncmode/proposer.(*BlockProposerImpl).startProposingLoop(0xc000554d00)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/syncmode/proposer/block_proposer_impl.go:218 +0xd5
+created by chainmaker.org/chainmaker-go/module/core/syncmode/proposer.(*BlockProposerImpl).Start in goroutine 191
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/syncmode/proposer/block_proposer_impl.go:184 +0xb6
+
+goroutine 236 [select]:
+chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register.func2()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:107 +0x8b
+created by chainmaker.org/chainmaker/common/v2/msgbus.(*messageBusImpl).Register in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/common/v2@v2.4.0/msgbus/message_bus.go:105 +0x219
+
+goroutine 261 [select]:
+google.golang.org/grpc/internal/transport.(*serverHandlerTransport).HandleStreams.func1()
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/internal/transport/handler_server.go:343 +0xc5
+created by google.golang.org/grpc/internal/transport.(*serverHandlerTransport).HandleStreams in goroutine 260
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/internal/transport/handler_server.go:342 +0x107
+
+goroutine 260 [select]:
+google.golang.org/grpc/internal/transport.(*serverHandlerTransport).runStream(...)
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/internal/transport/handler_server.go:425
+google.golang.org/grpc/internal/transport.(*serverHandlerTransport).HandleStreams(0xc0004ffa70, 0xc018d7c8a0, 0xc018d7c870?)
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/internal/transport/handler_server.go:415 +0x776
+google.golang.org/grpc.(*Server).serveStreams(0xc013867340, {0x3d120a0, 0xc0004ffa70})
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/server.go:906 +0x104
+google.golang.org/grpc.(*Server).ServeHTTP(0xc013867340, {0x3cf6080, 0xc00007f140}, 0x6?)
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/server.go:975 +0xc7
+chainmaker.org/chainmaker-go/module/rpcserver.GrpcHandlerFunc.func1({0x3cf6080, 0xc00007f140}, 0xc018d3be00)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/middleware.go:249 +0x298
+chainmaker.org/chainmaker-go/module/rpcserver.GrpcHandlerFunc.func3({0x3cf6080, 0xc00007f140}, 0xc018d3be00)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/middleware.go:264 +0xc2
+net/http.HandlerFunc.ServeHTTP(0x0?, {0x3cf6080?, 0xc00007f140?}, 0x0?)
+	/usr/local/go/src/net/http/server.go:2322 +0x29
+golang.org/x/net/http2.(*serverConn).runHandler(0x124f0d2?, 0x23dcc60?, 0xc000554d20?, 0xc01912dfb8?)
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/server.go:2494 +0x9d
+created by golang.org/x/net/http2.(*serverConn).scheduleHandler in goroutine 259
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/server.go:2429 +0x21f
+
+goroutine 259 [select]:
+golang.org/x/net/http2.(*serverConn).serve(0xc018e325a0, {0xffffffff, 0x0, 0x1000, 0x1000, 0x100000, 0x100000, 0x100000, 0x0, 0x37e11d600, ...})
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/server.go:1006 +0x978
+golang.org/x/net/http2.(*Server).serveConn(0xc018de8e40, {0x3d0f8a8, 0xc0192a23d8}, 0xc000563a18, 0x0)
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/server.go:568 +0xbeb
+golang.org/x/net/http2.(*Server).ServeConn(...)
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/server.go:424
+golang.org/x/net/http2/h2c.h2cHandler.ServeHTTP({{0x3ce42e0?, 0xc018e146c0?}, 0xc018de8e40?}, {0x3cf4fd8, 0xc01387d1d0}, 0xc018d3ba40)
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/h2c/h2c.go:97 +0x39e
+net/http.serverHandler.ServeHTTP({0xc018d46c00?}, {0x3cf4fd8?, 0xc01387d1d0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3340 +0x8e
+net/http.(*conn).serve(0xc0004ff7a0, {0x3cfea88, 0xc018e7edb0})
+	/usr/local/go/src/net/http/server.go:2109 +0x665
+created by net/http.(*Server).Serve in goroutine 192
+	/usr/local/go/src/net/http/server.go:3493 +0x485
+
+goroutine 240 [select]:
+chainmaker.org/chainmaker/txpool-single/v2.(*txPoolImpl).addTxLoop(0xc000001c00)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/txpool-single/v2@v2.4.0/tx_pool_impl.go:199 +0x109
+created by chainmaker.org/chainmaker/txpool-single/v2.(*txPoolImpl).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/txpool-single/v2@v2.4.0/tx_pool_impl.go:179 +0x171
+
+goroutine 241 [select]:
+chainmaker.org/chainmaker/libp2p-pubsub.(*Subscription).Next(0xc0190fc0c0, {0x3cfeac0, 0xc0009b32c0})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/libp2p-pubsub@v1.1.6/subscription.go:24 +0x85
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).topicSubLoop(0xc0009e4500, {0xc00134aea0, 0x6}, 0xc0190fc0c0, {0xc001395fa0, 0x1c}, 0xc018e45e90)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:303 +0x7e
+chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).SubscribeWithChainId.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:290 +0x85
+created by chainmaker.org/chainmaker/net-libp2p/libp2pnet.(*LibP2pNet).SubscribeWithChainId in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/net-libp2p@v1.2.9/libp2pnet/libp2p_net.go:281 +0x3a8
+
+goroutine 242 [select]:
+chainmaker.org/chainmaker-go/module/sync.(*BlockSyncServiceV2).blockRequestEntrance(0xc018e00510)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/sync/sync_server_aggregation.go:274 +0xbe
+created by chainmaker.org/chainmaker-go/module/sync.(*BlockSyncServiceV2).enableV1DataProvision in goroutine 191
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/sync/sync_server_aggregation.go:108 +0x6d
+
+goroutine 243 [select]:
+chainmaker.org/chainmaker/sync/v2/net.(*handlerWithMQ).consume(0xc01906a9f0)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/net/msg_bus.go:228 +0xee
+created by chainmaker.org/chainmaker/sync/v2/net.newHandlerWithMQ in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/net/msg_bus.go:222 +0x106
+
+goroutine 244 [chan receive]:
+chainmaker.org/chainmaker/sync/v2/consistent.(*SyncMessage).Receive(0xc0007dd900?)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/consistent/message.go:50 +0x2e
+chainmaker.org/chainmaker/consensus-utils/v2/consistent_service.(*StatusConsistentEngineV2).handleReceiveMessage(0xc0007dd900)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/consensus-utils/v2@v2.4.0/consistent_service/consistent_service_v2.go:216 +0xc2
+created by chainmaker.org/chainmaker/consensus-utils/v2/consistent_service.(*StatusConsistentEngineV2).Start in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/consensus-utils/v2@v2.4.0/consistent_service/consistent_service_v2.go:249 +0xf6
+
+goroutine 245 [chan receive]:
+chainmaker.org/chainmaker/consensus-utils/v2/consistent_service.(*StatusConsistentEngineV2).tickerHandle(0xc0007dd900)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/consensus-utils/v2@v2.4.0/consistent_service/consistent_service_v2.go:263 +0x9b
+created by chainmaker.org/chainmaker/consensus-utils/v2/consistent_service.(*StatusConsistentEngineV2).handle in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/consensus-utils/v2@v2.4.0/consistent_service/consistent_service_v2.go:397 +0x76
+
+goroutine 246 [select]:
+chainmaker.org/chainmaker/sync/v2/net.(*handlerWithMQ).consume(0xc01906aa20)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/net/msg_bus.go:228 +0xee
+created by chainmaker.org/chainmaker/sync/v2/net.newHandlerWithMQ in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/net/msg_bus.go:222 +0x106
+
+goroutine 247 [chan receive]:
+chainmaker.org/chainmaker/sync/v2/noderegistry.(*nodeDiscoverer).discover.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/noderegistry/discover.go:82 +0x9f
+created by chainmaker.org/chainmaker/sync/v2/noderegistry.(*nodeDiscoverer).discover in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/noderegistry/discover.go:79 +0x93
+
+goroutine 248 [select]:
+chainmaker.org/chainmaker/sync/v2/noderegistry.(*Registry).tickFire(0xc018db0b40)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/noderegistry/registry.go:148 +0x111
+chainmaker.org/chainmaker/sync/v2/internal/controller.(*GoRoutineGroup).Run.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/internal/controller/group.go:30 +0x4c
+created by chainmaker.org/chainmaker/sync/v2/internal/controller.(*GoRoutineGroup).Run in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/internal/controller/group.go:28 +0x73
+
+goroutine 249 [select]:
+chainmaker.org/chainmaker/sync/v2/internal/queue.(*DelayQueue).Take(0xc018dd3620, {0x3cfeac0, 0xc0004f3950})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/internal/queue/delay_queue.go:86 +0x1c6
+chainmaker.org/chainmaker/sync/v2/noderegistry.(*delayQueue).Take(...)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/noderegistry/registry.go:347
+chainmaker.org/chainmaker/sync/v2/noderegistry.(*Registry).clearDeadNodeFromConsistentEngine(0xc018db0b40)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/noderegistry/registry.go:202 +0x3b
+chainmaker.org/chainmaker/sync/v2/internal/controller.(*GoRoutineGroup).Run.func1()
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/internal/controller/group.go:30 +0x4c
+created by chainmaker.org/chainmaker/sync/v2/internal/controller.(*GoRoutineGroup).Run in goroutine 191
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/sync/v2@v2.4.0/internal/controller/group.go:28 +0x73
+
+goroutine 277 [IO wait]:
+internal/poll.runtime_pollWait(0x769999c99c00, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc018d43580?, 0xc018e483c4?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc018d43580, {0xc018e483c4, 0x9, 0x9})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x279
+net.(*netFD).Read(0xc018d43580, {0xc018e483c4?, 0xc019013f70?, 0x2?})
+	/usr/local/go/src/net/fd_posix.go:68 +0x25
+net.(*conn).Read(0xc00007f120, {0xc018e483c4?, 0xc0190fe8c0?, 0xc019013da8?})
+	/usr/local/go/src/net/net.go:196 +0x45
+golang.org/x/net/http2/h2c.(*bufConn).Read(0x1?, {0xc018e483c4?, 0xc019013ee8?, 0x125a085?})
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/h2c/h2c.go:223 +0x93
+io.ReadAtLeast({0x7699505405d0, 0xc0192a23d8}, {0xc018e483c4, 0x9, 0x9}, 0x9)
+	/usr/local/go/src/io/io.go:335 +0x8e
+io.ReadFull(...)
+	/usr/local/go/src/io/io.go:354
+golang.org/x/net/http2.readFrameHeader({0xc018e483c4, 0x9, 0x1?}, {0x7699505405d0?, 0xc0192a23d8?})
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/frame.go:248 +0x65
+golang.org/x/net/http2.(*Framer).ReadFrameHeader(0xc018e48380)
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/frame.go:511 +0x6b
+golang.org/x/net/http2.(*Framer).ReadFrame(0xc018e48380)
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/frame.go:570 +0x18
+golang.org/x/net/http2.(*serverConn).readFrames(0xc018e325a0)
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/server.go:872 +0x87
+created by golang.org/x/net/http2.(*serverConn).serve in goroutine 259
+	/home/frankie/go/pkg/mod/golang.org/x/net@v0.50.0/http2/server.go:997 +0x690
+
+goroutine 263 [select]:
+chainmaker.org/chainmaker-go/module/rpcserver.(*ApiService).dealTransact(0xc000a86880, {0x3cfea88, 0xc019a7f4a0}, 0xc018d46f80, 0x0, 0x1)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/api_service.go:648 +0x592
+chainmaker.org/chainmaker-go/module/rpcserver.(*ApiService).invoke(0xc000a86880, {0x3cfea88, 0xc019a7f4a0}, 0xc018d46f80, 0x0, 0x1)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/api_service.go:284 +0x1fe
+chainmaker.org/chainmaker-go/module/rpcserver.(*ApiService).SendRequestSync(0xc000a86880, {0x3cfea88, 0xc019a7f4a0}, 0xc019a7f4d0)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/api_service.go:167 +0x485
+chainmaker.org/chainmaker/pb-go/v2/api._RpcNode_SendRequestSync_Handler.func1({0x3cfea88?, 0xc019a7f4a0?}, {0x3672220?, 0xc019a7f4d0?})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/pb-go/v2@v2.4.0/api/rpc_node.pb.go:454 +0xcb
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.RateLimitInterceptor.func6({0x3cfea88?, 0xc019a7f4a0?}, {0x3672220?, 0xc019a7f4d0?}, 0x0?, 0x3672220?)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/middleware.go:183 +0xdf
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.WithUnaryServerChain.ChainUnaryServer.func20.1.1({0x3cfea88?, 0xc019a7f4a0?}, {0x3672220?, 0xc019a7f4d0?})
+	/home/frankie/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.3.0/chain.go:25 +0x34
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.BlackListInterceptor.func5({0x3cfea88, 0xc019a7f4a0}, {0x3672220, 0xc019a7f4d0}, 0xc000a9dc00, 0xc000a9dc20)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/middleware.go:204 +0x1d2
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.WithUnaryServerChain.ChainUnaryServer.func20.1.1({0x3cfea88?, 0xc019a7f4a0?}, {0x3672220?, 0xc019a7f4d0?})
+	/home/frankie/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.3.0/chain.go:25 +0x34
+chainmaker.org/chainmaker-go/module/rpcserver.LoggingInterceptor({0x3cfea88, 0xc019a7f4a0}, {0x3672220, 0xc019a7f4d0}, 0xc000a9dc00, 0xc000a9dc40)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/middleware.go:78 +0x175
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.WithUnaryServerChain.ChainUnaryServer.func20.1.1({0x3cfea88?, 0xc019a7f4a0?}, {0x3672220?, 0xc019a7f4d0?})
+	/home/frankie/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.3.0/chain.go:25 +0x34
+chainmaker.org/chainmaker-go/module/rpcserver.RecoveryInterceptor({0x3cfea88?, 0xc019a7f4a0?}, {0x3672220?, 0xc019a7f4d0?}, 0xc000539808?, 0xc000a9dc00?)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/rpcserver/middleware.go:96 +0x71
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.WithUnaryServerChain.ChainUnaryServer.func20.1.1({0x3cfea88?, 0xc019a7f4a0?}, {0x3672220?, 0xc019a7f4d0?})
+	/home/frankie/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.3.0/chain.go:25 +0x34
+chainmaker.org/chainmaker-go/module/rpcserver.newGrpc.WithUnaryServerChain.ChainUnaryServer.func20({0x3cfea88, 0xc019a7f4a0}, {0x3672220, 0xc019a7f4d0}, 0x1216a25?, 0x60?)
+	/home/frankie/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.3.0/chain.go:34 +0xaa
+chainmaker.org/chainmaker/pb-go/v2/api._RpcNode_SendRequestSync_Handler({0x3719f60, 0xc000a86880}, {0x3cfea88, 0xc019a7f4a0}, 0xc019346900, 0xc018e2e630)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/pb-go/v2@v2.4.0/api/rpc_node.pb.go:456 +0x143
+google.golang.org/grpc.(*Server).processUnaryRPC(0xc013867340, {0x3d120a0, 0xc0004ffa70}, 0xc017d1d7a0, 0xc018e7eae0, 0x53ec5f8, 0x0)
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/server.go:1283 +0xca7
+google.golang.org/grpc.(*Server).handleStream(0xc013867340, {0x3d120a0, 0xc0004ffa70}, 0xc017d1d7a0, 0x0)
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/server.go:1620 +0x9c8
+google.golang.org/grpc.(*Server).serveStreams.func1.2()
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/server.go:922 +0x87
+created by google.golang.org/grpc.(*Server).serveStreams.func1 in goroutine 260
+	/home/frankie/go/pkg/mod/google.golang.org/grpc@v1.47.0/server.go:920 +0x226
+
+goroutine 470 [chan receive]:
+chainmaker.org/chainmaker-go/module/core/common/scheduler.(*TxScheduler).Schedule(0xc0001234d0, 0xc019cfc210, {0xc0001bc7c8, 0x1, 0x1}, {0x3d1e8c0, 0xc000555520})
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/common/scheduler/scheduler.go:174 +0xc78
+chainmaker.org/chainmaker-go/module/core/common.(*BlockBuilder).GenerateNewBlock(0xc018db0500, 0x1, {0xc0013549e0, 0x20, 0x20}, {0xc0001bc7c8, 0x1, 0x1}, {0x0, 0x0, ...}, ...)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/common/block_helper.go:149 +0x2ad
+chainmaker.org/chainmaker-go/module/core/syncmode/proposer.(*BlockProposerImpl).generateNewBlock(...)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/syncmode/proposer/block_generator.go:17
+chainmaker.org/chainmaker-go/module/core/syncmode/proposer.(*BlockProposerImpl).proposing(0xc000554d00, 0x1, {0xc0013549e0, 0x20, 0x20})
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/syncmode/proposer/block_proposer_impl.go:385 +0x9b1
+chainmaker.org/chainmaker-go/module/core/syncmode/proposer.(*BlockProposerImpl).proposeBlock.func3()
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/syncmode/proposer/block_proposer_impl.go:294 +0x2e
+chainmaker.org/chainmaker-go/module/core/syncmode/proposer.(*BlockProposerImpl).run35c.func1()
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/syncmode/proposer/block_proposer_impl.go:829 +0x50
+created by chainmaker.org/chainmaker-go/module/core/syncmode/proposer.(*BlockProposerImpl).run35c in goroutine 469
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/syncmode/proposer/block_proposer_impl.go:829 +0x76
+
+goroutine 469 [chan receive]:
+chainmaker.org/chainmaker-go/module/core/syncmode/proposer.(*BlockProposerImpl).proposeBlock(0xc000554d00)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/syncmode/proposer/block_proposer_impl.go:302 +0x1b1
+chainmaker.org/chainmaker-go/module/core/syncmode/proposer.(*BlockProposerImpl).run35c.func1()
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/syncmode/proposer/block_proposer_impl.go:829 +0x50
+created by chainmaker.org/chainmaker-go/module/core/syncmode/proposer.(*BlockProposerImpl).run35c in goroutine 234
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/syncmode/proposer/block_proposer_impl.go:829 +0x76
+
+goroutine 472 [chan receive]:
+github.com/panjf2000/ants/v2.(*Pool).purgePeriodically(0xc0009bea80)
+	/home/frankie/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.8/pool.go:69 +0x77
+created by github.com/panjf2000/ants/v2.NewPool in goroutine 470
+	/home/frankie/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.8/pool.go:137 +0x319
+
+goroutine 475 [select]:
+chainmaker.org/chainmaker/vm-wasmer/v2.(*SafeFreshOwner).Do(0xc0007d18f0, {0x3cfe970, 0x5b280a0}, 0xc0009bee00)
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/step34_owner.go:130 +0x385
+chainmaker.org/chainmaker/vm-wasmer/v2.(*nodeFreshRuntime).Invoke(0xc01387d3b0, 0xc00136a840, {0x375d531, 0xd}, {0xc019e00000, 0x45e54b, 0x460000}, 0xc019cfdc80, {0x3d2b060, 0xc018e75900}, ...)
+	/home/frankie/mygitprojects/.worktrees/cvw-step39c/experiments/instance-lifecycle/step-39c-node-e2e-sha-acopy/source/vm/step35_node.go:213 +0x489
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).invokeUserContractByRuntime(0xc0007dd200, 0xc00136a840, {0x375d531, 0xd}, 0xc019cfdc80, {0x3d2b060, 0xc018e75900}, {0xc019e00000, 0x45e54b, 0x460000}, ...)
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:433 +0xac3
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).runUserContract(0xc0007dd200, 0xc00136a840, {0x375d531, 0xd}, {0xc019e00000, 0x45e54b, 0x460000}, 0xc019cfdc80, {0x3d2b060, 0xc018e75900}, ...)
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:353 +0xd1
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).RunContract(0xc0007dd200, 0xc00136a840, {0x375d531, 0xd}, {0xc019e00000, 0x45e54b, 0x460000}, 0xc019cfdc80, {0x3d2b060, 0xc018e75900}, ...)
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:287 +0x8eb
+chainmaker.org/chainmaker/vm/v2.(*txSimContextImpl).CallContract(0xc018e75900, 0xc00136a8f0, 0xc00136a840, {0x375d531, 0xd}, {0xc019e00000, 0x45e54b, 0x460000}, 0xc019cfdc80, 0x0, ...)
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/tx_sim_context.go:1002 +0x923
+chainmaker.org/chainmaker/vm-native/v2/contractmgr.(*ContractManagerRuntime).install(0xc000a46430, {0x3d2b060, 0xc018e75900}, {0xc00b67c318, 0x7}, {0xc00b67c320, 0x5}, {0xc019e00000, 0x45e54b, 0x460000}, ...)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/vm-native/v2@v2.4.0/contractmgr/contract_manager.go:867 +0x1f1
+chainmaker.org/chainmaker/vm-native/v2/contractmgr.(*ContractManagerRuntime).installContract(0xc000a46430, {0x3d2b060, 0xc018e75900}, 0xc019cfdc80)
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/vm-native/v2@v2.4.0/contractmgr/contract_manager.go:415 +0x795
+chainmaker.org/chainmaker/vm-native/v2.(*RuntimeInstance).Invoke(0xc013862700, 0xc00136a790, {0xc00b66ec20, 0xd}, {0x700c000000000?, 0x76995060e790?, 0x12070d5?}, 0xc019cfdc80, {0x3d2b060, 0xc018e75900})
+	/home/frankie/go/pkg/mod/chainmaker.org/chainmaker/vm-native/v2@v2.4.0/native.go:333 +0x269
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).runNativeContract(0xc0007dd200, 0xc00136a790, {0xc00b66ec20, 0xd}, 0xc019cfdc80, {0x3d2b060, 0xc018e75900}, 0x38f5)
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:310 +0x2aa
+chainmaker.org/chainmaker/vm/v2.(*VmManagerImpl).RunContract(0xc0007dd200, 0xc00136a790, {0xc00b66ec20, 0xd}, {0x0, 0x0, 0x0}, 0xc019cfdc80, {0x3d2b060, 0xc018e75900}, ...)
+	/home/frankie/mygitprojects/.worktrees/cvw-step21c/chainmaker/chainmaker-vm-wasmer/vm/v2@v2.4.0/vm_factory.go:266 +0x675
+chainmaker.org/chainmaker-go/module/core/common/scheduler.(*TxScheduler).runVM2300(0xc0001234d0, 0xc018d46f80, {0x3d2b060, 0xc018e75900}, 0x0)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/common/scheduler/run_vm.go:258 +0xa9f
+chainmaker.org/chainmaker-go/module/core/common/scheduler.(*TxScheduler).executeTx(0xc0001234d0, 0xc018d46f80, {0x3d1e8c0, 0xc000555520}, 0xc019cfc210, 0x0)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/common/scheduler/scheduler.go:695 +0x96c
+chainmaker.org/chainmaker-go/module/core/common/scheduler.handleTx(0xc019cfc210, {0x3d1e8c0, 0xc000555520}, 0xc0001234d0, 0xc018d46f80, 0xc0009bebd0, 0xc018fd37a0, 0xc0009bea80, 0x1, 0x0, ...)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/common/scheduler/scheduler.go:305 +0xf4
+chainmaker.org/chainmaker-go/module/core/common/scheduler.(*TxScheduler).startTxHandler.func1()
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/common/scheduler/scheduler.go:212 +0x72
+github.com/panjf2000/ants/v2.(*goWorker).run.func1()
+	/home/frankie/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.8/worker.go:70 +0x8a
+created by github.com/panjf2000/ants/v2.(*goWorker).run in goroutine 474
+	/home/frankie/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.8/worker.go:48 +0x5c
+
+goroutine 474 [select]:
+chainmaker.org/chainmaker-go/module/core/common/scheduler.(*TxScheduler).startTxHandler(0xc0001234d0, 0xc0009bebd0, 0xc019cfc210, {0x3d1e8c0, 0xc000555520}, 0xc018fd37a0, 0xc0009bea80, 0x0, 0x0, 0x0, ...)
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/common/scheduler/scheduler.go:207 +0x126
+created by chainmaker.org/chainmaker-go/module/core/common/scheduler.(*TxScheduler).Schedule in goroutine 470
+	/home/frankie/mygitprojects/.worktrees/node-step39d/module/core/common/scheduler/scheduler.go:170 +0xc65
+
+STEP39D_STACK_END 18e48638d2ed722fca3b8406110331a1f41123a7f0264475a75d70b39983bb38
+STEP35 {"contract":"compute","copy":false,"event":"module_prepared","go_heap":481229296,"go_heap_released":2719744,"go_heap_sys":485425152,"go_num_gc":6,"instances_closed":0,"instances_created":0,"key":"step35/compute/1.0.0/9907a5b55641b1b0e9a52dd951d19cf9278c60a58f966aad2d865cfad3dfaa87/native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36/copy=false","managed_pending":5,"prepare_ns":508302017,"source_sha":"9907a5b55641b1b0e9a52dd951d19cf9278c60a58f966aad2d865cfad3dfaa87","stores_closed":0,"stores_created":1,"wall_ns":1793706130763422801}
+STEP35C {"contract":"compute","copy":false,"event":"vm_module_prepared","go_heap":481229296,"go_heap_released":2719744,"go_heap_sys":485425152,"go_num_gc":6,"instances_closed":0,"instances_created":0,"key":"step35/compute/1.0.0/9907a5b55641b1b0e9a52dd951d19cf9278c60a58f966aad2d865cfad3dfaa87/native6.0.1/56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc/compiler-locked/gas-step34/maxpages512/v36/copy=false","managed_pending":5,"mono_ns":2071445877611,"prepare_ns":508302017,"seq":6,"source_sha":"9907a5b55641b1b0e9a52dd951d19cf9278c60a58f966aad2d865cfad3dfaa87","stores_closed":0,"stores_created":1,"wall_ns":1793706130763512376}
+STEP35 {"callmethod_ns":79341,"close_ns":281841,"code":0,"compile_store_id":"0x769944000cc0","contract":"compute","depth":1,"error":"\u003cnil\u003e","event":"invoke_end","gas":0,"go_heap":481288696,"go_heap_released":2670592,"go_heap_sys":485392384,"go_num_gc":6,"instance_id":1,"instances_closed":1,"instances_created":1,"invoke_ns":514547585,"managed_pending":5,"method":"init_contract","mono_ns":2070936530675,"newinstance_ns":2367361,"s1_ns":512571274,"s2_ns":514171217,"seq":4,"start_ns":1577633,"store_id":"0x769944051970","stores_closed":1,"stores_created":2,"tx_id":"18e48638d2ed722fca3b8406110331a1f41123a7f0264475a75d70b39983bb38","wall_ns":1793706130768587145}
+STEP35C {"callmethod_ns":79341,"close_ns":281841,"code":0,"compile_store_id":"0x769944000cc0","contract":"compute","depth":1,"error":"\u003cnil\u003e","event":"vm_invoke_end","gas":0,"go_heap":481288696,"go_heap_released":2670592,"go_heap_sys":485392384,"go_num_gc":6,"instance_id":1,"instances_closed":1,"instances_created":1,"invoke_ns":514547585,"managed_pending":5,"method":"init_contract","mono_ns":2071450993452,"newinstance_ns":2367361,"s1_ns":512571274,"s2_ns":514171217,"seq":7,"start_ns":1577633,"store_id":"0x769944051970","stores_closed":1,"stores_created":2,"tx_id":"18e48638d2ed722fca3b8406110331a1f41123a7f0264475a75d70b39983bb38","wall_ns":1793706130768628146}
+REUSE_VM tx=18e48638d2ed722fca3b8406110331a1f41123a7f0264475a75d70b39983bb38 contract=compute method=init_contract begin_ns=1793706130250453165 end_ns=1793706130768675885 code=0 gas=0 depth=1
+STEP35C {"event":"proposer_ready","mono_ns":2071458369434,"ready":false,"seq":8,"wall_ns":1793706130776004956}
+STEP35C {"event":"proposer_ready","mono_ns":2071462129997,"ready":false,"seq":9,"wall_ns":1793706130779765377}
+STEP35C {"event":"commit_received","mono_ns":2071485372908,"seq":10,"wall_ns":1793706130803009551}
+STEP35C {"event":"commit_job_begin","mono_ns":2071485414516,"seq":11,"wall_ns":1793706130803048969}
+STEP35C {"event":"put_begin","height":1,"mode":0,"mono_ns":2071485568836,"seq":12,"txs":1,"wall_ns":1793706130803204882}
+STEP35C {"event":"db_write_begin","height":1,"mono_ns":2071525049177,"seq":13,"wall_ns":1793706130842684451}
+STEP35C {"event":"db_write_end","height":1,"mono_ns":2071525284218,"seq":14,"wall_ns":1793706130842918936}
+STEP35C {"event":"put_end","height":1,"mono_ns":2071540894099,"seq":15,"wall_ns":1793706130858528880}
+STEP35C {"event":"commit_job_end","mono_ns":2071540983146,"seq":16,"wall_ns":1793706130858617482}
+STEP35C {"event":"wal_cleanup_begin","mono_ns":2071541051736,"seq":17,"wall_ns":1793706130858687524}
+STEP35C {"event":"wal_cleanup_end","mono_ns":2071541084484,"seq":18,"wall_ns":1793706130858718945}
+STEP35C {"event":"rpc_tx_end","method":"SendRequestSync","mono_ns":2071541104369,"seq":19,"tx_id":"18e48638d2ed722fca3b8406110331a1f41123a7f0264475a75d70b39983bb38","wall_ns":1793706130858738834}
+STEP35C {"event":"proposer_ready","mono_ns":2071541245306,"ready":true,"seq":20,"wall_ns":1793706130858879654}
+STEP35C {"event":"rpc_request_end","method":"/api.RpcNode/SendRequestSync","mono_ns":2071541521263,"seq":21,"wall_ns":1793706130859155811}
+STEP35C {"event":"rpc_stop_begin","mono_ns":2071549374471,"seq":22,"wall_ns":1793706130867009481}
+STEP35C {"active":0,"event":"rpc_drain_begin","mono_ns":2071549396447,"seq":23,"wall_ns":1793706130867030770}
+STEP35C {"event":"rpc_drain_end","mono_ns":2071549436201,"seq":24,"wall_ns":1793706130867070519}
+STEP35C {"event":"rpc_stop_end","mono_ns":2071549440703,"seq":25,"wall_ns":1793706130867075005}
+STEP35C {"event":"module_stop_begin","module":"TxPool","mono_ns":2071549513221,"seq":26,"wall_ns":1793706130867147746}
+STEP35C {"event":"module_stop_end","module":"TxPool","mono_ns":2071549537006,"seq":27,"wall_ns":1793706130867171326}
+STEP35C {"event":"module_stop_begin","module":"Core","mono_ns":2071549540804,"seq":28,"wall_ns":1793706130867175110}
+STEP35C {"event":"core_stop_begin","mono_ns":2071549543582,"seq":29,"wall_ns":1793706130867177886}
+STEP35C {"event":"proposer_drained","mono_ns":2071549553010,"seq":30,"wall_ns":1793706130867187319}
+STEP35C {"active":0,"event":"core_drain_begin","mono_ns":2071549556170,"seq":31,"wall_ns":1793706130867190495}
+STEP35C {"active":0,"event":"core_drain_end","mono_ns":2071549558526,"seq":32,"wall_ns":1793706130867192832}
+STEP35C {"event":"core_stop_end","mono_ns":2071549560418,"seq":33,"wall_ns":1793706130867194750}
+STEP35C {"event":"module_stop_end","module":"Core","mono_ns":2071549564384,"seq":34,"wall_ns":1793706130867198705}
+STEP35C {"event":"module_stop_begin","module":"VM","mono_ns":2071549566494,"seq":35,"wall_ns":1793706130867200798}
+STEP35 {"event":"stop_requested","go_heap":492989120,"go_heap_released":7938048,"go_heap_sys":548306944,"go_num_gc":7,"inflight":0,"wall_ns":1793706130867210531}
+STEP35C {"event":"vm_stop_requested","go_heap":492989120,"go_heap_released":7938048,"go_heap_sys":548306944,"go_num_gc":7,"inflight":0,"mono_ns":2071549643024,"seq":36,"wall_ns":1793706130867277377}
+STEP35 {"artifact":{"Entries":0,"Bytes":0,"Closed":true},"event":"cache_closed","go_heap":492995000,"go_heap_released":7938048,"go_heap_sys":548306944,"go_num_gc":7,"instances_closed":1,"instances_created":1,"managed_pending":0,"stores_closed":2,"stores_created":2,"wall_ns":1793706130870720334}
+STEP35C {"artifact":{"Entries":0,"Bytes":0,"Closed":true},"event":"vm_cache_closed","go_heap":492995000,"go_heap_released":7938048,"go_heap_sys":548306944,"go_num_gc":7,"instances_closed":1,"instances_created":1,"managed_pending":0,"mono_ns":2071553146804,"seq":37,"stores_closed":2,"stores_created":2,"wall_ns":1793706130870781631}
+STEP21C {"event":"owner_closed","instances_closed":1,"instances_created":1,"managed_objects":0,"managed_pending":0,"stores_closed":2,"stores_created":2}
+STEP35 {"error":"\u003cnil\u003e","event":"stop_finished","go_heap":493003456,"go_heap_released":7938048,"go_heap_sys":548339712,"go_num_gc":7,"stop_ns":3619284,"wall_ns":1793706130870902567}
+STEP35C {"error":"\u003cnil\u003e","event":"vm_stop_finished","go_heap":493003456,"go_heap_released":7938048,"go_heap_sys":548339712,"go_num_gc":7,"mono_ns":2071553369568,"seq":38,"stop_ns":3619284,"wall_ns":1793706130871003911}
+STEP35C {"event":"module_stop_end","module":"VM","mono_ns":2071553375880,"seq":39,"wall_ns":1793706130871010204}
+STEP35C {"event":"module_stop_begin","module":"Consensus","mono_ns":2071553378907,"seq":40,"wall_ns":1793706130871013187}
+STEP35C {"event":"module_stop_end","module":"Consensus","mono_ns":2071554058383,"seq":41,"wall_ns":1793706130871692865}
+STEP35C {"event":"module_stop_begin","module":"NetService","mono_ns":2071554062357,"seq":42,"wall_ns":1793706130871696628}
+STEP35C {"event":"module_stop_end","module":"NetService","mono_ns":2071554112722,"seq":43,"wall_ns":1793706130871747041}
+STEP35C {"event":"module_stop_begin","module":"Store","mono_ns":2071554114507,"seq":44,"wall_ns":1793706130871748821}
+STEP35C {"active":0,"event":"ledger_drain_begin","mono_ns":2071554121296,"seq":45,"wall_ns":1793706130871755571}
+STEP35C {"active":0,"event":"ledger_drain_end","mono_ns":2071554125508,"seq":46,"wall_ns":1793706130871759784}
+STEP35C {"event":"db_close_begin","mono_ns":2071554126917,"seq":47,"wall_ns":1793706130871761188}
+STEP35C {"event":"archive_workers_drained","mono_ns":2071554146839,"seq":48,"wall_ns":1793706130871781172}
+STEP35C {"event":"db_close_end","mono_ns":2071554549379,"seq":49,"wall_ns":1793706130872183762}
+STEP35C {"event":"module_stop_end","module":"Store","mono_ns":2071554553952,"seq":50,"wall_ns":1793706130872188258}
+STEP35C {"error":"http: Server closed","event":"diagnostic_server_exit","mono_ns":2071554680584,"seq":51,"wall_ns":1793706130872315147}
+STEP35C {"event":"diagnostic_stopped","mono_ns":2071554690565,"seq":52,"wall_ns":1793706130872324939}
+ChainMaker exit
