@@ -55,8 +55,8 @@ package wasmer
 import "C"
 
 import (
+	"fmt"
 	"reflect"
-	"runtime"
 	"unsafe"
 )
 
@@ -117,6 +117,7 @@ type WasiStateBuilder struct {
 //
 //	wasiStateBuilder := NewWasiStateBuilder("test-program")
 func NewWasiStateBuilder(programName string) *WasiStateBuilder {
+	ManagedAssert()
 	cProgramName := C.CString(programName)
 	defer C.free(unsafe.Pointer(cProgramName))
 	wasiConfig := C.wasi_config_new(cProgramName)
@@ -263,6 +264,7 @@ func (self *WasiStateBuilder) inner() *C.wasi_config_t {
 // user-defined host function; that's the same idea here but applied
 // to WASI functions and other imports).
 type WasiEnvironment struct {
+	_store *C.wasm_store_t
 	_inner *C.wasi_env_t
 }
 
@@ -278,29 +280,48 @@ func newWasiEnvironment(stateBuilder *WasiStateBuilder, store *C.wasm_store_t) (
 		return nil, err
 	}
 
+	ManagedWasiCreated++
 	self := &WasiEnvironment{
 		_inner: environment,
+		_store: store,
 	}
 
-	runtime.SetFinalizer(self, func(environment *WasiEnvironment) {
-		C.wasi_env_delete(environment.inner())
+	managedSetFinalizer(self, func(environment *WasiEnvironment) {
+		environment.Close()
 	})
 
 	return self, nil
 }
 
 func (self *WasiEnvironment) inner() *C.wasi_env_t {
+	ManagedAssert()
+	if self._inner == nil {
+		panic("closed WASI environment")
+	}
 	return self._inner
 }
 
 func (self *WasiEnvironment) Initialize(store *Store, instance *Instance) error {
+	ManagedAssert()
+	if self._inner == nil || self._store != store.Inner() || instance == nil || instance.Exports == nil || instance.Exports._store != store {
+		return fmt.Errorf("WASI Store/Instance mismatch or closed environment")
+	}
+	// The bundled C API unwraps a missing memory and aborts the process. Reject
+	// this invalid initialization before entering that API so rollback can run.
+	memory, err := instance.Exports.GetMemory("memory")
+	if err != nil {
+		return fmt.Errorf("WASI requires exported memory: %w", err)
+	}
+	if memory == nil {
+		return fmt.Errorf("WASI memory export has wrong type")
+	}
 
-	err := maybeNewErrorFromWasmer(func() bool {
+	nativeErr := maybeNewErrorFromWasmer(func() bool {
 		//lint:ignore S1002 simplifying this expression breaks compilation
 		return false == C.wasi_env_initialize_instance(self.inner(), store.inner(), instance.inner())
 	})
-	if err != nil {
-		return err
+	if nativeErr != nil {
+		return nativeErr
 	}
 	return nil
 }
@@ -366,8 +387,14 @@ func buildByteSliceFromCBuffer(buffer *C.char, length int) []byte {
 //
 //	start()
 func (self *WasiEnvironment) GenerateImportObject(store *Store, module *Module) (*ImportObject, error) {
+	ManagedAssert()
+	if self._inner == nil || store == nil || self._store != store.Inner() || module == nil || module.store == nil || module.store.Engine != store.Engine {
+		return nil, fmt.Errorf("WASI import Store/Engine mismatch or closed environment")
+	}
+
 	var wasiNamedExterns C.wasmer_named_extern_vec_t
 	C.wasmer_named_extern_vec_new_empty(&wasiNamedExterns)
+	defer C.wasmer_named_extern_vec_delete(&wasiNamedExterns)
 
 	err := maybeNewErrorFromWasmer(func() bool {
 		//lint:ignore S1002 simplifying this expression breaks compilation
@@ -390,6 +417,7 @@ func (self *WasiEnvironment) GenerateImportObject(store *Store, module *Module) 
 		module := nameToString(C.wasmer_named_extern_module(currentNamedExtern))
 		name := nameToString(C.wasmer_named_extern_name(currentNamedExtern))
 		extern := newExtern(C.wasm_extern_copy(C.wasmer_named_extern_unwrap(currentNamedExtern)), nil)
+		extern._store = store
 
 		_, exists := importObject.externs[module]
 
@@ -400,7 +428,14 @@ func (self *WasiEnvironment) GenerateImportObject(store *Store, module *Module) 
 		importObject.externs[module][name] = extern
 	}
 
-	C.wasmer_named_extern_vec_delete(&wasiNamedExterns)
-
 	return importObject, nil
+}
+
+func (self *WasiEnvironment) Close() {
+	if !managedSetFinalizer(self, nil) {
+		return
+	}
+	C.wasi_env_delete(self._inner)
+	ManagedWasiClosed++
+	self._inner = nil
 }

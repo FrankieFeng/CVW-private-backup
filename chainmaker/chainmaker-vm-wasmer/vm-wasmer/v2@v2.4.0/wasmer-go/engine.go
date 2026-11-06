@@ -2,7 +2,6 @@ package wasmer
 
 // #include <wasmer.h>
 import "C"
-import "runtime"
 
 // Engine is used by the Store to drive the compilation and the
 // execution of a WebAssembly module.
@@ -15,7 +14,7 @@ func newEngine(engine *C.wasm_engine_t) *Engine {
 		_inner: engine,
 	}
 
-	runtime.SetFinalizer(self, func(self *Engine) {
+	managedSetFinalizer(self, func(self *Engine) {
 		C.wasm_engine_delete(self.inner())
 	})
 
@@ -26,6 +25,7 @@ func newEngine(engine *C.wasm_engine_t) *Engine {
 //
 //	engine := NewEngine()
 func NewEngine() *Engine {
+	ManagedAssert()
 	return newEngine(C.wasm_engine_new())
 }
 
@@ -34,6 +34,7 @@ func NewEngine() *Engine {
 //	config := NewConfig()
 //	engine := NewEngineWithConfig(config)
 func NewEngineWithConfig(config *Config) *Engine {
+	ManagedAssert()
 	return newEngine(C.wasm_engine_new_with_config(config.inner()))
 }
 
@@ -41,6 +42,7 @@ func NewEngineWithConfig(config *Config) *Engine {
 //
 //	engine := NewUniversalEngine()
 func NewUniversalEngine() *Engine {
+	ManagedAssert()
 	config := NewConfig()
 	config.UseUniversalEngine()
 
@@ -51,6 +53,7 @@ func NewUniversalEngine() *Engine {
 //
 //	engine := NewDylibEngine()
 func NewDylibEngine() *Engine {
+	ManagedAssert()
 	config := NewConfig()
 	config.UseDylibEngine()
 

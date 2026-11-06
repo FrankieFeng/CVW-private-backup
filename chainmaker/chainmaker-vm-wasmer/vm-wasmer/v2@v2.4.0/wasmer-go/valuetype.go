@@ -108,7 +108,7 @@ func newValueType(pointer *C.wasm_valtype_t, ownedBy interface{}) *ValueType {
 	valueType := &ValueType{_inner: pointer, _ownedBy: ownedBy}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(valueType, func(valueType *ValueType) {
+		managedSetFinalizer(valueType, func(valueType *ValueType) {
 			C.wasm_valtype_delete(valueType.inner())
 		})
 	}

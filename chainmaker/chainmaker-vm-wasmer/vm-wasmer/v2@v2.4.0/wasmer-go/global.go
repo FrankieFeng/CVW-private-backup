@@ -13,16 +13,19 @@ import (
 //
 // https://webassembly.github.io/spec/core/syntax/modules.html#globals
 type Global struct {
+	_store   *Store
+	_scope   *ManagedScope
 	_inner   *C.wasm_global_t
 	_ownedBy interface{}
 }
 
 func newGlobal(pointer *C.wasm_global_t, ownedBy interface{}) *Global {
-	global := &Global{_inner: pointer, _ownedBy: ownedBy}
+	global := &Global{_scope: managedCurrent, _inner: pointer, _ownedBy: ownedBy}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(global, func(global *Global) {
-			C.wasm_global_delete(global.inner())
+		managedSetFinalizer(global, func(global *Global) {
+			C.wasm_global_delete(global._inner)
+			global._inner = nil
 		})
 	}
 
@@ -37,16 +40,27 @@ func newGlobal(pointer *C.wasm_global_t, ownedBy interface{}) *Global {
 //	globalType := NewGlobalType(valueType, CONST)
 //	global := NewGlobal(store, globalType, NewValue(42, I32))
 func NewGlobal(store *Store, ty *GlobalType, value Value) *Global {
+	ManagedAssert()
 	pointer := C.wasm_global_new(
 		store.Inner(),
 		ty.inner(),
 		value.inner(),
 	)
 
-	return newGlobal(pointer, nil)
+	v := newGlobal(pointer, nil)
+	v._store = store
+	return v
 }
 
 func (self *Global) inner() *C.wasm_global_t {
+	ManagedAssert()
+	if self._store != nil && self._store._inner == nil {
+		panic("closed Global Store")
+	}
+	if self._scope == nil || self._scope.closed {
+		panic("closed Global scope")
+	}
+	managedBorrowAlive(self._ownedBy)
 	return self._inner
 }
 

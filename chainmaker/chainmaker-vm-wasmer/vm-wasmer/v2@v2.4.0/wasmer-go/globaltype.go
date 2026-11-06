@@ -42,7 +42,7 @@ func newGlobalType(pointer *C.wasm_globaltype_t, ownedBy interface{}) *GlobalTyp
 	globalType := &GlobalType{_inner: pointer, _ownedBy: ownedBy}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(globalType, func(globalType *GlobalType) {
+		managedSetFinalizer(globalType, func(globalType *GlobalType) {
 			C.wasm_globaltype_delete(globalType.inner())
 		})
 	}

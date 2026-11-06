@@ -1,0 +1,843 @@
+--- step36/managed.go
++++ port/managed.go
+@@ -1,35 +1,40 @@
+ package wasmer
+ 
+-// Experimental deterministic finalizer ownership. Never install a Go native finalizer.
++// Deterministic native ownership. Native handles are confined to one locked OS thread.
+ import (
++	"errors"
+ 	"fmt"
+ 	"reflect"
++	"sync/atomic"
+ 	"syscall"
+ )
+ 
+ type managedEntry struct {
+ 	object, fn interface{}
++	scope      *ManagedScope
+ 	live       bool
+ }
+ type ManagedScope struct {
+-	entries []*managedEntry
+-	closed  bool
+-	parent  *ManagedScope
+-	label   string
+-}
+-
+-var managedOwner int
++	entries  []*managedEntry
++	closed   bool
++	parent   *ManagedScope
++	label    string
++	closeErr error
++}
++
++var managedOwner atomic.Int64
++var managedFailure error
+ var managedCurrent *ManagedScope
+ var managedEntries = map[interface{}]*managedEntry{}
+ 
+ func ManagedBeginOwner() {
+-	if managedOwner != 0 {
++	if managedOwner.Load() != 0 {
+ 		panic("owner already exists")
+ 	}
+-	managedOwner = syscall.Gettid()
++	managedOwner.Store(int64(syscall.Gettid()))
+ }
+ func ManagedAssert() {
+-	if managedOwner == 0 || syscall.Gettid() != managedOwner {
++	if managedOwner.Load() == 0 || int64(syscall.Gettid()) != managedOwner.Load() {
+ 		panic("native owner thread violation")
+ 	}
+ }
+@@ -52,6 +57,16 @@
+ 	ManagedAssert()
+ 	if fn == nil {
+ 		if e := managedEntries[obj]; e != nil {
++			switch obj.(type) {
++			case *Store, *Instance, *Exports, *ImportObject, *WasiEnvironment:
++				for active, n := range managedCallDepth {
++					for parent := active; parent != nil; parent = parent.parent {
++						if parent == e.scope && n != 0 {
++							panic("close while descendant native call active")
++						}
++					}
++				}
++			}
+ 			e.live = false
+ 			delete(managedEntries, obj)
+ 			return true
+@@ -61,29 +76,37 @@
+ 	if managedCurrent == nil || managedCurrent.closed {
+ 		panic("native allocation outside managed scope")
+ 	}
+-	if len(managedEntries) >= 8192 || len(managedCurrent.entries) >= 8192 {
+-		panic("bounded native registry full")
+-	}
+ 	if _, ok := managedEntries[obj]; ok {
+ 		panic("duplicate finalizer registration")
+ 	}
+-	e := &managedEntry{object: obj, fn: fn, live: true}
++	e := &managedEntry{object: obj, fn: fn, live: true, scope: managedCurrent}
+ 	managedCurrent.entries = append(managedCurrent.entries, e)
+ 	managedEntries[obj] = e
+ 	return true
+ }
+ func (s *ManagedScope) Close() (err error) {
+ 	ManagedAssert()
++	for active, n := range managedCallDepth {
++		for parent := active; parent != nil; parent = parent.parent {
++			if parent == s && n != 0 {
++				return fmt.Errorf("close while descendant native call active")
++			}
++		}
++	}
+ 	if managedCallDepth[s] != 0 {
+ 		return fmt.Errorf("close while native call active")
+ 	}
+ 	if s.closed {
+-		return nil
++		return s.closeErr
+ 	}
+ 	old := managedCurrent
+ 	managedCurrent = s
+ 	defer func() {
+ 		s.closed = true
++		s.closeErr = err
++		if err != nil {
++			managedFailure = errors.Join(managedFailure, err)
++		}
+ 		managedCurrent = old
+ 		if old == s {
+ 			managedCurrent = s.parent
+@@ -97,7 +120,7 @@
+ 		func() {
+ 			defer func() {
+ 				if r := recover(); r != nil {
+-					err = fmt.Errorf("scope %s cleanup panic: %v", s.label, r)
++					err = errors.Join(err, fmt.Errorf("scope %s cleanup panic: %v", s.label, r))
+ 				}
+ 			}()
+ 			reflect.ValueOf(e.fn).Call([]reflect.Value{reflect.ValueOf(e.object)})
+@@ -115,7 +138,8 @@
+ 		panic("native cleanup registry not empty")
+ 	}
+ 	managedCurrent = nil
+-	managedOwner = 0
++	managedFailure = nil
++	managedOwner.Store(0)
+ }
+ func (s *ManagedScope) Suspend() {
+ 	ManagedAssert()
+@@ -154,6 +178,8 @@
+ func managedBorrowAlive(owner interface{}) {
+ 	ManagedAssert()
+ 	switch x := owner.(type) {
++	case nil:
++		return
+ 	case *Exports:
+ 		if managedEntries[x] == nil || (x._store != nil && x._store._inner == nil) {
+ 			panic("closed exports/Store")
+@@ -168,3 +194,16 @@
+ 		}
+ 	}
+ }
++
++var ManagedWasiCreated, ManagedWasiClosed, ManagedImportContainersCreated, ManagedImportContainersClosed uint64
++
++// ManagedFailure retains native cleanup failures until the owner has shut down.
++func ManagedFailure() error { ManagedAssert(); return managedFailure }
++
++// ManagedHostFunctionCount exposes request callback registrations for lifecycle audits.
++func ManagedHostFunctionCount() int {
++	ManagedAssert()
++	hostFunctionStore.RLock()
++	defer hostFunctionStore.RUnlock()
++	return len(hostFunctionStore.functions)
++}
+--- step36/instance.go
++++ port/instance.go
+@@ -5,6 +5,7 @@
+ import "fmt"
+ 
+ type Instance struct {
++	_store  *Store
+ 	_inner  *C.wasm_instance_t
+ 	Exports *Exports
+ 
+@@ -26,16 +27,22 @@
+ //	importObject := wasmer.NewImportObject()
+ //	instance, err := wasmer.NewInstance(module, importObject)
+ func NewInstance(module *Module, imports *ImportObject) (*Instance, error) {
++	if module == nil {
++		return nil, fmt.Errorf("nil Module")
++	}
+ 	return NewInstanceInStore(module, imports, module.store)
+ }
+ 
+ // NewInstanceInStore uses the actual target native Store; all imports must belong to it.
+ func NewInstanceInStore(module *Module, imports *ImportObject, store *Store) (*Instance, error) {
+ 	ManagedAssert()
+-	if store == nil || store._inner == nil || module == nil || module._inner == nil || store.Engine != module.store.Engine {
++	if store == nil || store._inner == nil || module == nil || module._inner == nil || module.store == nil || store.Engine != module.store.Engine || imports == nil {
+ 		return nil, fmt.Errorf("closed/mismatched engine Store/Module")
+ 	}
+ 
++	if err := imports.validateStore(store); err != nil {
++		return nil, err
++	}
+ 	var traps *C.wasm_trap_t
+ 	externs, err := imports.intoInner(module)
+ 	if err != nil {
+@@ -65,6 +72,7 @@
+ 
+ 	self := &Instance{
+ 		_inner:  instance,
++		_store:  store,
+ 		Exports: nil,
+ 		imports: imports,
+ 	}
+@@ -81,7 +89,7 @@
+ 
+ func (self *Instance) inner() *C.wasm_instance_t {
+ 	ManagedAssert()
+-	if self._inner == nil {
++	if self._inner == nil || self._store == nil || self._store._inner == nil {
+ 		panic("closed Instance")
+ 	}
+ 	return self._inner
+@@ -148,9 +156,7 @@
+ 
+ // Close the instance
+ //
+-// A runtime finalizer is registered on the Instance, but it is
+-// possible to force the destruction of the Instance by calling Close
+-// manually.
++// A managed scope owns the Instance. Close may release it early on the owner thread.
+ func (self *Instance) Close() {
+ 	if !managedSetFinalizer(self, nil) {
+ 		return
+--- step36/store.go
++++ port/store.go
+@@ -24,6 +24,7 @@
+ //	engine := NewEngine()
+ //	store := NewStore(engine)
+ func NewStore(engine *Engine) *Store {
++	ManagedAssert()
+ 	self := &Store{
+ 		_inner: C.wasm_store_new(engine.inner()),
+ 		Engine: engine,
+@@ -43,9 +44,6 @@
+ func (self *Store) inner() *C.wasm_store_t {
+ 	return self.Inner()
+ }
+-func (self *Store) unusedInner() *C.wasm_store_t {
+-	return self._inner
+-}
+ 
+ func (self *Store) Inner() *C.wasm_store_t {
+ 	ManagedAssert()
+@@ -57,8 +55,7 @@
+ 
+ // Close the store forcingly
+ //
+-// A runtime finalizer is registered on the Store, but it is possible
+-// to force the destruction of the Store by calling Close manually.
++// A managed scope owns the Store. Close may release it early on the owner thread.
+ func (self *Store) Close() {
+ 	if !managedSetFinalizer(self, nil) {
+ 		return
+--- step36/function.go
++++ port/function.go
+@@ -1,6 +1,8 @@
+ package wasmer
+ 
+ // #include <wasmer.h>
++// #include <stdlib.h>
++// typedef struct { uint32_t index; } go_function_env;
+ //
+ // extern wasm_trap_t* function_trampoline(
+ //   void *environment,
+@@ -32,6 +34,7 @@
+ 
+ // Function is a WebAssembly function instance.
+ type Function struct {
++	_store        *Store
+ 	_managedScope *ManagedScope
+ 	_managedName  string
+ 	_inner        *C.wasm_func_t
+@@ -56,7 +59,12 @@
+ 				hostFunctionStore.remove(self.environment.hostFunctionStoreIndex)
+ 			}
+ 
+-			C.wasm_func_delete(self.inner())
++			C.wasm_func_delete(self._inner)
++			self._inner = nil
++			if self.environment != nil {
++				C.free(unsafe.Pointer(self.environment.inner))
++				self.environment.inner = nil
++			}
+ 		})
+ 	}
+ 
+@@ -87,31 +95,32 @@
+ //		},
+ //	)
+ func NewFunction(store *Store, ty *FunctionType, function func([]Value) ([]Value, error)) *Function {
++	ManagedAssert()
+ 	hostFunction := &hostFunction{
+ 		store:    store,
+ 		function: function,
+ 	}
+-	environment := &functionEnvironment{
+-		hostFunctionStoreIndex: hostFunctionStore.store(hostFunction),
+-	}
++	environment := newFunctionEnvironment(hostFunction)
+ 	pointer := C.wasm_func_new_with_env(
+ 		store.Inner(),
+ 		ty.inner(),
+ 		(C.wasm_func_callback_t)(C.function_trampoline),
+-		unsafe.Pointer(environment),
++		unsafe.Pointer(environment.inner),
+ 		(C.wasm_func_callback_env_finalizer_t)(C.function_environment_finalizer),
+ 	)
+ 
+ 	runtime.KeepAlive(environment)
+ 
+-	return newFunction(pointer, environment, nil)
++	f := newFunction(pointer, environment, nil)
++	f._store = store
++	return f
+ }
+ 
+ //export function_trampoline
+ func function_trampoline(env unsafe.Pointer, args *C.wasm_val_vec_t, res *C.wasm_val_vec_t) *C.wasm_trap_t {
+ 	ManagedAssert()
+-	environment := (*functionEnvironment)(env)
+-	hostFunction, err := hostFunctionStore.load(environment.hostFunctionStoreIndex)
++	index := uint32((*C.go_function_env)(env).index)
++	hostFunction, err := hostFunctionStore.load(index)
+ 	if err != nil {
+ 		panic(err)
+ 	}
+@@ -156,32 +165,33 @@
+ //		},
+ //	)
+ func NewFunctionWithEnvironment(store *Store, ty *FunctionType, userEnvironment interface{}, functionWithEnv func(interface{}, []Value) ([]Value, error)) *Function {
++	ManagedAssert()
+ 	hostFunction := &hostFunction{
+ 		store:           store,
+ 		function:        functionWithEnv,
+ 		userEnvironment: userEnvironment,
+ 	}
+-	environment := &functionEnvironment{
+-		hostFunctionStoreIndex: hostFunctionStore.store(hostFunction),
+-	}
++	environment := newFunctionEnvironment(hostFunction)
+ 	pointer := C.wasm_func_new_with_env(
+ 		store.Inner(),
+ 		ty.inner(),
+ 		(C.wasm_func_callback_t)(C.function_with_environment_trampoline),
+-		unsafe.Pointer(environment),
++		unsafe.Pointer(environment.inner),
+ 		(C.wasm_func_callback_env_finalizer_t)(C.function_environment_finalizer),
+ 	)
+ 
+ 	runtime.KeepAlive(environment)
+ 
+-	return newFunction(pointer, environment, nil)
++	f := newFunction(pointer, environment, nil)
++	f._store = store
++	return f
+ }
+ 
+ //export function_with_environment_trampoline
+ func function_with_environment_trampoline(env unsafe.Pointer, args *C.wasm_val_vec_t, res *C.wasm_val_vec_t) *C.wasm_trap_t {
+ 	ManagedAssert()
+-	environment := (*functionEnvironment)(env)
+-	hostFunction, err := hostFunctionStore.load(environment.hostFunctionStoreIndex)
++	index := uint32((*C.go_function_env)(env).index)
++	hostFunction, err := hostFunctionStore.load(index)
+ 	if err != nil {
+ 		panic(err)
+ 	}
+@@ -200,6 +210,14 @@
+ }
+ 
+ func (self *Function) inner() *C.wasm_func_t {
++	ManagedAssert()
++	managedBorrowAlive(self._ownedBy)
++	if self._managedScope == nil || self._managedScope.closed || self._inner == nil {
++		panic("closed Function")
++	}
++	if self._store != nil && self._store._inner == nil {
++		panic("closed Function Store")
++	}
+ 	return self._inner
+ }
+ 
+@@ -353,9 +371,20 @@
+ 	}
+ }
+ 
++// C stores only a C-allocated integer index, never a retained Go pointer.
+ type functionEnvironment struct {
+-	store                  *Store
++	inner                  *C.go_function_env
+ 	hostFunctionStoreIndex uint32
++}
++
++func newFunctionEnvironment(f *hostFunction) *functionEnvironment {
++	p := (*C.go_function_env)(C.malloc(C.size_t(unsafe.Sizeof(C.go_function_env{}))))
++	if p == nil {
++		panic("host callback environment allocation failed")
++	}
++	index := hostFunctionStore.store(f)
++	p.index = C.uint32_t(index)
++	return &functionEnvironment{inner: p, hostFunctionStoreIndex: index}
+ }
+ 
+ //export function_environment_finalizer
+--- step36/memory.go
++++ port/memory.go
+@@ -15,6 +15,7 @@
+ //
+ // Specification: https://webassembly.github.io/spec/core/syntax/modules.html#memories
+ type Memory struct {
++	_store   *Store
+ 	_scope   *ManagedScope
+ 	_inner   *C.wasm_memory_t
+ 	_ownedBy interface{}
+@@ -25,7 +26,8 @@
+ 
+ 	if ownedBy == nil {
+ 		managedSetFinalizer(memory, func(memory *Memory) {
+-			C.wasm_memory_delete(memory.inner())
++			C.wasm_memory_delete(memory._inner)
++			memory._inner = nil
+ 		})
+ 	}
+ 
+@@ -41,16 +43,22 @@
+ //	    wasmer.NewMemoryType(wasmer.NewLimits(1, 4)),
+ //	)
+ func NewMemory(store *Store, ty *MemoryType) *Memory {
++	ManagedAssert()
+ 	pointer := C.wasm_memory_new(store.Inner(), ty.inner())
+ 
+ 	runtime.KeepAlive(store)
+ 	runtime.KeepAlive(ty)
+ 
+-	return newMemory(pointer, nil)
++	v := newMemory(pointer, nil)
++	v._store = store
++	return v
+ }
+ 
+ func (self *Memory) inner() *C.wasm_memory_t {
+ 	ManagedAssert()
++	if self._store != nil && self._store._inner == nil {
++		panic("closed Memory Store")
++	}
+ 	if self._scope == nil || self._scope.closed {
+ 		panic("closed Memory scope")
+ 	}
+--- step36/global.go
++++ port/global.go
+@@ -13,16 +13,19 @@
+ //
+ // https://webassembly.github.io/spec/core/syntax/modules.html#globals
+ type Global struct {
++	_store   *Store
++	_scope   *ManagedScope
+ 	_inner   *C.wasm_global_t
+ 	_ownedBy interface{}
+ }
+ 
+ func newGlobal(pointer *C.wasm_global_t, ownedBy interface{}) *Global {
+-	global := &Global{_inner: pointer, _ownedBy: ownedBy}
++	global := &Global{_scope: managedCurrent, _inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+ 		managedSetFinalizer(global, func(global *Global) {
+-			C.wasm_global_delete(global.inner())
++			C.wasm_global_delete(global._inner)
++			global._inner = nil
+ 		})
+ 	}
+ 
+@@ -37,16 +40,27 @@
+ //	globalType := NewGlobalType(valueType, CONST)
+ //	global := NewGlobal(store, globalType, NewValue(42, I32))
+ func NewGlobal(store *Store, ty *GlobalType, value Value) *Global {
++	ManagedAssert()
+ 	pointer := C.wasm_global_new(
+ 		store.Inner(),
+ 		ty.inner(),
+ 		value.inner(),
+ 	)
+ 
+-	return newGlobal(pointer, nil)
++	v := newGlobal(pointer, nil)
++	v._store = store
++	return v
+ }
+ 
+ func (self *Global) inner() *C.wasm_global_t {
++	ManagedAssert()
++	if self._store != nil && self._store._inner == nil {
++		panic("closed Global Store")
++	}
++	if self._scope == nil || self._scope.closed {
++		panic("closed Global scope")
++	}
++	managedBorrowAlive(self._ownedBy)
+ 	return self._inner
+ }
+ 
+--- step36/table.go
++++ port/table.go
+@@ -22,16 +22,19 @@
+ //
+ // Specification: https://webassembly.github.io/spec/core/exec/runtime.html#table-instances
+ type Table struct {
++	_store   *Store
++	_scope   *ManagedScope
+ 	_inner   *C.wasm_table_t
+ 	_ownedBy interface{}
+ }
+ 
+ func newTable(pointer *C.wasm_table_t, ownedBy interface{}) *Table {
+-	table := &Table{_inner: pointer, _ownedBy: ownedBy}
++	table := &Table{_scope: managedCurrent, _inner: pointer, _ownedBy: ownedBy}
+ 
+ 	if ownedBy == nil {
+ 		managedSetFinalizer(table, func(table *Table) {
+-			C.wasm_table_delete(table.inner())
++			C.wasm_table_delete(table._inner)
++			table._inner = nil
+ 		})
+ 	}
+ 
+@@ -39,6 +42,14 @@
+ }
+ 
+ func (self *Table) inner() *C.wasm_table_t {
++	ManagedAssert()
++	if self._store != nil && self._store._inner == nil {
++		panic("closed Table Store")
++	}
++	if self._scope == nil || self._scope.closed {
++		panic("closed Table scope")
++	}
++	managedBorrowAlive(self._ownedBy)
+ 	return self._inner
+ }
+ 
+--- step36/import_object.go
++++ port/import_object.go
+@@ -4,12 +4,14 @@
+ import "C"
+ 
+ import (
++	"fmt"
+ 	"unsafe"
+ )
+ 
+ // ImportObject contains all of the import data used when
+ // instantiating a WebAssembly module.
+ type ImportObject struct {
++	closed  bool
+ 	externs map[string]map[string]IntoExtern
+ 	_inner  *C.wasm_extern_vec_t
+ }
+@@ -18,6 +20,7 @@
+ //
+ //	imports := NewImportObject()
+ func NewImportObject() *ImportObject {
++	ManagedAssert()
+ 	ManagedImportContainersCreated++
+ 	self := &ImportObject{externs: make(map[string]map[string]IntoExtern)}
+ 	managedSetFinalizer(self, func(self *ImportObject) { self.Close() })
+@@ -35,16 +38,10 @@
+ 		name := importType.Name()
+ 		//fmt.Println(namespace, name)
+ 		if self.externs[namespace][name] == nil {
+-			//return nil, &Error{
+-			//	message: fmt.Sprintf("Missing import: `%s`.`%s`", namespace, name),
+-			//}
+-		} else {
+-			//temp := self.externs[namespace][name]
+-			//temp2 := temp.IntoExtern()
+-			//_ = temp2
+-			externs = append(externs, self.externs[namespace][name].IntoExtern().inner())
+-			numberOfExterns++
++			return nil, fmt.Errorf("missing import %s.%s", namespace, name)
+ 		}
++		externs = append(externs, self.externs[namespace][name].IntoExtern().inner())
++		numberOfExterns++
+ 
+ 	}
+ 
+@@ -91,6 +88,10 @@
+ //		},
+ //	)
+ func (self *ImportObject) Register(namespaceName string, namespace map[string]IntoExtern) {
++	ManagedAssert()
++	if self.closed {
++		panic("closed Imports")
++	}
+ 	_, exists := self.externs[namespaceName]
+ 
+ 	if !exists {
+@@ -107,6 +108,7 @@
+ 	if !managedSetFinalizer(self, nil) {
+ 		return
+ 	}
++	self.closed = true
+ 	ManagedImportContainersClosed++
+ 	for _, namespace := range self.externs {
+ 		for name, _ := range namespace {
+@@ -118,3 +120,53 @@
+ 		self._inner = nil
+ 	}
+ }
++
++// Reject cross-Store imports before passing native pointers to Wasmer.
++func (self *ImportObject) validateStore(store *Store) error {
++	ManagedAssert()
++	if self.closed {
++		return fmt.Errorf("closed Imports")
++	}
++	for ns, items := range self.externs {
++		for name, v := range items {
++			if nativeStore(v) != store {
++				return fmt.Errorf("import %s.%s belongs to another/unknown Store", ns, name)
++			}
++		}
++	}
++	return nil
++}
++func nativeStore(v interface{}) *Store {
++	switch x := v.(type) {
++	case *Store:
++		return x
++	case *Exports:
++		return x._store
++	case *Function:
++		if x._store != nil {
++			return x._store
++		}
++		return nativeStore(x._ownedBy)
++	case *Memory:
++		if x._store != nil {
++			return x._store
++		}
++		return nativeStore(x._ownedBy)
++	case *Global:
++		if x._store != nil {
++			return x._store
++		}
++		return nativeStore(x._ownedBy)
++	case *Table:
++		if x._store != nil {
++			return x._store
++		}
++		return nativeStore(x._ownedBy)
++	case *Extern:
++		if x._store != nil {
++			return x._store
++		}
++		return nativeStore(x._ownedBy)
++	}
++	return nil
++}
+--- step36/wasi.go
++++ port/wasi.go
+@@ -55,6 +55,7 @@
+ import "C"
+ 
+ import (
++	"fmt"
+ 	"reflect"
+ 	"unsafe"
+ )
+@@ -116,6 +117,7 @@
+ //
+ //	wasiStateBuilder := NewWasiStateBuilder("test-program")
+ func NewWasiStateBuilder(programName string) *WasiStateBuilder {
++	ManagedAssert()
+ 	cProgramName := C.CString(programName)
+ 	defer C.free(unsafe.Pointer(cProgramName))
+ 	wasiConfig := C.wasi_config_new(cProgramName)
+@@ -262,6 +264,7 @@
+ // user-defined host function; that's the same idea here but applied
+ // to WASI functions and other imports).
+ type WasiEnvironment struct {
++	_store *C.wasm_store_t
+ 	_inner *C.wasi_env_t
+ }
+ 
+@@ -280,6 +283,7 @@
+ 	ManagedWasiCreated++
+ 	self := &WasiEnvironment{
+ 		_inner: environment,
++		_store: store,
+ 	}
+ 
+ 	managedSetFinalizer(self, func(environment *WasiEnvironment) {
+@@ -290,17 +294,34 @@
+ }
+ 
+ func (self *WasiEnvironment) inner() *C.wasi_env_t {
++	ManagedAssert()
++	if self._inner == nil {
++		panic("closed WASI environment")
++	}
+ 	return self._inner
+ }
+ 
+ func (self *WasiEnvironment) Initialize(store *Store, instance *Instance) error {
+-
+-	err := maybeNewErrorFromWasmer(func() bool {
++	ManagedAssert()
++	if self._inner == nil || self._store != store.Inner() || instance == nil || instance.Exports == nil || instance.Exports._store != store {
++		return fmt.Errorf("WASI Store/Instance mismatch or closed environment")
++	}
++	// The bundled C API unwraps a missing memory and aborts the process. Reject
++	// this invalid initialization before entering that API so rollback can run.
++	memory, err := instance.Exports.GetMemory("memory")
++	if err != nil {
++		return fmt.Errorf("WASI requires exported memory: %w", err)
++	}
++	if memory == nil {
++		return fmt.Errorf("WASI memory export has wrong type")
++	}
++
++	nativeErr := maybeNewErrorFromWasmer(func() bool {
+ 		//lint:ignore S1002 simplifying this expression breaks compilation
+ 		return false == C.wasi_env_initialize_instance(self.inner(), store.inner(), instance.inner())
+ 	})
+-	if err != nil {
+-		return err
++	if nativeErr != nil {
++		return nativeErr
+ 	}
+ 	return nil
+ }
+@@ -366,6 +387,11 @@
+ //
+ //	start()
+ func (self *WasiEnvironment) GenerateImportObject(store *Store, module *Module) (*ImportObject, error) {
++	ManagedAssert()
++	if self._inner == nil || store == nil || self._store != store.Inner() || module == nil || module.store == nil || module.store.Engine != store.Engine {
++		return nil, fmt.Errorf("WASI import Store/Engine mismatch or closed environment")
++	}
++
+ 	var wasiNamedExterns C.wasmer_named_extern_vec_t
+ 	C.wasmer_named_extern_vec_new_empty(&wasiNamedExterns)
+ 	defer C.wasmer_named_extern_vec_delete(&wasiNamedExterns)
+@@ -391,6 +417,7 @@
+ 		module := nameToString(C.wasmer_named_extern_module(currentNamedExtern))
+ 		name := nameToString(C.wasmer_named_extern_name(currentNamedExtern))
+ 		extern := newExtern(C.wasm_extern_copy(C.wasmer_named_extern_unwrap(currentNamedExtern)), nil)
++		extern._store = store
+ 
+ 		_, exists := importObject.externs[module]
+ 
+--- step36/trap.go
++++ port/trap.go
+@@ -21,6 +21,7 @@
+ 
+ // Trap stores trace message with backtrace when an error happened.
+ type Trap struct {
++	_scope   *ManagedScope
+ 	_inner   *C.wasm_trap_t
+ 	_ownedBy interface{}
+ }
+@@ -41,9 +42,9 @@
+ 	return C.to_wasm_trap_new(store.Inner(), bytesPointer, C.size_t(bytesLength))
+ }
+ 
+-// newTrapFromPonter creates Trap from C.wasm_trap structure and attaches GC finalizer for it
++// newTrapFromPointer wraps a native trap in the current managed scope.
+ func newTrapFromPointer(pointer *C.wasm_trap_t, ownedBy interface{}) *Trap {
+-	trap := &Trap{
++	trap := &Trap{_scope: managedCurrent,
+ 		_inner:   pointer,
+ 		_ownedBy: ownedBy,
+ 	}
+@@ -51,7 +52,7 @@
+ 	return trapWithFinalizer(trap, ownedBy)
+ }
+ 
+-// trapWithFinalizer attaches GC finalizer to the trap
++// trapWithFinalizer registers deterministic trap cleanup in the current scope.
+ func trapWithFinalizer(trap *Trap, ownedBy interface{}) *Trap {
+ 	if ownedBy == nil {
+ 		managedSetFinalizer(trap, func(trap *Trap) {
+@@ -73,11 +74,15 @@
+ //	trap := NewTrap(store, "oops")
+ func NewTrap(store *Store, message string) *Trap {
+ 	pointer := newWasmTrap(store, message)
+-	trap := &Trap{_inner: pointer}
++	trap := &Trap{_scope: managedCurrent, _inner: pointer}
+ 	return trapWithFinalizer(trap, nil)
+ }
+ 
+ func (self *Trap) inner() *C.wasm_trap_t {
++	ManagedAssert()
++	if self._scope == nil || self._scope.closed {
++		panic("closed Trap scope")
++	}
+ 	return self._inner
+ }
+ 
+@@ -115,7 +120,7 @@
+ 		return nil
+ 	}
+ 
+-	return newFrame(frame, self.ownedBy())
++	return newFrame(frame, nil)
+ }
+ 
+ // Trace returns the trace of WebAssembly frames for this trap.
+@@ -125,12 +130,13 @@
+ 
+ // Frame represents a frame of a WebAssembly stack trace.
+ type Frame struct {
++	_scope   *ManagedScope
+ 	_inner   *C.wasm_frame_t
+ 	_ownedBy interface{}
+ }
+ 
+ func newFrame(pointer *C.wasm_frame_t, ownedBy interface{}) *Frame {
+-	frame := &Frame{
++	frame := &Frame{_scope: managedCurrent,
+ 		_inner:   pointer,
+ 		_ownedBy: ownedBy,
+ 	}
+@@ -145,6 +151,10 @@
+ }
+ 
+ func (self *Frame) inner() *C.wasm_frame_t {
++	ManagedAssert()
++	if self._scope == nil || self._scope.closed {
++		panic("closed Frame scope")
++	}
+ 	return self._inner
+ }
+ 
+@@ -204,7 +214,9 @@
+ 
+ 	runtime.KeepAlive(trap)
+ 	managedSetFinalizer(self, func(self *Trace) {
+-		C.wasm_frame_vec_delete(self.inner())
++		vec := self._inner
++		C.wasm_frame_vec_delete(&vec)
++		self._inner = C.wasm_frame_vec_t{}
+ 	})
+ 
+ 	numberOfFrames := int(self.inner().size)

@@ -1,0 +1,61 @@
+{
+  "baseline": "c3e8f2cc1479a11450d61e342a93c3b2416b7cff",
+  "branch": "review/wangqianqiu-store-lifecycle-fix",
+  "go": "go1.25.0 linux/amd64",
+  "runtime": "6.0.1",
+  "native_sha256": "56b236ce1772b805819aec7c10eb417cd62bf0c6ee2c9b581e651f746bec17dc",
+  "tests": [
+    {
+      "command": "GOROOT=/usr/local/go GOTOOLCHAIN=local scripts/test_store_lifecycle.sh",
+      "result": "PASS",
+      "log": "validation.log"
+    },
+    {
+      "command": "go test -race -p=2 . -run '^TestStoreRepair' -count=1 -timeout=120s -v",
+      "result": "PASS",
+      "log": "repair-race.log"
+    },
+    {
+      "command": "go vet .",
+      "result": "PASS",
+      "log": "vet.log"
+    },
+    {
+      "command": "C WASI thread test / original runtime",
+      "result": "FAIL (expected control)",
+      "log": "native-original.log",
+      "threads": "1 -> 5"
+    },
+    {
+      "command": "C WASI thread test / patched runtime",
+      "result": "PASS",
+      "log": "native-patched.log",
+      "threads": "1 -> 1"
+    },
+    {
+      "command": "go test -p=2 ./... -count=1 -timeout=30s",
+      "result": "FAIL",
+      "log": "original-suite.log"
+    },
+    {
+      "command": "go test . -run '^TestInvoke$'",
+      "result": "FAIL (missing baseline fixture)",
+      "log": "original-invoke-default.log"
+    },
+    {
+      "command": "go test . -run '^TestInvoke$' -invoke_contract_name=compute",
+      "result": "FAIL (empty contract name in original test fixture)",
+      "log": "original-invoke.log"
+    },
+    {
+      "command": "go build -p=2 ./... (repository root)",
+      "result": "FAIL (VCS metadata)",
+      "log": "root-build.log"
+    },
+    {
+      "command": "go build -buildvcs=false -p=2 ./... (repository root)",
+      "result": "FAIL (baseline test/output/formatTest.go types)",
+      "log": "root-build-no-vcs.log"
+    }
+  ]
+}

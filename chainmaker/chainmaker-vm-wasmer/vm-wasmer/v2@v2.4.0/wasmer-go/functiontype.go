@@ -2,7 +2,6 @@ package wasmer
 
 // #include <wasmer.h>
 import "C"
-import "runtime"
 
 // FunctionType classifies the signature of functions, mapping a
 // vector of parameters to a vector of results. They are also used to
@@ -20,7 +19,7 @@ func newFunctionType(pointer *C.wasm_functype_t, ownedBy interface{}) *FunctionT
 	functionType := &FunctionType{_inner: pointer, _ownedBy: ownedBy}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(functionType, func(functionType *FunctionType) {
+		managedSetFinalizer(functionType, func(functionType *FunctionType) {
 			C.wasm_functype_delete(functionType.inner())
 		})
 	}
@@ -92,5 +91,12 @@ func (self *FunctionType) IntoExternType() *ExternType {
 
 // MODIFIED
 func (self *FunctionType) Close() {
+	if self._inner == nil {
+		return
+	}
+	if !managedSetFinalizer(self, nil) {
+		return
+	}
 	C.wasm_functype_delete(self._inner)
+	self._inner = nil
 }

@@ -5,13 +5,13 @@ import "C"
 
 import (
 	"fmt"
-	"runtime"
 	"unsafe"
 )
 
 // Exports is a special kind of map that allows easily unwrapping the
 // types of instances.
 type Exports struct {
+	_store   *Store
 	_inner   C.wasm_extern_vec_t
 	exports  map[string]*Extern
 	instance *C.wasm_instance_t
@@ -21,7 +21,7 @@ func newExports(instance *C.wasm_instance_t, module *Module) *Exports {
 	self := &Exports{}
 	C.wasm_instance_exports(instance, &self._inner)
 
-	runtime.SetFinalizer(self, func(self *Exports) {
+	managedSetFinalizer(self, func(self *Exports) {
 		self.Close()
 	})
 
@@ -58,6 +58,7 @@ func (self *Exports) inner() *C.wasm_extern_vec_t {
 //	instance, _ := NewInstance(module, NewImportObject())
 //	extern, error := instance.Exports.Get("an_export")
 func (self *Exports) Get(name string) (*Extern, error) {
+	managedBorrowAlive(self)
 	export, exists := self.exports[name]
 
 	if !exists {
@@ -87,7 +88,11 @@ func (self *Exports) GetRawFunction(name string) (*Function, error) {
 		return nil, err
 	}
 
-	return exports.IntoFunction(), nil
+	fn := exports.IntoFunction()
+	if fn != nil {
+		fn._managedName = name
+	}
+	return fn, nil
 }
 
 // GetFunction retrieves a exported function by its name and returns
@@ -202,7 +207,9 @@ func (self *Exports) GetWasiStartRawFunction() (*Function, error) {
 // possible to force the destruction of the Exports by calling Close
 // manually.
 func (self *Exports) Close() {
-	runtime.SetFinalizer(self, nil)
+	if !managedSetFinalizer(self, nil) {
+		return
+	}
 
 	for extern := range self.exports {
 		delete(self.exports, extern)

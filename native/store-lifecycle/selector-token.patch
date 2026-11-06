@@ -1,0 +1,13 @@
+diff --git a/lib/virtual-io/src/selector.rs b/lib/virtual-io/src/selector.rs
+index 1c9693e13..ddbc9dbb3 100644
+--- a/lib/virtual-io/src/selector.rs
++++ b/lib/virtual-io/src/selector.rs
+@@ -31,7 +31,7 @@ impl Selector {
+             .expect("the selector registry failed to clone");
+ 
+         let engine = Arc::new(Selector {
+-            closer: mio::Waker::new(poll.registry(), Token(0)).unwrap(),
++            closer: mio::Waker::new(poll.registry(), Token(1)).unwrap(),
+             token_close: Token(1),
+             inner: Mutex::new(EngineInner {
+                 seed: 10,

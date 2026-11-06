@@ -4,12 +4,14 @@ package wasmer
 import "C"
 
 import (
+	"fmt"
 	"unsafe"
 )
 
 // ImportObject contains all of the import data used when
 // instantiating a WebAssembly module.
 type ImportObject struct {
+	closed  bool
 	externs map[string]map[string]IntoExtern
 	_inner  *C.wasm_extern_vec_t
 }
@@ -18,9 +20,11 @@ type ImportObject struct {
 //
 //	imports := NewImportObject()
 func NewImportObject() *ImportObject {
-	return &ImportObject{
-		externs: make(map[string]map[string]IntoExtern),
-	}
+	ManagedAssert()
+	ManagedImportContainersCreated++
+	self := &ImportObject{externs: make(map[string]map[string]IntoExtern)}
+	managedSetFinalizer(self, func(self *ImportObject) { self.Close() })
+	return self
 }
 
 func (self *ImportObject) intoInner(module *Module) (*C.wasm_extern_vec_t, error) {
@@ -34,16 +38,10 @@ func (self *ImportObject) intoInner(module *Module) (*C.wasm_extern_vec_t, error
 		name := importType.Name()
 		//fmt.Println(namespace, name)
 		if self.externs[namespace][name] == nil {
-			//return nil, &Error{
-			//	message: fmt.Sprintf("Missing import: `%s`.`%s`", namespace, name),
-			//}
-		} else {
-			//temp := self.externs[namespace][name]
-			//temp2 := temp.IntoExtern()
-			//_ = temp2
-			externs = append(externs, self.externs[namespace][name].IntoExtern().inner())
-			numberOfExterns++
+			return nil, fmt.Errorf("missing import %s.%s", namespace, name)
 		}
+		externs = append(externs, self.externs[namespace][name].IntoExtern().inner())
+		numberOfExterns++
 
 	}
 
@@ -90,6 +88,10 @@ func (self *ImportObject) ContainsNamespace(name string) bool {
 //		},
 //	)
 func (self *ImportObject) Register(namespaceName string, namespace map[string]IntoExtern) {
+	ManagedAssert()
+	if self.closed {
+		panic("closed Imports")
+	}
 	_, exists := self.externs[namespaceName]
 
 	if !exists {
@@ -103,10 +105,68 @@ func (self *ImportObject) Register(namespaceName string, namespace map[string]In
 
 // MODIFIED
 func (self *ImportObject) Close() {
+	if !managedSetFinalizer(self, nil) {
+		return
+	}
+	self.closed = true
+	ManagedImportContainersClosed++
 	for _, namespace := range self.externs {
 		for name, _ := range namespace {
 			delete(namespace, name)
 		}
 	}
-	C.wasm_extern_vec_destroy(self._inner)
+	if self._inner != nil {
+		C.wasm_extern_vec_destroy(self._inner)
+		self._inner = nil
+	}
+}
+
+// Reject cross-Store imports before passing native pointers to Wasmer.
+func (self *ImportObject) validateStore(store *Store) error {
+	ManagedAssert()
+	if self.closed {
+		return fmt.Errorf("closed Imports")
+	}
+	for ns, items := range self.externs {
+		for name, v := range items {
+			if nativeStore(v) != store {
+				return fmt.Errorf("import %s.%s belongs to another/unknown Store", ns, name)
+			}
+		}
+	}
+	return nil
+}
+func nativeStore(v interface{}) *Store {
+	switch x := v.(type) {
+	case *Store:
+		return x
+	case *Exports:
+		return x._store
+	case *Function:
+		if x._store != nil {
+			return x._store
+		}
+		return nativeStore(x._ownedBy)
+	case *Memory:
+		if x._store != nil {
+			return x._store
+		}
+		return nativeStore(x._ownedBy)
+	case *Global:
+		if x._store != nil {
+			return x._store
+		}
+		return nativeStore(x._ownedBy)
+	case *Table:
+		if x._store != nil {
+			return x._store
+		}
+		return nativeStore(x._ownedBy)
+	case *Extern:
+		if x._store != nil {
+			return x._store
+		}
+		return nativeStore(x._ownedBy)
+	}
+	return nil
 }

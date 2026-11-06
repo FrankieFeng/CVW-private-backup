@@ -1,0 +1,59 @@
+--- FAIL: TestPoolOOMLoadOnly (0.01s)
+    pool_oom_test.go:126: === pool OOM load-only test ===
+    pool_oom_test.go:127: config: contracts=1 wasm=./testdata/fact-go.wasm changeSize=5 maxSize=10 minSize=5 sample=5s duration=0s
+    pool_oom_test.go:130: action: load pools only (no Invoke / no GetInstance), serial manual grow
+    pool_oom_test.go:138: getVmPool oom-load-test-000: legacy Instance pool disabled; use NewRuntimeInstance
+--- FAIL: TestCreateInstanceResourcePhases (0.00s)
+    multi.go:108: === TestCreateInstanceResourcePhases ===
+    multi.go:108: time=2026-11-06T15:14:02+08:00
+    multi.go:108: log_file=./resource_probe_20261106_151402.log
+    multi.go:108: repeat=10 cycles=2 settle=200ms detail_first=true
+    multi.go:108: pattern=grow(N)→shrink(0) × 2
+    multi.go:108: destroy=CloseInstance recycles wasiEnv to pool freelist (no wasi_env_delete)
+    multi.go:108: contracts=[./testdata/fact-go.wasm ./testdata/exchange-go.wasm ./testdata/erc721-go.wasm ./testdata/compute-go.wasm ./testdata/identity-go.wasm ./testdata/raffle-go.wasm ./testdata/itinerary-go.wasm]
+    multi.go:108: note: process RSS/threads accumulate across contracts; compare within each contract section.
+    multi.go:108: expect: c2 grow should NOT add ~13 threads/instance if wasiEnv freelist works.
+    multi.go:108: ########## contract[1/7] fact-go (./testdata/fact-go.wasm) ##########
+    multi.go:108: fact-go/0_baseline threads=6 VmRSS=56.51MB VmSize=1631.34MB goAlloc=6.44MB goSys=20.83MB goroutine=3 numGC=3
+panic: native owner thread violation [recovered, repanicked]
+
+goroutine 22 [running]:
+testing.tRunner.func1.2({0x1b4a340, 0x2059d30})
+	/usr/local/go/src/testing/testing.go:1872 +0x237
+testing.tRunner.func1()
+	/usr/local/go/src/testing/testing.go:1875 +0x35b
+panic({0x1b4a340?, 0x2059d30?})
+	/usr/local/go/src/runtime/panic.go:783 +0x132
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.ManagedAssert()
+	/home/frankie/mygitprojects/.worktrees/cvw-wangqianqiu-store-fix/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/wasmer-go/managed.go:38 +0x6d
+chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.NewConfig()
+	/home/frankie/mygitprojects/.worktrees/cvw-wangqianqiu-store-fix/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/wasmer-go/config.go:106 +0x13
+chainmaker.org/chainmaker/vm-wasmer/v2.runCreateDestroyProbe(0x2060e80?, 0xc0004d3ee0, {0xc000216300, 0x17}, {0xc00021630b, 0x7}, 0xa, 0x2)
+	/home/frankie/mygitprojects/.worktrees/cvw-wangqianqiu-store-fix/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/resource_probe_test.go:167 +0x34d
+chainmaker.org/chainmaker/vm-wasmer/v2.TestCreateInstanceResourcePhases(0xc000472700)
+	/home/frankie/mygitprojects/.worktrees/cvw-wangqianqiu-store-fix/chainmaker/chainmaker-vm-wasmer/vm-wasmer/v2@v2.4.0/resource_probe_test.go:101 +0x1016
+testing.tRunner(0xc000472700, 0x1f19dd0)
+	/usr/local/go/src/testing/testing.go:1934 +0xea
+created by testing.(*T).Run in goroutine 1
+	/usr/local/go/src/testing/testing.go:1997 +0x465
+FAIL	chainmaker.org/chainmaker/vm-wasmer/v2	0.025s
+# chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go [chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go.test]
+wasmer-go/config_test.go:51:58: not enough arguments in call to NewConfig().PushMeteringMiddleware
+	have (number, map[Opcode]uint32)
+	want (uint64, map[Opcode]uint32, map[string]uint32, string)
+wasmer-go/config_test.go:72:61: not enough arguments in call to NewConfig().PushMeteringMiddlewarePtr
+	have (number, unsafe.Pointer)
+	want (uint64, unsafe.Pointer, string)
+wasmer-go/memory_test.go:120:13: not enough arguments in call to NewWasiStateBuilder(mod.Name()).CaptureStdout().CaptureStderr().Finalize
+	have ()
+	want (*_Ctype_wasm_store_t)
+wasmer-go/memory_test.go:133:32: instance.GetFunctionSafe undefined (type *Instance has no field or method GetFunctionSafe)
+FAIL	chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go [build failed]
+?   	chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go/packaged/include	[no test files]
+?   	chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go/packaged/lib	[no test files]
+?   	chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go/packaged/lib/darwin-aarch64	[no test files]
+?   	chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go/packaged/lib/darwin-amd64	[no test files]
+?   	chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go/packaged/lib/linux-aarch64	[no test files]
+?   	chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go/packaged/lib/linux-amd64	[no test files]
+?   	chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go/packaged/lib/windows-amd64	[no test files]
+FAIL

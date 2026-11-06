@@ -74,6 +74,7 @@ var lock sync.Mutex
 //	store := wasmer.NewStore(engine)
 //	module, err := wasmer.NewModule(store, wasmBytes)
 func NewModule(store *Store, bytes []byte, log *logger.CMLogger) (*Module, error) {
+	ManagedAssert()
 	lock.Lock()
 	defer lock.Unlock()
 	//dir, err := os.Getwd()
@@ -116,7 +117,7 @@ func NewModule(store *Store, bytes []byte, log *logger.CMLogger) (*Module, error
 		return nil, err2
 	}
 
-	runtime.SetFinalizer(self, func(self *Module) {
+	managedSetFinalizer(self, func(self *Module) {
 		self.Close()
 	})
 
@@ -164,6 +165,10 @@ func ValidateModule(store *Store, bytes []byte) error {
 }
 
 func (self *Module) inner() *C.wasm_module_t {
+	ManagedAssert()
+	if self._inner == nil {
+		panic("closed Module")
+	}
 	return self._inner
 }
 
@@ -274,8 +279,9 @@ func DeserializeModule(store *Store, bytes []byte) (*Module, error) {
 		return nil, err
 	}
 
-	runtime.SetFinalizer(self, func(self *Module) {
-		C.wasm_module_delete(self.inner())
+	managedSetFinalizer(self, func(self *Module) {
+		C.wasm_module_delete(self._inner)
+		self._inner = nil
 	})
 
 	return self, nil
@@ -283,11 +289,13 @@ func DeserializeModule(store *Store, bytes []byte) (*Module, error) {
 
 // Close the module forcefully
 //
-// A runtime finalizer is registered on the Module, but it is possible
-// to force the destruction of the Module by calling Close manually.
+// A managed scope owns the Module. Close may release it early on the owner thread.
 func (self *Module) Close() {
-	runtime.SetFinalizer(self, nil)
-	C.wasm_module_delete(self.inner())
+	if !managedSetFinalizer(self, nil) {
+		return
+	}
+	C.wasm_module_delete(self._inner)
+	self._inner = nil
 
 	if nil != self.importTypes {
 		self.importTypes.close()

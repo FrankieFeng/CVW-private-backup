@@ -103,6 +103,7 @@ type Config struct {
 //
 //	config := NewConfig()
 func NewConfig() *Config {
+	ManagedAssert()
 	config := C.wasm_config_new()
 
 	return &Config{

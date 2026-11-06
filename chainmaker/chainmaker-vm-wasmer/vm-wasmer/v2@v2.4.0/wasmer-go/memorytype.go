@@ -18,7 +18,7 @@ func newMemoryType(pointer *C.wasm_memorytype_t, ownedBy interface{}) *MemoryTyp
 	memoryType := &MemoryType{_inner: pointer, _ownedBy: ownedBy}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(memoryType, func(memoryType *MemoryType) {
+		managedSetFinalizer(memoryType, func(memoryType *MemoryType) {
 			C.wasm_memorytype_delete(memoryType.inner())
 		})
 	}

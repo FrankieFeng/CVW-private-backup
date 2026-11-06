@@ -2,9 +2,10 @@ package wasmer
 
 // #include <wasmer.h>
 import "C"
-import "runtime"
+import "fmt"
 
 type Instance struct {
+	_store  *Store
 	_inner  *C.wasm_instance_t
 	Exports *Exports
 
@@ -26,6 +27,22 @@ type Instance struct {
 //	importObject := wasmer.NewImportObject()
 //	instance, err := wasmer.NewInstance(module, importObject)
 func NewInstance(module *Module, imports *ImportObject) (*Instance, error) {
+	if module == nil {
+		return nil, fmt.Errorf("nil Module")
+	}
+	return NewInstanceInStore(module, imports, module.store)
+}
+
+// NewInstanceInStore uses the actual target native Store; all imports must belong to it.
+func NewInstanceInStore(module *Module, imports *ImportObject, store *Store) (*Instance, error) {
+	ManagedAssert()
+	if store == nil || store._inner == nil || module == nil || module._inner == nil || module.store == nil || store.Engine != module.store.Engine || imports == nil {
+		return nil, fmt.Errorf("closed/mismatched engine Store/Module")
+	}
+
+	if err := imports.validateStore(store); err != nil {
+		return nil, err
+	}
 	var traps *C.wasm_trap_t
 	externs, err := imports.intoInner(module)
 	if err != nil {
@@ -36,7 +53,7 @@ func NewInstance(module *Module, imports *ImportObject) (*Instance, error) {
 
 	err2 := maybeNewErrorFromWasmer(func() bool {
 		instance = C.wasm_instance_new(
-			module.store.Inner(),
+			store.Inner(),
 			module.inner(),
 			externs,
 			&traps,
@@ -55,34 +72,42 @@ func NewInstance(module *Module, imports *ImportObject) (*Instance, error) {
 
 	self := &Instance{
 		_inner:  instance,
-		Exports: newExports(instance, module),
+		_store:  store,
+		Exports: nil,
 		imports: imports,
 	}
 
-	runtime.SetFinalizer(self, func(self *Instance) {
+	managedSetFinalizer(self, func(self *Instance) {
 		self.Close()
 	})
 
+	ManagedInstancesCreated++
+	self.Exports = newExports(instance, module)
+	self.Exports._store = store
 	return self, nil
 }
 
 func (self *Instance) inner() *C.wasm_instance_t {
+	ManagedAssert()
+	if self._inner == nil || self._store == nil || self._store._inner == nil {
+		panic("closed Instance")
+	}
 	return self._inner
 }
 
 // GetRemainingPoints exposes wasm meterings remaining gas or points
 func (self *Instance) GetGasRemaining() uint64 {
-	return uint64(C.wasmer_metering_get_remaining_points(self._inner))
+	return uint64(C.wasmer_metering_get_remaining_points(self.inner()))
 }
 
 // MeteringPointsExhausted is a bool which determines if the engine has been shutdown from meter exhaustion
 func (self *Instance) MeteringPointsExhausted() bool {
-	return bool(C.wasmer_metering_points_are_exhausted(self._inner))
+	return bool(C.wasmer_metering_points_are_exhausted(self.inner()))
 }
 
 // SetRemainingPoints imposes a new gas limit on the wasm engine
 func (self *Instance) SetGasLimit(newLimit uint64) {
-	C.wasmer_metering_set_remaining_points(self._inner, C.uint64_t(newLimit))
+	C.wasmer_metering_set_remaining_points(self.inner(), C.uint64_t(newLimit))
 }
 
 // ReleaseFn is a function to release resources
@@ -131,17 +156,20 @@ func (self *Instance) SetGasLimit(newLimit uint64) {
 
 // Close the instance
 //
-// A runtime finalizer is registered on the Instance, but it is
-// possible to force the destruction of the Instance by calling Close
-// manually.
+// A managed scope owns the Instance. Close may release it early on the owner thread.
 func (self *Instance) Close() {
-	runtime.SetFinalizer(self, nil)
+	if !managedSetFinalizer(self, nil) {
+		return
+	}
 	if self.Exports != nil {
 		self.Exports.Close()
 	}
 	if self.imports != nil {
 		self.imports.Close()
 	}
-	C.wasm_instance_delete(self.inner())
-	self.Exports.Close()
+	C.wasm_instance_delete(self._inner)
+	self._inner = nil
+	self.Exports = nil
+	self.imports = nil
+	ManagedInstancesClosed++
 }

@@ -2,7 +2,6 @@ package wasmer
 
 // #include <wasmer.h>
 import "C"
-import "runtime"
 
 // Target represents a triple + CPU features pairs.
 type Target struct {
@@ -14,7 +13,7 @@ func newTarget(target *C.wasmer_target_t) *Target {
 		_inner: target,
 	}
 
-	runtime.SetFinalizer(self, func(self *Target) {
+	managedSetFinalizer(self, func(self *Target) {
 		C.wasmer_target_delete(self.inner())
 	})
 
@@ -45,7 +44,7 @@ func newTriple(triple *C.wasmer_triple_t) *Triple {
 		_inner: triple,
 	}
 
-	runtime.SetFinalizer(self, func(self *Triple) {
+	managedSetFinalizer(self, func(self *Triple) {
 		C.wasmer_triple_delete(self.inner())
 	})
 
@@ -129,7 +128,7 @@ func newCpuFeatures(cpu_features *C.wasmer_cpu_features_t) *CpuFeatures {
 		_inner: cpu_features,
 	}
 
-	runtime.SetFinalizer(self, func(self *CpuFeatures) {
+	managedSetFinalizer(self, func(self *CpuFeatures) {
 		C.wasmer_cpu_features_delete(self.inner())
 	})
 

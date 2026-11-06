@@ -17,7 +17,7 @@ func newExportTypes(module *Module) *exportTypes {
 	self := &exportTypes{}
 	C.wasm_module_exports(module.inner(), &self._inner)
 
-	runtime.SetFinalizer(self, func(self *exportTypes) {
+	managedSetFinalizer(self, func(self *exportTypes) {
 		self.close()
 	})
 
@@ -44,7 +44,9 @@ func (self *exportTypes) inner() *C.wasm_exporttype_vec_t {
 }
 
 func (self *exportTypes) close() {
-	runtime.SetFinalizer(self, nil)
+	if !managedSetFinalizer(self, nil) {
+		return
+	}
 	C.wasm_exporttype_vec_delete(&self._inner)
 }
 
@@ -58,7 +60,7 @@ func newExportType(pointer *C.wasm_exporttype_t, ownedBy interface{}) *ExportTyp
 	exportType := &ExportType{_inner: pointer, _ownedBy: ownedBy}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(exportType, func(self *ExportType) {
+		managedSetFinalizer(exportType, func(self *ExportType) {
 			self.Close()
 		})
 	}
@@ -128,6 +130,8 @@ func (self *ExportType) Type() *ExternType {
 // possible to force the destruction of the ExportType by calling
 // Close manually.
 func (self *ExportType) Close() {
-	runtime.SetFinalizer(self, nil)
+	if !managedSetFinalizer(self, nil) {
+		return
+	}
 	C.wasm_exporttype_delete(self.inner())
 }

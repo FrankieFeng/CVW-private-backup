@@ -2,7 +2,6 @@ package wasmer
 
 // #include <wasmer.h>
 import "C"
-import "runtime"
 
 // TableSize represents the size of a table.
 type TableSize C.wasm_table_size_t
@@ -23,16 +22,19 @@ func (self *TableSize) ToUint32() uint32 {
 //
 // Specification: https://webassembly.github.io/spec/core/exec/runtime.html#table-instances
 type Table struct {
+	_store   *Store
+	_scope   *ManagedScope
 	_inner   *C.wasm_table_t
 	_ownedBy interface{}
 }
 
 func newTable(pointer *C.wasm_table_t, ownedBy interface{}) *Table {
-	table := &Table{_inner: pointer, _ownedBy: ownedBy}
+	table := &Table{_scope: managedCurrent, _inner: pointer, _ownedBy: ownedBy}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(table, func(table *Table) {
-			C.wasm_table_delete(table.inner())
+		managedSetFinalizer(table, func(table *Table) {
+			C.wasm_table_delete(table._inner)
+			table._inner = nil
 		})
 	}
 
@@ -40,6 +42,14 @@ func newTable(pointer *C.wasm_table_t, ownedBy interface{}) *Table {
 }
 
 func (self *Table) inner() *C.wasm_table_t {
+	ManagedAssert()
+	if self._store != nil && self._store._inner == nil {
+		panic("closed Table Store")
+	}
+	if self._scope == nil || self._scope.closed {
+		panic("closed Table scope")
+	}
+	managedBorrowAlive(self._ownedBy)
 	return self._inner
 }
 

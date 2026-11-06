@@ -516,18 +516,11 @@ type vmBridgeManager struct {
 }
 
 // GetVmBridgeManager get singleton vmBridgeManager struct
-func GetVmBridgeManager() *vmBridgeManager { //nolint
-	if bridgeSingleton == nil {
-		vmBridgeManagerMutex.Lock()
-		defer vmBridgeManagerMutex.Unlock()
-		if bridgeSingleton == nil {
-			log.Debugf("init vmBridgeManager")
-			bridgeSingleton = &vmBridgeManager{}
-			bridgeSingleton.simContextCache = make(map[int32]*SimContext)
-			//bridgeSingleton.wasmImports = bridgeSingleton.GetImports()
-		}
-	}
-	return bridgeSingleton
+func GetVmBridgeManager() *vmBridgeManager {
+ vmBridgeManagerMutex.Lock()
+ defer vmBridgeManagerMutex.Unlock()
+ if bridgeSingleton==nil {bridgeSingleton=&vmBridgeManager{simContextCache:make(map[int32]*SimContext)}}
+ return bridgeSingleton
 }
 
 // put the context

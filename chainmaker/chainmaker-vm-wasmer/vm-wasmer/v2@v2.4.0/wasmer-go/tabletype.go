@@ -18,7 +18,7 @@ func newTableType(pointer *C.wasm_tabletype_t, ownedBy interface{}) *TableType {
 	tableType := &TableType{_inner: pointer, _ownedBy: ownedBy}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(tableType, func(tableType *TableType) {
+		managedSetFinalizer(tableType, func(tableType *TableType) {
 			C.wasm_tabletype_delete(tableType.inner())
 		})
 	}

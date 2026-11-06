@@ -17,7 +17,7 @@ func newImportTypes(module *Module) *importTypes {
 	self := &importTypes{}
 	C.wasm_module_imports(module.inner(), &self._inner)
 
-	runtime.SetFinalizer(self, func(self *importTypes) {
+	managedSetFinalizer(self, func(self *importTypes) {
 		self.close()
 	})
 
@@ -44,7 +44,9 @@ func (self *importTypes) inner() *C.wasm_importtype_vec_t {
 }
 
 func (self *importTypes) close() {
-	runtime.SetFinalizer(self, nil)
+	if !managedSetFinalizer(self, nil) {
+		return
+	}
 	C.wasm_importtype_vec_delete(&self._inner)
 }
 
@@ -59,7 +61,7 @@ func newImportType(pointer *C.wasm_importtype_t, ownedBy interface{}) *ImportTyp
 	importType := &ImportType{_inner: pointer, _ownedBy: ownedBy}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(importType, func(self *ImportType) {
+		managedSetFinalizer(importType, func(self *ImportType) {
 			self.Close()
 		})
 	}
@@ -151,6 +153,8 @@ func (self *ImportType) Type() *ExternType {
 // possible to force the destruction of the ImportType by calling
 // Close manually.
 func (self *ImportType) Close() {
-	runtime.SetFinalizer(self, nil)
+	if !managedSetFinalizer(self, nil) {
+		return
+	}
 	C.wasm_importtype_delete(self.inner())
 }

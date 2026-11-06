@@ -21,6 +21,7 @@ import (
 
 // Trap stores trace message with backtrace when an error happened.
 type Trap struct {
+	_scope   *ManagedScope
 	_inner   *C.wasm_trap_t
 	_ownedBy interface{}
 }
@@ -41,9 +42,9 @@ func newWasmTrap(store *Store, message string) *C.wasm_trap_t {
 	return C.to_wasm_trap_new(store.Inner(), bytesPointer, C.size_t(bytesLength))
 }
 
-// newTrapFromPonter creates Trap from C.wasm_trap structure and attaches GC finalizer for it
+// newTrapFromPointer wraps a native trap in the current managed scope.
 func newTrapFromPointer(pointer *C.wasm_trap_t, ownedBy interface{}) *Trap {
-	trap := &Trap{
+	trap := &Trap{_scope: managedCurrent,
 		_inner:   pointer,
 		_ownedBy: ownedBy,
 	}
@@ -51,10 +52,10 @@ func newTrapFromPointer(pointer *C.wasm_trap_t, ownedBy interface{}) *Trap {
 	return trapWithFinalizer(trap, ownedBy)
 }
 
-// trapWithFinalizer attaches GC finalizer to the trap
+// trapWithFinalizer registers deterministic trap cleanup in the current scope.
 func trapWithFinalizer(trap *Trap, ownedBy interface{}) *Trap {
 	if ownedBy == nil {
-		runtime.SetFinalizer(trap, func(trap *Trap) {
+		managedSetFinalizer(trap, func(trap *Trap) {
 			inner := trap.inner()
 
 			if inner != nil {
@@ -73,11 +74,15 @@ func trapWithFinalizer(trap *Trap, ownedBy interface{}) *Trap {
 //	trap := NewTrap(store, "oops")
 func NewTrap(store *Store, message string) *Trap {
 	pointer := newWasmTrap(store, message)
-	trap := &Trap{_inner: pointer}
+	trap := &Trap{_scope: managedCurrent, _inner: pointer}
 	return trapWithFinalizer(trap, nil)
 }
 
 func (self *Trap) inner() *C.wasm_trap_t {
+	ManagedAssert()
+	if self._scope == nil || self._scope.closed {
+		panic("closed Trap scope")
+	}
 	return self._inner
 }
 
@@ -115,7 +120,7 @@ func (self *Trap) Origin() *Frame {
 		return nil
 	}
 
-	return newFrame(frame, self.ownedBy())
+	return newFrame(frame, nil)
 }
 
 // Trace returns the trace of WebAssembly frames for this trap.
@@ -125,18 +130,19 @@ func (self *Trap) Trace() *Trace {
 
 // Frame represents a frame of a WebAssembly stack trace.
 type Frame struct {
+	_scope   *ManagedScope
 	_inner   *C.wasm_frame_t
 	_ownedBy interface{}
 }
 
 func newFrame(pointer *C.wasm_frame_t, ownedBy interface{}) *Frame {
-	frame := &Frame{
+	frame := &Frame{_scope: managedCurrent,
 		_inner:   pointer,
 		_ownedBy: ownedBy,
 	}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(frame, func(frame *Frame) {
+		managedSetFinalizer(frame, func(frame *Frame) {
 			C.wasm_frame_delete(frame.inner())
 		})
 	}
@@ -145,6 +151,10 @@ func newFrame(pointer *C.wasm_frame_t, ownedBy interface{}) *Frame {
 }
 
 func (self *Frame) inner() *C.wasm_frame_t {
+	ManagedAssert()
+	if self._scope == nil || self._scope.closed {
+		panic("closed Frame scope")
+	}
 	return self._inner
 }
 
@@ -203,8 +213,10 @@ func newTrace(trap *Trap) *Trace {
 	C.wasm_trap_trace(trap.inner(), self.inner())
 
 	runtime.KeepAlive(trap)
-	runtime.SetFinalizer(self, func(self *Trace) {
-		C.wasm_frame_vec_delete(self.inner())
+	managedSetFinalizer(self, func(self *Trace) {
+		vec := self._inner
+		C.wasm_frame_vec_delete(&vec)
+		self._inner = C.wasm_frame_vec_t{}
 	})
 
 	numberOfFrames := int(self.inner().size)

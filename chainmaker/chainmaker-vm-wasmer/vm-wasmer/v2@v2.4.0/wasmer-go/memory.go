@@ -15,16 +15,19 @@ import (
 //
 // Specification: https://webassembly.github.io/spec/core/syntax/modules.html#memories
 type Memory struct {
+	_store   *Store
+	_scope   *ManagedScope
 	_inner   *C.wasm_memory_t
 	_ownedBy interface{}
 }
 
 func newMemory(pointer *C.wasm_memory_t, ownedBy interface{}) *Memory {
-	memory := &Memory{_inner: pointer, _ownedBy: ownedBy}
+	memory := &Memory{_scope: managedCurrent, _inner: pointer, _ownedBy: ownedBy}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(memory, func(memory *Memory) {
-			C.wasm_memory_delete(memory.inner())
+		managedSetFinalizer(memory, func(memory *Memory) {
+			C.wasm_memory_delete(memory._inner)
+			memory._inner = nil
 		})
 	}
 
@@ -40,15 +43,26 @@ func newMemory(pointer *C.wasm_memory_t, ownedBy interface{}) *Memory {
 //	    wasmer.NewMemoryType(wasmer.NewLimits(1, 4)),
 //	)
 func NewMemory(store *Store, ty *MemoryType) *Memory {
+	ManagedAssert()
 	pointer := C.wasm_memory_new(store.Inner(), ty.inner())
 
 	runtime.KeepAlive(store)
 	runtime.KeepAlive(ty)
 
-	return newMemory(pointer, nil)
+	v := newMemory(pointer, nil)
+	v._store = store
+	return v
 }
 
 func (self *Memory) inner() *C.wasm_memory_t {
+	ManagedAssert()
+	if self._store != nil && self._store._inner == nil {
+		panic("closed Memory Store")
+	}
+	if self._scope == nil || self._scope.closed {
+		panic("closed Memory scope")
+	}
+	managedBorrowAlive(self._ownedBy)
 	return self._inner
 }
 

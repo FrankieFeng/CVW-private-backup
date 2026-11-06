@@ -59,7 +59,7 @@ func newExternType(pointer *C.wasm_externtype_t, ownedBy interface{}) *ExternTyp
 	externType := &ExternType{_inner: pointer, _ownedBy: ownedBy}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(externType, func(externType *ExternType) {
+		managedSetFinalizer(externType, func(externType *ExternType) {
 			C.wasm_externtype_delete(externType.inner())
 		})
 	}

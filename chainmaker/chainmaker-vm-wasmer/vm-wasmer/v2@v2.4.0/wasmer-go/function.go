@@ -1,6 +1,8 @@
 package wasmer
 
 // #include <wasmer.h>
+// #include <stdlib.h>
+// typedef struct { uint32_t index; } go_function_env;
 //
 // extern wasm_trap_t* function_trampoline(
 //   void *environment,
@@ -32,28 +34,37 @@ type NativeFunction = func(...interface{}) (interface{}, error)
 
 // Function is a WebAssembly function instance.
 type Function struct {
-	_inner      *C.wasm_func_t
-	_ownedBy    interface{}
-	funcType    *FunctionType
-	environment *functionEnvironment
-	lazyNative  NativeFunction
+	_store        *Store
+	_managedScope *ManagedScope
+	_managedName  string
+	_inner        *C.wasm_func_t
+	_ownedBy      interface{}
+	funcType      *FunctionType
+	environment   *functionEnvironment
+	lazyNative    NativeFunction
 }
 
 func newFunction(pointer *C.wasm_func_t, environment *functionEnvironment, ownedBy interface{}) *Function {
 	function := &Function{
-		_inner:      pointer,
-		_ownedBy:    ownedBy,
-		environment: environment,
-		lazyNative:  nil,
+		_managedScope: managedCurrent,
+		_inner:        pointer,
+		_ownedBy:      ownedBy,
+		environment:   environment,
+		lazyNative:    nil,
 	}
 
 	if ownedBy == nil {
-		runtime.SetFinalizer(function, func(self *Function) {
+		managedSetFinalizer(function, func(self *Function) {
 			if self.environment != nil {
 				hostFunctionStore.remove(self.environment.hostFunctionStoreIndex)
 			}
 
-			C.wasm_func_delete(self.inner())
+			C.wasm_func_delete(self._inner)
+			self._inner = nil
+			if self.environment != nil {
+				C.free(unsafe.Pointer(self.environment.inner))
+				self.environment.inner = nil
+			}
 		})
 	}
 
@@ -84,30 +95,32 @@ func newFunction(pointer *C.wasm_func_t, environment *functionEnvironment, owned
 //		},
 //	)
 func NewFunction(store *Store, ty *FunctionType, function func([]Value) ([]Value, error)) *Function {
+	ManagedAssert()
 	hostFunction := &hostFunction{
 		store:    store,
 		function: function,
 	}
-	environment := &functionEnvironment{
-		hostFunctionStoreIndex: hostFunctionStore.store(hostFunction),
-	}
+	environment := newFunctionEnvironment(hostFunction)
 	pointer := C.wasm_func_new_with_env(
 		store.Inner(),
 		ty.inner(),
 		(C.wasm_func_callback_t)(C.function_trampoline),
-		unsafe.Pointer(environment),
+		unsafe.Pointer(environment.inner),
 		(C.wasm_func_callback_env_finalizer_t)(C.function_environment_finalizer),
 	)
 
 	runtime.KeepAlive(environment)
 
-	return newFunction(pointer, environment, nil)
+	f := newFunction(pointer, environment, nil)
+	f._store = store
+	return f
 }
 
 //export function_trampoline
 func function_trampoline(env unsafe.Pointer, args *C.wasm_val_vec_t, res *C.wasm_val_vec_t) *C.wasm_trap_t {
-	environment := (*functionEnvironment)(env)
-	hostFunction, err := hostFunctionStore.load(environment.hostFunctionStoreIndex)
+	ManagedAssert()
+	index := uint32((*C.go_function_env)(env).index)
+	hostFunction, err := hostFunctionStore.load(index)
 	if err != nil {
 		panic(err)
 	}
@@ -152,31 +165,33 @@ func function_trampoline(env unsafe.Pointer, args *C.wasm_val_vec_t, res *C.wasm
 //		},
 //	)
 func NewFunctionWithEnvironment(store *Store, ty *FunctionType, userEnvironment interface{}, functionWithEnv func(interface{}, []Value) ([]Value, error)) *Function {
+	ManagedAssert()
 	hostFunction := &hostFunction{
 		store:           store,
 		function:        functionWithEnv,
 		userEnvironment: userEnvironment,
 	}
-	environment := &functionEnvironment{
-		hostFunctionStoreIndex: hostFunctionStore.store(hostFunction),
-	}
+	environment := newFunctionEnvironment(hostFunction)
 	pointer := C.wasm_func_new_with_env(
 		store.Inner(),
 		ty.inner(),
 		(C.wasm_func_callback_t)(C.function_with_environment_trampoline),
-		unsafe.Pointer(environment),
+		unsafe.Pointer(environment.inner),
 		(C.wasm_func_callback_env_finalizer_t)(C.function_environment_finalizer),
 	)
 
 	runtime.KeepAlive(environment)
 
-	return newFunction(pointer, environment, nil)
+	f := newFunction(pointer, environment, nil)
+	f._store = store
+	return f
 }
 
 //export function_with_environment_trampoline
 func function_with_environment_trampoline(env unsafe.Pointer, args *C.wasm_val_vec_t, res *C.wasm_val_vec_t) *C.wasm_trap_t {
-	environment := (*functionEnvironment)(env)
-	hostFunction, err := hostFunctionStore.load(environment.hostFunctionStoreIndex)
+	ManagedAssert()
+	index := uint32((*C.go_function_env)(env).index)
+	hostFunction, err := hostFunctionStore.load(index)
 	if err != nil {
 		panic(err)
 	}
@@ -195,6 +210,14 @@ func function_with_environment_trampoline(env unsafe.Pointer, args *C.wasm_val_v
 }
 
 func (self *Function) inner() *C.wasm_func_t {
+	ManagedAssert()
+	managedBorrowAlive(self._ownedBy)
+	if self._managedScope == nil || self._managedScope.closed || self._inner == nil {
+		panic("closed Function")
+	}
+	if self._store != nil && self._store._inner == nil {
+		panic("closed Function Store")
+	}
 	return self._inner
 }
 
@@ -227,7 +250,7 @@ func (self *Function) Type() *FunctionType {
 
 	ty := C.wasm_func_type(self.inner())
 	runtime.KeepAlive(self)
-	self.funcType = newFunctionType(ty, self.ownedBy())
+	self.funcType = newFunctionType(ty, nil)
 
 	return self.funcType
 }
@@ -304,6 +327,8 @@ func (self *Function) Native() NativeFunction {
 			C.wasm_val_vec_new(&arguments, C.size_t(numberOfReceivedParameters), (*C.wasm_val_t)(unsafe.Pointer(&allArguments[0])))
 		}
 
+		leave := managedEnterFunction(self)
+		defer leave()
 		trap := C.wasm_func_call(self.inner(), &arguments, &results)
 
 		runtime.KeepAlive(arguments)
@@ -340,12 +365,26 @@ func (self *Function) Native() NativeFunction {
 }
 
 func (self *Function) Close() {
-	self.funcType.Close()
+	if self.funcType != nil {
+		self.funcType.Close()
+		self.funcType = nil
+	}
 }
 
+// C stores only a C-allocated integer index, never a retained Go pointer.
 type functionEnvironment struct {
-	store                  *Store
+	inner                  *C.go_function_env
 	hostFunctionStoreIndex uint32
+}
+
+func newFunctionEnvironment(f *hostFunction) *functionEnvironment {
+	p := (*C.go_function_env)(C.malloc(C.size_t(unsafe.Sizeof(C.go_function_env{}))))
+	if p == nil {
+		panic("host callback environment allocation failed")
+	}
+	index := hostFunctionStore.store(f)
+	p.index = C.uint32_t(index)
+	return &functionEnvironment{inner: p, hostFunctionStoreIndex: index}
 }
 
 //export function_environment_finalizer

@@ -2,7 +2,6 @@ package wasmer
 
 // #include <wasmer.h>
 import "C"
-import "runtime"
 
 // Store represents all global state that can be manipulated by
 // WebAssembly programs. It consists of the runtime representation of
@@ -25,12 +24,17 @@ type Store struct {
 //	engine := NewEngine()
 //	store := NewStore(engine)
 func NewStore(engine *Engine) *Store {
+	ManagedAssert()
 	self := &Store{
 		_inner: C.wasm_store_new(engine.inner()),
 		Engine: engine,
 	}
 
-	runtime.SetFinalizer(self, func(self *Store) {
+	if self._inner == nil {
+		return nil
+	}
+	ManagedStoresCreated++
+	managedSetFinalizer(self, func(self *Store) {
 		self.Close()
 	})
 
@@ -38,18 +42,25 @@ func NewStore(engine *Engine) *Store {
 }
 
 func (self *Store) inner() *C.wasm_store_t {
-	return self._inner
+	return self.Inner()
 }
 
 func (self *Store) Inner() *C.wasm_store_t {
+	ManagedAssert()
+	if self._inner == nil {
+		panic("closed Store")
+	}
 	return self._inner
 }
 
 // Close the store forcingly
 //
-// A runtime finalizer is registered on the Store, but it is possible
-// to force the destruction of the Store by calling Close manually.
+// A managed scope owns the Store. Close may release it early on the owner thread.
 func (self *Store) Close() {
-	runtime.SetFinalizer(self, nil)
-	C.wasm_store_delete(self.Inner())
+	if !managedSetFinalizer(self, nil) {
+		return
+	}
+	C.wasm_store_delete(self._inner)
+	self._inner = nil
+	ManagedStoresClosed++
 }
