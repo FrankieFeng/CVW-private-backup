@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
 package wasmer
 
 import (
+	"os"
 	//"chainmaker.org/chainmaker/protocol/v2"
 	"errors"
 	"fmt"
@@ -574,6 +575,7 @@ type vmPool struct {
 	byteCode      []byte
 	store         *wasmergo.Store
 	module        *wasmergo.Module
+	copyPlan      *staticMemoryPlan
 	initialMemory *wasmergo.Memory
 	// wasmergo instance pool
 	instances chan *wrappedInstance
@@ -1025,7 +1027,17 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 	}
 
 	startTime := time.Now().UnixNano()
-	module, err := wasmergo.NewModule(store, byteCode, log)
+	compileCode := byteCode
+	var copyPlan *staticMemoryPlan
+	if os.Getenv("CM_CVW_COPY") == "1" {
+		var planErr error
+		copyPlan, planErr = prepareStaticMemory(byteCode, contractId, "cvw-copy-C0")
+		if planErr != nil {
+			return nil, planErr
+		}
+		compileCode = copyPlan.NoData
+	}
+	module, err := wasmergo.NewModule(store, compileCode, log)
 	endTime := time.Now().UnixNano()
 	compileTime = float64(endTime-startTime) / 1e9
 	if err != nil {
@@ -1033,7 +1045,11 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 	}
 	log.Debugf("[%s_%s], new module success", contractId.Name, contractId.Version)
 
+	if copyPlan != nil {
+		copyPlan.Module = module
+	}
 	vmPool := &vmPool{
+		copyPlan:        copyPlan,
 		contractId:      contractId,
 		byteCode:        byteCode,
 		store:           store,
@@ -1260,6 +1276,13 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 	}
 	p.log.Debugf("newInstanceFromModule success")
 
+	if p.copyPlan != nil {
+		if err = p.copyPlan.restore(p.module, wasmInstance, p.byteCode, p.contractId, "cvw-copy-C0"); err != nil {
+			wasmInstance.Close()
+			p.releaseWasiEnv(wasiEnv)
+			return nil, err
+		}
+	}
 	err = wasiEnv.Initialize(p.store, wasmInstance)
 	if err != nil {
 		wasmInstance.Close()
