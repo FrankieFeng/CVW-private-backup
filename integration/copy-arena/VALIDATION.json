@@ -1,0 +1,18 @@
+{
+  "base": "c3e8f2cc1479a11450d61e342a93c3b2416b7cff",
+  "branch": "integration/copy-arena-candidate",
+  "new_tests": "native static-memory copy + config mismatch rejection; bigNumCal original/plain/copy/arena/both 4 cases, full result including Gas/events and RWSet equality at fixed TxID",
+  "result": "PASS",
+  "business_gas": 120027,
+  "first_attempt": "Only RWSet tx_id differed because existing fixture creates random IDs; preserved attempt; corrected fixture to same TxID, not ignored field",
+  "go": "go1.25.0; -ldflags=-checklinkname=0",
+  "source_sha": {
+    "copy_static.go": "5ef9f61c2990f3ac917626c56ea20c84a8d96f6b4190b18ec6ae3644ba2f158f",
+    "vm_pool.go": "961d1a7eb0c2c3ae5a9699d484d35e4c48728f42189273616b52560578b852b4",
+    "copy_static_test.go": "a450dadf976fbc540a714a52ce90a072f98bbc377cc7a53769035ed59e1111cd"
+  },
+  "validation_workfile": "/home/frankie/mygitprojects/integration-validation/copy-arena-20261119/validation.work",
+  "native_dir": "/home/frankie/mygitprojects/.worktrees/cvw-original-pool-reuse-12methods/experiments/instance-lifecycle/cvw-benchmark-baseline-v1/unified-guest-20261114/source/vm/wasmer-go/packaged/lib/linux-amd64",
+  "guest_dir": "/home/frankie/mygitprojects/.worktrees/cvw-original-pool-reuse-12methods/experiments/instance-lifecycle/cvw-benchmark-baseline-v1/guest-parity-20261113/artifacts/compute",
+  "dependency_note": "Existing offline workfile resolves protocol/vm/utils to original worktree and store to step36 mirror; no dependency changes committed; receiving repository must retest its own dependency graph."
+}

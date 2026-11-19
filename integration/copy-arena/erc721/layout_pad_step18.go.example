@@ -1,0 +1,5 @@
+package main
+import "unsafe"
+var experimentHeapLayoutPad = [1507328]byte{1507328-1:1}
+var experimentHeapLayoutPadPtr = unsafe.Pointer(&experimentHeapLayoutPad)
+func init() { if experimentHeapLayoutPadPtr == nil { panic("experiment heap layout padding unavailable") } }
