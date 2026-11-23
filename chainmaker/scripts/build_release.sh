@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+#
+# Copyright (C) BABEC. All rights reserved.
+# Copyright (C) THL A29 Limited, a Tencent company. All rights reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+set -e
+
+CURRENT_PATH=$(pwd)
+PROJECT_PATH=$(dirname "${CURRENT_PATH}")
+BUILD_PATH=${PROJECT_PATH}/build
+RELEASE_PATH=${PROJECT_PATH}/build/release
+BACKUP_PATH=${PROJECT_PATH}/build/backup
+BUILD_CRYPTO_CONFIG_PATH=${BUILD_PATH}/crypto-config
+BUILD_CONFIG_PATH=${BUILD_PATH}/config
+VERSION=v2.4.0_alpha
+DATETIME=$(date "+%Y%m%d%H%M%S")
+PLATFORM=$(uname -m)
+system=$(uname)
+
+function xsed() {
+
+    if [ "${system}" = "Linux" ]; then
+        sed -i "$@"
+    else
+        sed -i '' "$@"
+    fi
+}
+
+function check_env() {
+    if  [ ! -d $BUILD_CONFIG_PATH ] ;then
+        echo $BUILD_CONFIG_PATH" is missing"
+        exit 1
+    fi
+
+    if  [ ! -d $BUILD_CRYPTO_CONFIG_PATH ] ;then
+        echo $BUILD_CRYPTO_CONFIG_PATH" is missing"
+        exit 1
+    fi
+}
+
+function build() {
+    cd $PROJECT_PATH
+    echo "build chainmaker ${PROJECT_PATH}..."
+    make
+}
+
+function resolve_wasmer_lib() {
+    local resolved=""
+    if [ "${system}" = "Linux" ]; then
+        # Prefer the libwasmer bundled in vm-wasmer module, which keeps in sync
+        # with vm-wasmer interface changes (for example, wasm_config_set_backend).
+        local vm_wasmer_dir=""
+        vm_wasmer_dir=$(cd "$PROJECT_PATH" && GOWORK=off go list -m -f '{{.Dir}}' chainmaker.org/chainmaker/vm-wasmer/v2 2>/dev/null || true)
+        if [ -n "$vm_wasmer_dir" ] && [ -f "$vm_wasmer_dir/wasmer-go/packaged/lib/linux-amd64/libwasmer.so" ]; then
+            resolved="$vm_wasmer_dir/wasmer-go/packaged/lib/linux-amd64/libwasmer.so"
+        elif [ -f "$PROJECT_PATH/main/libwasmer_runtime_c_api.so" ]; then
+            resolved="$PROJECT_PATH/main/libwasmer_runtime_c_api.so"
+        fi
+    else
+        if [ -f "$PROJECT_PATH/main/libwasmer.dylib" ]; then
+            resolved="$PROJECT_PATH/main/libwasmer.dylib"
+        fi
+    fi
+
+    if [ -z "$resolved" ]; then
+        echo "failed to locate wasmer runtime library"
+        exit 1
+    fi
+    echo "$resolved"
+}
+
+function package() {
+    if [ -d $RELEASE_PATH ]; then
+        mkdir -p $BACKUP_PATH/backup_release
+        mv $RELEASE_PATH $BACKUP_PATH/backup_release/release_$(date "+%Y%m%d%H%M%S")
+    fi
+
+    mkdir -p $RELEASE_PATH
+    cd $RELEASE_PATH
+    local wasmer_lib_source
+    wasmer_lib_source=$(resolve_wasmer_lib)
+    echo "using wasmer runtime library: $wasmer_lib_source"
+    echo "tar zcf crypto-config..."
+    tar -zcf crypto-config-$DATETIME.tar.gz ../crypto-config
+
+    c=0
+    dirNames[0]=""
+    for file in `ls -tr $BUILD_CRYPTO_CONFIG_PATH`
+    do
+        chainmaker_file=chainmaker-$VERSION-$file
+        dirNames[$c]=$chainmaker_file
+        c=$(($c+1))
+        mkdir $chainmaker_file
+        mkdir $chainmaker_file/bin
+        mkdir $chainmaker_file/lib
+        mkdir -p $chainmaker_file/config/$file
+        mkdir $chainmaker_file/log
+        cp $PROJECT_PATH/bin/chainmaker   $chainmaker_file/bin
+        if [ -f "$PROJECT_PATH/bin/wasmer-process-worker" ]; then
+          cp "$PROJECT_PATH/bin/wasmer-process-worker" $chainmaker_file/bin/
+        else
+          echo "WARN: $PROJECT_PATH/bin/wasmer-process-worker missing; build it before package"
+        fi
+        cp $CURRENT_PATH/bin/start.sh     $chainmaker_file/bin
+        cp $CURRENT_PATH/bin/stop.sh      $chainmaker_file/bin
+        cp $CURRENT_PATH/bin/restart.sh   $chainmaker_file/bin
+        cp $CURRENT_PATH/bin/version.sh   $chainmaker_file/bin
+        cp $CURRENT_PATH/bin/docker-vm-standalone-start.sh   $chainmaker_file/bin
+        cp $CURRENT_PATH/bin/docker-vm-standalone-stop.sh   $chainmaker_file/bin
+        cp $CURRENT_PATH/service/*        $chainmaker_file/bin
+        if [ "${system}" = "Linux" ]; then
+          cp -r "$wasmer_lib_source"                              $chainmaker_file/lib/libwasmer.so
+          cp -r $PROJECT_PATH/main/prebuilt/linux/wxdec           $chainmaker_file/lib/
+        else
+          cp -r "$wasmer_lib_source"                              $chainmaker_file/lib/
+          cp -r $PROJECT_PATH/main/prebuilt/mac/wxdec             $chainmaker_file/lib/
+        fi
+        chmod 644 $chainmaker_file/lib/*
+        chmod 700 $chainmaker_file/lib/wxdec
+        chmod 700 $chainmaker_file/bin/*
+        cp -r $BUILD_CONFIG_PATH/node$c/* $chainmaker_file/config/$file
+        xsed "s%{org_id}%$file%g"         $chainmaker_file/bin/start.sh
+        xsed "s%{org_id}%$file%g"         $chainmaker_file/bin/stop.sh
+        xsed "s%{org_id}%$file%g"         $chainmaker_file/bin/restart.sh
+        xsed "s%{org_id}%$file%g"         $chainmaker_file/bin/run.sh
+        d=$(date "+%Y%m%d%H%M%S")
+        xsed "s%{tagName}%name-$d%g"         $chainmaker_file/bin/*.sh
+        echo "tar zcf ${chainmaker_file}..."
+        tar -zcf chainmaker-$VERSION-$file-$DATETIME-$PLATFORM.tar.gz $chainmaker_file &
+#        rm -rf $chainmaker_file
+    done
+    echo "wait tar..."
+    wait
+    for dirName in ${dirNames[@]}
+    do
+      # echo "rm -rf $PROJECT_PATH/build/release/$dirName"
+      rm -rf $PROJECT_PATH/build/release/$dirName
+    done
+}
+
+check_env
+build
+package
+

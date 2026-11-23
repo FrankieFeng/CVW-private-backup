@@ -8,13 +8,16 @@ SPDX-License-Identifier: Apache-2.0
 package wasmer
 
 import (
+	"errors"
+	"fmt"
+	"sync/atomic"
+	"time"
+
 	"chainmaker.org/chainmaker/logger/v2"
 	commonPb "chainmaker.org/chainmaker/pb-go/v2/common"
 	"chainmaker.org/chainmaker/protocol/v2"
 	"chainmaker.org/chainmaker/utils/v2"
 	wasmer "chainmaker.org/chainmaker/vm-wasmer/v2/wasmer-go"
-	"fmt"
-	"time"
 )
 
 const (
@@ -40,6 +43,96 @@ func (r *RuntimeInstance) Pool() *vmPool {
 	return r.pool
 }
 
+// borrowInstance 从池中取实例。ForceFresh 或强制不复用时新建，用完即关。
+func (r *RuntimeInstance) borrowInstance(reuse bool, createFresh bool) (*wrappedInstance, error) {
+	if r == nil || r.pool == nil {
+		return nil, errors.New("wasmer pool is nil")
+	}
+	if createFresh {
+		inst, err := r.pool.NewInstance()
+		if err != nil {
+			return nil, err
+		}
+		if inst != nil {
+			inst.setRevertMode(false)
+		}
+		return inst, nil
+	}
+	inst := r.pool.GetInstance()
+	if inst != nil {
+		inst.setRevertMode(reuse)
+	}
+	return inst, nil
+}
+
+// returnInstance closes a one-shot instance without touching the pool size.
+// A reused instance goes back through RevertInstance.
+func (r *RuntimeInstance) returnInstance(inst *wrappedInstance, createFresh bool) {
+	if inst == nil || r == nil || r.pool == nil {
+		return
+	}
+	if !createFresh {
+		atomic.AddInt32(&inst.invokeCount, 1)
+	}
+	if createFresh {
+		r.pool.CloseInstance(inst)
+		return
+	}
+	r.pool.RevertInstance(inst)
+}
+
+type warmupScratcher interface {
+	RunOnWarmupScratch(func(protocol.TxSimContext))
+}
+
+// warmFreshInstance runs this transaction once and drops that result when the
+// instance has never executed. The caller then runs it again and keeps the second result.
+func (r *RuntimeInstance) warmFreshInstance(inst *wrappedInstance, contract *commonPb.Contract, method string,
+	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64) {
+	if inst == nil || inst.wasmInstance == nil || atomic.LoadInt32(&inst.invokeCount) != 0 {
+		return
+	}
+	if method == InitContractFunc || method == UpgradeContractFunc {
+		return
+	}
+	scratcher, ok := txContext.(warmupScratcher)
+	if !ok || scratcher == nil {
+		return
+	}
+	defer func() { _ = recover() }()
+	scratcher.RunOnWarmupScratch(func(scratch protocol.TxSimContext) {
+		r.execDiscard(inst, contract, method, parameters, scratch, gasUsed)
+	})
+	atomic.AddInt32(&inst.invokeCount, 1)
+	r.log.Infof("instance warmup, tx:%s, contract:%s, method:%s, instance:%s, nextUse:%d",
+		txContext.GetTx().GetPayload().GetTxId(), contract.GetName(), method, inst.id, inst.invokeCount+1)
+}
+
+func (r *RuntimeInstance) execDiscard(inst *wrappedInstance, contract *commonPb.Contract, method string,
+	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64) {
+	result := &commonPb.ContractResult{}
+	sc := NewSimContext(method, r.log, r.chainId)
+	defer sc.removeCtxPointer()
+	sc.Contract = contract
+	sc.TxSimContext = txContext
+	sc.ContractResult = result
+	sc.parameters = parameters
+	sc.SpecialTxType = protocol.ExecOrderTxTypeNormal
+	sc.Instance = inst.wasmInstance
+	gasLimit := runtimeGasLimit
+	availableGas := gasLimit
+	if gasUsed < gasLimit {
+		availableGas = gasLimit - gasUsed
+	} else {
+		availableGas = 0
+	}
+	if err := setGasByExport(inst.wasmInstance, availableGas); err != nil {
+		return
+	}
+	_ = sc.CallMethod(inst.wasmInstance)
+	_, _ = getGasByExport(inst.wasmInstance)
+}
+
 // Invoke contract by call vm, implement protocol.RuntimeInstance
 func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byteCode []byte,
 	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64) (
@@ -58,6 +151,19 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 	}
 	specialTxType = protocol.ExecOrderTxTypeNormal
 
+	configured, reuseErr := resolveInstanceReuse(contract, method, parameters, txContext)
+	if reuseErr != nil {
+		contractResult.Code = 1
+		contractResult.Message = reuseErr.Error()
+		r.log.Errorf("resolve instance reuse failed, contract:%s, err:%v", contract.GetName(), reuseErr)
+		return
+	}
+	// 出块和验证都复用实例。ForceFresh 仍新建。
+	reuse, createFresh := decideInstanceReuse(configured, txContext)
+	if method == InitContractFunc || method == UpgradeContractFunc {
+		r.log.Infof("contract[%s] instance reuse=%v", contract.GetName(), reuse)
+	}
+
 	var instanceInfo *wrappedInstance
 	defer func() {
 		endTime := utils.CurrentTimeMillisSeconds()
@@ -75,37 +181,17 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 		}
 	}()
 
-	// if cross contract call, then new instance
-	if txContext.GetDepth() > 0 {
-		//var err error
-		//instanceInfo, err = r.pool.NewInstance()
-		//defer r.pool.CloseInstance(instanceInfo)
-		//if err != nil {
-		//	panic(err)
-		//}
-		r.log.Debugf("depth>0 before get instance for tx: %s", txContext.GetTx().Payload.TxId)
-		instanceInfo = r.pool.GetInstance()
-		r.log.Debugf("depth>0 after get instance for tx: %s", txContext.GetTx().Payload.TxId)
-		defer r.pool.RevertInstance(instanceInfo)
-	} else {
-		r.log.Debugf("before get instance for tx: %s", txContext.GetTx().Payload.TxId)
-		instanceInfo = r.pool.GetInstance()
-		r.log.Debugf("after get instance for tx: %s", txContext.GetTx().Payload.TxId)
-		defer r.pool.RevertInstance(instanceInfo)
+	var borrowErr error
+	instanceInfo, borrowErr = r.borrowInstance(reuse, createFresh)
+	if borrowErr != nil {
+		contractResult.Code = 1
+		contractResult.Message = borrowErr.Error()
+		r.log.Errorf("borrow instance failed, contract:%s, method:%s, err:%v", contract.GetName(), method, borrowErr)
+		return
 	}
-
-	instance := instanceInfo.wasmInstance
-	gasLimit := runtimeGasLimit
-	availableGas := gasLimit
-	if gasUsed < gasLimit {
-		availableGas = gasLimit - gasUsed
-	} else {
-		availableGas = 0
-	}
-	r.log.Debugf("gasLimit:%d", availableGas)
-	setGasErr := setGasByExport(instance, availableGas)
-	if setGasErr != nil {
-		panic(setGasErr)
+	defer r.returnInstance(instanceInfo, createFresh)
+	if reuse && !createFresh {
+		r.warmFreshInstance(instanceInfo, contract, method, parameters, txContext, gasUsed)
 	}
 
 	var sc = NewSimContext(method, r.log, r.chainId)
@@ -114,23 +200,56 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 	sc.TxSimContext = txContext
 	sc.ContractResult = contractResult
 	sc.parameters = parameters
-	sc.Instance = instance
 	sc.SpecialTxType = protocol.ExecOrderTxTypeNormal
 
-	//运行中如果死循环或者gas超值，它会自动中止，返回unreachable的err
-	err := sc.CallMethod(instance)
-	//r.log.Infof("contract invoke finished, tx:%s, call method err is %s",
-	//	txContext.GetTx().Payload.TxId, err)
-	if err != nil {
-		r.log.Infof("contract invoke failed, %s, tx: %s", err, txContext.GetTx().Payload.TxId)
-	}
-	specialTxType = sc.SpecialTxType
+	gasLimit := runtimeGasLimit
+	var (
+		err          error
+		gasRemaining uint64
+	)
 
-	// gas Log
-	gasRemaining, err := getGasByExport(instance)
-	if err != nil {
-		panic(err)
+	if instanceInfo.processWorker != nil {
+		// Process isolation: execute inside worker; sys_call forwarded via shm IPC.
+		result, ierr := instanceInfo.processWorker.invokeContract(
+			instanceInfo.processInstID, method, parameters, gasUsed, sc.CtxPtr)
+		if ierr != nil {
+			panic(ierr)
+		}
+		err = result.Err
+		gasRemaining = result.GasRemaining
+		if err != nil {
+			r.log.Infof("contract invoke failed, %s, tx: %s", err, txContext.GetTx().Payload.TxId)
+		}
+		specialTxType = sc.SpecialTxType
+	} else {
+		instance := instanceInfo.wasmInstance
+		sc.Instance = instance
+		availableGas := gasLimit
+		if gasUsed < gasLimit {
+			availableGas = gasLimit - gasUsed
+		} else {
+			availableGas = 0
+		}
+		r.log.Debugf("gasLimit:%d", availableGas)
+		setGasErr := setGasByExport(instance, availableGas)
+		if setGasErr != nil {
+			panic(setGasErr)
+		}
+
+		//运行中如果死循环或者gas超值，它会自动中止，返回unreachable的err
+		err = sc.CallMethod(instance)
+		if err != nil {
+			r.log.Infof("contract invoke failed, %s, tx: %s", err, txContext.GetTx().Payload.TxId)
+		}
+		specialTxType = sc.SpecialTxType
+
+		var gerr error
+		gasRemaining, gerr = getGasByExport(instance)
+		if gerr != nil {
+			panic(gerr)
+		}
 	}
+
 	//这里用于判断是否属于gas超支的err
 	//注意这里判断条件是有问题的，以前是判断GetGasRemaining<=0，但是gasremaining是uint64无符号，
 	//所以如果gas消耗完，要么是GetGasRemaining=0或GetGasRemaining=uint64的max
@@ -225,6 +344,17 @@ func (r *RuntimeInstance) InvokeTime(contract *commonPb.Contract, method string,
 	}
 	specialTxType = protocol.ExecOrderTxTypeNormal
 
+	configured, reuseErr := resolveInstanceReuse(contract, method, parameters, txContext)
+	if reuseErr != nil {
+		contractResult.Code = 1
+		contractResult.Message = reuseErr.Error()
+		endTime = time.Now().UnixNano()
+		executionTime = float64(endTime-startTime) / 1e9
+		return
+	}
+	// 出块新建、重放复用、gas 不一致后再新建，都由这里覆盖装载选项。
+	reuse, createFresh := decideInstanceReuse(configured, txContext)
+
 	var instanceInfo *wrappedInstance
 	defer func() {
 		//endTime := utils.CurrentTimeMillisSeconds()
@@ -246,24 +376,15 @@ func (r *RuntimeInstance) InvokeTime(contract *commonPb.Contract, method string,
 		r.log.Debugf(logStr)
 	}()
 
-	// if cross contract call, then new instance
-	if txContext.GetDepth() > 0 {
-		//var err error
-		//instanceInfo, err = r.pool.NewInstance()
-		//defer r.pool.CloseInstance(instanceInfo)
-		//if err != nil {
-		//	panic(err)
-		//}
-		//r.log.Debugf("before get instance for tx: %s", txContext.GetTx().Payload.TxId)
-		instanceInfo = r.pool.GetInstance()
-		//r.log.Debugf("after get instance for tx: %s", txContext.GetTx().Payload.TxId)
-		defer r.pool.RevertInstance(instanceInfo)
-	} else {
-		//r.log.Debugf("before get instance for tx: %s", txContext.GetTx().Payload.TxId)
-		instanceInfo = r.pool.GetInstance()
-		//r.log.Debugf("after get instance for tx: %s", txContext.GetTx().Payload.TxId)
-		defer r.pool.RevertInstance(instanceInfo)
+	var borrowErr error
+	instanceInfo, borrowErr = r.borrowInstance(reuse, createFresh)
+	if borrowErr != nil {
+		contractResult.Code = 1
+		contractResult.Message = borrowErr.Error()
+		r.log.Errorf("borrow instance failed, contract:%s, method:%s, err:%v", contract.GetName(), method, borrowErr)
+		return
 	}
+	defer r.returnInstance(instanceInfo, createFresh)
 	instanceInfoSnapshot := *instanceInfo
 	defer func() {
 		if instanceInfo == nil || instanceInfo.wasmInstance == nil {
@@ -273,47 +394,63 @@ func (r *RuntimeInstance) InvokeTime(contract *commonPb.Contract, method string,
 			txId, contractName, method, instanceInfo.id, instanceInfoSnapshot == *instanceInfo)
 	}()
 
-	instance := instanceInfo.wasmInstance
-	gasLimit := runtimeGasLimit
-	availableGas := gasLimit
-	if gasUsed < gasLimit {
-		availableGas = gasLimit - gasUsed
-	} else {
-		availableGas = 0
-	}
-	r.log.Debugf("gasLimit:%d", availableGas)
-	setGasErr := setGasByExport(instance, availableGas)
-	if setGasErr != nil {
-		panic(setGasErr)
-	}
 	var sc = NewSimContext(method, r.log, r.chainId)
 	defer sc.removeCtxPointer()
 	sc.Contract = contract
 	sc.TxSimContext = txContext
 	sc.ContractResult = contractResult
 	sc.parameters = parameters
-	sc.Instance = instance
 	sc.SpecialTxType = protocol.ExecOrderTxTypeNormal
 
-	var err error
-	func() {
-		t0 := time.Now()
-		defer func() { callMethodTime = time.Since(t0).Seconds() }()
-		err = sc.CallMethod(instance)
-	}()
+	gasLimit := runtimeGasLimit
+	var (
+		err          error
+		gasRemaining uint64
+	)
 
-	//r.log.Infof("contract invoke finished, tx:%s, call method err is %s",
-	//	txContext.GetTx().Payload.TxId, err)
-	if err != nil {
-		//r.log.Errorf("contract invoke failed, %s, tx: %s", err, txContext.GetTx().Payload.TxId)
-	}
-	specialTxType = sc.SpecialTxType
+	if instanceInfo.processWorker != nil {
+		func() {
+			t0 := time.Now()
+			defer func() { callMethodTime = time.Since(t0).Seconds() }()
+			result, ierr := instanceInfo.processWorker.invokeContract(
+				instanceInfo.processInstID, method, parameters, gasUsed, sc.CtxPtr)
+			if ierr != nil {
+				panic(ierr)
+			}
+			err = result.Err
+			gasRemaining = result.GasRemaining
+		}()
+		specialTxType = sc.SpecialTxType
+	} else {
+		instance := instanceInfo.wasmInstance
+		sc.Instance = instance
+		availableGas := gasLimit
+		if gasUsed < gasLimit {
+			availableGas = gasLimit - gasUsed
+		} else {
+			availableGas = 0
+		}
+		r.log.Debugf("gasLimit:%d", availableGas)
+		setGasErr := setGasByExport(instance, availableGas)
+		if setGasErr != nil {
+			panic(setGasErr)
+		}
 
-	// gas Log
-	gasRemaining, err := getGasByExport(instance)
-	if err != nil {
-		panic(err)
+		func() {
+			t0 := time.Now()
+			defer func() { callMethodTime = time.Since(t0).Seconds() }()
+			err = sc.CallMethod(instance)
+		}()
+
+		specialTxType = sc.SpecialTxType
+
+		var gerr error
+		gasRemaining, gerr = getGasByExport(instance)
+		if gerr != nil {
+			panic(gerr)
+		}
 	}
+
 	//注意这里判断条件是有问题的，以前是判断GetGasRemaining<=0，但是gasremaining是uint64无符号，
 	//所以如果gas消耗完，要么是GetGasRemaining=0或GetGasRemaining=uint64的max
 	if gasRemaining == 0 || gasRemaining == ^uint64(0) {

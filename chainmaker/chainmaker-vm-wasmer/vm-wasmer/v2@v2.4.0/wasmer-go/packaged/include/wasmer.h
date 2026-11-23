@@ -1914,6 +1914,8 @@ void wasm_config_set_target(wasm_config_t *config, struct wasmer_target_t *targe
 
 void wasm_config_sys_canonicalize_nans(wasm_config_t *config, bool enable);
 
+void wasm_config_sys_set_compiler_num_threads(wasm_config_t *config, uint32_t num_threads);
+
 void wasm_config_set_max_pages(wasm_config_t *config,uint32_t maxPagesLimited);
 
 wasm_engine_t *wasm_engine_new(void);
@@ -1962,6 +1964,8 @@ int wasmer_last_error_message(char *buffer, int length);
 struct wasmer_middleware_t *wasmer_metering_as_middleware(struct wasmer_metering_t *metering);
 
 void wasmer_metering_delete(struct wasmer_metering_t *_metering);
+
+void wasmer_drain_stack_pool(void);
 
 uint64_t wasmer_metering_get_remaining_points(wasm_instance_t *instance);
 

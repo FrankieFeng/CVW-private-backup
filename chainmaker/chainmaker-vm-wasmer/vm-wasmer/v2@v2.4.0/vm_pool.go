@@ -12,6 +12,9 @@ import (
 	//"chainmaker.org/chainmaker/protocol/v2"
 	"errors"
 	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -28,7 +31,7 @@ const (
 	defaultRefreshTime = time.Hour * 12
 
 	// the max pool size for every contract
-	defaultMaxSize = 10
+	defaultMaxSize = 100
 	// the min pool size
 	defaultMinSize = 5
 	// grow pool size
@@ -39,10 +42,6 @@ const (
 	defaultApplyThreshold = 100
 	// if wasmer instance invoke error more than N times, should close and discard this instance
 	defaultDiscardCount = 10
-	// max recycled wasiEnvs kept per contract pool. Cap is a safety net against
-	// unbounded Tokio runtime accumulation if release/acquire ordering regresses;
-	// steady-state freelist stays near concurrent discard depth (≤ pool size).
-	defaultWasiFreelistMax = 10
 )
 
 var (
@@ -571,8 +570,11 @@ const (
 // vm pool can grow and shrink on demand
 type vmPool struct {
 	// the corresponding contract info
-	contractId    *commonPb.Contract
-	byteCode      []byte
+	contractId *commonPb.Contract
+	byteCode   []byte
+	// engine is shared by all instances; template store is used only to compile
+	// Module and as the Engine source for CloneStore (one Store per instance).
+	engine        *wasmergo.Engine
 	store         *wasmergo.Store
 	module        *wasmergo.Module
 	copyPlan      *staticMemoryPlan
@@ -589,23 +591,21 @@ type vmPool struct {
 	// if we cannot get instance right now, applyGrowCount++
 	applyGrowCount int32
 	// apply signal channel
-	applySignalC    chan struct{}
-	closeC          chan struct{}
+	applySignalC chan struct{}
+	closeC       chan struct{}
+	// closed is closed after the refresh loop finishes pool teardown.
+	closed          chan struct{}
 	resetC          chan struct{}
 	removeInstanceC chan struct{}
 	addInstanceC    chan struct{}
 	log             *logger.CMLogger
-	// freeWasiEnvs recycles WASI environments across wasm instance recreate.
-	// Each Finalize creates a dedicated Tokio multi-thread runtime (~nproc workers)
-	// that packaged libwasmer does not reclaim on wasi_env_delete; recycling avoids
-	// spawning a new runtime on every discard/grow. One wasiEnv is bound to at most
-	// one live wasm instance at a time (serial reuse).
-	wasiMu       sync.Mutex
-	freeWasiEnvs []*wasmergo.WasiEnvironment
-	// wasiEnv acquire counters (production reuse proof via system.log)
-	wasiFromFreelist uint64 // atomic
-	wasiFinalizeNew  uint64 // atomic
-	wasiFreelistDrop uint64 // atomic: release rejected by freelist cap
+
+	// Process isolation (optional): one warm worker per contract hosts many instances.
+	processIsolation bool
+	artifactPath     string
+	rssLimitKB       int64
+	workerMu         sync.Mutex
+	worker           *processWorker
 }
 
 // wrappedInstance wraps instance with id and other info
@@ -614,16 +614,27 @@ type wrappedInstance struct {
 	id string
 	// wasmergo instance provided by wasmer
 	wasmInstance *wasmergo.Instance
-	// wasiEnv is the WASI environment used to create this instance; recycled into
-	// the pool freelist on CloseInstance (not deleted — Tokio threads would leak).
+	// store is private to this instance (cloned from the pool template Store).
+	store *wasmergo.Store
+	// wasiEnv is destroyed on CloseInstance via wasi_env_delete.
 	wasiEnv *wasmergo.WasiEnvironment
+	// processWorker / processInstID set when CHAINMAKER_WASMER_PROCESS_ISOLATION=1
+	processWorker *processWorker
+	processInstID string
 	// lastUseTime, unix timestamp in ms
 	lastUseTime int64
 	// createTime, unix timestamp in ms
 	createTime int64
 	// errCount, current instance invoke method error count
 	errCount int32
+	// revertMode snapshots this call's reuse decision.
+	// 0 follows CM_WASMER_FORCE_NO_REUSE, 1 discards, 2 returns the instance to the pool.
+	revertMode int32
+	// invokeCount is how many times this instance has executed a contract call.
+	invokeCount int32
 }
+
+const maxWasmerInstanceUse int32 = 50
 
 // GetInstance get a vm instance to run contract
 // should be followed by defer resetInstance
@@ -663,14 +674,17 @@ func (p *vmPool) GetInstance() *wrappedInstance {
 	return instance
 }
 
-// RevertInstance revert instance to pool
+// RevertInstance put an instance back to pool. Should be called after GetInstance()
+// Discard it if its error count overflow.
+// Per-call revertMode, set from the contract's wasmer_instance_reuse option, wins.
+// When that option was not set, CM_WASMER_FORCE_NO_REUSE!=0 (the default) discards.
 func (p *vmPool) RevertInstance(instance *wrappedInstance) {
-	if true || p.shouldDiscard(instance) {
-		p.log.Debugf("instance not reused, instance id: %s, errCount: %d", instance.id, instance.errCount)
+	forceNoReuse := instanceDiscardOnRevert(instance)
+	usedUp := atomic.LoadInt32(&instance.invokeCount) >= maxWasmerInstanceUse
+	if forceNoReuse || usedUp || p.shouldDiscard(instance) {
+		p.log.Debugf("discard instance, forceNoReuse=%v used=%d errCount=%d",
+			forceNoReuse, instance.invokeCount, instance.errCount)
 		go func() {
-			// Close first so wasiEnv is on freelist before grow→acquireWasiEnv.
-			// Previously addInstanceC ran before CloseInstance, causing freelist
-			// misses + Finalize storms and unbounded freelist growth under load.
 			p.CloseInstance(instance)
 			p.removeInstanceC <- struct{}{}
 			p.addInstanceC <- struct{}{}
@@ -685,11 +699,15 @@ func (p *vmPool) NewInstance() (*wrappedInstance, error) {
 	return p.newInstanceFromModule()
 }
 
-// CloseInstance closes the wasm instance and recycles its wasiEnv into the pool.
-// Do not call wasi_env_delete here: packaged Wasmer does not reclaim Tokio worker
-// threads after delete; freelist reuse keeps Threads flat across discard/recreate.
+// CloseInstance closes the wasm instance, its WASI env, and its private Store.
 func (p *vmPool) CloseInstance(instance *wrappedInstance) {
 	if instance == nil {
+		return
+	}
+	if instance.processWorker != nil {
+		p.log.Debugf("CloseInstance process site instance_id=%s", instance.id)
+		p.closeProcessInstance(instance)
+		p.log.Debugf("instance closed (process).")
 		return
 	}
 	p.log.Debugf("CallDeallocate site=CloseInstance instance_id=%s", instance.id)
@@ -701,57 +719,40 @@ func (p *vmPool) CloseInstance(instance *wrappedInstance) {
 		instance.wasmInstance = nil
 	}
 	if instance.wasiEnv != nil {
-		p.releaseWasiEnv(instance.wasiEnv)
+		instance.wasiEnv.Close()
 		instance.wasiEnv = nil
+	}
+	if instance.store != nil {
+		instance.store.Close()
+		instance.store = nil
+	}
+	// CM_WASMER_CLOSE_DRAIN_TRIM: "0"/"false"/"off" skips drain+trim (A/B experiments).
+	// Default: enabled (drain coroutine stack pool + glibc malloc_trim).
+	if closeDrainTrimEnabled() {
+		wasmergo.DrainStackPool()
+		wasmergo.MallocTrim()
 	}
 	p.log.Debugf("instance closed.")
 }
 
-func (p *vmPool) acquireWasiEnv() (*wasmergo.WasiEnvironment, error) {
-	key := p.contractKey()
-	p.wasiMu.Lock()
-	if n := len(p.freeWasiEnvs); n > 0 {
-		env := p.freeWasiEnvs[n-1]
-		p.freeWasiEnvs = p.freeWasiEnvs[:n-1]
-		remain := len(p.freeWasiEnvs)
-		p.wasiMu.Unlock()
-		from := atomic.AddUint64(&p.wasiFromFreelist, 1)
-		p.log.Infof("[%s] wasiEnv acquire from_freelist freelist_len=%d total_from_freelist=%d total_finalize_new=%d",
-			key, remain, from, atomic.LoadUint64(&p.wasiFinalizeNew))
-		return env, nil
+func closeDrainTrimEnabled() bool {
+	v := strings.ToLower(strings.TrimSpace(os.Getenv("CM_WASMER_CLOSE_DRAIN_TRIM")))
+	switch v {
+	case "0", "false", "off", "no":
+		return false
+	default:
+		return true
 	}
-	p.wasiMu.Unlock()
-
-	env, err := wasmergo.NewWasiStateBuilder("wasi-program").Finalize(p.store.Inner())
-	if err != nil {
-		return nil, err
-	}
-	neu := atomic.AddUint64(&p.wasiFinalizeNew, 1)
-	p.log.Infof("[%s] wasiEnv acquire finalize_new freelist_len=0 total_from_freelist=%d total_finalize_new=%d",
-		key, atomic.LoadUint64(&p.wasiFromFreelist), neu)
-	return env, nil
 }
 
-func (p *vmPool) releaseWasiEnv(env *wasmergo.WasiEnvironment) {
-	if env == nil {
-		return
+func (p *vmPool) newWasiEnv(store *wasmergo.Store) (*wasmergo.WasiEnvironment, error) {
+	return wasmergo.NewWasiStateBuilder("wasi-program").Finalize(store.Inner())
+}
+
+func (p *vmPool) deleteWasiEnv(env *wasmergo.WasiEnvironment) {
+	if env != nil {
+		env.Close()
 	}
-	key := p.contractKey()
-	p.wasiMu.Lock()
-	if len(p.freeWasiEnvs) >= defaultWasiFreelistMax {
-		p.wasiMu.Unlock()
-		drop := atomic.AddUint64(&p.wasiFreelistDrop, 1)
-		// Abandon excess env (GC may finalize). wasi_env_delete does not reclaim
-		// Tokio workers; dropping prevents unbounded freelist growth under fault.
-		p.log.Warnf("[%s] wasiEnv freelist_drop cap=%d total_drop=%d total_from_freelist=%d total_finalize_new=%d",
-			key, defaultWasiFreelistMax, drop,
-			atomic.LoadUint64(&p.wasiFromFreelist), atomic.LoadUint64(&p.wasiFinalizeNew))
-		return
-	}
-	p.freeWasiEnvs = append(p.freeWasiEnvs, env)
-	remain := len(p.freeWasiEnvs)
-	p.wasiMu.Unlock()
-	p.log.Debugf("[%s] wasiEnv release freelist_len=%d", key, remain)
 }
 
 func (p *vmPool) contractKey() string {
@@ -759,17 +760,6 @@ func (p *vmPool) contractKey() string {
 		return "unknown"
 	}
 	return p.contractId.Name + "_" + p.contractId.Version
-}
-
-// WasiEnvStats returns freelist reuse counters for probes / diagnostics.
-func (p *vmPool) WasiEnvStats() (fromFreelist, finalizeNew, freelistDrop uint64, freelistLen int) {
-	p.wasiMu.Lock()
-	freelistLen = len(p.freeWasiEnvs)
-	p.wasiMu.Unlock()
-	return atomic.LoadUint64(&p.wasiFromFreelist),
-		atomic.LoadUint64(&p.wasiFinalizeNew),
-		atomic.LoadUint64(&p.wasiFreelistDrop),
-		freelistLen
 }
 
 // 虚拟机测试相关变量
@@ -1019,6 +1009,8 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 
 	//如果不设置默认上限为256页
 	config.MaxPagesLimit(512)
+	// Cap Cranelift compile workers to reduce NewModule RSS peak (wasmer scheme B).
+	config.CompilerNumThreads(1)
 
 	engine := wasmergo.NewEngineWithConfig(config)
 	store := wasmergo.NewStore(engine)
@@ -1063,14 +1055,23 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 		removeInstanceC: make(chan struct{}),
 		addInstanceC:    make(chan struct{}),
 		closeC:          make(chan struct{}),
+		closed:          make(chan struct{}),
 		resetC:          make(chan struct{}),
 		log:             log,
 	}
 
 	instance, err := vmPool.newInstanceFromModule()
-	vmPool.initialMemory, err = instance.wasmInstance.Exports.GetMemory("memory")
 	if err != nil {
-		return nil, fmt.Errorf("[%s_%s], byte code compile failed, %s", contractId.Name, contractId.Version, err.Error())
+		vmPool.shutdownProcessWorkers()
+		return nil, fmt.Errorf("[%s_%s], verify instance failed: %v", contractId.Name, contractId.Version, err)
+	}
+	if instance.wasmInstance != nil {
+		vmPool.initialMemory, err = instance.wasmInstance.Exports.GetMemory("memory")
+		if err != nil {
+			vmPool.CloseInstance(instance)
+			vmPool.shutdownProcessWorkers()
+			return nil, fmt.Errorf("[%s_%s], byte code compile failed, %s", contractId.Name, contractId.Version, err.Error())
+		}
 	}
 
 	vmPool.CloseInstance(instance)
@@ -1095,7 +1096,9 @@ func (p *vmPool) startRefreshingLoop() {
 			p.applyGrowCount++
 			if p.shouldGrow() {
 				log.Debugf("vmPool should grow %v wrappedInstance.", defaultChangeSize)
-				p.grow(defaultChangeSize)
+				if !p.grow(defaultChangeSize) {
+					continue
+				}
 				p.applyGrowCount = 0
 				p.log.Infof("[%s] vm pool grows by %d, the current size is %d",
 					key, defaultChangeSize, p.currentSize)
@@ -1103,7 +1106,9 @@ func (p *vmPool) startRefreshingLoop() {
 		case <-refreshTimer.C:
 			p.log.Debugf("[%s] vmPool handling an `refresh` Signal", key)
 			if p.shouldGrow() {
-				p.grow(defaultChangeSize)
+				if !p.grow(defaultChangeSize) {
+					continue
+				}
 				p.applyGrowCount = 0
 				p.log.Infof("[%s] vm pool grows by %d, the current size is %d",
 					key, defaultChangeSize, p.currentSize)
@@ -1121,37 +1126,50 @@ func (p *vmPool) startRefreshingLoop() {
 		case <-p.closeC:
 			p.log.Debugf("[%s] vmPool handling an `close` Signal", key)
 			refreshTimer.Stop()
-			for p.currentSize > 0 {
-				instance := <-p.instances
-				p.CloseInstance(instance)
-				p.currentSize--
+			// Drain only instances sitting in the pool. currentSize also counts
+			// instances already closed by no-reuse revert, so waiting on that
+			// count blocks forever once the channel is empty.
+			for {
+				select {
+				case instance := <-p.instances:
+					if instance != nil {
+						p.CloseInstance(instance)
+					}
+					if atomic.LoadInt32(&p.currentSize) > 0 {
+						p.releaseInstanceSlot()
+					}
+				default:
+					goto poolDrained
+				}
 			}
+		poolDrained:
 			close(p.instances)
-			// Drop freelist refs; GC finalizers may call wasi_env_delete (threads
-			// still may not reclaim — process is shutting this pool down).
-			p.wasiMu.Lock()
-			p.freeWasiEnvs = nil
-			p.wasiMu.Unlock()
 			p.module.Close()
 			p.store.Close()
+			if p.engine != nil {
+				p.engine.Close()
+				p.engine = nil
+			}
+			close(p.closed)
 			return
 		case <-p.resetC:
 			p.log.Debugf("[%s] vmPool handling an `reset` Signal", key)
-			for p.currentSize > 0 {
+			for atomic.LoadInt32(&p.currentSize) > 0 {
 				instance := <-p.instances
 				p.CloseInstance(instance)
-				p.currentSize--
+				p.releaseInstanceSlot()
 			}
 			close(p.instances)
-			// Keep recycled wasiEnvs across reset; grow() will reuse them.
 			p.instances = make(chan *wrappedInstance, defaultMaxSize)
 			p.grow(defaultMinSize)
 		case <-p.removeInstanceC:
 			p.log.Debugf("[%s] vmPool handling an `remove instance` Signal", key)
-			p.currentSize--
+			p.releaseInstanceSlot()
 		case <-p.addInstanceC:
 			p.log.Debugf("[%s] vmPool handling an `add instance` Signal", key)
-			p.grow(1)
+			if !p.grow(1) {
+				continue
+			}
 		}
 	}
 }
@@ -1181,21 +1199,55 @@ func (p *vmPool) shouldGrow() bool {
 	return false
 }
 
-func (p *vmPool) grow(count int32) {
-	for count > 0 {
-		size := int32(defaultChangeSize)
-		if count < size {
-			size = count
+// reserveInstanceSlot claims one slot under defaultMaxSize.
+// The slot is counted before the instance exists, so concurrent growers
+// cannot pass the cap.
+func (p *vmPool) reserveInstanceSlot() bool {
+	for {
+		cur := atomic.LoadInt32(&p.currentSize)
+		if cur >= int32(defaultMaxSize) {
+			return false
 		}
-		count -= size
-
-		for i := int32(0); i < size; i++ {
-			instance, _ := p.newInstanceFromModule()
-			p.instances <- instance
-			atomic.AddInt32(&p.currentSize, 1)
+		if atomic.CompareAndSwapInt32(&p.currentSize, cur, cur+1) {
+			return true
 		}
-		p.log.Infof("vm pool grow size = %d", size)
 	}
+}
+
+func (p *vmPool) releaseInstanceSlot() {
+	atomic.AddInt32(&p.currentSize, -1)
+}
+
+// grow adds instances. It returns false when the pool is closing, so the
+// refresh loop can leave a full channel instead of blocking in the send.
+// A full pool is not an error: creation stops once every slot is reserved.
+func (p *vmPool) grow(count int32) bool {
+	var created int32
+	for created < count {
+		if !p.reserveInstanceSlot() {
+			break
+		}
+		instance, err := p.newInstanceFromModule()
+		if err != nil || instance == nil {
+			p.releaseInstanceSlot()
+			break
+		}
+		select {
+		case <-p.closeC:
+			p.CloseInstance(instance)
+			p.releaseInstanceSlot()
+			if created > 0 {
+				p.log.Infof("vm pool grow size = %d", created)
+			}
+			return false
+		case p.instances <- instance:
+			created++
+		}
+	}
+	if created > 0 {
+		p.log.Infof("vm pool grow size = %d", created)
+	}
+	return true
 }
 
 // shouldShrink shrink vm pool when
@@ -1213,7 +1265,7 @@ func (p *vmPool) shrink(count int32) {
 	for i := int32(0); i < count; i++ {
 		instance := <-p.instances
 		p.CloseInstance(instance)
-		p.currentSize--
+		p.releaseInstanceSlot()
 	}
 }
 
@@ -1226,8 +1278,10 @@ func (p *vmPool) shouldDiscard(instance *wrappedInstance) bool {
 
 func (p *vmPool) NewInstanceFromByteCode() (*wrappedInstance, error) {
 	vb := GetVmBridgeManager()
-	wasmInstance, err := vb.NewWasmInstance(p.store, p.byteCode)
+	store := wasmergo.CloneStore(p.store)
+	wasmInstance, err := vb.NewWasmInstance(store, p.byteCode)
 	if err != nil {
+		store.Close()
 		p.log.Errorf("newInstanceFromByteCode fail: %s", err.Error())
 		return nil, err
 	}
@@ -1235,6 +1289,7 @@ func (p *vmPool) NewInstanceFromByteCode() (*wrappedInstance, error) {
 	instance := &wrappedInstance{
 		id:           uuid.GetUUID(),
 		wasmInstance: wasmInstance,
+		store:        store,
 		lastUseTime:  utils.CurrentTimeMillisSeconds(),
 		createTime:   utils.CurrentTimeMillisSeconds(),
 		errCount:     0,
@@ -1243,6 +1298,9 @@ func (p *vmPool) NewInstanceFromByteCode() (*wrappedInstance, error) {
 }
 
 func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
+	if p.processIsolation {
+		return p.newProcessIsolatedInstance()
+	}
 	startTime := time.Now().UnixNano()
 	fmt.Printf("startNew:%d\n", startTime)
 	vb := GetVmBridgeManager()
@@ -1251,26 +1309,33 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 		memory:   nil,
 	}
 
-	wasiEnv, err := p.acquireWasiEnv()
+	// One Store per instance; Module/Engine stay shared on the pool.
+	store := wasmergo.CloneStore(p.store)
+
+	wasiEnv, err := p.newWasiEnv(store)
 	if err != nil {
+		store.Close()
 		panic(fmt.Sprintf("Error creating WASI environment: %v", err))
 	}
 
-	importObject, err := wasiEnv.GenerateImportObject(p.store, p.module)
+	importObject, err := wasiEnv.GenerateImportObject(store, p.module)
 	if err != nil {
-		p.releaseWasiEnv(wasiEnv)
+		p.deleteWasiEnv(wasiEnv)
+		store.Close()
 		return nil, err
 	}
 
-	imports, err := vb.GetImports(p.store, &env, importObject)
+	imports, err := vb.GetImports(store, &env, importObject)
 	if imports == nil && err != nil {
-		p.releaseWasiEnv(wasiEnv)
+		p.deleteWasiEnv(wasiEnv)
+		store.Close()
 		return nil, errors.New("get imports failed when new instance from module, because of " + err.Error())
 	}
 
-	wasmInstance, err := wasmergo.NewInstance(p.module, imports)
+	wasmInstance, err := wasmergo.NewInstanceByStore(p.module, imports, store)
 	if err != nil {
-		p.releaseWasiEnv(wasiEnv)
+		p.deleteWasiEnv(wasiEnv)
+		store.Close()
 		p.log.Errorf("newInstanceFromModule fail: %s", err.Error())
 		return nil, err
 	}
@@ -1279,46 +1344,40 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 	if p.copyPlan != nil {
 		if err = p.copyPlan.restore(p.module, wasmInstance, p.byteCode, p.contractId, "cvw-copy-C0"); err != nil {
 			wasmInstance.Close()
-			p.releaseWasiEnv(wasiEnv)
+			p.deleteWasiEnv(wasiEnv)
+			store.Close()
 			return nil, err
 		}
 	}
 	err = wasiEnv.Initialize(p.store, wasmInstance)
 	if err != nil {
 		wasmInstance.Close()
-		p.releaseWasiEnv(wasiEnv)
+		p.deleteWasiEnv(wasiEnv)
+		store.Close()
 		return nil, err
 	}
 	// 如果有wasi，获取并执行 WASI start 函数
 	start, _ := wasmInstance.Exports.GetWasiStartRawFunction()
 	if start != nil {
-		start.Call()
+		_, _ = start.Call()
+		// ownedBy is nil, so Close drops the finalizer and wasm_func_t.
+		// Leaving it for the finalizer retains the Native closure across GC.
+		start.Close()
 	}
 
 	env.instance = wasmInstance
 	env.memory, _ = wasmInstance.Exports.GetMemory("memory")
 
-	//limitsAgain := env.memory.Type().Limits()
-	//fmt.Printf("env.memory.limit %+v\n", limitsAgain)
-	//fmt.Printf("env.memory dataSize %d字节 %d页\n", env.memory.DataSize(), env.memory.Size())
 	instance := &wrappedInstance{
 		id:           uuid.GetUUID(),
 		wasmInstance: wasmInstance,
+		store:        store,
 		wasiEnv:      wasiEnv,
 		lastUseTime:  utils.CurrentTimeMillisSeconds(),
 		createTime:   utils.CurrentTimeMillisSeconds(),
 		errCount:     0,
 	}
 	p.log.Infof("new instance id: %s", instance.id)
-	//WarmUpFunction := "testgasWarmUp"
-	//runtimeFn, err := wasmInstance.Exports.GetRawFunction(WarmUpFunction)
-	//if err != nil {
-	//	//p.log.Infof("WarmUpFunction [%s] not export, err = %v", WarmUpFunction, err)
-	//} else {
-	//	defer runtimeFn.Close()
-	//	runtimeFn.Call()
-	//	p.log.Infof("WarmUpFunction [%s] success", WarmUpFunction)
-	//}
 	endTime := time.Now().UnixNano()
 	fmt.Printf("endNew:%d\n", endTime)
 	newInstanceTime += float64(endTime-startTime) / 1e9
@@ -1343,5 +1402,6 @@ func (p *vmPool) reset() {
 
 // close the pool
 func (p *vmPool) close() {
+	p.shutdownProcessWorkers()
 	close(p.closeC)
 }
