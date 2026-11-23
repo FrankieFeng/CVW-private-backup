@@ -6,12 +6,15 @@ import "chainmaker.org/chainmaker/protocol/v2"
 const (
 	// WasmerExecDefault keeps the contract install option and CM_WASMER_FORCE_NO_REUSE.
 	WasmerExecDefault int32 = 0
-	// WasmerExecProposeNoReuse makes the block proposer run each transaction on a new instance.
+	// WasmerExecProposeNoReuse is kept for older call sites.
+	// Proposer and verifier both reuse pooled instances.
 	WasmerExecProposeNoReuse int32 = 1
-	// WasmerExecReplayReuse makes a verifying node replay with instance reuse first.
+	// WasmerExecReplayReuse reuses a pooled instance.
 	WasmerExecReplayReuse int32 = 2
-	// WasmerExecForceFresh reruns one transaction on a newly created instance.
+	// WasmerExecForceFresh runs one transaction on a newly created instance.
 	WasmerExecForceFresh int32 = 3
+	// WasmerMaxInstanceUse discards a pooled instance after this many executions.
+	WasmerMaxInstanceUse int32 = 50
 )
 
 // SetWasmerExecMode records how this transaction should obtain a wasmer instance.
@@ -29,4 +32,17 @@ func (s *txSimContextImpl) GetWasmerExecMode() int32 {
 		return WasmerExecDefault
 	}
 	return s.wasmerExecMode
+}
+
+// RunOnWarmupScratch runs fn on a new sim context that shares this transaction's
+// snapshot and tx, with an empty read/write set. Writes made by fn are discarded.
+func (s *txSimContextImpl) RunOnWarmupScratch(fn func(protocol.TxSimContext)) {
+	if s == nil || fn == nil || s.snapshot == nil {
+		return
+	}
+	scratch := NewTxSimContext(s.vmManager, s.snapshot, s.tx, s.blockVersion, s.logger)
+	if impl, ok := scratch.(*txSimContextImpl); ok && impl != nil {
+		impl.wasmerExecMode = s.wasmerExecMode
+	}
+	fn(scratch)
 }

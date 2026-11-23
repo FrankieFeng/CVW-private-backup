@@ -106,8 +106,9 @@ func main() {
 		log.Fatal("目录下（含子目录）没有 .go 文件")
 	}
 
-	// 按目录名前缀精确跳过的列表
+	// 按目录名前缀精确跳过的列表。命中的包保留复制过来的原文件，不插入 ConsumeGas。
 	skipDirList := []string{
+		"encoding/json",
 		// "cmd",
 		// "crypto",
 		// "internal",

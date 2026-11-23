@@ -311,7 +311,7 @@ a3Zl8J33iXv9BNGyKH1/7p+yHYj2ougY2A==
 		}
 	}
 	if ContractName == "itinerary" {
-		if contractMethod == "queryHistory" {
+		if contractMethod == "saveAndQueryHistory" || contractMethod == "queryHistory" {
 			Params = "phone:18892352495||itinerary:{\"ip\":\"117.107.131.195\",\"city\":\"Beijing\",\"region\":\"Beijing\",\"country\":\"CN\",\"loc\":\"39.9075,116.3972\",\"org\":\"\",\"timezone\":\"Asia/Shanghai\",\"asn\":{\"asn\":\"AS4847\",\"name\":\"China Networks Inter-Exchange\",\"domain\":\"bta.net.cn\",\"route\":\"117.107.128.0/18\",\"type\":\"isp\"},\"company\":{\"name\":\"Beijing Sinnet Technology Co., Ltd.\",\"domain\":\"ghidc.net\",\"type\":\"business\"},\"privacy\":{\"vpn\":false,\"proxy\":false,\"tor\":false,\"relay\":false,\"hosting\":false,\"service\":\"\"},\"abuse\":{\"address\":\"Beijing, China\",\"country\":\"CN\",\"email\":\"ipas@cnnic.cn\",\"name\":\"Chen hao\",\"network\":\"117.107.128.0/17\",\"phone\":\"+86-13311166160\"},\"domains\":{\"total\":0,\"domains\":[]}}"
 
 		}
@@ -692,5 +692,99 @@ func runBigInputWithSize(t *testing.T, contractMethod, contractName, contractTyp
 		} else {
 			t.Logf("result mismatch: expected %s got %s", expected, resultStr)
 		}
+	}
+}
+
+// invokeFixedInstance runs one call on a caller-supplied instance and leaves that instance open.
+func invokeFixedInstance(r *RuntimeInstance, inst *wrappedInstance, contract *common.Contract, method string,
+	parameters map[string][]byte, txContext protocol.TxSimContext) (gas uint64, code uint32, msg string) {
+	sc := NewSimContext(method, r.log, r.chainId)
+	defer sc.removeCtxPointer()
+	sc.Contract = contract
+	sc.TxSimContext = txContext
+	sc.parameters = parameters
+	result := &common.ContractResult{}
+	sc.ContractResult = result
+	sc.Instance = inst.wasmInstance
+	if err := setGasByExport(inst.wasmInstance, runtimeGasLimit); err != nil {
+		return 0, 1, err.Error()
+	}
+	var err error
+	func() {
+		defer func() {
+			if rec := recover(); rec != nil {
+				err = fmt.Errorf("panic: %v", rec)
+			}
+		}()
+		err = sc.CallMethod(inst.wasmInstance)
+	}()
+	remaining, gerr := getGasByExport(inst.wasmInstance)
+	if gerr != nil {
+		return 0, 1, gerr.Error()
+	}
+	gas = runtimeGasLimit - remaining
+	code = result.Code
+	msg = result.Message
+	if err != nil {
+		code = 1
+		if msg == "" {
+			msg = err.Error()
+		}
+	}
+	return gas, code, msg
+}
+
+// TestSameInstanceGas100 runs each previously gas-unstable method 100 times on one instance.
+func TestSameInstanceGas100(t *testing.T) {
+	if os.Getenv("CM_LOG_LEVEL") == "INFO" {
+		node := logger2.GetDefaultLogNodeConfig()
+		node.LogLevelDefault = cmlog.INFO
+		node.LogInConsole = false
+		logger2.SetLogConfig(&logger2.LogConfig{
+			SystemLog: node,
+			BriefLog:  node,
+			EventLog:  node,
+		})
+	}
+	cases := []struct{ name, method string }{
+		{"erc721", "mint"},
+		{"exchange", "buyNow"},
+		{"fact", "saveAndFindByFileHash"},
+		{"raffle", "registRaffle"},
+		{"itinerary", "saveAndQueryHistory"},
+	}
+	for _, c := range cases {
+		filePath := prepareFile(c.name, "go")
+		wasmBytes, contractId, logger := prepareContract(filePath, t)
+		vmPool, err := newVmPool(&contractId, wasmBytes, logger)
+		if err != nil {
+			t.Fatalf("create vmPool %s: %v", c.name, err)
+		}
+		inst, err := vmPool.NewInstance()
+		if err != nil || inst == nil {
+			vmPool.close()
+			t.Fatalf("new instance %s: %v", c.name, err)
+		}
+		runtimeInst := RuntimeInstance{pool: vmPool, log: logger, chainId: ChainId}
+		parameters := prepareFunc(c.name, c.method)
+		fillingBaseParams(parameters)
+		fmt.Printf("SAME_INST_BEGIN contract=%s method=%s instance=%s\n", c.name, c.method, inst.id)
+		gasCount := map[uint64]int{}
+		for i := 0; i < 100; i++ {
+			txSimContext := prepareTxSimContext(ChainId, BlockVersion, c.name, c.method, parameters, SnapshotMock{})
+			gas, code, msg := invokeFixedInstance(&runtimeInst, inst, &contractId, c.method, parameters, txSimContext)
+			gasCount[gas]++
+			if i < 3 || i == 99 || gasCount[gas] == 1 {
+				fmt.Printf("SAME_INST i=%d contract=%s method=%s instance=%s gas=%d code=%d msg=%s\n",
+					i, c.name, c.method, inst.id, gas, code, msg)
+			}
+		}
+		fmt.Printf("SAME_INST_SUMMARY contract=%s method=%s instance=%s", c.name, c.method, inst.id)
+		for gas, n := range gasCount {
+			fmt.Printf(" gas=%d count=%d", gas, n)
+		}
+		fmt.Printf("\n")
+		vmPool.CloseInstance(inst)
+		vmPool.close()
 	}
 }

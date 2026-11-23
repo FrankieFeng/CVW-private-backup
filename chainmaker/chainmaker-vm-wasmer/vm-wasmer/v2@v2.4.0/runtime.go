@@ -10,6 +10,7 @@ package wasmer
 import (
 	"errors"
 	"fmt"
+	"sync/atomic"
 	"time"
 
 	"chainmaker.org/chainmaker/logger/v2"
@@ -42,7 +43,7 @@ func (r *RuntimeInstance) Pool() *vmPool {
 	return r.pool
 }
 
-// borrowInstance 出块和强制重跑走 NewInstance，重放从池中取实例。
+// borrowInstance 从池中取实例。ForceFresh 或强制不复用时新建，用完即关。
 func (r *RuntimeInstance) borrowInstance(reuse bool, createFresh bool) (*wrappedInstance, error) {
 	if r == nil || r.pool == nil {
 		return nil, errors.New("wasmer pool is nil")
@@ -70,11 +71,66 @@ func (r *RuntimeInstance) returnInstance(inst *wrappedInstance, createFresh bool
 	if inst == nil || r == nil || r.pool == nil {
 		return
 	}
+	if !createFresh {
+		atomic.AddInt32(&inst.invokeCount, 1)
+	}
 	if createFresh {
 		r.pool.CloseInstance(inst)
 		return
 	}
 	r.pool.RevertInstance(inst)
+}
+
+type warmupScratcher interface {
+	RunOnWarmupScratch(func(protocol.TxSimContext))
+}
+
+// warmFreshInstance runs this transaction once and drops that result when the
+// instance has never executed. The caller then runs it again and keeps the second result.
+func (r *RuntimeInstance) warmFreshInstance(inst *wrappedInstance, contract *commonPb.Contract, method string,
+	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64) {
+	if inst == nil || inst.wasmInstance == nil || atomic.LoadInt32(&inst.invokeCount) != 0 {
+		return
+	}
+	if method == InitContractFunc || method == UpgradeContractFunc {
+		return
+	}
+	scratcher, ok := txContext.(warmupScratcher)
+	if !ok || scratcher == nil {
+		return
+	}
+	defer func() { _ = recover() }()
+	scratcher.RunOnWarmupScratch(func(scratch protocol.TxSimContext) {
+		r.execDiscard(inst, contract, method, parameters, scratch, gasUsed)
+	})
+	atomic.AddInt32(&inst.invokeCount, 1)
+	r.log.Infof("instance warmup, tx:%s, contract:%s, method:%s, instance:%s, nextUse:%d",
+		txContext.GetTx().GetPayload().GetTxId(), contract.GetName(), method, inst.id, inst.invokeCount+1)
+}
+
+func (r *RuntimeInstance) execDiscard(inst *wrappedInstance, contract *commonPb.Contract, method string,
+	parameters map[string][]byte, txContext protocol.TxSimContext, gasUsed uint64) {
+	result := &commonPb.ContractResult{}
+	sc := NewSimContext(method, r.log, r.chainId)
+	defer sc.removeCtxPointer()
+	sc.Contract = contract
+	sc.TxSimContext = txContext
+	sc.ContractResult = result
+	sc.parameters = parameters
+	sc.SpecialTxType = protocol.ExecOrderTxTypeNormal
+	sc.Instance = inst.wasmInstance
+	gasLimit := runtimeGasLimit
+	availableGas := gasLimit
+	if gasUsed < gasLimit {
+		availableGas = gasLimit - gasUsed
+	} else {
+		availableGas = 0
+	}
+	if err := setGasByExport(inst.wasmInstance, availableGas); err != nil {
+		return
+	}
+	_ = sc.CallMethod(inst.wasmInstance)
+	_, _ = getGasByExport(inst.wasmInstance)
 }
 
 // Invoke contract by call vm, implement protocol.RuntimeInstance
@@ -102,7 +158,7 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 		r.log.Errorf("resolve instance reuse failed, contract:%s, err:%v", contract.GetName(), reuseErr)
 		return
 	}
-	// 出块新建、重放复用、gas 不一致后再新建，都由这里覆盖装载选项。
+	// 出块和验证都复用实例。ForceFresh 仍新建。
 	reuse, createFresh := decideInstanceReuse(configured, txContext)
 	if method == InitContractFunc || method == UpgradeContractFunc {
 		r.log.Infof("contract[%s] instance reuse=%v", contract.GetName(), reuse)
@@ -134,6 +190,9 @@ func (r *RuntimeInstance) Invoke(contract *commonPb.Contract, method string, byt
 		return
 	}
 	defer r.returnInstance(instanceInfo, createFresh)
+	if reuse && !createFresh {
+		r.warmFreshInstance(instanceInfo, contract, method, parameters, txContext, gasUsed)
+	}
 
 	var sc = NewSimContext(method, r.log, r.chainId)
 	defer sc.removeCtxPointer()
