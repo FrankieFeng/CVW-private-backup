@@ -57,6 +57,7 @@ import "C"
 import (
 	"reflect"
 	"runtime"
+	"sync"
 	"unsafe"
 )
 
@@ -263,7 +264,8 @@ func (self *WasiStateBuilder) inner() *C.wasi_config_t {
 // user-defined host function; that's the same idea here but applied
 // to WASI functions and other imports).
 type WasiEnvironment struct {
-	_inner *C.wasi_env_t
+	_inner    *C.wasi_env_t
+	closeOnce sync.Once
 }
 
 func newWasiEnvironment(stateBuilder *WasiStateBuilder, store *C.wasm_store_t) (*WasiEnvironment, error) {
@@ -282,10 +284,8 @@ func newWasiEnvironment(stateBuilder *WasiStateBuilder, store *C.wasm_store_t) (
 		_inner: environment,
 	}
 
-	runtime.SetFinalizer(self, func(environment *WasiEnvironment) {
-		C.wasi_env_delete(environment.inner())
-	})
-
+	// No finalizer. wasi_env_delete drops the env and touches the Store;
+	// GC must not run it after Store.Close.
 	return self, nil
 }
 
@@ -295,12 +295,17 @@ func (self *WasiEnvironment) inner() *C.wasi_env_t {
 
 // Close deletes the native wasi_env. Clears the finalizer to avoid double-delete on GC.
 func (self *WasiEnvironment) Close() {
-	if self == nil || self._inner == nil {
+	if self == nil {
 		return
 	}
 	runtime.SetFinalizer(self, nil)
-	C.wasi_env_delete(self._inner)
-	self._inner = nil
+	self.closeOnce.Do(func() {
+		inner := self._inner
+		self._inner = nil
+		if inner != nil {
+			C.wasi_env_delete(inner)
+		}
+	})
 }
 
 func (self *WasiEnvironment) Initialize(store *Store, instance *Instance) error {

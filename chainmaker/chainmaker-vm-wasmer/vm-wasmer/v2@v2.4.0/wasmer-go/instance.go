@@ -2,7 +2,10 @@ package wasmer
 
 // #include <wasmer.h>
 import "C"
-import "runtime"
+import (
+	"runtime"
+	"sync"
+)
 
 type Instance struct {
 	_inner  *C.wasm_instance_t
@@ -10,6 +13,8 @@ type Instance struct {
 
 	// without this, imported functions may be freed before execution of an exported function is complete.
 	imports *ImportObject
+	// closeOnce makes Close, CloseLegacy and the GC finalizer share one wasm_instance_delete.
+	closeOnce sync.Once
 }
 
 // NewInstance instantiates a new Instance.
@@ -70,10 +75,8 @@ func NewInstanceByStore(module *Module, imports *ImportObject, store *Store) (*I
 		imports: imports,
 	}
 
-	runtime.SetFinalizer(self, func(self *Instance) {
-		self.Close()
-	})
-
+	// No finalizer. wasm_instance_delete frees objects the Store still owns;
+	// GC must not run it after or before Store.Close.
 	return self, nil
 }
 
@@ -160,7 +163,7 @@ func (self *Instance) Close() {
 	}
 	// Drop the instance before the import wrappers. Host functions still hold
 	// StoreRef until imports.Close; CloseInstance calls store.Close after this.
-	C.wasm_instance_delete(inner)
+	self.deleteNative()
 	self._inner = nil
 	if self.imports != nil {
 		self.imports.Close()
@@ -185,8 +188,20 @@ func (self *Instance) CloseLegacy() {
 		self.imports.Close()
 		// intentionally leave imports non-nil (legacy)
 	}
-	C.wasm_instance_delete(self.inner())
+	self.deleteNative()
 	// intentionally leave _inner non-nil (legacy)
+}
+
+func (self *Instance) deleteNative() {
+	if self == nil {
+		return
+	}
+	self.closeOnce.Do(func() {
+		inner := self._inner
+		if inner != nil {
+			C.wasm_instance_delete(inner)
+		}
+	})
 }
 
 // NativeAlive reports whether the Go wrapper still holds a non-nil wasm_instance_t*.
@@ -208,7 +223,7 @@ func (self *Instance) CloseNativeOnly() {
 	if self._inner == nil {
 		return
 	}
-	C.wasm_instance_delete(self.inner())
+	self.deleteNative()
 	self._inner = nil
 	self.Exports = nil
 	self.imports = nil

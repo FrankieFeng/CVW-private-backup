@@ -2,7 +2,10 @@ package wasmer
 
 // #include <wasmer.h>
 import "C"
-import "runtime"
+import (
+	"runtime"
+	"sync"
+)
 
 // Store represents all global state that can be manipulated by
 // WebAssembly programs. It consists of the runtime representation of
@@ -18,6 +21,8 @@ import "runtime"
 type Store struct {
 	_inner *C.wasm_store_t
 	Engine *Engine
+	// closeOnce makes Close and the GC finalizer share one wasm_store_delete.
+	closeOnce sync.Once
 }
 
 // NewStore instantiates a new Store with an Engine.
@@ -30,10 +35,8 @@ func NewStore(engine *Engine) *Store {
 		Engine: engine,
 	}
 
-	runtime.SetFinalizer(self, func(self *Store) {
-		self.Close()
-	})
-
+	// No finalizer. wasm_store_delete actually frees the arena; a later GC
+	// would run after Instance/WASI teardown and free the same memory again.
 	return self
 }
 
@@ -64,12 +67,17 @@ func (self *Store) Inner() *C.wasm_store_t {
 // A runtime finalizer is registered on the Store, but it is possible
 // to force the destruction of the Store by calling Close manually.
 func (self *Store) Close() {
-	if self == nil || self._inner == nil {
+	if self == nil {
 		return
 	}
 	runtime.SetFinalizer(self, nil)
-	C.wasm_store_delete(self._inner)
-	self._inner = nil
+	self.closeOnce.Do(func() {
+		inner := self._inner
+		self._inner = nil
+		if inner != nil {
+			C.wasm_store_delete(inner)
+		}
+	})
 }
 
 // DrainStackPool releases cached Wasm coroutine stacks in libwasmer.
