@@ -1,16 +1,12 @@
 package wasmer
 
 import (
-	"embed"
 	"runtime"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
-
-//go:embed testdata
-var testData embed.FS
 
 func TestMemory(t *testing.T) {
 	engine := NewEngine()
@@ -109,19 +105,28 @@ func TestSumLoop(t *testing.T) {
 	// but having explicit runtime.GC call below does that too.
 	e := NewEngineWithConfig(NewConfig().UseCraneliftCompiler())
 	s := NewStore(e)
+	defer e.Close()
+	defer s.Close()
 
-	src, err := testData.ReadFile("testdata/sum.wasm")
+	src, err := Wat2Wasm(`(module
+		(import "wasi_snapshot_preview1" "args_sizes_get" (func $args (param i32 i32) (result i32)))
+		(memory (export "memory") 1)
+		(func (export "sum") (param i32 i32) (result i32)
+			i32.const 0 i32.const 4 call $args drop
+			local.get 0 local.get 1 i32.add))`)
 	require.NoError(t, err)
 
 	mod, err := NewModule(s, src, nil)
 	require.NoError(t, err)
+	defer mod.Close()
 
 	// Configure WASI_VERSION_SNAPSHOT1 environment
 	we, err := NewWasiStateBuilder(mod.Name()).
 		CaptureStdout().
 		CaptureStderr().
-		Finalize()
+		Finalize(s.Inner())
 	require.NoError(t, err)
+	defer we.Close()
 
 	imp, err := we.GenerateImportObject(s, mod)
 	require.NoError(t, err)
@@ -130,12 +135,13 @@ func TestSumLoop(t *testing.T) {
 	instance, err := NewInstance(mod, imp)
 	require.NoError(t, err)
 
-	sum, release, err := instance.GetFunctionSafe("sum")
+	defer instance.Close()
+	require.NoError(t, we.Initialize(s, instance))
+	sum, err := instance.Exports.GetFunction("sum")
 	require.NoError(t, err)
-	defer release(instance)
 
 	// This causes the issue to reproduce on the very first iteration
-	// if KeepAlive call removed.
+	// if the Instance is collected before the exported function is called.
 	runtime.GC()
 
 	hi := 10240

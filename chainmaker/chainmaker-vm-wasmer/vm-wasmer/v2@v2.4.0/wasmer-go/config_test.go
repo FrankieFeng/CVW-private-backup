@@ -48,7 +48,7 @@ func TestConfigForMetering(t *testing.T) {
 		LocalGet: 1,
 		I32Add:   4,
 	}
-	config := NewConfig().PushMeteringMiddleware(800000000, opmap)
+	config := NewConfig().PushMeteringMiddleware(800000000, opmap, nil, "")
 	engine := NewEngineWithConfig(config)
 	store := NewStore(engine)
 	module, err := NewModule(store, testGetBytes("tests.wasm"), nil)
@@ -69,7 +69,7 @@ func TestConfigForMetering(t *testing.T) {
 }
 
 func TestConfigForMeteringFn(t *testing.T) {
-	config := NewConfig().PushMeteringMiddlewarePtr(800000000, getInternalCPointer())
+	config := NewConfig().PushMeteringMiddlewarePtr(800000000, getInternalCPointer(), "")
 	engine := NewEngineWithConfig(config)
 	store := NewStore(engine)
 	module, err := NewModule(store, testGetBytes("tests.wasm"), nil)
