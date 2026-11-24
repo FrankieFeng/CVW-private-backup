@@ -55,7 +55,9 @@ func newGlobalType(pointer *C.wasm_globaltype_t, ownedBy interface{}) *GlobalTyp
 //	valueType := NewValueType(I32)
 //	globalType := NewGlobalType(valueType, IMMUTABLE)
 func NewGlobalType(valueType *ValueType, mutability GlobalMutability) *GlobalType {
-	pointer := C.wasm_globaltype_new(valueType.inner(), C.wasm_mutability_t(mutability))
+	// The C constructor consumes the value type, so give it a separate allocation.
+	valueTypeCopy := C.wasm_valtype_new(C.wasm_valkind_t(valueType.Kind()))
+	pointer := C.wasm_globaltype_new(valueTypeCopy, C.wasm_mutability_t(mutability))
 
 	return newGlobalType(pointer, nil)
 }

@@ -33,7 +33,9 @@ func newTableType(pointer *C.wasm_tabletype_t, ownedBy interface{}) *TableType {
 //	tableType := NewTableType(valueType, limits)
 //	_ = tableType.IntoExternType()
 func NewTableType(valueType *ValueType, limits *Limits) *TableType {
-	pointer := C.wasm_tabletype_new(valueType.inner(), limits.inner())
+	// The C constructor consumes the value type, so give it a separate allocation.
+	valueTypeCopy := C.wasm_valtype_new(C.wasm_valkind_t(valueType.Kind()))
+	pointer := C.wasm_tabletype_new(valueTypeCopy, limits.inner())
 
 	return newTableType(pointer, nil)
 }
