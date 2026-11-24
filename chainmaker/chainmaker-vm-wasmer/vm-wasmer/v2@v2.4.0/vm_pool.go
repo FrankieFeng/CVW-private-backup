@@ -8,7 +8,6 @@ SPDX-License-Identifier: Apache-2.0
 package wasmer
 
 import (
-	"os"
 	//"chainmaker.org/chainmaker/protocol/v2"
 	"errors"
 	"fmt"
@@ -593,6 +592,7 @@ type vmPool struct {
 	// apply signal channel
 	applySignalC chan struct{}
 	closeC       chan struct{}
+	closeOnce    sync.Once
 	// closed is closed after the refresh loop finishes pool teardown.
 	closed          chan struct{}
 	resetC          chan struct{}
@@ -1014,6 +1014,17 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 
 	engine := wasmergo.NewEngineWithConfig(config)
 	store := wasmergo.NewStore(engine)
+	var module *wasmergo.Module
+	initialized := false
+	defer func() {
+		if !initialized {
+			if module != nil {
+				module.Close()
+			}
+			store.Close()
+			engine.Close()
+		}
+	}()
 	if err := wasmergo.ValidateModule(store, byteCode); err != nil {
 		return nil, fmt.Errorf("[%s_%s], byte code validation failed, err = %v", contractId.Name, contractId.Version, err)
 	}
@@ -1021,7 +1032,9 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 	startTime := time.Now().UnixNano()
 	compileCode := byteCode
 	var copyPlan *staticMemoryPlan
-	if os.Getenv("CM_CVW_COPY") == "1" {
+	isolated := processIsolationEnabled()
+	// The worker receives only a serialized Module, so it needs the original data segments.
+	if !isolated && os.Getenv("CM_CVW_COPY") == "1" {
 		var planErr error
 		copyPlan, planErr = prepareStaticMemory(byteCode, contractId, "cvw-copy-C0")
 		if planErr != nil {
@@ -1029,7 +1042,8 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 		}
 		compileCode = copyPlan.NoData
 	}
-	module, err := wasmergo.NewModule(store, compileCode, log)
+	var err error
+	module, err = wasmergo.NewModule(store, compileCode, log)
 	endTime := time.Now().UnixNano()
 	compileTime = float64(endTime-startTime) / 1e9
 	if err != nil {
@@ -1041,23 +1055,43 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 		copyPlan.Module = module
 	}
 	vmPool := &vmPool{
-		copyPlan:        copyPlan,
-		contractId:      contractId,
-		byteCode:        byteCode,
-		store:           store,
-		module:          module,
-		instances:       make(chan *wrappedInstance, defaultMaxSize),
-		currentSize:     0,
-		useCount:        0,
-		totalDelay:      0,
-		applyGrowCount:  0,
-		applySignalC:    make(chan struct{}),
-		removeInstanceC: make(chan struct{}),
-		addInstanceC:    make(chan struct{}),
-		closeC:          make(chan struct{}),
-		closed:          make(chan struct{}),
-		resetC:          make(chan struct{}),
-		log:             log,
+		copyPlan:         copyPlan,
+		contractId:       contractId,
+		byteCode:         byteCode,
+		engine:           engine,
+		store:            store,
+		module:           module,
+		instances:        make(chan *wrappedInstance, defaultMaxSize),
+		currentSize:      0,
+		useCount:         0,
+		totalDelay:       0,
+		applyGrowCount:   0,
+		applySignalC:     make(chan struct{}),
+		removeInstanceC:  make(chan struct{}),
+		addInstanceC:     make(chan struct{}),
+		closeC:           make(chan struct{}),
+		closed:           make(chan struct{}),
+		resetC:           make(chan struct{}),
+		log:              log,
+		processIsolation: isolated,
+		rssLimitKB:       processRSSLimitKB(),
+	}
+	if isolated {
+		serialized, err := module.Serialize()
+		if err != nil {
+			return nil, fmt.Errorf("[%s_%s] serialize module: %w", contractId.Name, contractId.Version, err)
+		}
+		dir, err := os.MkdirTemp("", "wasmer-artifact-*")
+		if err != nil {
+			return nil, fmt.Errorf("mkdir artifact: %w", err)
+		}
+		vmPool.artifactPath = filepath.Join(dir, "module.artifact")
+		if err := os.WriteFile(vmPool.artifactPath, serialized, 0o600); err != nil {
+			vmPool.shutdownProcessWorkers()
+			return nil, fmt.Errorf("write artifact: %w", err)
+		}
+		log.Infof("[%s_%s] process isolation on, artifact=%s rss_limit_mb=%.0f",
+			contractId.Name, contractId.Version, vmPool.artifactPath, float64(vmPool.rssLimitKB)/1024)
 	}
 
 	instance, err := vmPool.newInstanceFromModule()
@@ -1077,6 +1111,7 @@ func newVmPool(contractId *commonPb.Contract, byteCode []byte, log *logger.CMLog
 	vmPool.CloseInstance(instance)
 	log.Infof("vm pool verify byteCode finish.")
 
+	initialized = true
 	go vmPool.startRefreshingLoop()
 	log.Infof("vm pool startRefreshingLoop...")
 	return vmPool, nil
@@ -1315,7 +1350,7 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 	wasiEnv, err := p.newWasiEnv(store)
 	if err != nil {
 		store.Close()
-		panic(fmt.Sprintf("Error creating WASI environment: %v", err))
+		return nil, fmt.Errorf("create WASI environment: %w", err)
 	}
 
 	importObject, err := wasiEnv.GenerateImportObject(store, p.module)
@@ -1349,7 +1384,7 @@ func (p *vmPool) newInstanceFromModule() (*wrappedInstance, error) {
 			return nil, err
 		}
 	}
-	err = wasiEnv.Initialize(p.store, wasmInstance)
+	err = wasiEnv.Initialize(store, wasmInstance)
 	if err != nil {
 		wasmInstance.Close()
 		p.deleteWasiEnv(wasiEnv)
@@ -1402,6 +1437,8 @@ func (p *vmPool) reset() {
 
 // close the pool
 func (p *vmPool) close() {
-	p.shutdownProcessWorkers()
-	close(p.closeC)
+	p.closeOnce.Do(func() {
+		p.shutdownProcessWorkers()
+		close(p.closeC)
+	})
 }
