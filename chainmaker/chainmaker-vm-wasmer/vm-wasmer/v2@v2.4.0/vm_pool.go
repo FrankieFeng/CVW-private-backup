@@ -634,8 +634,6 @@ type wrappedInstance struct {
 	invokeCount int32
 }
 
-const maxWasmerInstanceUse int32 = 50
-
 // GetInstance get a vm instance to run contract
 // should be followed by defer resetInstance
 func (p *vmPool) GetInstance() *wrappedInstance {
@@ -680,10 +678,9 @@ func (p *vmPool) GetInstance() *wrappedInstance {
 // When that option was not set, CM_WASMER_FORCE_NO_REUSE!=0 (the default) discards.
 func (p *vmPool) RevertInstance(instance *wrappedInstance) {
 	forceNoReuse := instanceDiscardOnRevert(instance)
-	usedUp := atomic.LoadInt32(&instance.invokeCount) >= maxWasmerInstanceUse
-	if forceNoReuse || usedUp || p.shouldDiscard(instance) {
-		p.log.Debugf("discard instance, forceNoReuse=%v used=%d errCount=%d",
-			forceNoReuse, instance.invokeCount, instance.errCount)
+	if forceNoReuse || p.shouldDiscard(instance) {
+		p.log.Debugf("discard instance, forceNoReuse=%v errCount=%d",
+			forceNoReuse, instance.errCount)
 		go func() {
 			p.CloseInstance(instance)
 			p.removeInstanceC <- struct{}{}

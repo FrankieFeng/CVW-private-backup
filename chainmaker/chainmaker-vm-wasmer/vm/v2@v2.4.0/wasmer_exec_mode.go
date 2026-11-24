@@ -6,15 +6,12 @@ import "chainmaker.org/chainmaker/protocol/v2"
 const (
 	// WasmerExecDefault keeps the contract install option and CM_WASMER_FORCE_NO_REUSE.
 	WasmerExecDefault int32 = 0
-	// WasmerExecProposeNoReuse is kept for older call sites.
-	// Proposer and verifier both reuse pooled instances.
+	// WasmerExecProposeNoReuse makes the block proposer run each transaction on a new instance.
 	WasmerExecProposeNoReuse int32 = 1
-	// WasmerExecReplayReuse reuses a pooled instance.
+	// WasmerExecReplayReuse makes a verifying node replay with instance reuse first.
 	WasmerExecReplayReuse int32 = 2
-	// WasmerExecForceFresh runs one transaction on a newly created instance.
+	// WasmerExecForceFresh reruns one transaction on a newly created instance.
 	WasmerExecForceFresh int32 = 3
-	// WasmerMaxInstanceUse discards a pooled instance after this many executions.
-	WasmerMaxInstanceUse int32 = 50
 )
 
 // SetWasmerExecMode records how this transaction should obtain a wasmer instance.

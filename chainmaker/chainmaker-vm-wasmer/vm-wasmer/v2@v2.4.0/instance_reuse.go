@@ -118,8 +118,10 @@ type wasmerExecModeGetter interface {
 }
 
 // decideInstanceReuse applies the block role on top of the contract option.
-// Proposer and verifier both reuse pooled instances. ForceFresh still builds
-// a one-shot instance. createFresh means the instance is not taken from the pool.
+// The proposer always builds on a new instance. A verifying node replays with
+// reuse first. A gas mismatch rerun forces another new instance.
+// createFresh means the instance must be constructed for this call, not taken
+// from the pool.
 func decideInstanceReuse(configured bool, txContext protocol.TxSimContext) (reuse bool, createFresh bool) {
 	// CM_WASMER_FORCE_NO_REUSE=1 覆盖出块和重放：本调用新建实例，并且不归还到池。
 	if os.Getenv("CM_WASMER_FORCE_NO_REUSE") == "1" {
@@ -130,9 +132,9 @@ func decideInstanceReuse(configured bool, txContext protocol.TxSimContext) (reus
 		mode = getter.GetWasmerExecMode()
 	}
 	switch mode {
-	case execModeForceFresh:
+	case execModeProposeNoReuse, execModeForceFresh:
 		return false, true
-	case execModeProposeNoReuse, execModeReplayReuse:
+	case execModeReplayReuse:
 		return true, false
 	default:
 		return configured, false
