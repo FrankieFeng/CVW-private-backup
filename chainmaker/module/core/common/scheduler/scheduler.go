@@ -302,9 +302,9 @@ func handleTx(block *commonPb.Block, snapshot protocol.Snapshot,
 	// execute tx, and get
 	// 1) the read/write set
 	// 2) the result that telling if the invoke success.
-	// 出块和验证都复用实例。没跑过的实例由虚拟机先热身一次，提交第二次的结果。
+	// 出块组块：每笔交易使用新建实例，不复用。
 	txSimContext, specialTxType, runVmSuccess := ts.executeTx(
-		tx, snapshot, block, senderCollection, vm.WasmerExecReplayReuse)
+		tx, snapshot, block, senderCollection, vm.WasmerExecProposeNoReuse)
 	tx.Result = txSimContext.GetTxResult()
 	ts.log.DebugDynamic(func() string {
 		return fmt.Sprintf("handleTx(`%v`) => executeTx(...) => runVmSuccess = %v", tx.GetPayload().TxId, runVmSuccess)
@@ -617,7 +617,7 @@ func handleTxInSimulateWithDag(
 	ts *TxScheduler, tx *commonPb.Transaction, txIndex int,
 	doneTxC chan *applyResult, txBatchSize int,
 	collection *SenderCollection) {
-	// 验证节点与出块节点相同：复用实例，不按 gas 提前重跑。
+	// 跟随节点重放：先复用实例，gas 不一致时再换新实例。
 	txSimContext, specialTxType, runVmSuccess := ts.executeTx(
 		tx, snapshot, block, collection, vm.WasmerExecReplayReuse)
 
@@ -717,6 +717,33 @@ func (ts *TxScheduler) executeTx(
 				tx.Payload.GetTxId(), tx.Payload.ContractName, truncateTxResult(txResult, 1024), err)
 		}
 	}
+	// 正式校验前的 gas 预检：不一致则换新实例重跑，不改后续 VerifyTxResult。
+	if execMode == vm.WasmerExecReplayReuse {
+		if rerun, received, local := ts.gasPrecheckMismatch(tx, txResult); rerun {
+			ts.log.Infof("gas precheck mismatch, txId:%s, contract:%s, method:%s, receivedGas:%d, localGas:%d, rerun fresh instance",
+				tx.Payload.GetTxId(), tx.Payload.GetContractName(), tx.Payload.GetMethod(), received, local)
+			freshCtx := vm.NewTxSimContext(ts.VmManager, snapshot, tx, block.Header.BlockVersion, ts.log)
+			vm.SetWasmerExecMode(freshCtx, vm.WasmerExecForceFresh)
+			var freshResult *commonPb.Result
+			var freshErr error
+			if blockVersion >= 2300 {
+				freshResult, specialTxType, freshErr = ts.runVM2300(tx, freshCtx, enableOptimizeChargeGas)
+			} else if blockVersion >= 2220 {
+				freshResult, specialTxType, freshErr = ts.runVM2220(tx, freshCtx, enableOptimizeChargeGas)
+			} else {
+				freshResult, specialTxType, freshErr = ts.runVM2210(tx, freshCtx)
+			}
+			txSimContext = freshCtx
+			txResult = freshResult
+			if freshErr != nil {
+				runVmSuccess = false
+				ts.log.Errorf("fresh rerun failed for tx id:%s, contractName:%s, tx result:%+v, error:%+v",
+					tx.Payload.GetTxId(), tx.Payload.ContractName, truncateTxResult(txResult, 1024), freshErr)
+			} else {
+				runVmSuccess = true
+			}
+		}
+	}
 	if blockVersion >= blockVersion2340 && enableOptimizeChargeGas {
 		txNeedChargingGas := txNeedChargeGas && tx.Payload.TxType == commonPb.TxType_INVOKE_CONTRACT
 		ts.log.Debugf("txNeedChargingGas = %v", txNeedChargingGas)
@@ -736,6 +763,21 @@ func (ts *TxScheduler) executeTx(
 	ts.log.Debugf("run vm finished for tx:%s, runVmSuccess:%v, txResult = %v ", tx.Payload.TxId, runVmSuccess, txResult)
 	txSimContext.SetTxResult(txResult)
 	return txSimContext, specialTxType, runVmSuccess
+}
+
+// gasPrecheckMismatch compares this replay's gas with the gas carried by the block.
+// A mismatch only requests a fresh-instance rerun. The later VerifyTxResult is unchanged.
+func (ts *TxScheduler) gasPrecheckMismatch(tx *commonPb.Transaction, local *commonPb.Result) (bool, uint64, uint64) {
+	receivedResult := tx.GetResult()
+	if receivedResult == nil || receivedResult.ContractResult == nil || local == nil || local.ContractResult == nil {
+		return false, 0, 0
+	}
+	if tx.Payload == nil || tx.Payload.TxType != commonPb.TxType_INVOKE_CONTRACT {
+		return false, 0, 0
+	}
+	received := receivedResult.ContractResult.GasUsed
+	got := local.ContractResult.GasUsed
+	return received != got, received, got
 }
 
 func (ts *TxScheduler) processSenderCollectionIn234(tx *commonPb.Transaction,
@@ -801,9 +843,9 @@ func (ts *TxScheduler) simulateSpecialTxs(specialTxs []*commonPb.Transaction, da
 		for {
 			select {
 			case tx := <-runningTxC:
-				// 收费交易与普通交易一样复用实例。
+				// 出块时的收费交易同样不复用实例。
 				txSimContext, specialTxType, runVmSuccess := ts.executeTx(
-					tx, snapshot, block, collection, vm.WasmerExecReplayReuse)
+					tx, snapshot, block, collection, vm.WasmerExecProposeNoReuse)
 				tx.Result = txSimContext.GetTxResult()
 				// apply tx
 				applyResult, applySize := snapshot.ApplyTxSimContext(txSimContext, specialTxType, runVmSuccess, true)
